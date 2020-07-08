@@ -6,7 +6,7 @@ var audio_fire
 var automatic = false
 var delay = 0.15
 var bullet_texture
-var bullet_name
+var bullet_name = "..."
 
 func setup(speed : float = s, color : Color = col, fire_audio : AudioStream = audio_fire):
 	s = speed

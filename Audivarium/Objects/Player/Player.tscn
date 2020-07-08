@@ -64,7 +64,9 @@ script = ExtResource( 7 )
 [node name="BulletTree" type="CanvasLayer" parent="."]
 layer = -1
 
-[node name="EquipedBulletText" type="RichTextLabel" parent="BulletTree"]
+[node name="Hud" type="CanvasLayer" parent="."]
+
+[node name="EquipedBulletText" type="RichTextLabel" parent="Hud"]
 margin_right = 439.0
 margin_bottom = 167.0
 text = "Whomst've'd'll's"

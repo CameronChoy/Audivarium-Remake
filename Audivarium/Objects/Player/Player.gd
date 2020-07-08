@@ -30,6 +30,7 @@ onready var MainSprite = $MainSprite
 onready var DashTween = $DashTween
 onready var TeleportIndicator = $TeleportIndicator
 onready var BulletTree = $BulletTree
+onready var EquipedBulletText = $Hud/EquipedBulletText
 var bullet
 
 var last_direction = Vector2.RIGHT
@@ -203,6 +204,7 @@ func shoot():
 
 func bullet_change_signal():
 	bullet = PlayerGlobals.get_CurrentBullet()
+	EquipedBulletText.text = bullet.get_name()
 
 func bullet_reload_completion_signal():
 	can_shoot = true
