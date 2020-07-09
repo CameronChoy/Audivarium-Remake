@@ -13,9 +13,15 @@ _global_script_classes=[ {
 "class": "Bullet",
 "language": "GDScript",
 "path": "res://Objects/Bullets/Bullet.gd"
+}, {
+"base": "Area2D",
+"class": "Static",
+"language": "GDScript",
+"path": "res://Objects/Statics/ObjectStatic.gd"
 } ]
 _global_script_class_icons={
-"Bullet": ""
+"Bullet": "",
+"Static": ""
 }
 
 [application]
@@ -32,6 +38,7 @@ PlayerGlobals="*res://Objects/Player/PlayerGlobals.gd"
 GlobalAudio="*res://Globals/AudioPlayer/GlobalAudio.tscn"
 GlobalEffects="*res://Globals/GlobalEffects/GlobalEffects.tscn"
 GlobalConstants="*res://Globals/GlobalConstants.gd"
+SceneManager="*res://Globals/SceneManager/SceneManager.tscn"
 
 [display]
 
@@ -82,5 +89,6 @@ teleport={
 
 [rendering]
 
+environment/default_clear_color=Color( 0.137255, 0.12549, 0.12549, 1 )
 quality/filters/msaa=1
-environment/default_environment="res://default_env.tres"
+environment/default_environment="res://Globals/GlobalEffects/default_env.tres"
