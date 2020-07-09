@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Objects/Statics/ObjectStatic.gd" type="Script" id=1]
+
+[node name="Circle" type="Area2D" groups=[
+"Static",
+]]
+input_pickable = false
+script = ExtResource( 1 )

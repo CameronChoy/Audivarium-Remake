@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Objects/Bullets/Pistol/Bullet.png" type="Texture" id=1]
+[ext_resource path="res://Objects/Particles/OneShotParticles.gd" type="Script" id=2]
+[ext_resource path="res://Objects/Bullets/Bullet_Impact_Normal.tres" type="Material" id=3]
+
+[node name="Particles2D" type="Particles2D"]
+emitting = false
+amount = 10
+lifetime = 1.5
+one_shot = true
+explosiveness = 1.0
+local_coords = false
+process_material = ExtResource( 3 )
+texture = ExtResource( 1 )
+script = ExtResource( 2 )

@@ -1,0 +1,78 @@
+[gd_scene load_steps=14 format=2]
+
+[ext_resource path="res://Globals/SceneManager/SceneManager.gd" type="Script" id=1]
+[ext_resource path="res://Globals/SceneManager/Transitions/Anim_Transition_InOutSlideDown.tres" type="Animation" id=3]
+[ext_resource path="res://Globals/SceneManager/Transitions/Anim_Transition_InOutSlideRight.tres" type="Animation" id=4]
+[ext_resource path="res://Globals/SceneManager/Transitions/Anim_Transition_InOutSlideUp.tres" type="Animation" id=5]
+[ext_resource path="res://Globals/SceneManager/Transitions/Anim_Transition_InSlideRight.tres" type="Animation" id=6]
+[ext_resource path="res://Globals/SceneManager/Transitions/Anim_Transition_InSlideLeft.tres" type="Animation" id=7]
+[ext_resource path="res://Globals/SceneManager/Transitions/Anim_Transition_InFallZoomInward.tres" type="Animation" id=8]
+[ext_resource path="res://Globals/SceneManager/Transitions/Anim_Transition_InOutSlideLeft.tres" type="Animation" id=9]
+[ext_resource path="res://Globals/SceneManager/Transitions/Anim_Transition_OutSlideLeft.tres" type="Animation" id=10]
+[ext_resource path="res://Globals/SceneManager/Transitions/Anim_Transition_OutZoomOutwardSpin.tres" type="Animation" id=11]
+[ext_resource path="res://Globals/SceneManager/Transitions/Anim_Transition_OutSlideRight.tres" type="Animation" id=12]
+[ext_resource path="res://Globals/SceneManager/Transitions/Anim_Transition_OutSlideUp.tres" type="Animation" id=13]
+[ext_resource path="res://Globals/SceneManager/Transitions/Anim_Transition_OutZoomInwardFade.tres" type="Animation" id=14]
+
+[node name="Control" type="Control"]
+margin_right = 40.0001
+margin_bottom = 40.0
+mouse_filter = 2
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SceneIn" type="ViewportContainer" parent="."]
+margin_top = -1080.0
+margin_right = 1920.0
+rect_scale = Vector2( 0.25, 0.25 )
+rect_pivot_offset = Vector2( 960, 540 )
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Viewport" type="Viewport" parent="SceneIn"]
+size = Vector2( 1920, 1080 )
+handle_input_locally = false
+disable_3d = true
+usage = 0
+render_target_update_mode = 3
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="SceneOut" type="ViewportContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = 1880.0
+margin_bottom = 1040.0
+rect_pivot_offset = Vector2( 960, 540 )
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Viewport" type="Viewport" parent="SceneOut"]
+size = Vector2( 1920, 1080 )
+handle_input_locally = false
+msaa = 1
+disable_3d = true
+usage = 0
+render_target_update_mode = 3
+
+[node name="SceneTransition" type="AnimationPlayer" parent="."]
+anims/InFallZoomInward = ExtResource( 8 )
+anims/InOutSlideDown = ExtResource( 3 )
+anims/InOutSlideLeft = ExtResource( 9 )
+anims/InOutSlideRight = ExtResource( 4 )
+anims/InOutSlideUp = ExtResource( 5 )
+anims/InSlideLeft = ExtResource( 7 )
+anims/InSlideRight = ExtResource( 6 )
+anims/OutSlideLeft = ExtResource( 10 )
+anims/OutSlideRight = ExtResource( 12 )
+anims/OutSlideUp = ExtResource( 13 )
+anims/OutZoomInwardFade = ExtResource( 14 )
+anims/OutZoomOutwardSpin = ExtResource( 11 )
+[connection signal="animation_finished" from="SceneTransition" to="." method="_on_SceneTransition_animation_finished"]
