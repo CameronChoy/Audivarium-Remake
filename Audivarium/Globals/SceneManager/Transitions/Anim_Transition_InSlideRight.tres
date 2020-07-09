@@ -3,7 +3,7 @@
 [resource]
 resource_name = "InSlideRight"
 tracks/0/type = "bezier"
-tracks/0/path = NodePath("SceneTransition/Control/SceneIn:rect_position:x")
+tracks/0/path = NodePath("SceneIn:rect_position:x")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false

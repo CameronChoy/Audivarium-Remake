@@ -12,6 +12,8 @@ onready var SceneOut = $SceneOut
 onready var SceneIn = $SceneIn
 onready var ViewportOut = $SceneOut/Viewport
 onready var ViewportIn = $SceneIn/Viewport
+onready var OutPanel = $SceneOut/Panel
+onready var InPanel = $SceneIn/Panel
 
 var SIMULATED_DELAY_SEC = 1.0
 enum TransitionType {
@@ -48,6 +50,13 @@ var Transitions = {
 func _ready():
 	hide()
 	set_process(false)
+	rect_position = Vector2()
+	SceneIn.rect_scale = Vector2(1,1)
+	SceneOut.rect_scale = Vector2(1,1)
+	SceneIn.rect_position = Vector2()
+	SceneOut.rect_position = Vector2()
+	SceneOut.modulate = Color.white
+	SceneIn.modulate = Color.white
 	
 
 func _thread_load(path):
@@ -76,6 +85,7 @@ func _thread_load(path):
 
 func _thread_done(anim_name):
 	
+	#thread.wait_to_finish()
 	assert(res)
 	var resource = res
 	
@@ -86,11 +96,21 @@ func _thread_done(anim_name):
 	ViewportIn.add_child(new_scene.duplicate())
 	
 	
+	get_tree().current_scene.free()
+	get_tree().current_scene = null
+	
+	get_tree().root.add_child(new_scene)
+	
+	get_tree().current_scene = new_scene
+	
+	
 	call_deferred("raise")
 	show()
 	SceneTransition.play(anim_name)
+	prints(anim_name,rect_scale,SceneIn.rect_scale,SceneOut.rect_scale)
+	OutPanel.self_modulate = (PlayerGlobals.get_ColorPlayerMain())
+	InPanel.self_modulate = (PlayerGlobals.get_ColorPlayerMain())
 	
-
 
 
 func load_scene(path, transitionType : int = TransitionType.INFALLZOOMINWARD, immediately_transition : bool = true):
@@ -105,15 +125,20 @@ func load_scene(path, transitionType : int = TransitionType.INFALLZOOMINWARD, im
 	if immediately_transition : change_scene_to_loaded(transitionType)
 	
 
+func change_to_preloaded(scene, transitionType : int = TransitionType.INFALLZOOMINWARD):
+	if not scene is PackedScene : return
+	res = scene
+	can_change = true
+	change_scene_to_loaded(transitionType)
+	
 
 func change_scene_to_loaded(transitionType : int):
-	var anim_name = Transitions.get(transitionType)
+	var anim_name = Transitions.get(transitionType, TransitionType.INFALLZOOMINWARD)
 	
 	match transitionType:
 		TransitionType.INSLIDELEFT, \
 		TransitionType.INSLIDERIGHT, \
-		TransitionType.INFALLZOOMINWARD, \
-		TransitionType.OUTZOOMINWARDFADE:
+		TransitionType.INFALLZOOMINWARD:
 			SceneIn.call_deferred("raise")
 		_:
 			SceneOut.call_deferred("raise")
@@ -135,12 +160,6 @@ func _on_SceneTransition_animation_finished(_anim_name):
 	for child in ViewportOut.get_children():
 		child.queue_free()
 	
-	get_tree().current_scene.free()
-	get_tree().current_scene = null
-	
-	get_tree().root.add_child(new_scene)
-	
-	get_tree().current_scene = new_scene
 	
 	emit_signal("scene_transition_completed")
 	

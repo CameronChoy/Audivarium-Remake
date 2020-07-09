@@ -3,7 +3,7 @@
 [resource]
 resource_name = "OutSlideUp"
 tracks/0/type = "bezier"
-tracks/0/path = NodePath("SceneTransition/Control/SceneOut:rect_position:y")
+tracks/0/path = NodePath("SceneOut:rect_position:y")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false

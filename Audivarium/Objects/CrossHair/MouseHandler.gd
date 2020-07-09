@@ -1,9 +1,9 @@
 extends CanvasLayer
 
 onready var CrossHairSprite = $CrossHairSprite
-onready var RadialProgressRight = $CrossHairSprite/RadialProgressRight
-onready var RadialProgressLeft = $CrossHairSprite/RadialProgressLeft
-onready var BarProgressRight = $CrossHairSprite/ProgressBarRight
+onready var RadialProgressRight = $ProgressBars/RadialProgressRight
+onready var RadialProgressLeft = $ProgressBars/RadialProgressLeft
+onready var BarProgressRight = $ProgressBars/ProgressBarRight
 onready var RRadialAnim = $RRadialAnimPlayer
 onready var LRadialAnim = $LRadialAnimPlayer
 onready var RBarAnim = $RBarAnimPlayer

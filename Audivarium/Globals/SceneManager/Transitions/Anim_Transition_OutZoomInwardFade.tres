@@ -3,7 +3,7 @@
 [resource]
 resource_name = "OutZoomInwardFade"
 tracks/0/type = "bezier"
-tracks/0/path = NodePath("SceneTransition/Control/SceneOut:rect_scale:x")
+tracks/0/path = NodePath("SceneOut:rect_scale:x")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -13,7 +13,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 1 )
 }
 tracks/1/type = "bezier"
-tracks/1/path = NodePath("SceneTransition/Control/SceneOut:rect_scale:y")
+tracks/1/path = NodePath("SceneOut:rect_scale:y")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -23,7 +23,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 0, 1 )
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("SceneTransition/Control/SceneOut:self_modulate")
+tracks/2/path = NodePath("SceneOut:modulate")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -35,7 +35,7 @@ tracks/2/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("SceneTransition/Control/SceneOut:rect_pivot_offset")
+tracks/3/path = NodePath("SceneOut:rect_pivot_offset")
 tracks/3/interp = 0
 tracks/3/loop_wrap = true
 tracks/3/imported = false

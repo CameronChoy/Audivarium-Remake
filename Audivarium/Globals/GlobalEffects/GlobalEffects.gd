@@ -3,8 +3,6 @@ onready var ShockwaveCanvas = $CanvasLayer/ShockwaveRect
 onready var ShockwaveTween = $CanvasLayer/ShockwaveRect/ShockwaveTween
 onready var MainCamera = $MainCamera
 
-func _init():
-	print("bruh")
 
 func _ready():
 	MainCamera.position = OS.get_screen_size()/2
