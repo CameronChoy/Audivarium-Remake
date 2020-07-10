@@ -6,7 +6,7 @@
 [ext_resource path="res://Objects/CrossHair/CrossHair_RadialProgress.png" type="Texture" id=4]
 [ext_resource path="res://Objects/CrossHair/CrossHair_00.png" type="Texture" id=5]
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=1]
 tracks/0/type = "value"
 tracks/0/path = NodePath("ProgressBars/RadialProgressRight:value")
 tracks/0/interp = 1
@@ -20,7 +20,7 @@ tracks/0/keys = {
 "values": [ 0.0, 100.0 ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=2]
 tracks/0/type = "value"
 tracks/0/path = NodePath("ProgressBars/RadialProgressRight:self_modulate")
 tracks/0/interp = 0
@@ -46,7 +46,7 @@ tracks/1/keys = {
 "values": [ 100.0, 0.0 ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=3]
 tracks/0/type = "value"
 tracks/0/path = NodePath("ProgressBars/RadialProgressLeft:value")
 tracks/0/interp = 1
@@ -60,7 +60,7 @@ tracks/0/keys = {
 "values": [ 0.0, 100.0 ]
 }
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=4]
 length = 0.4
 tracks/0/type = "value"
 tracks/0/path = NodePath("ProgressBars/RadialProgressLeft:self_modulate")
@@ -87,7 +87,7 @@ tracks/1/keys = {
 "values": [ 100.0, 0.0 ]
 }
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=5]
 resource_name = "Reload"
 tracks/0/type = "value"
 tracks/0/path = NodePath("ProgressBars/ProgressBarRight:value")
@@ -102,14 +102,14 @@ tracks/0/keys = {
 "values": [ 0.0, 100.0 ]
 }
 
-[sub_resource type="StreamTexture" id=1]
+[sub_resource type="StreamTexture" id=6]
 flags = 4
 load_path = "res://.import/CrossHair_RadialProgress.png-40146afa0716479ff00fdae85f942d49.stex"
 
-[sub_resource type="StyleBoxFlat" id=2]
+[sub_resource type="StyleBoxFlat" id=7]
 bg_color = Color( 1, 1, 1, 1 )
 
-[sub_resource type="StyleBoxEmpty" id=3]
+[sub_resource type="StyleBoxEmpty" id=8]
 
 [node name="CrossHair" type="CanvasLayer"]
 layer = 2
@@ -130,15 +130,15 @@ remote_path = NodePath("../../ProgressBars")
 update_rotation = false
 
 [node name="RRadialAnimPlayer" type="AnimationPlayer" parent="."]
-anims/DashReset = SubResource( 4 )
-anims/DashResetFinal = SubResource( 5 )
+anims/DashReset = SubResource( 1 )
+anims/DashResetFinal = SubResource( 2 )
 
 [node name="LRadialAnimPlayer" type="AnimationPlayer" parent="."]
-anims/TeleportReset = SubResource( 6 )
-anims/TeleportResetFinal = SubResource( 7 )
+anims/TeleportReset = SubResource( 3 )
+anims/TeleportResetFinal = SubResource( 4 )
 
 [node name="RBarAnimPlayer" type="AnimationPlayer" parent="."]
-anims/Reload = SubResource( 8 )
+anims/Reload = SubResource( 5 )
 
 [node name="ProgressBars" type="Node2D" parent="."]
 
@@ -165,7 +165,7 @@ margin_right = 461.0
 margin_bottom = 461.0
 rect_scale = Vector2( 0.4, 0.4 )
 mouse_filter = 2
-texture_progress = SubResource( 1 )
+texture_progress = SubResource( 6 )
 fill_mode = 5
 radial_fill_degrees = 180.0
 __meta__ = {
@@ -179,8 +179,8 @@ margin_right = 184.0
 margin_bottom = 50.0
 rect_rotation = -90.0
 mouse_filter = 2
-custom_styles/fg = SubResource( 2 )
-custom_styles/bg = SubResource( 3 )
+custom_styles/fg = SubResource( 7 )
+custom_styles/bg = SubResource( 8 )
 percent_visible = false
 __meta__ = {
 "_edit_use_anchors_": false

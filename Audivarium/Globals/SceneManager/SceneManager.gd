@@ -91,23 +91,18 @@ func _thread_done(anim_name):
 	
 	
 	new_scene = resource.instance()
+	var current_scene = get_tree().current_scene
 	
-	ViewportOut.add_child(get_tree().current_scene.duplicate())
-	ViewportIn.add_child(new_scene.duplicate())
+	get_tree().root.remove_child(current_scene)
 	
-	
-	get_tree().current_scene.free()
-	get_tree().current_scene = null
-	
-	get_tree().root.add_child(new_scene)
-	
-	get_tree().current_scene = new_scene
+	ViewportOut.add_child(current_scene)
+	ViewportIn.add_child(new_scene)
 	
 	
 	call_deferred("raise")
 	show()
 	SceneTransition.play(anim_name)
-	prints(anim_name,rect_scale,SceneIn.rect_scale,SceneOut.rect_scale)
+	
 	OutPanel.self_modulate = (PlayerGlobals.get_ColorPlayerMain())
 	InPanel.self_modulate = (PlayerGlobals.get_ColorPlayerMain())
 	
@@ -156,10 +151,15 @@ func _on_SceneTransition_animation_finished(_anim_name):
 	SceneOut.self_modulate.a = 1
 	
 	for child in ViewportIn.get_children():
-		child.queue_free()
+		ViewportIn.remove_child(child)
 	for child in ViewportOut.get_children():
 		child.queue_free()
 	
+#	get_tree().current_scene.free()
+#	get_tree().current_scene = null
+	get_tree().root.add_child(new_scene)
+	
+	get_tree().current_scene = new_scene
 	
 	emit_signal("scene_transition_completed")
 	

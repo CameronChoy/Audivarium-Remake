@@ -14,13 +14,19 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Objects/Bullets/Bullet.gd"
 }, {
+"base": "Node",
+"class": "ObjectTrack",
+"language": "GDScript",
+"path": "res://LevelEngine/ObjectTracks/ObjectTrack.gd"
+}, {
 "base": "Area2D",
 "class": "Static",
 "language": "GDScript",
-"path": "res://Objects/Statics/ObjectStatic.gd"
+"path": "res://LevelEngine/ObjectStatic.gd"
 } ]
 _global_script_class_icons={
 "Bullet": "",
+"ObjectTrack": "",
 "Static": ""
 }
 
@@ -91,4 +97,4 @@ teleport={
 
 environment/default_clear_color=Color( 0.137255, 0.12549, 0.12549, 1 )
 quality/filters/msaa=1
-environment/default_environment="res://Globals/GlobalEffects/default_env.tres"
+environment/default_environment="res://Globals/GlobalEffects/world_env.tres"
