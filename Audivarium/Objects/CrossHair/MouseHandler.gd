@@ -25,6 +25,12 @@ func _ready():
 	RadialProgressRight.value = 0
 	BarProgressRight.value = 0
 
+func hide_crosshair():
+	CrossHairSprite.hide()
+
+func show_crosshair():
+	CrossHairSprite.show()
+
 func _input(event):
 	
 	if Input.get_mouse_mode() != Input.MOUSE_MODE_VISIBLE:
@@ -38,7 +44,7 @@ func _input(event):
 	elif event is InputEventMouseButton:
 		Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
 		CrossHairSprite.set_process(true)
-		Input.set_custom_mouse_cursor(inGame_Cursor)
+		#Input.set_custom_mouse_cursor(inGame_Cursor)
 		
 	
 
@@ -88,3 +94,6 @@ func _on_RBarAnimPlayer_animation_finished(anim_name):
 		ANIM_BULLETRELOAD:
 			BarProgressRight.value = 0
 			emit_signal("bullet_reload_completed")
+
+func get_inGame_Cursor():
+	return inGame_Cursor

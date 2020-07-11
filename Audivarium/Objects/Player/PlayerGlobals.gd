@@ -22,8 +22,11 @@ onready var CurrentBullet = DefaultBullet.instance()
 var FireDelay = 0.15
 signal bullet_changed
 
-func set_player_values(_values : Dictionary):
+func save_player_values(_values : Dictionary):
 	pass
+
+func load_player_values():
+	return
 
 func change_bullet(new_bullet = DefaultBullet):
 	if !new_bullet.has_method("get_delay"): return

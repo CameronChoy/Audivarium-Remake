@@ -49,14 +49,25 @@ var Transitions = {
 
 func _ready():
 	hide()
-	set_process(false)
+	set_physics_process(false)
+	reset()
+	
+
+func reset():
+	
 	rect_position = Vector2()
+	
+	SceneIn.rect_pivot_offset = Vector2()
 	SceneIn.rect_scale = Vector2(1,1)
-	SceneOut.rect_scale = Vector2(1,1)
 	SceneIn.rect_position = Vector2()
-	SceneOut.rect_position = Vector2()
-	SceneOut.modulate = Color.white
+	SceneIn.rect_rotation = 0
 	SceneIn.modulate = Color.white
+	
+	SceneOut.rect_pivot_offset = Vector2()
+	SceneOut.rect_scale = Vector2(1,1)
+	SceneOut.rect_position = Vector2()
+	SceneOut.rect_rotation = 0
+	SceneOut.modulate = Color.white
 	
 
 func _thread_load(path):
@@ -85,12 +96,10 @@ func _thread_load(path):
 
 func _thread_done(anim_name):
 	
-	#thread.wait_to_finish()
+	thread.wait_to_finish()
 	assert(res)
-	var resource = res
 	
-	
-	new_scene = resource.instance()
+	new_scene = res.instance()
 	var current_scene = get_tree().current_scene
 	
 	get_tree().root.remove_child(current_scene)
@@ -102,7 +111,7 @@ func _thread_done(anim_name):
 	call_deferred("raise")
 	show()
 	SceneTransition.play(anim_name)
-	
+	print(anim_name)
 	OutPanel.self_modulate = (PlayerGlobals.get_ColorPlayerMain())
 	InPanel.self_modulate = (PlayerGlobals.get_ColorPlayerMain())
 	
@@ -135,20 +144,23 @@ func change_scene_to_loaded(transitionType : int):
 		TransitionType.INSLIDERIGHT, \
 		TransitionType.INFALLZOOMINWARD:
 			SceneIn.call_deferred("raise")
+			
 		_:
 			SceneOut.call_deferred("raise")
+			
 	
 	anim = anim_name
-	set_process(true)
+	set_physics_process(true)
 
 
 func _on_SceneTransition_animation_finished(_anim_name):
 	hide()
-	rect_position = Vector2()
-	SceneIn.rect_position = Vector2()
-	SceneOut.rect_position = Vector2()
-	SceneIn.self_modulate.a = 1
-	SceneOut.self_modulate.a = 1
+	call_deferred("reset")
+#	rect_position = Vector2()
+#	SceneIn.rect_position = Vector2()
+#	SceneOut.rect_position = Vector2()
+#	SceneIn.self_modulate.a = 1
+#	SceneOut.self_modulate.a = 1
 	
 	for child in ViewportIn.get_children():
 		ViewportIn.remove_child(child)
@@ -164,7 +176,9 @@ func _on_SceneTransition_animation_finished(_anim_name):
 	emit_signal("scene_transition_completed")
 	
 
-func _process(_delta):
+func _physics_process(_delta):
 	if can_change: 
 		call_deferred("_thread_done", anim)
-		set_process(false)
+		set_physics_process(false)
+
+
