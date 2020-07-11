@@ -5,6 +5,7 @@ extends ObjectTrack
 #bezier points contains [x1/y1, (out bezier x), (out bezier y), (in bezier x), (in bezier y), x1/y1]
 func _init():
 	track_type = TrackTypes.POSITION
+	
 
 func track_step(_time : float, _object : Static):
 	

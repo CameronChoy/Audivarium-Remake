@@ -4,14 +4,26 @@ class_name Static
 var bullet_solid = false
 var destructable = false
 var tracks
-var first_track_time
-var final_track_time
+var spawn_time
+var despawn_time
+
+
+func setup(_tracks, _unique_name : String, _spawn_time : float, _despawn_time : float, _bullet_solid : bool, _destructable : bool):
+	tracks = _tracks
+	spawn_time = _spawn_time
+	despawn_time = _despawn_time
+	bullet_solid = _bullet_solid
+	destructable = _destructable
+	name = _unique_name
+
 
 func step(_time : float):
 	for track in tracks:
 		
 		track.track_step(_time, self)
 		
+	
+
 
 func _update_scale_x(new : float):
 	scale.x = new
@@ -73,11 +85,11 @@ func set_destructable(new : bool):
 func is_destructable():
 	return destructable
 
-func get_first_track_time():
-	return first_track_time
+func get_spawn_time():
+	return spawn_time
 
-func get_final_track_time():
-	return final_track_time
+func get_despawn_time():
+	return despawn_time
 
 func bezier(p1, p2, p3, p4, t : float):
 	

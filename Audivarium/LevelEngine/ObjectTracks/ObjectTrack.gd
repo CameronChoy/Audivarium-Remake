@@ -11,14 +11,14 @@ var x_track = true
 enum TrackTypes {
 	POSITION,
 	SCALE,
-	ROTATION,
+	ROTATION, #Discarded
 	ROTATION_DEG,
 	COLOR,
 	BEZIER_POSITION_X, #Combined with Normal Variant
 	BEZIER_POSITION_Y, #Combined with Normal Variant
 	BEZIER_SCALE_X, #Combined with Normal Variant
 	BEZIER_SCALE_Y, #Combined with Normal Variant
-	BEZIER_ROTATION, #Combined with Normal Variant
+	BEZIER_ROTATION, #Discarded
 	BEZIER_ROTATION_DEG, #Combined with Normal Variant
 	Z_INDEX,
 	BULLET_SOLID, #Not implemented
@@ -37,7 +37,7 @@ func track_step(_time : float, _object : Static):
 	#if !is_enabled() or points.empty(): return
 	#TODO
 
-func init_set(_enabled : bool, _step_type : int, _points : Array, _times : Array, _x_track : bool = true, _rotation_degrees : bool = true):
+func init_set(_enabled : bool, _step_type : int, _points : Array, _times : Array, _x_track : bool = true):
 	#track_type = _track_type
 	enabled = _enabled
 	step_type = clamp(_step_type, 0, TrackTypes.size())
@@ -46,13 +46,12 @@ func init_set(_enabled : bool, _step_type : int, _points : Array, _times : Array
 	times = _times
 	x_track = _x_track
 	
-	if get_track_type() == TrackTypes.ROTATION_DEG and !_rotation_degrees:
-		track_type = TrackTypes.ROTATION
-	
-	
 
 func convert_to_bezier():
 	return
+
+func is_empty():
+	return points.empty()
 
 func get_track_type():
 	return track_type

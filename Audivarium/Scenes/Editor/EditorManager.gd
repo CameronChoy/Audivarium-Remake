@@ -13,15 +13,28 @@ onready var AddObjectButton = $MarginContainer/VBoxContainer/MainUISplitter/Bott
 
 const SimulatorSize = Vector2(1920,1080)
 
+var objects = []
+
+var SelectedObject
+var SelectedKeyFrame
+
 func _ready():
 	Input.set_custom_mouse_cursor(null)
 	CrossHair.hide_crosshair()
 	SimulatorCamera.position = OS.get_screen_size()/2
 
 func _process(_delta):
-	pass
+	
 	if Simulator.size != SimulatorSize:
 		Simulator.size = Vector2(1920,1080)
+	
+	
+
+func ensure_unique_names():
+	pass
+
+func save_level():
+	pass
 
 func _on_ExitButton_pressed():
 	#Ask to save

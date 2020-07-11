@@ -3,9 +3,9 @@
 [ext_resource path="res://icon.png" type="Texture" id=1]
 [ext_resource path="res://Scenes/Editor/EditorManager.gd" type="Script" id=2]
 
-[sub_resource type="StyleBoxFlat" id=3]
+[sub_resource type="StyleBoxFlat" id=1]
 
-[sub_resource type="StyleBoxFlat" id=4]
+[sub_resource type="StyleBoxFlat" id=2]
 
 [node name="Editor" type="Node2D"]
 script = ExtResource( 2 )
@@ -108,7 +108,7 @@ custom_constants/autohide = 1
 [node name="PropertiesContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter"]
 margin_right = 466.0
 margin_bottom = 672.0
-rect_min_size = Vector2( 116, 0 )
+rect_min_size = Vector2( 175, 0 )
 mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.5
@@ -136,20 +136,12 @@ margin_right = 419.0
 margin_bottom = 657.0
 mouse_filter = 2
 
-[node name="PropertiesLabel" type="MarginContainer" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer"]
+[node name="PropertiesLabel" type="RichTextLabel" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer"]
 margin_right = 419.0
 margin_bottom = 31.0
 mouse_filter = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.05
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="RichTextLabel" type="RichTextLabel" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/PropertiesLabel"]
-margin_right = 419.0
-margin_bottom = 31.0
-mouse_filter = 2
 text = "Object Properties"
 scroll_active = false
 __meta__ = {
@@ -164,37 +156,249 @@ mouse_filter = 2
 size_flags_vertical = 3
 scroll_horizontal_enabled = false
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer"]
+[node name="Properties" type="VBoxContainer" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer"]
 margin_right = 419.0
-margin_bottom = 108.0
+margin_bottom = 280.0
 mouse_filter = 2
 size_flags_horizontal = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="LineEdit" type="LineEdit" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
+[node name="ParentContainer" type="HSplitContainer" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties"]
+margin_right = 419.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 0, 40 )
+dragger_visibility = 1
+
+[node name="ParentLabel" type="Label" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/ParentContainer"]
+margin_top = 4.0
+margin_right = 133.0
+margin_bottom = 35.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+text = "Parent
+"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ParentInput" type="OptionButton" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/ParentContainer"]
+margin_left = 145.0
+margin_right = 419.0
+margin_bottom = 40.0
+size_flags_horizontal = 3
+text = "None"
+
+[node name="PosXContainer" type="HSplitContainer" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties"]
+margin_top = 44.0
+margin_right = 419.0
+margin_bottom = 84.0
+rect_min_size = Vector2( 0, 40 )
+dragger_visibility = 1
+
+[node name="PosXLabel" type="Label" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/PosXContainer"]
+margin_top = 13.0
+margin_right = 133.0
+margin_bottom = 27.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+text = "Position X"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PosXInput" type="SpinBox" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/PosXContainer"]
+margin_left = 145.0
+margin_right = 419.0
+margin_bottom = 40.0
+size_flags_horizontal = 3
+step = 0.1
+
+[node name="PosYContainer" type="HSplitContainer" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties"]
+margin_top = 88.0
+margin_right = 419.0
+margin_bottom = 128.0
+rect_min_size = Vector2( 0, 40 )
+dragger_visibility = 1
+
+[node name="PosYLabel" type="Label" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/PosYContainer"]
+margin_top = 13.0
+margin_right = 133.0
+margin_bottom = 27.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+text = "Position Y"
+align = 1
+
+[node name="PosYInput" type="SpinBox" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/PosYContainer"]
+margin_left = 145.0
+margin_right = 419.0
+margin_bottom = 40.0
+size_flags_horizontal = 3
+step = 0.1
+
+[node name="ScaleXContainer" type="HSplitContainer" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties"]
+margin_top = 132.0
+margin_right = 419.0
+margin_bottom = 156.0
+dragger_visibility = 1
+
+[node name="ScaleXLabel" type="Label" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/ScaleXContainer"]
+margin_top = 5.0
+margin_right = 133.0
+margin_bottom = 19.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+text = "Scale X"
+align = 1
+
+[node name="ScaleXInput" type="SpinBox" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/ScaleXContainer"]
+margin_left = 145.0
 margin_right = 419.0
 margin_bottom = 24.0
-mouse_filter = 1
-expand_to_text_length = true
+size_flags_horizontal = 3
+step = 0.1
 
-[node name="LineEdit2" type="LineEdit" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
-margin_top = 28.0
+[node name="ScaleYContainer" type="HSplitContainer" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties"]
+margin_top = 160.0
 margin_right = 419.0
-margin_bottom = 52.0
+margin_bottom = 184.0
+dragger_visibility = 1
 
-[node name="LineEdit3" type="LineEdit" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
-margin_top = 56.0
+[node name="ScaleYLabel" type="Label" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/ScaleYContainer"]
+margin_top = 5.0
+margin_right = 133.0
+margin_bottom = 19.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+text = "Scale Y"
+align = 1
+
+[node name="ScaleYInput" type="SpinBox" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/ScaleYContainer"]
+margin_left = 145.0
 margin_right = 419.0
-margin_bottom = 80.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+step = 0.1
 
-[node name="LineEdit4" type="LineEdit" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
-margin_top = 84.0
+[node name="RotationContainer" type="HSplitContainer" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties"]
+margin_top = 188.0
 margin_right = 419.0
-margin_bottom = 108.0
+margin_bottom = 212.0
+dragger_visibility = 1
 
-[node name="ExtrasContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter"]
+[node name="RotationLabel" type="Label" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/RotationContainer"]
+margin_top = 5.0
+margin_right = 133.0
+margin_bottom = 19.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+text = "Rotation"
+align = 1
+
+[node name="RotationInput" type="SpinBox" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/RotationContainer"]
+margin_left = 145.0
+margin_right = 419.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+step = 0.1
+
+[node name="ColorContainer" type="HSplitContainer" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties"]
+margin_top = 216.0
+margin_right = 419.0
+margin_bottom = 236.0
+dragger_visibility = 1
+
+[node name="ColorLabel" type="Label" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/ColorContainer"]
+margin_top = 3.0
+margin_right = 133.0
+margin_bottom = 17.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+text = "Color"
+align = 1
+
+[node name="ColorInput" type="ColorPickerButton" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/ColorContainer"]
+margin_left = 145.0
+margin_right = 419.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+color = Color( 1, 1, 1, 1 )
+
+[node name="DestructableContainer" type="HSplitContainer" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties"]
+margin_top = 240.0
+margin_right = 419.0
+margin_bottom = 264.0
+dragger_visibility = 1
+
+[node name="DestructableLabel" type="Label" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/DestructableContainer"]
+margin_top = 5.0
+margin_right = 133.0
+margin_bottom = 19.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+text = "Destructable"
+align = 1
+
+[node name="DestructableInput" type="CheckBox" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/DestructableContainer"]
+margin_left = 145.0
+margin_right = 419.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+
+[node name="BulletSolidContainer" type="HSplitContainer" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties"]
+margin_top = 268.0
+margin_right = 419.0
+margin_bottom = 292.0
+dragger_visibility = 1
+
+[node name="BulletSolidLabel" type="Label" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/BulletSolidContainer"]
+margin_top = 5.0
+margin_right = 133.0
+margin_bottom = 19.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+text = "Bullet Solid"
+align = 1
+
+[node name="BulletSolidInput" type="CheckBox" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/BulletSolidContainer"]
+margin_left = 145.0
+margin_right = 419.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+
+[node name="ZIndexContainer" type="HSplitContainer" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties"]
+margin_top = 296.0
+margin_right = 419.0
+margin_bottom = 320.0
+dragger_visibility = 1
+
+[node name="ZLabel" type="Label" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/ZIndexContainer"]
+margin_top = 5.0
+margin_right = 133.0
+margin_bottom = 19.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+text = "Z Index"
+align = 1
+
+[node name="ZInput" type="SpinBox" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/ZIndexContainer"]
+margin_left = 145.0
+margin_right = 419.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+step = 0.1
+
+[node name="Custom" type="HSplitContainer" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties"]
+margin_top = 324.0
+margin_right = 419.0
+margin_bottom = 324.0
+dragger_visibility = 1
+
+[node name="InspectorContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter"]
 margin_left = 478.0
 margin_right = 944.0
 margin_bottom = 672.0
@@ -206,12 +410,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/ExtrasContainer"]
+[node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer"]
 margin_right = 466.0
 margin_bottom = 672.0
 mouse_filter = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/ExtrasContainer/Panel"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel"]
 anchor_left = 0.05
 anchor_right = 0.85
 anchor_bottom = 1.0
@@ -223,29 +427,26 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/ExtrasContainer/Panel/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer"]
 margin_right = 412.0
 margin_bottom = 697.0
 
-[node name="ExtrasLabel" type="MarginContainer" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/ExtrasContainer/Panel/MarginContainer/VBoxContainer"]
+[node name="InspectorLabel" type="RichTextLabel" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer"]
 margin_right = 412.0
 margin_bottom = 33.0
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.05
+text = "Inspector
+"
 
-[node name="RichTextLabel" type="RichTextLabel" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/ExtrasContainer/Panel/MarginContainer/VBoxContainer/ExtrasLabel"]
-margin_right = 412.0
-margin_bottom = 33.0
-text = "uhhhhhhh"
-
-[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/ExtrasContainer/Panel/MarginContainer/VBoxContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer"]
 margin_top = 37.0
 margin_right = 412.0
 margin_bottom = 697.0
 mouse_filter = 2
 size_flags_vertical = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/ExtrasContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer"]
 margin_right = 412.0
 margin_bottom = 108.0
 mouse_filter = 2
@@ -254,23 +455,23 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="LineEdit" type="LineEdit" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/ExtrasContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
+[node name="LineEdit" type="LineEdit" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
 margin_right = 412.0
 margin_bottom = 24.0
 mouse_filter = 1
 expand_to_text_length = true
 
-[node name="LineEdit2" type="LineEdit" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/ExtrasContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
+[node name="LineEdit2" type="LineEdit" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
 margin_top = 28.0
 margin_right = 412.0
 margin_bottom = 52.0
 
-[node name="LineEdit3" type="LineEdit" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/ExtrasContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
+[node name="LineEdit3" type="LineEdit" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
 margin_top = 56.0
 margin_right = 412.0
 margin_bottom = 80.0
 
-[node name="LineEdit4" type="LineEdit" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/ExtrasContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
+[node name="LineEdit4" type="LineEdit" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
 margin_top = 84.0
 margin_right = 412.0
 margin_bottom = 108.0
@@ -360,15 +561,17 @@ size_flags_vertical = 3
 size_flags_stretch_ratio = 0.1
 
 [node name="AddObjectButton" type="MenuButton" parent="MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HBoxContainer"]
-margin_right = 84.0
+margin_right = 100.0
 margin_bottom = 29.0
+rect_min_size = Vector2( 100, 0 )
 text = "Add Object"
 
-[node name="hmm" type="MenuButton" parent="MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HBoxContainer"]
-margin_left = 88.0
-margin_right = 134.0
+[node name="AddPrefabButton" type="MenuButton" parent="MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HBoxContainer"]
+margin_left = 104.0
+margin_right = 204.0
 margin_bottom = 29.0
-text = "hmm"
+rect_min_size = Vector2( 100, 0 )
+text = "Add Prefab"
 
 [node name="HSplitContainer" type="HSplitContainer" parent="MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer"]
 margin_top = 33.0
@@ -381,7 +584,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer"]
+[node name="LeftPanel" type="Panel" parent="MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer"]
 margin_right = 536.0
 margin_bottom = 300.0
 rect_min_size = Vector2( 178, 0 )
@@ -389,9 +592,20 @@ mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.4
-custom_styles/panel = SubResource( 3 )
+custom_styles/panel = SubResource( 1 )
 
-[node name="Panel2" type="Panel" parent="MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/LeftPanel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 10.0
+margin_right = -10.0
+margin_bottom = -10.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RightPanel" type="Panel" parent="MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer"]
 margin_left = 548.0
 margin_right = 1900.0
 margin_bottom = 300.0
@@ -399,5 +613,48 @@ rect_min_size = Vector2( 676, 0 )
 mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_styles/panel = SubResource( 4 )
+custom_styles/panel = SubResource( 2 )
+
+[node name="ViewportContainer" type="ViewportContainer" parent="MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/RightPanel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+stretch = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Viewport" type="Viewport" parent="MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/RightPanel/ViewportContainer"]
+size = Vector2( 1024, 512 )
+own_world = true
+disable_3d = true
+usage = 0
+
+[node name="icon" type="Sprite" parent="MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/RightPanel/ViewportContainer"]
+position = Vector2( 396, 1166.93 )
+scale = Vector2( 29.7408, 8.17476 )
+texture = ExtResource( 1 )
+
+[node name="Camera2D" type="Camera2D" parent="MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/RightPanel/ViewportContainer"]
+position = Vector2( 408, 1166.93 )
+current = true
+zoom = Vector2( 1, 0.5 )
+limit_left = 0
+limit_top = 1671
+limit_bottom = 1671
+
+[node name="TimeLine" type="Control" parent="."]
+margin_left = 6.0
+margin_top = 1676.0
+margin_right = 1920.0
+margin_bottom = 2200.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TimeLine"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="pressed" from="MarginContainer/VBoxContainer/MenuContainer/ExitButton" to="." method="_on_ExitButton_pressed"]

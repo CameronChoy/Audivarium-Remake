@@ -1,6 +1,44 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Scenes/LevelScene/LevelManager.gd" type="Script" id=2]
 
+[sub_resource type="Animation" id=1]
+resource_name = "Intro"
+tracks/0/type = "bezier"
+tracks/0/path = NodePath("LevelTitle:rect_position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray(  ),
+"times": PoolRealArray(  )
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath("LevelTitle:rect_position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray(  ),
+"times": PoolRealArray(  )
+}
+
 [node name="LevelScene" type="Node2D"]
 script = ExtResource( 2 )
+
+[node name="LevelAnim" type="AnimationPlayer" parent="."]
+anims/Intro = SubResource( 1 )
+
+[node name="LevelTitle" type="RichTextLabel" parent="."]
+margin_right = 25.0
+margin_bottom = 45.0
+grow_horizontal = 0
+rect_clip_content = false
+meta_underlined = false
+fit_content_height = true
+scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
