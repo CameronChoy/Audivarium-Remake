@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://icon.png" type="Texture" id=1]
 [ext_resource path="res://Scenes/Editor/EditorManager.gd" type="Script" id=2]
@@ -6,11 +6,18 @@
 [sub_resource type="StyleBoxFlat" id=1]
 
 [sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 0.172549, 0.0745098, 0.0745098, 1 )
+
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
+draw_center = false
+corner_detail = 1
+anti_aliasing = false
 
 [node name="Editor" type="Node2D"]
 script = ExtResource( 2 )
 __meta__ = {
-"_edit_horizontal_guides_": [ 47.0, 1127.0 ],
+"_edit_horizontal_guides_": [ 47.0, 1127.0, 4000.0, 4546.16 ],
 "_edit_vertical_guides_": [ 4006.74, 5929.38 ]
 }
 
@@ -58,6 +65,7 @@ margin_right = 200.0
 margin_bottom = 40.0
 rect_min_size = Vector2( 100, 0 )
 text = "File"
+items = [ "Import Song", null, 0, false, false, 0, 0, null, "", false, "Import Level", null, 0, false, false, 1, 0, null, "", false, "Build and Save", null, 0, false, false, 2, 0, null, "", false, "Build and Test", null, 0, false, false, 3, 0, null, "", false ]
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -158,16 +166,26 @@ scroll_horizontal_enabled = false
 
 [node name="Properties" type="VBoxContainer" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer"]
 margin_right = 419.0
-margin_bottom = 280.0
+margin_bottom = 604.0
 mouse_filter = 2
 size_flags_horizontal = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="ParentKey" type="CheckBox" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties"]
+margin_right = 133.0
+margin_bottom = 24.0
+size_flags_horizontal = 0
+text = "Parent Keyframe"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="ParentContainer" type="HSplitContainer" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties"]
+margin_top = 28.0
 margin_right = 419.0
-margin_bottom = 40.0
+margin_bottom = 68.0
 rect_min_size = Vector2( 0, 40 )
 dragger_visibility = 1
 
@@ -191,10 +209,20 @@ margin_bottom = 40.0
 size_flags_horizontal = 3
 text = "None"
 
+[node name="PosXKey" type="CheckBox" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties"]
+margin_top = 72.0
+margin_right = 156.0
+margin_bottom = 96.0
+size_flags_horizontal = 0
+text = "Position X Keyframe"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="PosXContainer" type="HSplitContainer" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties"]
-margin_top = 44.0
+margin_top = 100.0
 margin_right = 419.0
-margin_bottom = 84.0
+margin_bottom = 140.0
 rect_min_size = Vector2( 0, 40 )
 dragger_visibility = 1
 
@@ -217,10 +245,20 @@ margin_bottom = 40.0
 size_flags_horizontal = 3
 step = 0.1
 
+[node name="PosYKey" type="CheckBox" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties"]
+margin_top = 144.0
+margin_right = 155.0
+margin_bottom = 168.0
+size_flags_horizontal = 0
+text = "Position Y Keyframe"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="PosYContainer" type="HSplitContainer" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties"]
-margin_top = 88.0
+margin_top = 172.0
 margin_right = 419.0
-margin_bottom = 128.0
+margin_bottom = 212.0
 rect_min_size = Vector2( 0, 40 )
 dragger_visibility = 1
 
@@ -240,10 +278,20 @@ margin_bottom = 40.0
 size_flags_horizontal = 3
 step = 0.1
 
+[node name="ScaleXKey" type="CheckBox" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties"]
+margin_top = 216.0
+margin_right = 137.0
+margin_bottom = 240.0
+size_flags_horizontal = 0
+text = "Scale X Keyframe"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="ScaleXContainer" type="HSplitContainer" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties"]
-margin_top = 132.0
+margin_top = 244.0
 margin_right = 419.0
-margin_bottom = 156.0
+margin_bottom = 268.0
 dragger_visibility = 1
 
 [node name="ScaleXLabel" type="Label" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/ScaleXContainer"]
@@ -262,10 +310,20 @@ margin_bottom = 24.0
 size_flags_horizontal = 3
 step = 0.1
 
+[node name="ScaleYKey" type="CheckBox" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties"]
+margin_top = 272.0
+margin_right = 136.0
+margin_bottom = 296.0
+size_flags_horizontal = 0
+text = "Scale Y Keyframe"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="ScaleYContainer" type="HSplitContainer" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties"]
-margin_top = 160.0
+margin_top = 300.0
 margin_right = 419.0
-margin_bottom = 184.0
+margin_bottom = 324.0
 dragger_visibility = 1
 
 [node name="ScaleYLabel" type="Label" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/ScaleYContainer"]
@@ -284,10 +342,20 @@ margin_bottom = 24.0
 size_flags_horizontal = 3
 step = 0.1
 
+[node name="RotationKey" type="CheckBox" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties"]
+margin_top = 328.0
+margin_right = 145.0
+margin_bottom = 352.0
+size_flags_horizontal = 0
+text = "Rotation Keyframe"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="RotationContainer" type="HSplitContainer" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties"]
-margin_top = 188.0
+margin_top = 356.0
 margin_right = 419.0
-margin_bottom = 212.0
+margin_bottom = 380.0
 dragger_visibility = 1
 
 [node name="RotationLabel" type="Label" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/RotationContainer"]
@@ -306,10 +374,20 @@ margin_bottom = 24.0
 size_flags_horizontal = 3
 step = 0.1
 
+[node name="ColorKey" type="CheckBox" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties"]
+margin_top = 384.0
+margin_right = 125.0
+margin_bottom = 408.0
+size_flags_horizontal = 0
+text = "Color Keyframe"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="ColorContainer" type="HSplitContainer" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties"]
-margin_top = 216.0
+margin_top = 412.0
 margin_right = 419.0
-margin_bottom = 236.0
+margin_bottom = 432.0
 dragger_visibility = 1
 
 [node name="ColorLabel" type="Label" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/ColorContainer"]
@@ -328,10 +406,20 @@ margin_bottom = 20.0
 size_flags_horizontal = 3
 color = Color( 1, 1, 1, 1 )
 
+[node name="DestructableKey" type="CheckBox" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties"]
+margin_top = 436.0
+margin_right = 174.0
+margin_bottom = 460.0
+size_flags_horizontal = 0
+text = "Destructable Keyframe"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="DestructableContainer" type="HSplitContainer" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties"]
-margin_top = 240.0
+margin_top = 464.0
 margin_right = 419.0
-margin_bottom = 264.0
+margin_bottom = 488.0
 dragger_visibility = 1
 
 [node name="DestructableLabel" type="Label" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/DestructableContainer"]
@@ -349,10 +437,20 @@ margin_right = 419.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 
+[node name="BulletSolidKey" type="CheckBox" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties"]
+margin_top = 492.0
+margin_right = 165.0
+margin_bottom = 516.0
+size_flags_horizontal = 0
+text = "Bullet Solid Keyframe"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="BulletSolidContainer" type="HSplitContainer" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties"]
-margin_top = 268.0
+margin_top = 520.0
 margin_right = 419.0
-margin_bottom = 292.0
+margin_bottom = 544.0
 dragger_visibility = 1
 
 [node name="BulletSolidLabel" type="Label" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/BulletSolidContainer"]
@@ -370,10 +468,20 @@ margin_right = 419.0
 margin_bottom = 24.0
 size_flags_horizontal = 3
 
+[node name="Z Index Key" type="CheckBox" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties"]
+margin_top = 548.0
+margin_right = 140.0
+margin_bottom = 572.0
+size_flags_horizontal = 0
+text = "Z Index Keyframe"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="ZIndexContainer" type="HSplitContainer" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties"]
-margin_top = 296.0
+margin_top = 576.0
 margin_right = 419.0
-margin_bottom = 320.0
+margin_bottom = 600.0
 dragger_visibility = 1
 
 [node name="ZLabel" type="Label" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/ZIndexContainer"]
@@ -393,9 +501,9 @@ size_flags_horizontal = 3
 step = 0.1
 
 [node name="Custom" type="HSplitContainer" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties"]
-margin_top = 324.0
+margin_top = 604.0
 margin_right = 419.0
-margin_bottom = 324.0
+margin_bottom = 604.0
 dragger_visibility = 1
 
 [node name="InspectorContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter"]
@@ -534,7 +642,7 @@ texture = ExtResource( 1 )
 margin_top = 684.0
 margin_right = 1900.0
 margin_bottom = 1017.0
-mouse_filter = 1
+mouse_filter = 2
 size_flags_vertical = 3
 
 [node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer/MainUISplitter/BottomContainer"]
@@ -560,11 +668,14 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.1
 
-[node name="AddObjectButton" type="MenuButton" parent="MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HBoxContainer"]
+[node name="AddObjectButton" type="Button" parent="MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HBoxContainer"]
 margin_right = 100.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 100, 0 )
 text = "Add Object"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="AddPrefabButton" type="MenuButton" parent="MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HBoxContainer"]
 margin_left = 104.0
@@ -573,6 +684,13 @@ margin_bottom = 29.0
 rect_min_size = Vector2( 100, 0 )
 text = "Add Prefab"
 
+[node name="ObjectEditMenu" type="MenuButton" parent="MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HBoxContainer"]
+margin_left = 208.0
+margin_right = 291.0
+margin_bottom = 29.0
+text = "Object Edit"
+items = [ "Delete Selected Object", null, 0, false, false, 0, 0, null, "", false ]
+
 [node name="HSplitContainer" type="HSplitContainer" parent="MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer"]
 margin_top = 33.0
 margin_right = 1900.0
@@ -580,12 +698,13 @@ margin_bottom = 333.0
 mouse_filter = 1
 size_flags_horizontal = 3
 size_flags_vertical = 3
+custom_constants/separation = 0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="LeftPanel" type="Panel" parent="MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer"]
-margin_right = 536.0
+margin_right = 538.0
 margin_bottom = 300.0
 rect_min_size = Vector2( 178, 0 )
 mouse_filter = 2
@@ -605,8 +724,8 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="RightPanel" type="Panel" parent="MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer"]
-margin_left = 548.0
+[node name="TimelinePanel" type="Panel" parent="MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer"]
+margin_left = 546.0
 margin_right = 1900.0
 margin_bottom = 300.0
 rect_min_size = Vector2( 676, 0 )
@@ -615,46 +734,41 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_styles/panel = SubResource( 2 )
 
-[node name="ViewportContainer" type="ViewportContainer" parent="MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/RightPanel"]
+[node name="TimeBar" type="HScrollBar" parent="MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/TimelinePanel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-stretch = true
+custom_styles/scroll = SubResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Viewport" type="Viewport" parent="MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/RightPanel/ViewportContainer"]
-size = Vector2( 1024, 512 )
-own_world = true
-disable_3d = true
-usage = 0
-
-[node name="icon" type="Sprite" parent="MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/RightPanel/ViewportContainer"]
-position = Vector2( 396, 1166.93 )
-scale = Vector2( 29.7408, 8.17476 )
-texture = ExtResource( 1 )
-
-[node name="Camera2D" type="Camera2D" parent="MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/RightPanel/ViewportContainer"]
-position = Vector2( 408, 1166.93 )
-current = true
-zoom = Vector2( 1, 0.5 )
-limit_left = 0
-limit_top = 1671
-limit_bottom = 1671
-
-[node name="TimeLine" type="Control" parent="."]
-margin_left = 6.0
-margin_top = 1676.0
-margin_right = 1920.0
-margin_bottom = 2200.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="VBoxContainer" type="VBoxContainer" parent="TimeLine"]
+[node name="ObjectNodeContainer" type="Control" parent="MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/TimelinePanel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
 [connection signal="pressed" from="MarginContainer/VBoxContainer/MenuContainer/ExitButton" to="." method="_on_ExitButton_pressed"]
+[connection signal="toggled" from="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/ParentKey" to="." method="_on_ParentKey_toggled"]
+[connection signal="item_selected" from="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/ParentContainer/ParentInput" to="." method="_on_ParentInput_item_selected"]
+[connection signal="toggled" from="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/PosXKey" to="." method="_on_PosXKey_toggled"]
+[connection signal="value_changed" from="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/PosXContainer/PosXInput" to="." method="_on_PosXInput_value_changed"]
+[connection signal="toggled" from="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/PosYKey" to="." method="_on_PosYKey_toggled"]
+[connection signal="value_changed" from="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/PosYContainer/PosYInput" to="." method="_on_PosYInput_value_changed"]
+[connection signal="toggled" from="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/ScaleXKey" to="." method="_on_ScaleXKey_toggled"]
+[connection signal="value_changed" from="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/ScaleXContainer/ScaleXInput" to="." method="_on_ScaleXInput_value_changed"]
+[connection signal="toggled" from="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/ScaleYKey" to="." method="_on_ScaleYKey_toggled"]
+[connection signal="value_changed" from="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/ScaleYContainer/ScaleYInput" to="." method="_on_ScaleYInput_value_changed"]
+[connection signal="toggled" from="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/RotationKey" to="." method="_on_RotationKey_toggled"]
+[connection signal="value_changed" from="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/RotationContainer/RotationInput" to="." method="_on_RotationInput_value_changed"]
+[connection signal="toggled" from="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/ColorKey" to="." method="_on_ColorKey_toggled"]
+[connection signal="color_changed" from="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/ColorContainer/ColorInput" to="." method="_on_ColorInput_color_changed"]
+[connection signal="toggled" from="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/DestructableKey" to="." method="_on_DestructableKey_toggled"]
+[connection signal="toggled" from="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/DestructableContainer/DestructableInput" to="." method="_on_DestructableInput_toggled"]
+[connection signal="toggled" from="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/BulletSolidKey" to="." method="_on_BulletSolidKey_toggled"]
+[connection signal="toggled" from="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/BulletSolidContainer/BulletSolidInput" to="." method="_on_BulletSolidInput_toggled"]
+[connection signal="toggled" from="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/Z Index Key" to="." method="_on_Z_Index_Key_toggled"]
+[connection signal="value_changed" from="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/ZIndexContainer/ZInput" to="." method="_on_ZInput_value_changed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HBoxContainer/AddObjectButton" to="." method="_on_AddObjectButton_pressed"]
+[connection signal="value_changed" from="MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/TimelinePanel/TimeBar" to="." method="_on_TimeBar_value_changed"]
