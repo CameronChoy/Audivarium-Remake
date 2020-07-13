@@ -1,0 +1,21 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Scenes/Editor/Layer.gd" type="Script" id=1]
+
+[node name="Layer" type="LineEdit"]
+margin_right = 58.0
+margin_bottom = 56.0
+rect_min_size = Vector2( 5, 56 )
+text = "Layer1"
+align = 1
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HSeparator" type="HSeparator" parent="."]
+margin_right = 1920.0
+margin_bottom = 10.0
+rect_min_size = Vector2( 1920, 10 )
+[connection signal="focus_exited" from="." to="." method="_on_Layer_focus_exited"]
+[connection signal="text_entered" from="." to="." method="_on_Layer_text_entered"]

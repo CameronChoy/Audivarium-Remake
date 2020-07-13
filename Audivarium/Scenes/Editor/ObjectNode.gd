@@ -12,11 +12,15 @@ var deadzone = 5
 onready var parent = get_parent()
 signal object_focused
 signal object_repositioned
+signal object_name_changed
 enum Tracks {PARENT,COLOR,POSITION,SCALE,Z_INDEX,BULLET_SOLID,DESTRUCTABLE}
+var manager
+var prev_name
 var spawn_time
 var despawn_time
 
 var object
+var layer
 
 var parent_points = []
 var parent_times = []
@@ -43,11 +47,21 @@ var destructable_times = []
 func _ready():
 	set_process(false)
 	current_position = rect_global_position
+	
 
+func set_name(new : String):
+	name = new
+	prev_name = new
+	$NameEdit.text = new
+
+func set_manager(new):
+	manager = new
+	(connect("object_focused",manager,"signal_object_focused",[self]))
+	(connect("object_name_changed",manager,"signal_object_name_changed",[self]))
 
 func focus():
 	Properties.show()
-	emit_signal("object_focused",self)
+	emit_signal("object_focused")
 
 
 func exit_focus():
@@ -55,7 +69,7 @@ func exit_focus():
 
 
 func Header_focus():
-	emit_signal("object_focused",self)
+	emit_signal("object_focused")
 	position_Properties()
 	Properties.visible = !Properties.visible
 	if !is_processing():
@@ -80,9 +94,17 @@ func drop():
 	parent.rect_global_position.x,
 	parent.rect_global_position.x + parent.rect_size.x - rect_size.x)
 	
-	rect_global_position.y = clamp(rect_global_position.y,
-	parent.rect_global_position.y,
-	parent.rect_global_position.y + parent.rect_size.y)
+	#clamp y to nearest layer
+	var closest_dist = abs(manager.layers[0].rect_global_position.y - rect_global_position.y)
+	var closest_layer = manager.layers[0]
+	for l in manager.layers:
+		
+		var dist = abs(l.rect_global_position.y - rect_global_position.y)
+		if dist < closest_dist:
+			closest_dist = dist
+			closest_layer = l
+		
+	rect_global_position.y = closest_layer.rect_global_position.y
 	
 	current_position = rect_global_position
 	position_Properties()
@@ -95,6 +117,23 @@ func drop():
 func position_Properties():
 	Properties.rect_global_position = rect_global_position
 	Properties.rect_global_position.y += 56
+
+
+func _on_NameEdit_text_entered(new_text):
+	if new_text.empty():
+		NameLabel.text = prev_name
+	else:
+		prev_name = new_text
+		emit_signal("object_name_changed",NameLabel.text)
+
+
+func _on_NameEdit_focus_exited():
+	NameLabel.deselect()
+	if NameLabel.text.empty():
+		NameLabel.text = prev_name
+	else:
+		prev_name = NameLabel.text
+		emit_signal("object_name_changed",NameLabel.text)
 
 
 func _process(_delta):
@@ -176,3 +215,4 @@ func remove_keyframe(track, index):
 			pass
 		_:
 			pass
+
