@@ -451,7 +451,6 @@ show_behind_parent = true
 margin_right = 188.0
 margin_bottom = 91.0
 rect_min_size = Vector2( 5, 35 )
-rect_clip_content = true
 theme = SubResource( 8 )
 script = ExtResource( 2 )
 __meta__ = {
@@ -461,25 +460,22 @@ __meta__ = {
 [node name="Button" type="Button" parent="."]
 margin_right = 188.0
 margin_bottom = 24.0
-rect_clip_content = true
 focus_mode = 1
 mouse_filter = 1
 shortcut_in_tooltip = false
-action_mode = 0
 enabled_focus_mode = 1
 
 [node name="NameEdit" type="LineEdit" parent="."]
 margin_top = 28.0
 margin_right = 188.0
 margin_bottom = 52.0
-rect_clip_content = true
 
 [node name="Popup" type="Popup" parent="."]
+visible = true
 margin_top = 56.0
 margin_right = 188.0
 margin_bottom = 91.0
 rect_min_size = Vector2( 0, 35 )
-rect_clip_content = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -489,16 +485,16 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 margin_bottom = 51.0
 rect_min_size = Vector2( 0, 172 )
+rect_clip_content = false
 scroll_horizontal_enabled = false
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Popup/ScrollContainer"]
-margin_right = 188.0
-margin_bottom = 172.0
+margin_right = 176.0
+margin_bottom = 178.0
 rect_min_size = Vector2( 0, 20 )
-rect_clip_content = true
 size_flags_horizontal = 3
 size_flags_vertical = 3
 __meta__ = {
@@ -508,7 +504,6 @@ __meta__ = {
 [node name="PositionX" type="MarginContainer" parent="Popup/ScrollContainer/VBoxContainer"]
 margin_right = 176.0
 margin_bottom = 87.0
-rect_clip_content = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -516,7 +511,6 @@ __meta__ = {
 [node name="VSplitContainer" type="VSplitContainer" parent="Popup/ScrollContainer/VBoxContainer/PositionX"]
 margin_right = 176.0
 margin_bottom = 87.0
-rect_clip_content = true
 dragger_visibility = 1
 __meta__ = {
 "_edit_use_anchors_": false
@@ -526,14 +520,12 @@ __meta__ = {
 margin_right = 176.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 0, 25 )
-rect_clip_content = true
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="Popup/ScrollContainer/VBoxContainer/PositionX/VSplitContainer/LabelPanel"]
 margin_right = 187.0
 margin_bottom = 24.0
-rect_clip_content = true
 size_flags_stretch_ratio = 0.5
 custom_fonts/font = ExtResource( 1 )
 text = "Position X"
@@ -546,7 +538,6 @@ margin_top = 37.0
 margin_right = 176.0
 margin_bottom = 87.0
 rect_min_size = Vector2( 0, 50 )
-rect_clip_content = true
 mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -555,7 +546,6 @@ custom_styles/panel = SubResource( 9 )
 [node name="Control" type="Control" parent="Popup/ScrollContainer/VBoxContainer/PositionX/VSplitContainer/KeyframePanel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-rect_clip_content = true
 size_flags_horizontal = 3
 __meta__ = {
 "_edit_use_anchors_": false
@@ -565,7 +555,6 @@ __meta__ = {
 margin_top = 91.0
 margin_right = 176.0
 margin_bottom = 178.0
-rect_clip_content = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -573,7 +562,6 @@ __meta__ = {
 [node name="VSplitContainer" type="VSplitContainer" parent="Popup/ScrollContainer/VBoxContainer/PositionY"]
 margin_right = 176.0
 margin_bottom = 87.0
-rect_clip_content = true
 dragger_visibility = 1
 __meta__ = {
 "_edit_use_anchors_": false
@@ -583,14 +571,12 @@ __meta__ = {
 margin_right = 176.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 0, 25 )
-rect_clip_content = true
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="Popup/ScrollContainer/VBoxContainer/PositionY/VSplitContainer/LabelPanel"]
 margin_right = 187.0
 margin_bottom = 24.0
-rect_clip_content = true
 size_flags_stretch_ratio = 0.5
 custom_fonts/font = ExtResource( 1 )
 text = "Position Y"
@@ -603,7 +589,6 @@ margin_top = 37.0
 margin_right = 176.0
 margin_bottom = 87.0
 rect_min_size = Vector2( 0, 50 )
-rect_clip_content = true
 mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -612,15 +597,17 @@ custom_styles/panel = SubResource( 9 )
 [node name="Control" type="Control" parent="Popup/ScrollContainer/VBoxContainer/PositionY/VSplitContainer/KeyframePanel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-rect_clip_content = true
 size_flags_horizontal = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 [connection signal="focus_entered" from="." to="." method="focus"]
 [connection signal="focus_exited" from="." to="." method="exit_focus"]
-[connection signal="pressed" from="Button" to="." method="Header_focus"]
+[connection signal="button_up" from="Button" to="." method="Header_released"]
+[connection signal="focus_entered" from="Button" to="." method="Header_focus"]
+[connection signal="pressed" from="Button" to="." method="Header_pressed"]
 [connection signal="focus_entered" from="NameEdit" to="." method="focus"]
-[connection signal="focus_exited" from="NameEdit" to="." method="exit_focus"]
 [connection signal="focus_exited" from="NameEdit" to="." method="_on_NameEdit_focus_exited"]
+[connection signal="focus_exited" from="NameEdit" to="." method="exit_focus"]
 [connection signal="text_entered" from="NameEdit" to="." method="_on_NameEdit_text_entered"]
+[connection signal="focus_exited" from="Popup" to="." method="exit_focus"]

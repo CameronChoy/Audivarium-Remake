@@ -46,6 +46,7 @@ var layer_node = preload("res://Scenes/Editor/Layer.tscn")
 
 var snap = 0.5
 var zoom_level = 0
+var time_scale = 1
 
 var original_min_timeline_stretch
 var min_timeline_stretch
@@ -72,6 +73,8 @@ func _ready():
 	
 	min_timeline_stretch = TimelineView.rect_size.x
 	original_min_timeline_stretch = min_timeline_stretch
+	
+	time_scale = (TimelineView.rect_min_size.x) / LevelTime
 	
 	
 
@@ -234,12 +237,16 @@ func ObjectEditMenuSelected(id : int):
 
 
 func _on_ZoomSlider_value_changed(value):
+	#prints(value)
 	zoom_timeline(value / ZoomSlider.max_value)
 
 #percent * LevelTime = time scale
 func zoom_timeline(percent : float):
-	TimelineView.rect_min_size.x = min_timeline_stretch * (percent * LevelTime)
-	zoom_level = percent
+	percent = clamp(percent,.01,1)
+	zoom_level = percent * LevelTime
+	TimelineView.rect_min_size.x = min_timeline_stretch * (zoom_level)
+	TimelineView.rect_size.x = TimelineView.rect_min_size.x
+	
 	scale_object_nodes()
 	pass
 
@@ -333,8 +340,10 @@ func _on_PanSlider_value_changed(value):
 	
 
 func scale_object_nodes():
-	var time_scale = (TimelineView.rect_min_size.x) / LevelTime
+	time_scale = (TimelineView.rect_min_size.x) / LevelTime
 	for o in object_nodes:
-		o.rect_position.x = time_scale * o.spawn_time
-		o.rect_size.x = time_scale * o.despawn_time
+		o.rect_global_position.x = TimelineView.rect_global_position.x + (time_scale * o.spawn_time)
 		
+		o.rect_size.x = (time_scale * o.despawn_time) - (o.rect_global_position.x - TimelineView.rect_global_position.x)
+		
+	

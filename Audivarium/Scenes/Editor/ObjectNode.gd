@@ -60,6 +60,7 @@ func set_manager(new):
 	(connect("object_name_changed",manager,"signal_object_name_changed",[self]))
 
 func focus():
+	position_Properties()
 	Properties.show()
 	emit_signal("object_focused")
 
@@ -70,25 +71,32 @@ func exit_focus():
 
 func Header_focus():
 	emit_signal("object_focused")
-	position_Properties()
-	Properties.visible = !Properties.visible
+	#position_Properties()
+	#Properties.visible = !Properties.visible
 	if !is_processing():
 		drag()
+	
+
+func Header_released():
 	Header.release_focus()
 
+func Header_pressed():
+	emit_signal("object_focused")
+	position_Properties()
+	Properties.visible = !Properties.visible
+	if !dragging:
+		set_process(false)
+	#Header.release_focus()
 
 func drag():
 	displacement = get_global_mouse_position() - rect_global_position
 	original_position = get_global_mouse_position()
 	set_process(true)
 	
-	
+
 
 
 func drop():
-	set_process(false)
-	
-	dragging = false
 	
 	rect_global_position.x = clamp(rect_global_position.x,
 	parent.rect_global_position.x,
@@ -121,6 +129,10 @@ func snap_to_closest_layer():
 func position_Properties():
 	Properties.rect_global_position = rect_global_position
 	Properties.rect_global_position.y += 56
+	Properties.rect_size.x = rect_size.x
+	
+	#position keyframes
+	
 
 
 func _on_NameEdit_text_entered(new_text):
@@ -155,9 +167,15 @@ func _process(_delta):
 func _input(event):
 	if is_processing():
 		if event.is_action_released("lmb"):
+			
 			if dragging:
 				Properties.show()
-			drop()
+				drop()
+			
+			set_process(false)
+			dragging = false
+			
+			
 		
 	
 
@@ -167,10 +185,10 @@ func delete_node():
 
 
 func calculate_spawn_despawn_times():
-	var time_scale = (manager.TimelineView.rect_min_size.x) / manager.LevelTime
-	spawn_time = (rect_global_position.x - manager.TimelineView.rect_global_position.x) * time_scale
-	despawn_time = (rect_global_position.x + rect_size.x - manager.TimelineView.rect_global_position.x) * time_scale
-	prints(spawn_time, despawn_time, time_scale)
+	var time_scale = manager.time_scale
+	spawn_time = (rect_global_position.x - manager.TimelineView.rect_global_position.x) / time_scale
+	despawn_time = (rect_global_position.x + rect_size.x - manager.TimelineView.rect_global_position.x) / time_scale
+	prints(spawn_time, despawn_time,time_scale)
 
 
 func reposition_keyframes():
@@ -222,4 +240,8 @@ func remove_keyframe(track, index):
 			pass
 		_:
 			pass
+
+
+
+
 

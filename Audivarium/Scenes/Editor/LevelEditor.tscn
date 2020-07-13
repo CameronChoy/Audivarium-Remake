@@ -763,6 +763,7 @@ custom_styles/panel = SubResource( 2 )
 [node name="VSplitContainer" type="VSplitContainer" parent="MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/TimelinePanel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -811,7 +812,7 @@ margin_left = 112.0
 margin_right = 1333.0
 margin_bottom = 669.0
 rect_clip_content = false
-mouse_filter = 1
+mouse_filter = 2
 follow_focus = true
 scroll_vertical_enabled = false
 
@@ -898,6 +899,8 @@ margin_right = 1920.0
 margin_bottom = 1080.0
 mouse_filter = 2
 __meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
