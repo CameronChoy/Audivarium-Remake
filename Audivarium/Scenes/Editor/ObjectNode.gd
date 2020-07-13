@@ -16,8 +16,8 @@ signal object_name_changed
 enum Tracks {PARENT,COLOR,POSITION,SCALE,Z_INDEX,BULLET_SOLID,DESTRUCTABLE}
 var manager
 var prev_name
-var spawn_time
-var despawn_time
+var spawn_time = 0
+var despawn_time = 1
 
 var object
 var layer
@@ -94,7 +94,18 @@ func drop():
 	parent.rect_global_position.x,
 	parent.rect_global_position.x + parent.rect_size.x - rect_size.x)
 	
-	#clamp y to nearest layer
+	snap_to_closest_layer()
+	
+	
+	current_position = rect_global_position
+	position_Properties()
+	calculate_spawn_despawn_times()
+	reposition_keyframes()
+	
+	emit_signal("object_repositioned")
+
+
+func snap_to_closest_layer():
 	var closest_dist = abs(manager.layers[0].rect_global_position.y - rect_global_position.y)
 	var closest_layer = manager.layers[0]
 	for l in manager.layers:
@@ -105,13 +116,6 @@ func drop():
 			closest_layer = l
 		
 	rect_global_position.y = closest_layer.rect_global_position.y
-	
-	current_position = rect_global_position
-	position_Properties()
-	calculate_spawn_despawn_times()
-	reposition_keyframes()
-	
-	emit_signal("object_repositioned")
 
 
 func position_Properties():
@@ -140,7 +144,7 @@ func _process(_delta):
 	
 	if dragging:
 		rect_global_position = get_global_mouse_position() - displacement
-		
+		snap_to_closest_layer()
 	elif (get_global_mouse_position() - original_position).length_squared() > deadzone * deadzone:
 		dragging = true
 		Properties.hide()
@@ -163,7 +167,10 @@ func delete_node():
 
 
 func calculate_spawn_despawn_times():
-	pass
+	var time_scale = (manager.TimelineView.rect_min_size.x) / manager.LevelTime
+	spawn_time = (rect_global_position.x - manager.TimelineView.rect_global_position.x) * time_scale
+	despawn_time = (rect_global_position.x + rect_size.x - manager.TimelineView.rect_global_position.x) * time_scale
+	prints(spawn_time, despawn_time, time_scale)
 
 
 func reposition_keyframes():

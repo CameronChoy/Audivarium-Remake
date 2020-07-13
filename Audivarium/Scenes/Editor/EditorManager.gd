@@ -6,6 +6,9 @@ var saved
 var ObjectNode = preload("res://Scenes/Editor/ObjectNode.tscn")
 var DefaultObject = preload("res://Objects/Statics/Circle.tscn")
 
+onready var AudioPlayer = $AudioStreamPlayer
+onready var FileSelector = $Control/FileDialog
+
 onready var Simulator = $MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/LevelDisplayContainer/Panel/MarginContainer/ViewportContainer/LevelSimulator
 onready var SimulatorCamera = $MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/LevelDisplayContainer/Panel/MarginContainer/ViewportContainer/LevelSimulator/Camera2D
 
@@ -15,22 +18,25 @@ onready var ObjectEditMenu = $MarginContainer/VBoxContainer/MainUISplitter/Botto
 onready var AddPrefabButton = $MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HBoxContainer/AddPrefabButton
 onready var AddObjectButton = $MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HBoxContainer/AddObjectButton
 
-#onready var TimelineView = $MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/TimelinePanel/ViewportContainer/TimelineViewport 
-onready var TimeBar = $MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/TimelinePanel/ScrollContainer/HSplitContainer/Control/TimeBar
-onready var ObjectNodeContainer = $MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/TimelinePanel/ScrollContainer/HSplitContainer/Control/ObjectNodeContainer
-onready var LayersContainer = $MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/TimelinePanel/ScrollContainer/HSplitContainer/LayersContainer
-onready var StartingLayer = $MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/TimelinePanel/ScrollContainer/HSplitContainer/LayersContainer/Layer
-onready var TimelineExtraSpace = $MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/TimelinePanel/ScrollContainer/HSplitContainer/LayersContainer/ExtraScrollSpace
+onready var TimeBar = $MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/TimelinePanel/VSplitContainer/ScrollContainer/HSplitContainer/ScrollContainer/Control/TimeBar
+onready var ObjectNodeContainer = $MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/TimelinePanel/VSplitContainer/ScrollContainer/HSplitContainer/ScrollContainer/Control/ObjectNodeContainer
+onready var TimelineView = $MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/TimelinePanel/VSplitContainer/ScrollContainer/HSplitContainer/ScrollContainer/Control
+onready var LayersContainer = $MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/TimelinePanel/VSplitContainer/ScrollContainer/HSplitContainer/LayersContainer
+onready var StartingLayer = $MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/TimelinePanel/VSplitContainer/ScrollContainer/HSplitContainer/LayersContainer/Layer
+onready var TimelineExtraSpace = $MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/TimelinePanel/VSplitContainer/ScrollContainer/HSplitContainer/LayersContainer/ExtraScrollSpace
+onready var TimelineHorizontalScroll = $MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/TimelinePanel/VSplitContainer/ScrollContainer/HSplitContainer/ScrollContainer
+onready var ZoomSlider = $MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/TimelinePanel/VSplitContainer/BottomTimelineContainer/HBoxContainer/ZoomSlider
+onready var PanSlider = $MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/TimelinePanel/VSplitContainer/BottomTimelineContainer/HBoxContainer/PanSlider
 
 onready var PropertiesSelectedLabel = $MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ObjectNameLabel
 
-enum FileOptions {IMPORT_SONG = 0, IMPORT_LEVEL = 1, SAVE = 2, TEST = 3}
+enum FileOptions {IMPORT_SONG = 0, IMPORT_LEVEL = 1, SAVE = 2, TEST = 3, EXPORT = 4}
 enum ObjectEditOptions {DELETE = 0}
 
 const SimulatorSize = Vector2(1920,1080)
 const MAX_ITERATIONS = 35
 
-var LevelTime = 0
+var LevelTime = 10
 var CurrentLevelTime = 0
 var object_nodes = []
 var enemy_nodes = []
@@ -38,17 +44,35 @@ var history = []
 var layers = []
 var layer_node = preload("res://Scenes/Editor/Layer.tscn")
 
+var snap = 0.5
+var zoom_level = 0
+
+var original_min_timeline_stretch
+var min_timeline_stretch
+
+var original_max_timeline_stretch
+var max_timeline_stretch
+
 var SelectedObject
 var CopiedObject
 var SelectedKeyFrame
 var CopiedKeyFrame
 
 func _ready():
+	
 	Input.set_custom_mouse_cursor(null)
 	CrossHair.hide_crosshair()
+	
 	SimulatorCamera.position = OS.get_screen_size()/2
+	
 	ObjectEditMenu.get_popup().connect("id_pressed",self,"ObjectEditMenuSelected")
+	FileMenu.get_popup().connect("id_pressed",self,"FileMenuSelected")
+	
 	layers.append(StartingLayer)
+	
+	min_timeline_stretch = TimelineView.rect_size.x
+	original_min_timeline_stretch = min_timeline_stretch
+	
 	
 
 func _process(_delta):
@@ -56,7 +80,6 @@ func _process(_delta):
 	if Simulator.size != SimulatorSize:
 		Simulator.size = SimulatorSize
 	
-
 
 
 func save_level():
@@ -113,13 +136,6 @@ func _on_ParentKey_toggled(button_pressed):
 	else:
 		pass
 	
-
-
-func ObjectEditMenuSelected(id : int):
-	
-	match id:
-		_:
-			pass
 
 
 func _on_AddObjectButton_pressed():
@@ -195,6 +211,37 @@ func ensure_layer_unique_names(n : String):
 	
 	return n
 	
+
+
+func FileMenuSelected(id : int):
+	
+	match id:
+		FileOptions.IMPORT_SONG:
+			
+			FileSelector.window_title = "Import Song"
+			FileSelector.filters = ["*.ogg"]
+			FileSelector.show()
+			
+		_:
+			pass
+
+
+func ObjectEditMenuSelected(id : int):
+	
+	match id:
+		_:
+			pass
+
+
+func _on_ZoomSlider_value_changed(value):
+	zoom_timeline(value / ZoomSlider.max_value)
+
+#percent * LevelTime = time scale
+func zoom_timeline(percent : float):
+	TimelineView.rect_min_size.x = min_timeline_stretch * (percent * LevelTime)
+	zoom_level = percent
+	scale_object_nodes()
+	pass
 
 
 func _on_ParentInput_item_selected(index):
@@ -273,4 +320,21 @@ func _on_ZInput_value_changed(value):
 	if SelectedObject == null: return
 
 
+func _on_HSplitContainer_dragged(offset):
+	min_timeline_stretch = original_min_timeline_stretch - offset
 
+
+func _on_FileDialog_file_selected(path):
+	pass # Replace with function body.
+
+
+func _on_PanSlider_value_changed(value):
+	TimelineHorizontalScroll.scroll_horizontal = (value / PanSlider.max_value) * TimelineView.rect_min_size.x
+	
+
+func scale_object_nodes():
+	var time_scale = (TimelineView.rect_min_size.x) / LevelTime
+	for o in object_nodes:
+		o.rect_position.x = time_scale * o.spawn_time
+		o.rect_size.x = time_scale * o.despawn_time
+		
