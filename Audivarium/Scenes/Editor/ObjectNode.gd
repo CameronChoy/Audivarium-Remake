@@ -59,6 +59,12 @@ func set_manager(new):
 	(connect("object_focused",manager,"signal_object_focused",[self]))
 	(connect("object_name_changed",manager,"signal_object_name_changed",[self]))
 
+func set_parent(new):
+	var p = get_parent()
+	if p != null:
+		p.remove_child(self)
+	new.add_child(self)
+
 func focus():
 	position_Properties()
 	Properties.show()
@@ -97,10 +103,10 @@ func drag():
 
 
 func drop():
-	
 	rect_global_position.x = clamp(rect_global_position.x,
-	parent.rect_global_position.x,
-	parent.rect_global_position.x + parent.rect_size.x - rect_size.x)
+	manager.TimelineView.rect_global_position.x,
+	manager.TimelineView.rect_global_position.x + manager.TimelineView.rect_size.x - rect_size.x)
+	
 	
 	snap_to_closest_layer()
 	
@@ -188,7 +194,7 @@ func calculate_spawn_despawn_times():
 	var time_scale = manager.time_scale
 	spawn_time = (rect_global_position.x - manager.TimelineView.rect_global_position.x) / time_scale
 	despawn_time = (rect_global_position.x + rect_size.x - manager.TimelineView.rect_global_position.x) / time_scale
-	prints(spawn_time, despawn_time,time_scale)
+	
 
 
 func reposition_keyframes():

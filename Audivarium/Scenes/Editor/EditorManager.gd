@@ -75,7 +75,7 @@ func _ready():
 	original_min_timeline_stretch = min_timeline_stretch
 	
 	time_scale = (TimelineView.rect_min_size.x) / LevelTime
-	
+	zoom_timeline(1/101)
 	
 
 func _process(_delta):
@@ -100,12 +100,19 @@ func _on_ExitButton_pressed():
 
 func add_object_node(object : PackedScene = DefaultObject, object_name : String = "Object"):
 	var new_node = ObjectNode.instance()
-	var new_object = DefaultObject.instance()
+	var new_object = object.instance()
+	
 	new_node.object = new_object
 	new_node.set_manager(self)
+	
 	new_node.set_name(ensure_object_unique_names(object_name, new_node))
+	
 	ObjectNodeContainer.add_child(new_node)
+	
 	Simulator.add_child(new_object)
+	
+	scale_object_node(new_node)
+	
 	object_nodes.append(new_node)
 	
 
@@ -177,9 +184,9 @@ func ensure_object_unique_names(n : String, object):
 					new_name = n.substr(0,end+1)
 				
 				var new_num = int(new_end)
-				return ensure_layer_unique_names(new_name + str(new_num+1))
+				return ensure_object_unique_names(new_name + str(new_num+1), object)
 				
-			return ensure_layer_unique_names(n + "1")
+			return ensure_object_unique_names(n + "1", object)
 			
 		
 	
@@ -242,12 +249,15 @@ func _on_ZoomSlider_value_changed(value):
 
 #percent * LevelTime = time scale
 func zoom_timeline(percent : float):
-	percent = clamp(percent,.01,1)
+	
 	zoom_level = percent * LevelTime
+	if zoom_level < 1: zoom_level = 1 #THE FUCKING FIX FOR FUCKS SAKE
 	TimelineView.rect_min_size.x = min_timeline_stretch * (zoom_level)
 	TimelineView.rect_size.x = TimelineView.rect_min_size.x
 	
-	scale_object_nodes()
+	time_scale = (TimelineView.rect_min_size.x) / LevelTime
+	for o in object_nodes:
+		scale_object_node(o)
 	pass
 
 
@@ -336,14 +346,14 @@ func _on_FileDialog_file_selected(path):
 
 
 func _on_PanSlider_value_changed(value):
-	TimelineHorizontalScroll.scroll_horizontal = (value / PanSlider.max_value) * TimelineView.rect_min_size.x
+	TimelineHorizontalScroll.scroll_horizontal = (value / PanSlider.max_value) * TimelineView.rect_size.x
 	
 
-func scale_object_nodes():
-	time_scale = (TimelineView.rect_min_size.x) / LevelTime
-	for o in object_nodes:
-		o.rect_global_position.x = TimelineView.rect_global_position.x + (time_scale * o.spawn_time)
-		
-		o.rect_size.x = (time_scale * o.despawn_time) - (o.rect_global_position.x - TimelineView.rect_global_position.x)
-		
+func scale_object_node(o):
+	#TimelineView.rect_global_position.x + 
+	prints(o.spawn_time,o.despawn_time)
+	o.rect_position.x = (time_scale * o.spawn_time)
+	
+	o.rect_size.x = (time_scale * o.despawn_time) - (o.rect_position.x)
+	
 	

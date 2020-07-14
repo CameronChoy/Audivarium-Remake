@@ -811,9 +811,9 @@ rect_min_size = Vector2( 0, 609 )
 margin_left = 112.0
 margin_right = 1333.0
 margin_bottom = 669.0
-rect_clip_content = false
 mouse_filter = 2
 follow_focus = true
+scroll_horizontal = 100
 scroll_vertical_enabled = false
 
 [node name="Control" type="Control" parent="MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/TimelinePanel/VSplitContainer/ScrollContainer/HSplitContainer/ScrollContainer"]
@@ -866,6 +866,9 @@ margin_right = 304.0
 margin_bottom = 35.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
+min_value = 1.0
+max_value = 101.0
+value = 1.0
 tick_count = 10
 
 [node name="SnapButton" type="CheckBox" parent="MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/TimelinePanel/VSplitContainer/BottomTimelineContainer/HBoxContainer"]
