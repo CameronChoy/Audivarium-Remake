@@ -1,69 +1,103 @@
 extends VBoxContainer
 class_name ObjectNode
 
+var Track_Node = preload("res://Scenes/Editor/NodeTrack.tscn")
+
 onready var Properties = $Popup
 onready var NameLabel = $NameEdit
 onready var Header = $Button
+onready var TrackContainer = $Popup/ScrollContainer/TrackContainer
 var displacement
 var original_position
 var current_position
 var dragging = false
 var deadzone = 5
+const KEYFRAME_SIZE = Vector2(10,24)
 onready var parent = get_parent()
+
 signal object_focused
 signal object_repositioned
 signal object_name_changed
-enum Tracks {PARENT,COLOR,POSITION,SCALE,Z_INDEX,BULLET_SOLID,DESTRUCTABLE}
+
+enum Tracks {POSITION,ROTATION,SCALE,COLOR,BULLET_SOLID,DESTRUCTABLE,Z_INDEX,PARENT}
 var manager
 var prev_name
 var spawn_time = 0
 var despawn_time = 1
 
+var tracks = []
 var object
 var layer
 
-var parent_points = []
-var parent_times = []
+var parent_track_active = false
+var parent_track
 
-var color_points = []
-var color_times = []
+var rotation_track_active = true
+var rotation_track
 
-var position_points = []
-var position_times = []
+var color_track_active = false
+var color_track
 
-var scale_points = []
-var scale_times = []
+var positionx_track_active = true
+var positionx_track
+var positiony_track_active = true
+var positiony_track
 
-var z_points = []
-var z_times = []
+var scalex_track_active = true
+var scalex_track
+var scaley_track_active = true
+var scaley_track
 
-var bullet_solid_points = []
-var bullet_solid_times = []
+var z_track_active = false
+var z_track
 
-var destructable_points = []
-var destructable_times = []
+var bullet_track_active = false
+var bullet_track
+
+var destructable_track_active = false
+var destructable_track
 
 
 func _ready():
 	set_process(false)
 	current_position = rect_global_position
 	
+	for x in range(Tracks.size()):
+		
+		match x:
+			Tracks.POSITION, Tracks.SCALE:
+				_add_track(x)
+				_add_track(x,false)
+				
+			Tracks.ROTATION:
+				_add_track(x)
+			_:
+				var t =_add_track(x,false)
+				t.set_active(false)
+				
+			
+		
+	
+
 
 func set_name(new : String):
 	name = new
 	prev_name = new
 	$NameEdit.text = new
 
+
 func set_manager(new):
 	manager = new
 	(connect("object_focused",manager,"signal_object_focused",[self]))
 	(connect("object_name_changed",manager,"signal_object_name_changed",[self]))
+
 
 func set_parent(new):
 	var p = get_parent()
 	if p != null:
 		p.remove_child(self)
 	new.add_child(self)
+
 
 func focus():
 	position_Properties()
@@ -83,8 +117,10 @@ func Header_focus():
 		drag()
 	
 
+
 func Header_released():
 	Header.release_focus()
+
 
 func Header_pressed():
 	emit_signal("object_focused")
@@ -92,14 +128,13 @@ func Header_pressed():
 	Properties.visible = !Properties.visible
 	if !dragging:
 		set_process(false)
-	#Header.release_focus()
+	
 
 func drag():
 	displacement = get_global_mouse_position() - rect_global_position
 	original_position = get_global_mouse_position()
 	set_process(true)
 	
-
 
 
 func drop():
@@ -137,7 +172,7 @@ func position_Properties():
 	Properties.rect_global_position.y += 56
 	Properties.rect_size.x = rect_size.x
 	
-	#position keyframes
+	reposition_keyframes()
 	
 
 
@@ -185,6 +220,104 @@ func _input(event):
 		
 	
 
+
+func _add_track(track : int, x_track : bool = true):
+	var new_track = Track_Node.instance()
+	var n = ""
+	
+	match track:
+		Tracks.BULLET_SOLID:
+			n = "Bullet Solid"
+			bullet_track = new_track
+		Tracks.COLOR:
+			n = "Color"
+			color_track = new_track
+		Tracks.DESTRUCTABLE:
+			n = "Destructable"
+			destructable_track = new_track
+		Tracks.PARENT:
+			n = "Parent"
+			parent_track = new_track
+		Tracks.ROTATION:
+			n = "Rotation"
+			rotation_track = new_track
+		Tracks.POSITION:
+			
+			if x_track:
+				n = "Position X"
+				positionx_track = new_track
+			else:
+				n = "Position Y"
+				positiony_track = new_track
+			
+		Tracks.SCALE:
+			
+			if x_track:
+				n = "Scale  X"
+				scalex_track = new_track
+			else:
+				n = "Scale Y"
+				scaley_track = new_track
+			
+			
+		Tracks.Z_INDEX:
+			n = "Z Index"
+			z_track = new_track
+		_:
+			return
+	
+	new_track.manager = manager
+	TrackContainer.add_child(new_track)
+	new_track.set_name(n)
+	tracks.append(new_track)
+	
+	return new_track
+	
+
+
+func toggle_track(track : int, active : bool, x_track : bool = true):
+	
+	match track:
+		Tracks.BULLET_SOLID:
+			bullet_track.visible = active
+			bullet_track_active = active
+		Tracks.COLOR:
+			color_track.visible = active
+			color_track_active = active
+		Tracks.DESTRUCTABLE:
+			destructable_track.visible = active
+			destructable_track_active = active
+		Tracks.PARENT:
+			parent_track.visible = active
+			parent_track_active = active
+		Tracks.Z_INDEX:
+			z_track.visible = active
+			z_track_active = active
+		Tracks.ROTATION:
+			rotation_track.visible = active
+			rotation_track_active = active
+		Tracks.POSITION:
+			
+			if x_track:
+				positionx_track.visible = active
+				positionx_track_active = active
+			else:
+				positiony_track.visible = active
+				positiony_track_active = active
+		
+		Tracks.SCALE:
+			
+			if x_track:
+				scalex_track.visible = active
+				scalex_track_active = active
+			else:
+				scaley_track.visible = active
+				scaley_track_active = active
+			
+		
+		_:
+			return
+	
 
 func delete_node():
 	pass

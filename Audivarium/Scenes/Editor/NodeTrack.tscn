@@ -1,0 +1,61 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Scenes/Editor/ObjectNodeFont.tres" type="DynamicFont" id=1]
+[ext_resource path="res://Scenes/Editor/NodeTrack.gd" type="Script" id=2]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.223529, 0.196078, 0.196078, 1 )
+
+[node name="PositionX" type="MarginContainer"]
+show_behind_parent = true
+margin_right = 188.0
+margin_bottom = 67.0
+focus_mode = 1
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VSplitContainer" type="VSplitContainer" parent="."]
+margin_right = 188.0
+margin_bottom = 67.0
+dragger_visibility = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LabelPanel" type="Panel" parent="VSplitContainer"]
+margin_right = 188.0
+margin_bottom = 25.0
+rect_min_size = Vector2( 0, 25 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="VSplitContainer/LabelPanel"]
+margin_right = 187.0
+margin_bottom = 24.0
+size_flags_stretch_ratio = 0.5
+custom_fonts/font = ExtResource( 1 )
+text = "hey gamer"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="KeyframePanel" type="Panel" parent="VSplitContainer"]
+margin_top = 37.0
+margin_right = 188.0
+margin_bottom = 67.0
+rect_min_size = Vector2( 0, 30 )
+mouse_filter = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_styles/panel = SubResource( 1 )
+
+[node name="Control" type="Control" parent="VSplitContainer/KeyframePanel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": true
+}
+[connection signal="focus_entered" from="." to="." method="_on_PositionX_focus_entered"]

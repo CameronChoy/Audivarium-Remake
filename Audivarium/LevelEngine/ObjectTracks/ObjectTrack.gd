@@ -35,7 +35,7 @@ enum StepTypes {
 func track_step(_time : float, _object : Static):
 	return
 	#if !is_enabled() or points.empty(): return
-	#TODO
+	
 
 func init_set(_enabled : bool, _step_type : int, _points : Array, _times : Array, _x_track : bool = true):
 	#track_type = _track_type

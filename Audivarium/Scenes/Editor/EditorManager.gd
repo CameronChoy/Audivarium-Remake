@@ -3,7 +3,7 @@ extends Node2D
 const TitleScene = "res://Scenes/MainMenu/TitleMenu/TitleMain.tscn"
 var saved
 
-var ObjectNode = preload("res://Scenes/Editor/ObjectNode.tscn")
+var NodeObject = preload("res://Scenes/Editor/ObjectNode.tscn")
 var DefaultObject = preload("res://Objects/Statics/Circle.tscn")
 
 onready var AudioPlayer = $AudioStreamPlayer
@@ -28,7 +28,19 @@ onready var TimelineHorizontalScroll = $MarginContainer/VBoxContainer/MainUISpli
 onready var ZoomSlider = $MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/TimelinePanel/VSplitContainer/BottomTimelineContainer/HBoxContainer/ZoomSlider
 onready var PanSlider = $MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/TimelinePanel/VSplitContainer/BottomTimelineContainer/HBoxContainer/PanSlider
 
+onready var PropertiesContainer = $MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties
 onready var PropertiesSelectedLabel = $MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ObjectNameLabel
+
+onready var ParentTrackKey = $MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/ParentKey
+onready var PosXTrackKey = $MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/PosXKey
+onready var PosYTrackKey = $MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/PosYKey
+onready var RotationTrackKey = $MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/RotationKey
+onready var ScaleXTrackKey = $MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/ScaleXKey
+onready var ScaleYTrackKey = $MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/ScaleYKey
+onready var ColorTrackKey = $MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/ColorKey
+onready var DestructableTrackKey = $MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/DestructableKey
+onready var BulletSolidTrackKey = $MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/BulletSolidKey
+onready var ZIndexTrackKey = $MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/ZIndexKey
 
 enum FileOptions {IMPORT_SONG = 0, IMPORT_LEVEL = 1, SAVE = 2, TEST = 3, EXPORT = 4}
 enum ObjectEditOptions {DELETE = 0}
@@ -56,8 +68,13 @@ var max_timeline_stretch
 
 var SelectedObject
 var CopiedObject
+
+var SelectedTrack
+
 var SelectedKeyFrame
 var CopiedKeyFrame
+
+var SelectedShape
 
 func _ready():
 	
@@ -66,8 +83,9 @@ func _ready():
 	
 	SimulatorCamera.position = OS.get_screen_size()/2
 	
-	ObjectEditMenu.get_popup().connect("id_pressed",self,"ObjectEditMenuSelected")
-	FileMenu.get_popup().connect("id_pressed",self,"FileMenuSelected")
+	var _err
+	_err = ObjectEditMenu.get_popup().connect("id_pressed",self,"ObjectEditMenuSelected")
+	_err = FileMenu.get_popup().connect("id_pressed",self,"FileMenuSelected")
 	
 	layers.append(StartingLayer)
 	
@@ -99,7 +117,7 @@ func _on_ExitButton_pressed():
 
 
 func add_object_node(object : PackedScene = DefaultObject, object_name : String = "Object"):
-	var new_node = ObjectNode.instance()
+	var new_node = NodeObject.instance()
 	var new_object = object.instance()
 	
 	new_node.object = new_object
@@ -120,11 +138,28 @@ func add_object_node(object : PackedScene = DefaultObject, object_name : String 
 func signal_object_focused(_object):
 	SelectedObject = _object
 	PropertiesSelectedLabel.text = _object.name
+	
+	ParentTrackKey.pressed = _object.parent_track_active
+	PosXTrackKey.pressed = _object.positionx_track_active
+	PosYTrackKey.pressed = _object.positiony_track_active
+	RotationTrackKey.pressed = _object.rotation_track_active
+	ScaleXTrackKey.pressed = _object.scalex_track_active
+	ScaleYTrackKey.pressed = _object.scaley_track_active
+	ColorTrackKey.pressed = _object.color_track_active
+	DestructableTrackKey.pressed = _object.destructable_track_active
+	BulletSolidTrackKey.pressed = _object.bullet_track_active
+	ZIndexTrackKey.pressed = _object.z_track_active
+	
 
 
 func signal_object_name_changed(n, _object):
 	_object.set_name(ensure_object_unique_names(n, _object))
 	_object.NameLabel.text = _object.name
+	PropertiesSelectedLabel.text = _object.name
+
+
+func signal_track_focused(_track):
+	pass
 
 
 func _on_TimeBar_value_changed(value):
@@ -136,16 +171,6 @@ func update_level(time):
 	for o in object_nodes:
 		pass
 
-
-func _on_ParentKey_toggled(button_pressed):
-	if SelectedObject == null: return
-	var index = SelectedObject.parent_points.find(CurrentLevelTime)
-	
-	if button_pressed:
-		pass
-	else:
-		pass
-	
 
 
 func _on_AddObjectButton_pressed():
@@ -244,7 +269,6 @@ func ObjectEditMenuSelected(id : int):
 
 
 func _on_ZoomSlider_value_changed(value):
-	#prints(value)
 	zoom_timeline(value / ZoomSlider.max_value)
 
 #percent * LevelTime = time scale
@@ -252,6 +276,7 @@ func zoom_timeline(percent : float):
 	
 	zoom_level = percent * LevelTime
 	if zoom_level < 1: zoom_level = 1 #THE FUCKING FIX FOR FUCKS SAKE
+	
 	TimelineView.rect_min_size.x = min_timeline_stretch * (zoom_level)
 	TimelineView.rect_size.x = TimelineView.rect_min_size.x
 	
@@ -261,12 +286,19 @@ func zoom_timeline(percent : float):
 	pass
 
 
+func _on_ParentKey_toggled(button_pressed):
+	if SelectedObject == null: return
+	SelectedObject.toggle_track(ObjectNode.Tracks.PARENT, button_pressed)
+
+
 func _on_ParentInput_item_selected(index):
 	if SelectedObject == null: return
+	
 
 
 func _on_PosXKey_toggled(button_pressed):
 	if SelectedObject == null: return
+	SelectedObject.toggle_track(ObjectNode.Tracks.POSITION, button_pressed)
 
 
 func _on_PosXInput_value_changed(value):
@@ -275,6 +307,7 @@ func _on_PosXInput_value_changed(value):
 
 func _on_PosYKey_toggled(button_pressed):
 	if SelectedObject == null: return
+	SelectedObject.toggle_track(ObjectNode.Tracks.POSITION, button_pressed, false)
 
 
 func _on_PosYInput_value_changed(value):
@@ -283,6 +316,7 @@ func _on_PosYInput_value_changed(value):
 
 func _on_ScaleXKey_toggled(button_pressed):
 	if SelectedObject == null: return
+	SelectedObject.toggle_track(ObjectNode.Tracks.SCALE, button_pressed)
 
 
 func _on_ScaleXInput_value_changed(value):
@@ -291,6 +325,7 @@ func _on_ScaleXInput_value_changed(value):
 
 func _on_ScaleYKey_toggled(button_pressed):
 	if SelectedObject == null: return
+	SelectedObject.toggle_track(ObjectNode.Tracks.SCALE, button_pressed, false)
 
 
 func _on_ScaleYInput_value_changed(value):
@@ -299,6 +334,7 @@ func _on_ScaleYInput_value_changed(value):
 
 func _on_RotationKey_toggled(button_pressed):
 	if SelectedObject == null: return
+	SelectedObject.toggle_track(ObjectNode.Tracks.ROTATION, button_pressed)
 
 
 func _on_RotationInput_value_changed(value):
@@ -307,6 +343,7 @@ func _on_RotationInput_value_changed(value):
 
 func _on_ColorKey_toggled(button_pressed):
 	if SelectedObject == null: return
+	SelectedObject.toggle_track(ObjectNode.Tracks.COLOR, button_pressed)
 
 
 func _on_ColorInput_color_changed(color):
@@ -315,6 +352,7 @@ func _on_ColorInput_color_changed(color):
 
 func _on_DestructableKey_toggled(button_pressed):
 	if SelectedObject == null: return
+	SelectedObject.toggle_track(ObjectNode.Tracks.DESTRUCTABLE, button_pressed)
 
 
 func _on_DestructableInput_toggled(button_pressed):
@@ -323,6 +361,7 @@ func _on_DestructableInput_toggled(button_pressed):
 
 func _on_BulletSolidKey_toggled(button_pressed):
 	if SelectedObject == null: return
+	SelectedObject.toggle_track(ObjectNode.Tracks.BULLET_SOLID, button_pressed)
 
 
 func _on_BulletSolidInput_toggled(button_pressed):
@@ -331,6 +370,7 @@ func _on_BulletSolidInput_toggled(button_pressed):
 
 func _on_Z_Index_Key_toggled(button_pressed):
 	if SelectedObject == null: return
+	SelectedObject.toggle_track(ObjectNode.Tracks.Z_INDEX, button_pressed)
 
 
 func _on_ZInput_value_changed(value):
@@ -348,12 +388,17 @@ func _on_FileDialog_file_selected(path):
 func _on_PanSlider_value_changed(value):
 	TimelineHorizontalScroll.scroll_horizontal = (value / PanSlider.max_value) * TimelineView.rect_size.x
 	
+	for o in object_nodes:
+		if o.Properties.visible:
+			o.position_Properties()
+	
 
 func scale_object_node(o):
-	#TimelineView.rect_global_position.x + 
-	prints(o.spawn_time,o.despawn_time)
+	
 	o.rect_position.x = (time_scale * o.spawn_time)
 	
 	o.rect_size.x = (time_scale * o.despawn_time) - (o.rect_position.x)
 	
+	if o.Properties.visible:
+		o.position_Properties()
 	
