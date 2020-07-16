@@ -159,7 +159,13 @@ func signal_object_name_changed(n, _object):
 
 
 func signal_track_focused(_track):
-	pass
+	SelectedTrack = _track
+	print("track")
+
+
+func signal_keyframe_focused(_keyframe):
+	SelectedKeyFrame = _keyframe
+	print("key")
 
 
 func _on_TimeBar_value_changed(value):
@@ -303,6 +309,17 @@ func _on_PosXKey_toggled(button_pressed):
 
 func _on_PosXInput_value_changed(value):
 	if SelectedObject == null: return
+	
+	if !SelectedObject.positionx_track_active:
+		SelectedObject.toggle_track(ObjectNode.Tracks.POSITION, true)
+	
+	var key = SelectedObject.has_keyframe_at_time(ObjectNode.Tracks.POSITION, CurrentLevelTime)
+	if key:
+		key.values = value
+		return
+	
+	SelectedObject.add_keyframe(ObjectNode.Tracks.POSITION, CurrentLevelTime, value)
+	
 
 
 func _on_PosYKey_toggled(button_pressed):
@@ -312,7 +329,17 @@ func _on_PosYKey_toggled(button_pressed):
 
 func _on_PosYInput_value_changed(value):
 	if SelectedObject == null: return
-
+	
+	if !SelectedObject.positiony_track_active:
+		SelectedObject.toggle_track(ObjectNode.Tracks.POSITION, true)
+	
+	var key = SelectedObject.has_keyframe_at_time(ObjectNode.Tracks.POSITION, CurrentLevelTime, false)
+	if key:
+		key.values = value
+		return
+	
+	SelectedObject.add_keyframe(ObjectNode.Tracks.POSITION, CurrentLevelTime, value, false)
+	
 
 func _on_ScaleXKey_toggled(button_pressed):
 	if SelectedObject == null: return

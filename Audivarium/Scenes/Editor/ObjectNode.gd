@@ -168,9 +168,10 @@ func snap_to_closest_layer():
 
 
 func position_Properties():
+	
+	Properties.rect_size.x = rect_size.x
 	Properties.rect_global_position = rect_global_position
 	Properties.rect_global_position.y += 56
-	Properties.rect_size.x = rect_size.x
 	
 	reposition_keyframes()
 	
@@ -267,6 +268,7 @@ func _add_track(track : int, x_track : bool = true):
 			return
 	
 	new_track.manager = manager
+	new_track.object_parent = self
 	TrackContainer.add_child(new_track)
 	new_track.set_name(n)
 	tracks.append(new_track)
@@ -331,7 +333,15 @@ func calculate_spawn_despawn_times():
 
 
 func reposition_keyframes():
-	pass
+	
+	for t in tracks:
+		
+		var time_scale = rect_size.x / (despawn_time - spawn_time)
+		
+		for k in t.keys:
+			k.rect_position.y = -3
+			k.rect_position.x = time_scale * k.time
+		
 	
 
 
@@ -339,26 +349,61 @@ func update_step(time):
 	pass 
 
 
-func add_keyframe(track, index):
+func has_keyframe_at_time(track, time, x_track : bool = true):
 	
+	var t
 	match track:
 		Tracks.BULLET_SOLID:
-			pass
+			t = bullet_track
 		Tracks.COLOR:
-			pass
+			t = color_track
 		Tracks.DESTRUCTABLE:
-			pass
+			t = destructable_track
 		Tracks.PARENT:
-			pass
+			t = parent_track
 		Tracks.POSITION:
-			pass
+			t = positionx_track if x_track else positiony_track
 		Tracks.SCALE:
-			pass
+			t = scalex_track if x_track else scaley_track
 		Tracks.Z_INDEX:
-			pass
+			t = z_track
 		_:
-			pass
+			return false
 	
+	var local_time = time - spawn_time
+	
+	for x in t.keys:
+		if x.time == local_time: return x
+	return false
+
+
+func add_keyframe(track, _time, values = [0], x_track : bool = true):
+	var time = _time - spawn_time
+	match track:
+		Tracks.BULLET_SOLID:
+			bullet_track.add_keyframe(values, time)
+		Tracks.COLOR:
+			color_track.add_keyframe(values, time)
+		Tracks.DESTRUCTABLE:
+			destructable_track.add_keyframe(values, time)
+		Tracks.PARENT:
+			parent_track.add_keyframe(values, time)
+		Tracks.Z_INDEX:
+			z_track.add_keyframe(values, time)
+		Tracks.POSITION:
+			if x_track:
+				positionx_track.add_keyframe(values, time)
+			else:
+				positiony_track.add_keyframe(values, time)
+		Tracks.SCALE:
+			if x_track:
+				scalex_track.add_keyframe(values, time)
+			else:
+				scaley_track.add_keyframe(values, time)
+		_:
+			return
+	
+
 
 func remove_keyframe(track, index):
 	
@@ -381,6 +426,23 @@ func remove_keyframe(track, index):
 			pass
 
 
-
-
-
+func modify_keyframe(track,index):
+	
+	match track:
+		Tracks.BULLET_SOLID:
+			pass
+		Tracks.COLOR:
+			pass
+		Tracks.DESTRUCTABLE:
+			pass
+		Tracks.PARENT:
+			pass
+		Tracks.POSITION:
+			pass
+		Tracks.SCALE:
+			pass
+		Tracks.Z_INDEX:
+			pass
+		_:
+			pass
+	

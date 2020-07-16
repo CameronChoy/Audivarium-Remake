@@ -3,6 +3,7 @@ onready var KeyframeView = $VSplitContainer/KeyframePanel/Control
 onready var TrackLabel = $VSplitContainer/LabelPanel/Label
 var Keyframe = preload("res://Scenes/Editor/Keyframe.tscn")
 var manager
+var object_parent
 enum StepTypes {LINEAR, NEAREST, BEZIER}
 var step_type = StepTypes.LINEAR
 var keys = []
@@ -50,8 +51,11 @@ func get_value_in_time(_time):
 func add_keyframe(values, time):
 	var new_key = Keyframe.instance()
 	new_key.set_values(values,time)
-	var _err = new_key.connect("keyframe_selected",manager,"signal_track_focused")
+	var _err = new_key.connect("focus_entered",manager,"signal_track_focused",[self])
+	_err = new_key.connect("keyframe_selected",manager,"signal_keyframe_focused")
+	KeyframeView.add_child(new_key)
 	keys.append(new_key)
+	
 
 
 func delete_keyframe(key):
