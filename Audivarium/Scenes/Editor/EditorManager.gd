@@ -18,13 +18,14 @@ onready var ObjectEditMenu = $MarginContainer/VBoxContainer/MainUISplitter/Botto
 onready var AddPrefabButton = $MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HBoxContainer/AddPrefabButton
 onready var AddObjectButton = $MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HBoxContainer/AddObjectButton
 
-onready var TimeBar = $MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/TimelinePanel/VSplitContainer/ScrollContainer/HSplitContainer/ScrollContainer/Control/TimeBar
-onready var ObjectNodeContainer = $MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/TimelinePanel/VSplitContainer/ScrollContainer/HSplitContainer/ScrollContainer/Control/ObjectNodeContainer
-onready var TimelineView = $MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/TimelinePanel/VSplitContainer/ScrollContainer/HSplitContainer/ScrollContainer/Control
-onready var LayersContainer = $MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/TimelinePanel/VSplitContainer/ScrollContainer/HSplitContainer/LayersContainer
-onready var StartingLayer = $MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/TimelinePanel/VSplitContainer/ScrollContainer/HSplitContainer/LayersContainer/Layer
-onready var TimelineExtraSpace = $MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/TimelinePanel/VSplitContainer/ScrollContainer/HSplitContainer/LayersContainer/ExtraScrollSpace
-onready var TimelineHorizontalScroll = $MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/TimelinePanel/VSplitContainer/ScrollContainer/HSplitContainer/ScrollContainer
+onready var TimeBar = $MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/TimelinePanel/VSplitContainer/VSplitContainer/ScrollContainer/HSplitContainer/ScrollContainer/Control/TimeBar
+onready var ObjectNodeContainer = $MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/TimelinePanel/VSplitContainer/VSplitContainer/ScrollContainer/HSplitContainer/ScrollContainer/Control/ObjectNodeContainer
+onready var TimelineView = $MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/TimelinePanel/VSplitContainer/VSplitContainer/ScrollContainer/HSplitContainer/ScrollContainer/Control
+onready var TimeDisplay= $MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/TimelinePanel/VSplitContainer/VSplitContainer/TimeDisplay
+onready var LayersContainer = $MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/TimelinePanel/VSplitContainer/VSplitContainer/ScrollContainer/HSplitContainer/LayersContainer
+onready var StartingLayer = $MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/TimelinePanel/VSplitContainer/VSplitContainer/ScrollContainer/HSplitContainer/LayersContainer/Layer
+onready var TimelineExtraSpace = $MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/TimelinePanel/VSplitContainer/VSplitContainer/ScrollContainer/HSplitContainer/LayersContainer/ExtraScrollSpace
+onready var TimelineHorizontalScroll = $MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/TimelinePanel/VSplitContainer/VSplitContainer/ScrollContainer/HSplitContainer/ScrollContainer
 onready var ZoomSlider = $MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/TimelinePanel/VSplitContainer/BottomTimelineContainer/HBoxContainer/ZoomSlider
 onready var PanSlider = $MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/TimelinePanel/VSplitContainer/BottomTimelineContainer/HBoxContainer/PanSlider
 
@@ -93,13 +94,20 @@ func _ready():
 	original_min_timeline_stretch = min_timeline_stretch
 	
 	time_scale = (TimelineView.rect_min_size.x) / LevelTime
-	zoom_timeline(1/101)
+	zoom_timeline(0)
+	
+	
+	TimeDisplay.manager = self
+	TimeDisplay.timeline = TimelineView
+	TimeDisplay.update()
+	
 	
 
 func _process(_delta):
 	
 	if Simulator.size != SimulatorSize:
 		Simulator.size = SimulatorSize
+	
 	
 
 
@@ -160,12 +168,12 @@ func signal_object_name_changed(n, _object):
 
 func signal_track_focused(_track):
 	SelectedTrack = _track
-	print("track")
+	
 
 
 func signal_keyframe_focused(_keyframe):
 	SelectedKeyFrame = _keyframe
-	print("key")
+	
 
 
 func _on_TimeBar_value_changed(value):
@@ -289,7 +297,9 @@ func zoom_timeline(percent : float):
 	time_scale = (TimelineView.rect_min_size.x) / LevelTime
 	for o in object_nodes:
 		scale_object_node(o)
-	pass
+	
+	TimeDisplay.update()
+	
 
 
 func _on_ParentKey_toggled(button_pressed):
@@ -418,6 +428,9 @@ func _on_PanSlider_value_changed(value):
 	for o in object_nodes:
 		if o.Properties.visible:
 			o.position_Properties()
+	
+	TimeDisplay.update()
+	#TimeDisplay.reposition()
 	
 
 func scale_object_node(o):
