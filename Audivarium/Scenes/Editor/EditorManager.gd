@@ -99,7 +99,7 @@ func _ready():
 	
 	TimeDisplay.manager = self
 	TimeDisplay.timeline = TimelineView
-	TimeDisplay.update()
+	#TimeDisplay.update()
 	
 	
 
@@ -174,6 +174,12 @@ func signal_track_focused(_track):
 func signal_keyframe_focused(_keyframe):
 	SelectedKeyFrame = _keyframe
 	
+
+
+func signal_selected_level_time_changed():
+	for o in object_nodes:
+		#check spawn times and add to a list of active objects
+		pass
 
 
 func _on_TimeBar_value_changed(value):

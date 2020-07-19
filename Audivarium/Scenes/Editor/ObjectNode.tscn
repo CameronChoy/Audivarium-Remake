@@ -500,7 +500,7 @@ size_flags_vertical = 3
 [connection signal="focus_entered" from="Button" to="." method="Header_focus"]
 [connection signal="pressed" from="Button" to="." method="Header_pressed"]
 [connection signal="focus_entered" from="NameEdit" to="." method="focus"]
-[connection signal="focus_exited" from="NameEdit" to="." method="exit_focus"]
 [connection signal="focus_exited" from="NameEdit" to="." method="_on_NameEdit_focus_exited"]
+[connection signal="focus_exited" from="NameEdit" to="." method="exit_focus"]
 [connection signal="text_entered" from="NameEdit" to="." method="_on_NameEdit_text_entered"]
 [connection signal="focus_exited" from="Popup" to="." method="exit_focus"]

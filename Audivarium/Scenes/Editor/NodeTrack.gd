@@ -4,8 +4,10 @@ onready var TrackLabel = $VSplitContainer/LabelPanel/Label
 var Keyframe = preload("res://Scenes/Editor/Keyframe.tscn")
 var manager
 var object_parent
+enum ValueTypes {FLOAT, INTEGER, STRING, BEZIER, COLOR, PARENT}
 enum StepTypes {LINEAR, NEAREST, BEZIER}
 var step_type = StepTypes.LINEAR
+var value_type = ValueTypes.FLOAT
 var keys = []
 signal track_selected
 
@@ -55,6 +57,8 @@ func add_keyframe(values, time):
 	_err = new_key.connect("keyframe_selected",manager,"signal_keyframe_focused")
 	KeyframeView.add_child(new_key)
 	keys.append(new_key)
+	
+	new_key.rect_position.x = new_key.time * manager.time_scale
 	
 
 

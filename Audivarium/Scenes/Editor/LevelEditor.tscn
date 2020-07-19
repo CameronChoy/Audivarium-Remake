@@ -10,7 +10,7 @@
 [sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 0.172549, 0.0745098, 0.0745098, 1 )
 
-[sub_resource type="StyleBoxFlat" id=4]
+[sub_resource type="StyleBoxFlat" id=3]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
 draw_center = false
 corner_detail = 1
@@ -922,6 +922,7 @@ items = [ "Delete Selected Object", null, 0, false, false, 0, 0, null, "", false
 margin_top = 33.0
 margin_right = 1900.0
 margin_bottom = 333.0
+rect_clip_content = true
 mouse_filter = 1
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -1111,6 +1112,7 @@ margin_left = 555.0
 margin_right = 1900.0
 margin_bottom = 300.0
 rect_min_size = Vector2( 676, 0 )
+rect_clip_content = true
 mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -1131,11 +1133,32 @@ size_flags_vertical = 3
 dragger_visibility = 1
 
 [node name="TimeDisplay" type="Control" parent="MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/TimelinePanel/VSplitContainer/VSplitContainer"]
-margin_right = 1349.83
+margin_right = 1345.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 0, 25 )
-mouse_filter = 1
 script = ExtResource( 4 )
+
+[node name="TimeSelector" type="VSeparator" parent="MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/TimelinePanel/VSplitContainer/VSplitContainer/TimeDisplay"]
+margin_left = 186.0
+margin_top = 1.0
+margin_right = 188.0
+margin_bottom = 265.0
+rect_min_size = Vector2( 2, 0 )
+rect_scale = Vector2( 5.469, 1 )
+rect_pivot_offset = Vector2( 0.5, 0 )
+mouse_filter = 2
+custom_constants/separation = -330
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TimeSelectorFocus" type="Button" parent="MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/TimelinePanel/VSplitContainer/VSplitContainer/TimeDisplay"]
+modulate = Color( 1, 1, 1, 0 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/TimelinePanel/VSplitContainer/VSplitContainer"]
 margin_top = 37.0
@@ -1198,7 +1221,7 @@ visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_right = 12.0
-custom_styles/scroll = SubResource( 4 )
+custom_styles/scroll = SubResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -1298,6 +1321,13 @@ current_path = "/Users/Cam/Documents/Audivarium/"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Button" type="Button" parent="."]
+margin_right = 12.0
+margin_bottom = 20.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="pressed" from="MarginContainer/VBoxContainer/MenuContainer/ExitButton" to="." method="_on_ExitButton_pressed"]
 [connection signal="toggled" from="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/ParentKey" to="." method="_on_ParentKey_toggled"]
 [connection signal="item_selected" from="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/ParentContainer/ParentInput" to="." method="_on_ParentInput_item_selected"]
@@ -1322,6 +1352,8 @@ __meta__ = {
 [connection signal="pressed" from="MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HBoxContainer/AddObjectButton" to="." method="_on_AddObjectButton_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HBoxContainer/AddLayerButton" to="." method="_on_AddLayerButton_pressed"]
 [connection signal="dragged" from="MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer" to="." method="_on_HSplitContainer_dragged"]
+[connection signal="button_down" from="MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/TimelinePanel/VSplitContainer/VSplitContainer/TimeDisplay/TimeSelectorFocus" to="MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/TimelinePanel/VSplitContainer/VSplitContainer/TimeDisplay" method="_on_TimeSelectorFocus_button_down"]
+[connection signal="button_up" from="MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/TimelinePanel/VSplitContainer/VSplitContainer/TimeDisplay/TimeSelectorFocus" to="MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/TimelinePanel/VSplitContainer/VSplitContainer/TimeDisplay" method="_on_TimeSelectorFocus_button_up"]
 [connection signal="value_changed" from="MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/TimelinePanel/VSplitContainer/VSplitContainer/ScrollContainer/HSplitContainer/ScrollContainer/Control/TimeBar" to="." method="_on_TimeBar_value_changed"]
 [connection signal="value_changed" from="MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/TimelinePanel/VSplitContainer/BottomTimelineContainer/HBoxContainer/ZoomSlider" to="." method="_on_ZoomSlider_value_changed"]
 [connection signal="value_changed" from="MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/TimelinePanel/VSplitContainer/BottomTimelineContainer/HBoxContainer/PanSlider" to="." method="_on_PanSlider_value_changed"]

@@ -88,8 +88,8 @@ func set_name(new : String):
 
 func set_manager(new):
 	manager = new
-	(connect("object_focused",manager,"signal_object_focused",[self]))
-	(connect("object_name_changed",manager,"signal_object_name_changed",[self]))
+	var _err = (connect("object_focused",manager,"signal_object_focused",[self]))
+	_err = (connect("object_name_changed",manager,"signal_object_name_changed",[self]))
 
 
 func set_parent(new):
@@ -110,7 +110,7 @@ func exit_focus():
 
 
 func Header_focus():
-	emit_signal("object_focused")
+	#emit_signal("object_focused")
 	#position_Properties()
 	#Properties.visible = !Properties.visible
 	if !is_processing():
