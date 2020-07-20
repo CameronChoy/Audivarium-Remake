@@ -43,6 +43,33 @@ onready var DestructableTrackKey = $MarginContainer/VBoxContainer/MainUISplitter
 onready var BulletSolidTrackKey = $MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/BulletSolidKey
 onready var ZIndexTrackKey = $MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/ZIndexKey
 
+onready var InspectorValueTime = $MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/TimeValue
+onready var InspectorInputTimeLineEdit = $MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/TimeValue/HSplitContainer/LineEdit
+onready var InspectorInputTimeSlider = $MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/TimeValue/HSlider
+onready var InspectorValue1 = $MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/Value1
+onready var InspectorInput1 = $MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/Value1/ValueInput1
+onready var InspectorValue2 = $MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/Value2
+onready var InspectorInput2 = $MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/Value2/ValueInput2
+onready var InspectorValue3 = $MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/Value3
+onready var InspectorInput3 = $MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/Value3/ValueInput3
+onready var InspectorValue4 = $MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/Value4
+onready var InspectorInput4 = $MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/Value4/ValueInput4
+onready var InspectorValue5 = $MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/Value5
+onready var InspectorInput5 = $MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/Value5/ValueInput5
+onready var InspectorValue6 = $MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/Value6
+onready var InspectorInput6 = $MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/Value6/ValueInput6
+onready var InspectorValue7 = $MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/Value7
+onready var InspectorInput7 = $MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/Value7/ValueInput7
+onready var InspectorValue8 = $MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/Value8
+onready var InspectorInput8 = $MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/Value8/ValueInput8
+onready var InspectorValueColor = $MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/ColorValue
+onready var InspectorInputColor = $MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/ColorValue/ColorPickerButton
+onready var InspectorValueParent = $MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/ParentValue
+onready var InspectorInputParent = $MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/ParentValue/OptionButton
+onready var InspectorValueStep = $MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/StepValue
+onready var InspectorInputStep = $MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/StepValue/OptionButton
+var InspectorValues
+
 enum FileOptions {IMPORT_SONG = 0, IMPORT_LEVEL = 1, SAVE = 2, TEST = 3, EXPORT = 4}
 enum ObjectEditOptions {DELETE = 0}
 
@@ -77,12 +104,19 @@ var CopiedKeyFrame
 
 var SelectedShape
 
+var PreviouslySelected
+
 func _ready():
 	
 	Input.set_custom_mouse_cursor(null)
 	CrossHair.hide_crosshair()
 	
 	SimulatorCamera.position = OS.get_screen_size()/2
+	
+	InspectorValues = [InspectorValueTime,
+	InspectorValue1, InspectorValue2, InspectorValue3, InspectorValue4, 
+	InspectorValue5, InspectorValue6, InspectorValue7, InspectorValue8,
+	InspectorValueColor, InspectorValueParent, InspectorValueStep]
 	
 	var _err
 	_err = ObjectEditMenu.get_popup().connect("id_pressed",self,"ObjectEditMenuSelected")
@@ -145,6 +179,8 @@ func add_object_node(object : PackedScene = DefaultObject, object_name : String 
 
 func signal_object_focused(_object):
 	SelectedObject = _object
+	PreviouslySelected = _object
+	
 	PropertiesSelectedLabel.text = _object.name
 	
 	ParentTrackKey.pressed = _object.parent_track_active
@@ -168,11 +204,26 @@ func signal_object_name_changed(n, _object):
 
 func signal_track_focused(_track):
 	SelectedTrack = _track
+	#PreviouslySelected = _track
 	
 
 
 func signal_keyframe_focused(_keyframe):
 	SelectedKeyFrame = _keyframe
+	PreviouslySelected = _keyframe
+	
+	hide_inspector_values()
+	match SelectedTrack.value_type:
+		NodeTrack.ValueTypes.FLOAT, NodeTrack.ValueTypes.INTEGER:
+			InspectorValue1.show()
+			InspectorInput1.text = str(SelectedKeyFrame.values[0])
+			
+		NodeTrack.ValueTypes.STRING:
+			pass
+		NodeTrack.ValueTypes.PARENT:
+			pass
+		NodeTrack.ValueTypes.COLOR:
+			pass
 	
 
 
@@ -180,6 +231,11 @@ func signal_selected_level_time_changed():
 	for o in object_nodes:
 		#check spawn times and add to a list of active objects
 		pass
+
+
+func hide_inspector_values():
+	for i in InspectorValues:
+		i.hide()
 
 
 func _on_TimeBar_value_changed(value):
@@ -331,10 +387,10 @@ func _on_PosXInput_value_changed(value):
 	
 	var key = SelectedObject.has_keyframe_at_time(ObjectNode.Tracks.POSITION, CurrentLevelTime)
 	if key:
-		key.values = value
+		key.values = [value]
 		return
 	
-	SelectedObject.add_keyframe(ObjectNode.Tracks.POSITION, CurrentLevelTime, value)
+	SelectedObject.add_keyframe(ObjectNode.Tracks.POSITION, CurrentLevelTime, [value])
 	
 
 
@@ -351,10 +407,10 @@ func _on_PosYInput_value_changed(value):
 	
 	var key = SelectedObject.has_keyframe_at_time(ObjectNode.Tracks.POSITION, CurrentLevelTime, false)
 	if key:
-		key.values = value
+		key.values = [value]
 		return
 	
-	SelectedObject.add_keyframe(ObjectNode.Tracks.POSITION, CurrentLevelTime, value, false)
+	SelectedObject.add_keyframe(ObjectNode.Tracks.POSITION, CurrentLevelTime, [value], false)
 	
 
 func _on_ScaleXKey_toggled(button_pressed):
@@ -448,3 +504,7 @@ func scale_object_node(o):
 	if o.Properties.visible:
 		o.position_Properties()
 	
+
+func _input(event):
+	if event.is_action_pressed("delete"):
+		pass

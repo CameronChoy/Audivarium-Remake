@@ -1,4 +1,5 @@
 extends MarginContainer
+class_name NodeTrack
 onready var KeyframeView = $VSplitContainer/KeyframePanel/Control
 onready var TrackLabel = $VSplitContainer/LabelPanel/Label
 var Keyframe = preload("res://Scenes/Editor/Keyframe.tscn")
