@@ -230,20 +230,25 @@ func _add_track(track : int, x_track : bool = true):
 		Tracks.BULLET_SOLID:
 			n = "Bullet Solid"
 			bullet_track = new_track
+			new_track.value_type = NodeTrack.ValueTypes.BOOLEAN
 		Tracks.COLOR:
 			n = "Color"
 			color_track = new_track
+			new_track.value_type = NodeTrack.ValueTypes.COLOR
 		Tracks.DESTRUCTABLE:
 			n = "Destructable"
 			destructable_track = new_track
+			new_track.value_type = NodeTrack.ValueTypes.BOOLEAN
 		Tracks.PARENT:
 			n = "Parent"
 			parent_track = new_track
+			new_track.value_type = NodeTrack.ValueTypes.STRING
 		Tracks.ROTATION:
 			n = "Rotation"
 			rotation_track = new_track
+			new_track.value_type = NodeTrack.ValueTypes.FLOAT
 		Tracks.POSITION:
-			
+			new_track.value_type = NodeTrack.ValueTypes.FLOAT
 			if x_track:
 				n = "Position X"
 				positionx_track = new_track
@@ -252,7 +257,7 @@ func _add_track(track : int, x_track : bool = true):
 				positiony_track = new_track
 			
 		Tracks.SCALE:
-			
+			new_track.value_type = NodeTrack.ValueTypes.FLOAT
 			if x_track:
 				n = "Scale  X"
 				scalex_track = new_track
@@ -264,6 +269,7 @@ func _add_track(track : int, x_track : bool = true):
 		Tracks.Z_INDEX:
 			n = "Z Index"
 			z_track = new_track
+			new_track.value_type = NodeTrack.ValueTypes.INTEGER
 		_:
 			return
 	

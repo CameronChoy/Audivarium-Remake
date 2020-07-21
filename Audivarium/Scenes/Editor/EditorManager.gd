@@ -33,6 +33,7 @@ onready var PropertiesContainer = $MarginContainer/VBoxContainer/MainUISplitter/
 onready var PropertiesSelectedLabel = $MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ObjectNameLabel
 
 onready var ParentTrackKey = $MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/ParentKey
+onready var ParentInput = $MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/ParentContainer/ParentInput
 onready var PosXTrackKey = $MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/PosXKey
 onready var PosYTrackKey = $MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/PosYKey
 onready var RotationTrackKey = $MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/RotationKey
@@ -44,8 +45,9 @@ onready var BulletSolidTrackKey = $MarginContainer/VBoxContainer/MainUISplitter/
 onready var ZIndexTrackKey = $MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/ZIndexKey
 
 onready var InspectorValueTime = $MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/TimeValue
-onready var InspectorInputTimeLineEdit = $MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/TimeValue/HSplitContainer/LineEdit
-onready var InspectorInputTimeSlider = $MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/TimeValue/HSlider
+onready var InspectorInputTimeInput = $MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/TimeValue/HSplitContainer/TimeInput
+onready var InspectorInputTimeSlider = $MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/TimeValue/TimeSlider
+
 onready var InspectorValue1 = $MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/Value1
 onready var InspectorInput1 = $MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/Value1/ValueInput1
 onready var InspectorValue2 = $MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/Value2
@@ -145,6 +147,11 @@ func _process(_delta):
 	
 
 
+func _input(event):
+	if event.is_action_pressed("delete"):
+		pass
+
+
 func save_level():
 	pass
 
@@ -211,19 +218,7 @@ func signal_track_focused(_track):
 func signal_keyframe_focused(_keyframe):
 	SelectedKeyFrame = _keyframe
 	PreviouslySelected = _keyframe
-	
-	hide_inspector_values()
-	match SelectedTrack.value_type:
-		NodeTrack.ValueTypes.FLOAT, NodeTrack.ValueTypes.INTEGER:
-			InspectorValue1.show()
-			InspectorInput1.text = str(SelectedKeyFrame.values[0])
-			
-		NodeTrack.ValueTypes.STRING:
-			pass
-		NodeTrack.ValueTypes.PARENT:
-			pass
-		NodeTrack.ValueTypes.COLOR:
-			pass
+	_update_inspector_values()
 	
 
 
@@ -231,6 +226,22 @@ func signal_selected_level_time_changed():
 	for o in object_nodes:
 		#check spawn times and add to a list of active objects
 		pass
+
+
+func _update_inspector_values():
+	if !SelectedTrack: return
+	hide_inspector_values()
+	match SelectedTrack.value_type:
+		NodeTrack.ValueTypes.FLOAT, NodeTrack.ValueTypes.INTEGER:
+			InspectorValue1.show()
+			InspectorInput1.value = float(SelectedKeyFrame.values[0])
+			
+		NodeTrack.ValueTypes.STRING:
+			pass
+		NodeTrack.ValueTypes.PARENT:
+			pass
+		NodeTrack.ValueTypes.COLOR:
+			pass
 
 
 func hide_inspector_values():
@@ -364,6 +375,28 @@ func zoom_timeline(percent : float):
 	
 
 
+func _update_parents_lists():
+	ParentInput.clear()
+	InspectorInputParent.clear()
+	
+	for i in range(object_nodes.size()):
+		ParentInput.add_item(object_nodes[i].name, i)
+		InspectorInputParent.add_item(object_nodes[i].name, i)
+	
+
+
+func _modify_track(track : int, value = [0], x_track : bool = true):
+	if CurrentLevelTime < SelectedObject.spawn_time or CurrentLevelTime > SelectedObject.despawn_time: return
+	var key = SelectedObject.has_keyframe_at_time(track, CurrentLevelTime, x_track)
+	if key:
+		key.values = [value]
+		return
+	
+	SelectedObject.add_keyframe(track, CurrentLevelTime, value, x_track)
+	_update_inspector_values()
+	
+
+
 func _on_ParentKey_toggled(button_pressed):
 	if SelectedObject == null: return
 	SelectedObject.toggle_track(ObjectNode.Tracks.PARENT, button_pressed)
@@ -385,12 +418,7 @@ func _on_PosXInput_value_changed(value):
 	if !SelectedObject.positionx_track_active:
 		SelectedObject.toggle_track(ObjectNode.Tracks.POSITION, true)
 	
-	var key = SelectedObject.has_keyframe_at_time(ObjectNode.Tracks.POSITION, CurrentLevelTime)
-	if key:
-		key.values = [value]
-		return
-	
-	SelectedObject.add_keyframe(ObjectNode.Tracks.POSITION, CurrentLevelTime, [value])
+	_modify_track(ObjectNode.Tracks.POSITION, [value])
 	
 
 
@@ -405,12 +433,7 @@ func _on_PosYInput_value_changed(value):
 	if !SelectedObject.positiony_track_active:
 		SelectedObject.toggle_track(ObjectNode.Tracks.POSITION, true)
 	
-	var key = SelectedObject.has_keyframe_at_time(ObjectNode.Tracks.POSITION, CurrentLevelTime, false)
-	if key:
-		key.values = [value]
-		return
-	
-	SelectedObject.add_keyframe(ObjectNode.Tracks.POSITION, CurrentLevelTime, [value], false)
+	_modify_track(ObjectNode.Tracks.POSITION, [value], false)
 	
 
 func _on_ScaleXKey_toggled(button_pressed):
@@ -420,6 +443,12 @@ func _on_ScaleXKey_toggled(button_pressed):
 
 func _on_ScaleXInput_value_changed(value):
 	if SelectedObject == null: return
+	
+	if !SelectedObject.scalex_track_active:
+		SelectedObject.toggle_track(ObjectNode.Tracks.SCALE, true)
+	
+	_modify_track(ObjectNode.Tracks.SCALE, [value])
+	
 
 
 func _on_ScaleYKey_toggled(button_pressed):
@@ -429,7 +458,12 @@ func _on_ScaleYKey_toggled(button_pressed):
 
 func _on_ScaleYInput_value_changed(value):
 	if SelectedObject == null: return
-
+	
+	if !SelectedObject.scaly_track_active:
+		SelectedObject.toggle_track(ObjectNode.Tracks.SCALE, true)
+	
+	_modify_track(ObjectNode.Tracks.SCALE, [value], false)
+	
 
 func _on_RotationKey_toggled(button_pressed):
 	if SelectedObject == null: return
@@ -438,6 +472,12 @@ func _on_RotationKey_toggled(button_pressed):
 
 func _on_RotationInput_value_changed(value):
 	if SelectedObject == null: return
+	
+	if !SelectedObject.rotation_track_active:
+		SelectedObject.toggle_track(ObjectNode.Tracks.ROTATION, true)
+	
+	_modify_track(ObjectNode.Tracks.ROTATION, [value])
+	
 
 
 func _on_ColorKey_toggled(button_pressed):
@@ -447,6 +487,12 @@ func _on_ColorKey_toggled(button_pressed):
 
 func _on_ColorInput_color_changed(color):
 	if SelectedObject == null: return
+	
+	if !SelectedObject.color_track_active:
+		SelectedObject.toggle_track(ObjectNode.Tracks.COLOR, true)
+	
+	_modify_track(ObjectNode.Tracks.COLOR, [color])
+	
 
 
 func _on_DestructableKey_toggled(button_pressed):
@@ -456,6 +502,12 @@ func _on_DestructableKey_toggled(button_pressed):
 
 func _on_DestructableInput_toggled(button_pressed):
 	if SelectedObject == null: return
+	
+	if !SelectedObject.destructable_track_active:
+		SelectedObject.toggle_track(ObjectNode.Tracks.DESTRUCTABLE, true)
+	
+	_modify_track(ObjectNode.Tracks.DESTRUCTABLE, [button_pressed])
+	
 
 
 func _on_BulletSolidKey_toggled(button_pressed):
@@ -465,6 +517,12 @@ func _on_BulletSolidKey_toggled(button_pressed):
 
 func _on_BulletSolidInput_toggled(button_pressed):
 	if SelectedObject == null: return
+	
+	if !SelectedObject.bullet_track_active:
+		SelectedObject.toggle_track(ObjectNode.Tracks.BULLET_SOLID, true)
+	
+	_modify_track(ObjectNode.Tracks.BULLET_SOLID, [button_pressed])
+	
 
 
 func _on_Z_Index_Key_toggled(button_pressed):
@@ -474,6 +532,12 @@ func _on_Z_Index_Key_toggled(button_pressed):
 
 func _on_ZInput_value_changed(value):
 	if SelectedObject == null: return
+	
+	if !SelectedObject.z_track_active:
+		SelectedObject.toggle_track(ObjectNode.Tracks.Z_INDEX, true)
+	
+	_modify_track(ObjectNode.Tracks.Z_INDEX, [value])
+	
 
 
 func _on_HSplitContainer_dragged(offset):
@@ -495,6 +559,7 @@ func _on_PanSlider_value_changed(value):
 	#TimeDisplay.reposition()
 	
 
+
 func scale_object_node(o):
 	
 	o.rect_position.x = (time_scale * o.spawn_time)
@@ -505,6 +570,54 @@ func scale_object_node(o):
 		o.position_Properties()
 	
 
-func _input(event):
-	if event.is_action_pressed("delete"):
-		pass
+
+func _on_TimeInput_value_changed(value):
+	pass # Replace with function body.
+
+
+func _on_TimeSlider_value_changed(value):
+	pass # Replace with function body.
+
+
+func _on_ValueInput1_value_changed(value):
+	pass # Replace with function body.
+
+
+func _on_ValueInput2_value_changed(value):
+	pass # Replace with function body.
+
+
+func _on_ValueInput3_value_changed(value):
+	pass # Replace with function body.
+
+
+func _on_ValueInput4_value_changed(value):
+	pass # Replace with function body.
+
+
+func _on_ValueInput5_value_changed(value):
+	pass # Replace with function body.
+
+
+func _on_ValueInput6_value_changed(value):
+	pass # Replace with function body.
+
+
+func _on_ValueInput7_value_changed(value):
+	pass # Replace with function body.
+
+
+func _on_ValueInput8_value_changed(value):
+	pass # Replace with function body.
+
+#Inspector Color
+func _on_ColorPickerButton_color_changed(color):
+	pass # Replace with function body.
+
+#Inspector StepValue
+func _on_OptionButton_item_selected(index):
+	pass # Replace with function body.
+
+
+func _on_InspectorParentInput_item_selected(index):
+	pass # Replace with function body.

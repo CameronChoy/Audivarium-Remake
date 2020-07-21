@@ -5,7 +5,7 @@ onready var TrackLabel = $VSplitContainer/LabelPanel/Label
 var Keyframe = preload("res://Scenes/Editor/Keyframe.tscn")
 var manager
 var object_parent
-enum ValueTypes {FLOAT, INTEGER, STRING, BEZIER, COLOR, PARENT}
+enum ValueTypes {FLOAT, INTEGER, BOOLEAN, STRING, BEZIER, COLOR}
 enum StepTypes {LINEAR, NEAREST, BEZIER}
 var step_type = StepTypes.LINEAR
 var value_type = ValueTypes.FLOAT

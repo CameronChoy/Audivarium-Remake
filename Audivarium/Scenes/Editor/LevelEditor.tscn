@@ -605,8 +605,9 @@ rect_min_size = Vector2( 0, 25 )
 dragger_visibility = 1
 
 [node name="HSplitContainer" type="HSplitContainer" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/TimeValue"]
-margin_right = 102.0
+margin_right = 118.0
 margin_bottom = 25.0
+size_flags_horizontal = 3
 dragger_visibility = 1
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/TimeValue/HSplitContainer"]
@@ -615,17 +616,17 @@ margin_right = 32.0
 margin_bottom = 19.0
 text = "Time"
 
-[node name="LineEdit" type="LineEdit" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/TimeValue/HSplitContainer"]
+[node name="TimeInput" type="SpinBox" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/TimeValue/HSplitContainer"]
 margin_left = 44.0
-margin_right = 102.0
+margin_right = 118.0
 margin_bottom = 25.0
-text = "0"
-align = 1
 
-[node name="HSlider" type="HSlider" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/TimeValue"]
-margin_left = 114.0
+[node name="TimeSlider" type="HSlider" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/TimeValue"]
+margin_left = 130.0
 margin_right = 412.0
 margin_bottom = 16.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.5
 scrollable = false
 
 [node name="Value1" type="HSplitContainer" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
@@ -641,7 +642,7 @@ margin_right = 47.0
 margin_bottom = 19.0
 text = "Value 1"
 
-[node name="ValueInput1" type="LineEdit" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/Value1"]
+[node name="ValueInput1" type="SpinBox" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/Value1"]
 margin_left = 59.0
 margin_right = 412.0
 margin_bottom = 25.0
@@ -659,7 +660,7 @@ margin_right = 47.0
 margin_bottom = 19.0
 text = "Value 2"
 
-[node name="ValueInput2" type="LineEdit" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/Value2"]
+[node name="ValueInput2" type="SpinBox" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/Value2"]
 margin_left = 59.0
 margin_right = 412.0
 margin_bottom = 25.0
@@ -677,7 +678,7 @@ margin_right = 47.0
 margin_bottom = 19.0
 text = "Value 3"
 
-[node name="ValueInput3" type="LineEdit" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/Value3"]
+[node name="ValueInput3" type="SpinBox" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/Value3"]
 margin_left = 59.0
 margin_right = 412.0
 margin_bottom = 25.0
@@ -695,7 +696,7 @@ margin_right = 47.0
 margin_bottom = 19.0
 text = "Value 4"
 
-[node name="ValueInput4" type="LineEdit" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/Value4"]
+[node name="ValueInput4" type="SpinBox" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/Value4"]
 margin_left = 59.0
 margin_right = 412.0
 margin_bottom = 25.0
@@ -713,7 +714,7 @@ margin_right = 47.0
 margin_bottom = 19.0
 text = "Value 5"
 
-[node name="ValueInput5" type="LineEdit" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/Value5"]
+[node name="ValueInput5" type="SpinBox" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/Value5"]
 margin_left = 59.0
 margin_right = 412.0
 margin_bottom = 25.0
@@ -731,7 +732,7 @@ margin_right = 47.0
 margin_bottom = 19.0
 text = "Value 6"
 
-[node name="ValueInput6" type="LineEdit" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/Value6"]
+[node name="ValueInput6" type="SpinBox" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/Value6"]
 margin_left = 59.0
 margin_right = 412.0
 margin_bottom = 25.0
@@ -749,7 +750,7 @@ margin_right = 47.0
 margin_bottom = 19.0
 text = "Value 7"
 
-[node name="ValueInput7" type="LineEdit" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/Value7"]
+[node name="ValueInput7" type="SpinBox" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/Value7"]
 margin_left = 59.0
 margin_right = 412.0
 margin_bottom = 25.0
@@ -767,7 +768,7 @@ margin_right = 47.0
 margin_bottom = 19.0
 text = "Value 8"
 
-[node name="ValueInput8" type="LineEdit" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/Value8"]
+[node name="ValueInput8" type="SpinBox" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/Value8"]
 margin_left = 59.0
 margin_right = 412.0
 margin_bottom = 25.0
@@ -1361,6 +1362,7 @@ __meta__ = {
 }
 [connection signal="pressed" from="MarginContainer/VBoxContainer/MenuContainer/ExitButton" to="." method="_on_ExitButton_pressed"]
 [connection signal="toggled" from="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/ParentKey" to="." method="_on_ParentKey_toggled"]
+[connection signal="focus_entered" from="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/ParentContainer/ParentInput" to="." method="_update_parents_lists"]
 [connection signal="item_selected" from="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/ParentContainer/ParentInput" to="." method="_on_ParentInput_item_selected"]
 [connection signal="toggled" from="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/PosXKey" to="." method="_on_PosXKey_toggled"]
 [connection signal="value_changed" from="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/PosXContainer/PosXInput" to="." method="_on_PosXInput_value_changed"]
@@ -1380,6 +1382,20 @@ __meta__ = {
 [connection signal="toggled" from="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/BulletSolidContainer/BulletSolidInput" to="." method="_on_BulletSolidInput_toggled"]
 [connection signal="toggled" from="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/ZIndexKey" to="." method="_on_Z_Index_Key_toggled"]
 [connection signal="value_changed" from="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/ZIndexContainer/ZInput" to="." method="_on_ZInput_value_changed"]
+[connection signal="value_changed" from="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/TimeValue/HSplitContainer/TimeInput" to="." method="_on_TimeInput_value_changed"]
+[connection signal="value_changed" from="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/TimeValue/TimeSlider" to="." method="_on_TimeSlider_value_changed"]
+[connection signal="value_changed" from="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/Value1/ValueInput1" to="." method="_on_ValueInput1_value_changed"]
+[connection signal="value_changed" from="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/Value2/ValueInput2" to="." method="_on_ValueInput2_value_changed"]
+[connection signal="value_changed" from="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/Value3/ValueInput3" to="." method="_on_ValueInput3_value_changed"]
+[connection signal="value_changed" from="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/Value4/ValueInput4" to="." method="_on_ValueInput4_value_changed"]
+[connection signal="value_changed" from="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/Value5/ValueInput5" to="." method="_on_ValueInput5_value_changed"]
+[connection signal="value_changed" from="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/Value6/ValueInput6" to="." method="_on_ValueInput6_value_changed"]
+[connection signal="value_changed" from="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/Value7/ValueInput7" to="." method="_on_ValueInput7_value_changed"]
+[connection signal="value_changed" from="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/Value8/ValueInput8" to="." method="_on_ValueInput8_value_changed"]
+[connection signal="color_changed" from="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/ColorValue/ColorPickerButton" to="." method="_on_ColorPickerButton_color_changed"]
+[connection signal="focus_entered" from="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/ParentValue/OptionButton" to="." method="_update_parents_lists"]
+[connection signal="item_selected" from="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/ParentValue/OptionButton" to="." method="_on_InspectorParentInput_item_selected"]
+[connection signal="item_selected" from="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/StepValue/OptionButton" to="." method="_on_OptionButton_item_selected"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HBoxContainer/AddObjectButton" to="." method="_on_AddObjectButton_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HBoxContainer/AddLayerButton" to="." method="_on_AddLayerButton_pressed"]
 [connection signal="dragged" from="MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer" to="." method="_on_HSplitContainer_dragged"]
