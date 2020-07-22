@@ -11,7 +11,7 @@ var displacement
 var original_position
 var current_position
 var dragging = false
-var deadzone = 5
+
 const KEYFRAME_SIZE = Vector2(10,24)
 onready var parent = get_parent()
 
@@ -77,6 +77,12 @@ func _ready():
 				
 			
 		
+	
+	positionx_track.active = true
+	positiony_track.active = true
+	scalex_track.active = true
+	scaley_track.active = true
+	rotation_track.active = true
 	
 
 
@@ -199,7 +205,7 @@ func _process(_delta):
 	if dragging:
 		rect_global_position = get_global_mouse_position() - displacement
 		snap_to_closest_layer()
-	elif (get_global_mouse_position() - original_position).length_squared() > deadzone * deadzone:
+	elif (get_global_mouse_position() - original_position).length_squared() > manager.deadzone * manager.deadzone:
 		dragging = true
 		Properties.hide()
 		
@@ -289,38 +295,48 @@ func toggle_track(track : int, active : bool, x_track : bool = true):
 		Tracks.BULLET_SOLID:
 			bullet_track.visible = active
 			bullet_track_active = active
+			bullet_track.active = active
 		Tracks.COLOR:
 			color_track.visible = active
 			color_track_active = active
+			color_track.active = active
 		Tracks.DESTRUCTABLE:
 			destructable_track.visible = active
 			destructable_track_active = active
+			destructable_track.active = active
 		Tracks.PARENT:
 			parent_track.visible = active
 			parent_track_active = active
+			parent_track.active = active
 		Tracks.Z_INDEX:
 			z_track.visible = active
 			z_track_active = active
+			z_track.active = active
 		Tracks.ROTATION:
 			rotation_track.visible = active
 			rotation_track_active = active
+			rotation_track.active = active
 		Tracks.POSITION:
 			
 			if x_track:
 				positionx_track.visible = active
 				positionx_track_active = active
+				positionx_track.active = active
 			else:
 				positiony_track.visible = active
 				positiony_track_active = active
+				positiony_track.active = active
 		
 		Tracks.SCALE:
 			
 			if x_track:
 				scalex_track.visible = active
 				scalex_track_active = active
+				scalex_track.active = active
 			else:
 				scaley_track.visible = active
 				scaley_track_active = active
+				scaley_track.active = active
 			
 		
 		_:
@@ -353,6 +369,10 @@ func reposition_keyframes():
 
 func update_step(time):
 	pass 
+
+
+func get_step(time):
+	pass
 
 
 func has_keyframe_at_time(track, time, x_track : bool = true):

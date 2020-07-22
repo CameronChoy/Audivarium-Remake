@@ -4,6 +4,8 @@ onready var TimeSelector = $TimeSelector
 
 var manager
 var timeline
+var snap = 0.5
+var snap_enabled = false
 var font = preload("res://Fonts/typerighter/typewriter.tres")
 var time_differences = [0.01, 0.05, 0.1, 0.25, 0.5, 1, 2, 5, 10]
 signal selected_level_time_changed
@@ -63,7 +65,13 @@ func _on_TimeSelectorFocus_button_up():
 	set_process(false)
 
 func _process(_delta):
-	TimeSelector.rect_position.x = clamp(get_local_mouse_position().x, 0,rect_size.x)
-	manager.CurrentLevelTime = TimeSelector.rect_position.x / manager.time_scale
+	
+	var pos = clamp(get_local_mouse_position().x, 0,rect_size.x)
+	if snap_enabled:
+		pos = stepify(pos, snap * manager.time_scale)
+	
+	TimeSelector.rect_position.x = pos
+	manager.CurrentLevelTime = pos / manager.time_scale
 	emit_signal("selected_level_time_changed")
 	
+

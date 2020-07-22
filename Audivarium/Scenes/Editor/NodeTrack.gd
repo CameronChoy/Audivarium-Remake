@@ -4,6 +4,7 @@ onready var KeyframeView = $VSplitContainer/KeyframePanel/Control
 onready var TrackLabel = $VSplitContainer/LabelPanel/Label
 var Keyframe = preload("res://Scenes/Editor/Keyframe.tscn")
 var manager
+var active = false
 var object_parent
 enum ValueTypes {FLOAT, INTEGER, BOOLEAN, STRING, BEZIER, COLOR}
 enum StepTypes {LINEAR, NEAREST, BEZIER}
@@ -69,6 +70,31 @@ func delete_keyframe(key):
 
 func set_steptype(new):
 	step_type = new
+	
+	match step_type:
+		StepTypes.LINEAR:
+			bezier_conversion(false)
+		StepTypes.BEZIER:
+			bezier_conversion(true)
+	
+
+
+func bezier_conversion(to_bezier : bool):
+	
+	var new_keys = []
+	
+	if to_bezier:
+		for k in keys:
+			var new_key = Keyframe.instance()
+			new_key.set_values([-0.25,0,k.values,0.25,0], k.time)
+			
+			new_keys.append(new_key)
+	else:
+		for i in range(2,keys.size(),5):
+			new_keys.append(keys[i])
+	
+	keys = new_keys
+	
 
 
 func bezier(p1, p2, p3, p4, t : float):

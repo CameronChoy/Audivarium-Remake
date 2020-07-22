@@ -18,7 +18,7 @@ onready var ObjectEditMenu = $MarginContainer/VBoxContainer/MainUISplitter/Botto
 onready var AddPrefabButton = $MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HBoxContainer/AddPrefabButton
 onready var AddObjectButton = $MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HBoxContainer/AddObjectButton
 
-onready var TimeBar = $MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/TimelinePanel/VSplitContainer/VSplitContainer/ScrollContainer/HSplitContainer/ScrollContainer/Control/TimeBar
+#onready var TimeBar = $MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/TimelinePanel/VSplitContainer/VSplitContainer/ScrollContainer/HSplitContainer/ScrollContainer/Control/TimeBar
 onready var ObjectNodeContainer = $MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/TimelinePanel/VSplitContainer/VSplitContainer/ScrollContainer/HSplitContainer/ScrollContainer/Control/ObjectNodeContainer
 onready var TimelineView = $MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/TimelinePanel/VSplitContainer/VSplitContainer/ScrollContainer/HSplitContainer/ScrollContainer/Control
 onready var TimeDisplay= $MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/TimelinePanel/VSplitContainer/VSplitContainer/TimeDisplay
@@ -77,6 +77,7 @@ enum ObjectEditOptions {DELETE = 0}
 
 const SimulatorSize = Vector2(1920,1080)
 const MAX_ITERATIONS = 35
+var deadzone = 5
 
 var LevelTime = 10
 var CurrentLevelTime = 0
@@ -86,7 +87,6 @@ var history = []
 var layers = []
 var layer_node = preload("res://Scenes/Editor/Layer.tscn")
 
-var snap = 0.5
 var zoom_level = 0
 var time_scale = 1
 
@@ -234,7 +234,7 @@ func _update_inspector_values():
 	match SelectedTrack.value_type:
 		NodeTrack.ValueTypes.FLOAT, NodeTrack.ValueTypes.INTEGER:
 			InspectorValue1.show()
-			InspectorInput1.value = float(SelectedKeyFrame.values[0])
+			InspectorInput1.value = (SelectedKeyFrame.values[0])
 			
 		NodeTrack.ValueTypes.STRING:
 			pass
@@ -247,11 +247,6 @@ func _update_inspector_values():
 func hide_inspector_values():
 	for i in InspectorValues:
 		i.hide()
-
-
-func _on_TimeBar_value_changed(value):
-	CurrentLevelTime = LevelTime * (value / TimeBar.max_value)
-	update_level(CurrentLevelTime)
 
 
 func update_level(time):
@@ -389,7 +384,7 @@ func _modify_track(track : int, value = [0], x_track : bool = true):
 	if CurrentLevelTime < SelectedObject.spawn_time or CurrentLevelTime > SelectedObject.despawn_time: return
 	var key = SelectedObject.has_keyframe_at_time(track, CurrentLevelTime, x_track)
 	if key:
-		key.values = [value]
+		key.values = value
 		return
 	
 	SelectedObject.add_keyframe(track, CurrentLevelTime, value, x_track)
@@ -580,39 +575,104 @@ func _on_TimeSlider_value_changed(value):
 
 
 func _on_ValueInput1_value_changed(value):
-	pass # Replace with function body.
+	match SelectedTrack.value_type:
+		NodeTrack.ValueTypes.FLOAT, NodeTrack.ValueTypes.INTEGER:
+			pass
+		NodeTrack.ValueTypes.STRING:
+			pass
+		NodeTrack.ValueTypes.PARENT:
+			pass
+		NodeTrack.ValueTypes.COLOR:
+			pass
 
 
 func _on_ValueInput2_value_changed(value):
-	pass # Replace with function body.
+	match SelectedTrack.value_type:
+		NodeTrack.ValueTypes.FLOAT, NodeTrack.ValueTypes.INTEGER:
+			pass
+		NodeTrack.ValueTypes.STRING:
+			pass
+		NodeTrack.ValueTypes.PARENT:
+			pass
+		NodeTrack.ValueTypes.COLOR:
+			pass
 
 
 func _on_ValueInput3_value_changed(value):
-	pass # Replace with function body.
+	match SelectedTrack.value_type:
+		NodeTrack.ValueTypes.FLOAT, NodeTrack.ValueTypes.INTEGER:
+			pass
+		NodeTrack.ValueTypes.STRING:
+			pass
+		NodeTrack.ValueTypes.PARENT:
+			pass
+		NodeTrack.ValueTypes.COLOR:
+			pass
 
 
 func _on_ValueInput4_value_changed(value):
-	pass # Replace with function body.
+	match SelectedTrack.value_type:
+		NodeTrack.ValueTypes.FLOAT, NodeTrack.ValueTypes.INTEGER:
+			pass
+		NodeTrack.ValueTypes.STRING:
+			pass
+		NodeTrack.ValueTypes.PARENT:
+			pass
+		NodeTrack.ValueTypes.COLOR:
+			pass
 
 
 func _on_ValueInput5_value_changed(value):
-	pass # Replace with function body.
+	match SelectedTrack.value_type:
+		NodeTrack.ValueTypes.FLOAT, NodeTrack.ValueTypes.INTEGER:
+			pass
+		NodeTrack.ValueTypes.STRING:
+			pass
+		NodeTrack.ValueTypes.PARENT:
+			pass
+		NodeTrack.ValueTypes.COLOR:
+			pass
 
 
 func _on_ValueInput6_value_changed(value):
-	pass # Replace with function body.
+	match SelectedTrack.value_type:
+		NodeTrack.ValueTypes.FLOAT, NodeTrack.ValueTypes.INTEGER:
+			pass
+		NodeTrack.ValueTypes.STRING:
+			pass
+		NodeTrack.ValueTypes.PARENT:
+			pass
+		NodeTrack.ValueTypes.COLOR:
+			pass
 
 
 func _on_ValueInput7_value_changed(value):
-	pass # Replace with function body.
+	match SelectedTrack.value_type:
+		NodeTrack.ValueTypes.FLOAT, NodeTrack.ValueTypes.INTEGER:
+			pass
+		NodeTrack.ValueTypes.STRING:
+			pass
+		NodeTrack.ValueTypes.PARENT:
+			pass
+		NodeTrack.ValueTypes.COLOR:
+			pass
 
 
 func _on_ValueInput8_value_changed(value):
-	pass # Replace with function body.
+	match SelectedTrack.value_type:
+		NodeTrack.ValueTypes.FLOAT, NodeTrack.ValueTypes.INTEGER:
+			pass
+		NodeTrack.ValueTypes.STRING:
+			pass
+		NodeTrack.ValueTypes.PARENT:
+			pass
+		NodeTrack.ValueTypes.COLOR:
+			pass
+
 
 #Inspector Color
 func _on_ColorPickerButton_color_changed(color):
-	pass # Replace with function body.
+	pass
 
 #Inspector StepValue
 func _on_OptionButton_item_selected(index):
@@ -621,3 +681,11 @@ func _on_OptionButton_item_selected(index):
 
 func _on_InspectorParentInput_item_selected(index):
 	pass # Replace with function body.
+
+
+func _on_SnapInput_value_changed(value):
+	TimeDisplay.snap = value
+
+
+func _on_SnapButton_toggled(button_pressed):
+	TimeDisplay.snap_enabled = button_pressed
