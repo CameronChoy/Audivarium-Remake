@@ -5,6 +5,7 @@ var thread = null
 var new_scene
 var res
 var can_change = false
+var transitioning = false
 var scene_to_preload
 var anim = 0
 onready var SceneTransition = $SceneTransition
@@ -53,6 +54,7 @@ func _ready():
 	reset()
 	
 
+
 func reset():
 	
 	rect_position = Vector2()
@@ -96,7 +98,8 @@ func _thread_load(path):
 
 func _thread_done(anim_name):
 	
-	thread.wait_to_finish()
+	if thread and thread.is_active():
+		thread.wait_to_finish()
 	assert(res)
 	
 	new_scene = res.instance()
@@ -110,8 +113,9 @@ func _thread_done(anim_name):
 	
 	call_deferred("raise")
 	show()
+	transitioning = true
 	SceneTransition.play(anim_name)
-	print(anim_name)
+	
 	OutPanel.self_modulate = (PlayerGlobals.get_ColorPlayerMain())
 	InPanel.self_modulate = (PlayerGlobals.get_ColorPlayerMain())
 	
@@ -129,14 +133,19 @@ func load_scene(path, transitionType : int = TransitionType.INFALLZOOMINWARD, im
 	if immediately_transition : change_scene_to_loaded(transitionType)
 	
 
+
 func change_to_preloaded(scene, transitionType : int = TransitionType.INFALLZOOMINWARD):
-	if not scene is PackedScene : return
+	if not scene is PackedScene: return
 	res = scene
 	can_change = true
 	change_scene_to_loaded(transitionType)
 	
 
+
 func change_scene_to_loaded(transitionType : int):
+	
+	if transitioning: return
+	
 	var anim_name = Transitions.get(transitionType, TransitionType.INFALLZOOMINWARD)
 	
 	match transitionType:
@@ -155,6 +164,7 @@ func change_scene_to_loaded(transitionType : int):
 
 func _on_SceneTransition_animation_finished(_anim_name):
 	hide()
+	transitioning = false
 	call_deferred("reset")
 #	rect_position = Vector2()
 #	SceneIn.rect_position = Vector2()
@@ -177,8 +187,7 @@ func _on_SceneTransition_animation_finished(_anim_name):
 	
 
 func _physics_process(_delta):
-	if can_change: 
+	if can_change:
 		call_deferred("_thread_done", anim)
 		set_physics_process(false)
-
 

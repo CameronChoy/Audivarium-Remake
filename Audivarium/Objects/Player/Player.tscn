@@ -58,6 +58,7 @@ script = ExtResource( 7 )
 [node name="EquipedBulletText" type="RichTextLabel" parent="Hud"]
 margin_right = 439.0
 margin_bottom = 167.0
+mouse_filter = 2
 text = "Whomst've'd'll's"
 __meta__ = {
 "_edit_use_anchors_": false
