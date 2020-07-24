@@ -1,6 +1,7 @@
 extends Node
 onready var ShockwaveCanvas = $CanvasLayer/ShockwaveRect
 onready var ShockwaveTween = $CanvasLayer/ShockwaveRect/ShockwaveTween
+onready var FrontLayer = $CanvasLayer
 onready var MainCamera = $MainCamera
 
 
@@ -32,11 +33,14 @@ func _on_ShockwaveTween_tween_all_completed():
 	ShockwaveCanvas.material.set_shader_param("time",-0.1)
 
 
-func add_effects_node(node = null, pos : Vector2 = Vector2()):
+func add_effects_node(node = null, pos : Vector2 = Vector2(), raise : bool = true):
 	var new_node = node
 	if new_node != null:
 		new_node.position = pos
-		add_child(new_node)
+		if raise:
+			FrontLayer.add_child(new_node)
+		else:
+			add_child(new_node)
 
 
 

@@ -28,6 +28,7 @@ onready var TimelineExtraSpace = $MarginContainer/VBoxContainer/MainUISplitter/B
 onready var TimelineHorizontalScroll = $MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/TimelinePanel/VSplitContainer/VSplitContainer/ScrollContainer/HSplitContainer/ScrollContainer
 onready var ZoomSlider = $MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/TimelinePanel/VSplitContainer/BottomTimelineContainer/HBoxContainer/ZoomSlider
 onready var PanSlider = $MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/TimelinePanel/VSplitContainer/BottomTimelineContainer/HBoxContainer/PanSlider
+onready var SelectedTimeLabel = $MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HBoxContainer/SelectedTimeLabel
 
 onready var PropertiesContainer = $MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties
 onready var PropertiesSelectedLabel = $MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ObjectNameLabel
@@ -144,6 +145,7 @@ func _process(_delta):
 	if Simulator.size != SimulatorSize:
 		Simulator.size = SimulatorSize
 	
+	SelectedTimeLabel.text = "%.3f : %.3f" % [CurrentLevelTime, LevelTime]
 	
 
 
@@ -211,6 +213,8 @@ func signal_object_name_changed(n, _object):
 
 func signal_track_focused(_track):
 	SelectedTrack = _track
+	InspectorInputTimeSlider.max_value = SelectedObject.despawn_time
+	InspectorInputTimeInput.max_value = SelectedObject.despawn_time
 	#PreviouslySelected = _track
 	
 
@@ -229,8 +233,14 @@ func signal_selected_level_time_changed():
 
 
 func _update_inspector_values():
-	if !SelectedTrack: return
-	hide_inspector_values()
+	if !SelectedTrack or !SelectedKeyFrame: return
+	hide_all_inspector_values()
+	
+	InspectorInputTimeInput.value = SelectedKeyFrame.time
+	InspectorInputTimeSlider.value = SelectedKeyFrame.time
+	
+	InspectorValueTime.show()
+	
 	match SelectedTrack.value_type:
 		NodeTrack.ValueTypes.FLOAT, NodeTrack.ValueTypes.INTEGER:
 			InspectorValue1.show()
@@ -244,7 +254,7 @@ func _update_inspector_values():
 			pass
 
 
-func hide_inspector_values():
+func hide_all_inspector_values():
 	for i in InspectorValues:
 		i.hide()
 
@@ -575,6 +585,7 @@ func _on_TimeSlider_value_changed(value):
 
 
 func _on_ValueInput1_value_changed(value):
+	if SelectedTrack == null: return
 	match SelectedTrack.value_type:
 		NodeTrack.ValueTypes.FLOAT, NodeTrack.ValueTypes.INTEGER:
 			pass
@@ -587,6 +598,7 @@ func _on_ValueInput1_value_changed(value):
 
 
 func _on_ValueInput2_value_changed(value):
+	if SelectedTrack == null: return
 	match SelectedTrack.value_type:
 		NodeTrack.ValueTypes.FLOAT, NodeTrack.ValueTypes.INTEGER:
 			pass
@@ -599,6 +611,7 @@ func _on_ValueInput2_value_changed(value):
 
 
 func _on_ValueInput3_value_changed(value):
+	if SelectedTrack == null: return
 	match SelectedTrack.value_type:
 		NodeTrack.ValueTypes.FLOAT, NodeTrack.ValueTypes.INTEGER:
 			pass
@@ -611,6 +624,7 @@ func _on_ValueInput3_value_changed(value):
 
 
 func _on_ValueInput4_value_changed(value):
+	if SelectedTrack == null: return
 	match SelectedTrack.value_type:
 		NodeTrack.ValueTypes.FLOAT, NodeTrack.ValueTypes.INTEGER:
 			pass
@@ -623,6 +637,7 @@ func _on_ValueInput4_value_changed(value):
 
 
 func _on_ValueInput5_value_changed(value):
+	if SelectedTrack == null: return
 	match SelectedTrack.value_type:
 		NodeTrack.ValueTypes.FLOAT, NodeTrack.ValueTypes.INTEGER:
 			pass
@@ -635,6 +650,7 @@ func _on_ValueInput5_value_changed(value):
 
 
 func _on_ValueInput6_value_changed(value):
+	if SelectedTrack == null: return
 	match SelectedTrack.value_type:
 		NodeTrack.ValueTypes.FLOAT, NodeTrack.ValueTypes.INTEGER:
 			pass
@@ -647,6 +663,7 @@ func _on_ValueInput6_value_changed(value):
 
 
 func _on_ValueInput7_value_changed(value):
+	if SelectedTrack == null: return
 	match SelectedTrack.value_type:
 		NodeTrack.ValueTypes.FLOAT, NodeTrack.ValueTypes.INTEGER:
 			pass
@@ -659,6 +676,7 @@ func _on_ValueInput7_value_changed(value):
 
 
 func _on_ValueInput8_value_changed(value):
+	if SelectedTrack == null: return
 	match SelectedTrack.value_type:
 		NodeTrack.ValueTypes.FLOAT, NodeTrack.ValueTypes.INTEGER:
 			pass
@@ -672,15 +690,15 @@ func _on_ValueInput8_value_changed(value):
 
 #Inspector Color
 func _on_ColorPickerButton_color_changed(color):
-	pass
+	if SelectedTrack == null: return
 
 #Inspector StepValue
 func _on_OptionButton_item_selected(index):
-	pass # Replace with function body.
+	if SelectedTrack == null: return
 
 
 func _on_InspectorParentInput_item_selected(index):
-	pass # Replace with function body.
+	if SelectedTrack == null: return
 
 
 func _on_SnapInput_value_changed(value):

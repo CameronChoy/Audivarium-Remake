@@ -7,6 +7,7 @@ _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.242424, 0.995454 ), 0.0, 0
 curve = SubResource( 1 )
 
 [resource]
+render_priority = 3
 flag_rotate_y = true
 flag_disable_z = true
 direction = Vector3( 0, -1, 0 )

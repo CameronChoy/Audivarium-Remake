@@ -142,6 +142,8 @@ func _input(event):
 			TeleportIndicator.stop_aiming()
 			return
 	
+
+func _unhandled_input(event):
 	if event.is_action_pressed("shoot"):
 		
 		teleport_readying = false
@@ -154,7 +156,6 @@ func _input(event):
 		return
 	elif event.is_action_released("shoot"):
 		hold_shoot = false
-	
 
 func teleport():
 	position = TeleportIndicator.global_position

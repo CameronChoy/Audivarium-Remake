@@ -614,6 +614,7 @@ text = "Time"
 margin_left = 44.0
 margin_right = 118.0
 margin_bottom = 25.0
+step = 0.05
 
 [node name="TimeSlider" type="HSlider" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer/TimeValue"]
 margin_left = 130.0
@@ -621,6 +622,7 @@ margin_right = 412.0
 margin_bottom = 16.0
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.5
+step = 0.01
 scrollable = false
 
 [node name="Value1" type="HSplitContainer" parent="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/InspectorContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
@@ -944,6 +946,21 @@ margin_bottom = 29.0
 text = "Object Edit"
 items = [ "Delete Selected Object", null, 0, false, false, 0, 0, null, "", false ]
 
+[node name="Filler" type="Control" parent="MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HBoxContainer"]
+margin_left = 399.0
+margin_right = 594.0
+margin_bottom = 29.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.15
+
+[node name="SelectedTimeLabel" type="Label" parent="MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HBoxContainer"]
+margin_left = 598.0
+margin_top = 7.0
+margin_right = 1900.0
+margin_bottom = 21.0
+size_flags_horizontal = 3
+text = "0:0"
+
 [node name="HSplitContainer" type="HSplitContainer" parent="MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer"]
 margin_top = 33.0
 margin_right = 1900.0
@@ -1167,11 +1184,11 @@ script = ExtResource( 4 )
 [node name="TimeSelector" type="VSeparator" parent="MarginContainer/VBoxContainer/MainUISplitter/BottomContainer/Panel/VBoxContainer/HSplitContainer/TimelinePanel/VSplitContainer/VSplitContainer/TimeDisplay"]
 margin_left = 186.0
 margin_top = 1.0
-margin_right = 188.0
+margin_right = 190.0
 margin_bottom = 265.0
 rect_min_size = Vector2( 2, 0 )
-rect_scale = Vector2( 5.469, 1 )
-rect_pivot_offset = Vector2( 0.5, 0 )
+rect_scale = Vector2( 2.5, 1 )
+rect_pivot_offset = Vector2( 1.5, 0 )
 mouse_filter = 2
 __meta__ = {
 "_edit_use_anchors_": false
@@ -1290,7 +1307,7 @@ margin_left = 366.0
 margin_right = 440.0
 margin_bottom = 35.0
 max_value = 10000.0
-step = 0.1
+step = 0.01
 value = 0.5
 align = 1
 suffix = "s"

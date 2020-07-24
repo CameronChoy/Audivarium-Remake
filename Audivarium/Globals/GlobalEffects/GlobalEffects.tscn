@@ -1,9 +1,7 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Globals/GlobalEffects/Shockwave.shader" type="Shader" id=1]
-[ext_resource path="res://Objects/Pickups/BulletPickup/BulletPickup.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Globals/GlobalEffects/GlobalEffects.gd" type="Script" id=3]
-[ext_resource path="res://Final Fantasy VII Remake OST - One Winged Angel - Rebirth (Complete, No Looping).ogg" type="AudioStream" id=4]
 [ext_resource path="res://Globals/GlobalEffects/MainCamera.gd" type="Script" id=5]
 [ext_resource path="res://Globals/GlobalEffects/world_env.tres" type="Environment" id=6]
 
@@ -47,19 +45,6 @@ __meta__ = {
 }
 
 [node name="ShockwaveTween" type="Tween" parent="CanvasLayer/ShockwaveRect"]
-
-[node name="BulletPickup" parent="." instance=ExtResource( 2 )]
-position = Vector2( 510.748, 271.082 )
-bullet_path = "res://Objects/Bullets/MachineGun/Bullet_MachineGun.tscn"
-
-[node name="BulletPickup2" parent="." instance=ExtResource( 2 )]
-position = Vector2( 680.748, 271.082 )
-bullet_path = "res://Objects/Bullets/Pistol/Bullet_Pistol.tscn"
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 4 )
-
-[node name="MuffleTween" type="Tween" parent="."]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = ExtResource( 6 )

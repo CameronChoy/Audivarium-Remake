@@ -216,13 +216,12 @@ func _input(event):
 	if is_processing():
 		if event.is_action_released("lmb"):
 			
-			if dragging:
-				Properties.show()
-				drop()
-			
 			set_process(false)
 			dragging = false
 			
+			if dragging:
+				Properties.show()
+				drop()
 			
 		
 	

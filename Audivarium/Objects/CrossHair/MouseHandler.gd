@@ -20,6 +20,7 @@ signal teleport_reset_completed
 signal bullet_reload_completed
 
 func _ready():
+	CrossHairSprite.self_modulate = PlayerGlobals.ColorCrossHair
 	Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
 	RadialProgressLeft.value = 0
 	RadialProgressRight.value = 0
