@@ -1,5 +1,20 @@
 extends KinematicBody2D
 
+const ANIM_DAMAGED = "Damaged"
+var audio_damaged = preload("res://Objects/Player/PlayerAudio/player_hit_02.wav")
+
+export var max_health : int = 5
+export var acceleration : float = 35
+export var deceleration : float = 0.75
+export var max_speed : float = 450
+export var dash_speed : float = 1450
+export var dash_time : float = 0.15
+export var dash_reset_time : float = 0.75
+export var teleport_range : float = 500
+export var teleport_reset_time : float = 1
+export var teleport_shockwave_time : float = 2
+export var invincible : bool = false
+
 onready var left = false
 onready var right = false
 onready var up = false
@@ -10,20 +25,10 @@ onready var can_dash = true
 onready var can_teleport = true
 onready var teleport_readying = false
 onready var can_shoot = true
-
-
+onready var current_health = max_health
 var velocity = Vector2()
 var current_max_speed
-
-export var acceleration : float = 35
-export var deceleration : float = 0.75
-export var max_speed : float = 450
-export var dash_speed : float = 1450
-export var dash_time : float = 0.15
-export var dash_reset_time : float = 0.75
-export var teleport_range : float = 500
-export var teleport_reset_time = 1
-export var teleport_shockwave_time = 2
+var last_direction = Vector2.RIGHT
 
 onready var Collider = $CollisionShape2D
 onready var MainSprite = $MainSprite
@@ -31,9 +36,10 @@ onready var DashTween = $DashTween
 onready var TeleportIndicator = $TeleportIndicator
 onready var BulletTree = $BulletTree
 onready var EquipedBulletText = $Hud/EquipedBulletText
+onready var Anim = $PlayerAnim
+onready var HealthBarLeft = $Hud/HealthBarLeft
+onready var HealthBarRight = $Hud/HealthBarRight
 var bullet
-
-var last_direction = Vector2.RIGHT
 
 
 func _ready():
@@ -50,6 +56,10 @@ func _ready():
 	_err = PlayerGlobals.connect("bullet_changed",self,"bullet_change_signal")
 	
 	bullet_change_signal()
+	
+	HealthBarLeft.value = 0
+	HealthBarRight.value = 0
+	HealthBarLeft.get("custom_styles/fg").border_color = PlayerGlobals.ColorPlayerMain
 	
 
 
@@ -143,6 +153,7 @@ func _input(event):
 			return
 	
 
+
 func _unhandled_input(event):
 	if event.is_action_pressed("shoot"):
 		
@@ -157,6 +168,7 @@ func _unhandled_input(event):
 	elif event.is_action_released("shoot"):
 		hold_shoot = false
 
+
 func teleport():
 	position = TeleportIndicator.global_position
 	can_teleport = false
@@ -165,12 +177,14 @@ func teleport():
 	GlobalAudio.Spawn_AudioMuffleEffect()
 	
 
+
 func _dash():
 	dash = true
 	can_dash = false
 	DashTween.interpolate_property(self,"current_max_speed",dash_speed,max_speed,dash_time,Tween.TRANS_SINE,Tween.EASE_OUT)
 	DashTween.start()
 	
+
 
 func _on_DashResetTimer_timeout():
 	can_dash = true
@@ -182,14 +196,29 @@ func _on_DashTween_tween_all_completed():
 	CrossHair.play_DashReset(1/dash_reset_time)
 	
 
+
 func dash_reset_completion_signal():
 	can_dash = true
+
 
 func teleport_reset_completion_signal():
 	can_teleport = true
 
+
 func Damaged(_culprit):
-	pass
+	if invincible: return
+	
+	GlobalAudio.play_audio(audio_damaged)
+	Anim.play(ANIM_DAMAGED)
+	
+	current_health -= 1
+	var h = current_health / max_health
+	HealthBarLeft.value = h
+	HealthBarRight.value = h
+	
+	#destroy culprit
+	
+
 
 func shoot():
 	var new_bullet = bullet.duplicate(8)
@@ -203,9 +232,11 @@ func shoot():
 	CrossHair.play_BulletReload(PlayerGlobals.get_FireDelay())
 	
 
+
 func bullet_change_signal():
 	bullet = PlayerGlobals.get_CurrentBullet()
 	EquipedBulletText.text = bullet.get_name()
+
 
 func bullet_reload_completion_signal():
 	can_shoot = true

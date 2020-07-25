@@ -1,52 +1,14 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Objects/Player/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/MainMenu/CustomizeMenu/CustomizeMenu.gd" type="Script" id=2]
+[ext_resource path="res://Objects/Pickups/BulletPickup/BulletPickup.tscn" type="PackedScene" id=3]
 
-[sub_resource type="RectangleShape2D" id=2]
+[sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 10, 250 )
 
 [node name="CustomizeMenu" type="Node2D"]
 script = ExtResource( 2 )
-
-[node name="PlayerWalls" type="StaticBody2D" parent="."]
-collision_layer = 1025
-collision_mask = 1025
-
-[node name="ColorRect" type="ColorRect" parent="PlayerWalls"]
-show_behind_parent = true
-margin_left = 230.0
-margin_top = 240.0
-margin_right = 730.0
-margin_bottom = 740.0
-rect_pivot_offset = Vector2( 250, -250 )
-mouse_filter = 2
-color = Color( 0, 0, 0, 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerWalls"]
-position = Vector2( 230, 480 )
-shape = SubResource( 2 )
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="PlayerWalls"]
-position = Vector2( 730, 480 )
-shape = SubResource( 2 )
-
-[node name="CollisionShape2D3" type="CollisionShape2D" parent="PlayerWalls"]
-position = Vector2( 480, 730 )
-rotation = 1.5708
-shape = SubResource( 2 )
-
-[node name="CollisionShape2D4" type="CollisionShape2D" parent="PlayerWalls"]
-position = Vector2( 480, 230 )
-rotation = 1.5708
-shape = SubResource( 2 )
-
-[node name="Player" parent="." instance=ExtResource( 1 )]
-position = Vector2( 439, 480 )
-collision_layer = 1024
 
 [node name="MenuOptions" type="Node" parent="."]
 
@@ -280,6 +242,85 @@ edit_alpha = false
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Bg" type="HSplitContainer" parent="MenuOptions/MarginContainer/ScrollContainer/VBoxContainer"]
+margin_top = 245.0
+margin_right = 860.0
+margin_bottom = 265.0
+split_offset = 25
+dragger_visibility = 1
+
+[node name="Label" type="Label" parent="MenuOptions/MarginContainer/ScrollContainer/VBoxContainer/Bg"]
+margin_top = 3.0
+margin_right = 175.0
+margin_bottom = 17.0
+rect_min_size = Vector2( 150, 0 )
+text = "Square bg"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BGInput" type="ColorPickerButton" parent="MenuOptions/MarginContainer/ScrollContainer/VBoxContainer/Bg"]
+margin_left = 187.0
+margin_right = 860.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+edit_alpha = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlayerWalls" type="StaticBody2D" parent="." groups=[
+"Solid",
+]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerWalls"]
+position = Vector2( 230, 480 )
+shape = SubResource( 1 )
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="PlayerWalls"]
+position = Vector2( 730, 480 )
+shape = SubResource( 1 )
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="PlayerWalls"]
+position = Vector2( 480, 730 )
+rotation = 1.5708
+shape = SubResource( 1 )
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="PlayerWalls"]
+position = Vector2( 480, 230 )
+rotation = 1.5708
+shape = SubResource( 1 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="PlayerWalls"]
+layer = -2
+
+[node name="ColorRect" type="ColorRect" parent="PlayerWalls/CanvasLayer"]
+show_behind_parent = true
+margin_left = 230.0
+margin_top = 240.0
+margin_right = 730.0
+margin_bottom = 740.0
+rect_pivot_offset = Vector2( 250, -250 )
+mouse_filter = 2
+color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Player" parent="." instance=ExtResource( 1 )]
+position = Vector2( 439, 480 )
+collision_layer = 1024
+
+[node name="BulletPickup" parent="." instance=ExtResource( 3 )]
+position = Vector2( 309, 315 )
+bullet_path = "res://Objects/Bullets/MachineGun/Bullet_MachineGun.tscn"
+one_time_pickup = false
+
+[node name="BulletPickup2" parent="." instance=ExtResource( 3 )]
+position = Vector2( 413, 315 )
+bullet_path = "res://Objects/Bullets/Pistol/Bullet_Pistol.tscn"
+one_time_pickup = false
 [connection signal="pressed" from="MenuOptions/ExitButton" to="." method="_on_ExitButton_pressed"]
 [connection signal="color_changed" from="MenuOptions/MarginContainer/ScrollContainer/VBoxContainer/PlayerColor1/PlayerColor1Input" to="." method="_on_PlayerColor1Input_color_changed"]
 [connection signal="color_changed" from="MenuOptions/MarginContainer/ScrollContainer/VBoxContainer/CrossHair/CrossHairInput" to="." method="_on_CrossHairInput_color_changed"]
@@ -288,3 +329,4 @@ __meta__ = {
 [connection signal="color_changed" from="MenuOptions/MarginContainer/ScrollContainer/VBoxContainer/Dash/DashInput" to="." method="_on_DashInput_color_changed"]
 [connection signal="color_changed" from="MenuOptions/MarginContainer/ScrollContainer/VBoxContainer/Reload/ReloadInput" to="." method="_on_ReloadInput_color_changed"]
 [connection signal="color_changed" from="MenuOptions/MarginContainer/ScrollContainer/VBoxContainer/Bullet/BulletInput" to="." method="_on_BulletInput_color_changed"]
+[connection signal="color_changed" from="MenuOptions/MarginContainer/ScrollContainer/VBoxContainer/Bg/BGInput" to="." method="_on_BGInput_color_changed"]

@@ -17,7 +17,9 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="BoundaryCollisions" type="StaticBody2D" parent="."]
+[node name="BoundaryCollisions" type="StaticBody2D" parent="." groups=[
+"Solid",
+]]
 
 [node name="LeftCol" type="CollisionShape2D" parent="BoundaryCollisions"]
 position = Vector2( -130, 540 )

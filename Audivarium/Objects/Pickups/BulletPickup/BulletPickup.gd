@@ -1,6 +1,7 @@
 extends Area2D
 
 export var bullet_path : String = ""
+export var one_time_pickup = true
 onready var Anim = $AnimationPlayer
 
 var bullet
@@ -30,7 +31,8 @@ func _ready():
 func _on_BulletPickup_body_entered(body):
 	if body.is_in_group(GlobalConstants.GROUP_PLAYER) and bullet != null and bullet != PlayerGlobals.CurrentBullet:
 		PlayerGlobals.change_bullet(bullet)
-		Anim.play("Pickup")
+		if one_time_pickup:
+			Anim.play("Pickup")
 
 
 func _on_AnimationPlayer_animation_finished(_anim_name):

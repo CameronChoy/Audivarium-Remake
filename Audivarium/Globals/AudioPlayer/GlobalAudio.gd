@@ -22,7 +22,7 @@ pitch : float = 1):
 	player.play(seek)
 	
 	if queue_free:
-		player.connect("finished",self,"queue_free")
+		player.connect("finished",player,"queue_free")
 	
 	return player
 

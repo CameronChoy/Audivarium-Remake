@@ -10,7 +10,7 @@ onready var DashColorInput = $MenuOptions/MarginContainer/ScrollContainer/VBoxCo
 onready var ReloadColorInput = $MenuOptions/MarginContainer/ScrollContainer/VBoxContainer/Reload/ReloadInput
 onready var BulletColorInput = $MenuOptions/MarginContainer/ScrollContainer/VBoxContainer/Bullet/BulletInput
 onready var Menu = $MenuOptions/MarginContainer
-
+onready var Square = $PlayerWalls/CanvasLayer/ColorRect
 
 func _ready():
 	PlayerColor1Input.color = PlayerGlobals.ColorPlayerMain
@@ -72,3 +72,7 @@ func _on_ExitButton_pressed():
 
 func _exit_menu():
 	SceneManager.change_to_preloaded(TitleScene, SceneManager.TransitionType.INOUTSLIDELEFT)
+
+
+func _on_BGInput_color_changed(color):
+	Square.color = color
