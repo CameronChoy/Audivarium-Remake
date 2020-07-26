@@ -4,8 +4,9 @@ const MAX_ITERATIONS = 50
 var objects = []
 var current_objects = []
 onready var level_time = 0
-onready var Anim = $LevelAnim
+onready var TitleAnim = $TitleAnim
 onready var Title = $LevelTitle
+onready var LevelAnim = $LevelAnim
 
 func _ready():
 	set_process(false)

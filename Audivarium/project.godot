@@ -57,6 +57,7 @@ GlobalAudio="*res://Globals/AudioPlayer/GlobalAudio.tscn"
 GlobalEffects="*res://Globals/GlobalEffects/GlobalEffects.tscn"
 GlobalConstants="*res://Globals/GlobalConstants.gd"
 SceneManager="*res://Globals/SceneManager/SceneManager.tscn"
+GlobalLevelManager="*res://Globals/SceneManager/GlobalLevelManager.gd"
 
 [display]
 

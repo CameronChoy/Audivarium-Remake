@@ -28,7 +28,7 @@ tracks/1/keys = {
 [node name="LevelScene" type="Node2D"]
 script = ExtResource( 2 )
 
-[node name="LevelAnim" type="AnimationPlayer" parent="."]
+[node name="TitleAnim" type="AnimationPlayer" parent="."]
 anims/Intro = SubResource( 1 )
 
 [node name="LevelTitle" type="RichTextLabel" parent="."]
@@ -42,3 +42,5 @@ scroll_active = false
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="LevelAnim" type="AnimationPlayer" parent="."]
