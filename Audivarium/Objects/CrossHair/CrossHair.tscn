@@ -144,11 +144,11 @@ anims/Reload = SubResource( 5 )
 
 [node name="RadialProgressRight" type="TextureProgress" parent="ProgressBars"]
 self_modulate = Color( 0, 1, 0.203922, 1 )
-margin_left = -104.0
-margin_top = -104.0
-margin_right = 408.0
-margin_bottom = 408.0
-rect_scale = Vector2( 0.4, 0.4 )
+margin_left = -51.0
+margin_top = -51.0
+margin_right = 461.0
+margin_bottom = 461.0
+rect_scale = Vector2( 0.2, 0.2 )
 mouse_filter = 2
 value = 100.0
 texture_progress = ExtResource( 4 )
@@ -160,11 +160,11 @@ __meta__ = {
 
 [node name="RadialProgressLeft" type="TextureProgress" parent="ProgressBars"]
 self_modulate = Color( 0.00392157, 1, 0.976471, 1 )
-margin_left = -104.0
-margin_top = -104.0
-margin_right = 408.0
-margin_bottom = 408.0
-rect_scale = Vector2( 0.4, 0.4 )
+margin_left = -51.0
+margin_top = -51.0
+margin_right = 461.0
+margin_bottom = 461.0
+rect_scale = Vector2( 0.2, 0.2 )
 mouse_filter = 2
 value = 100.0
 texture_progress = SubResource( 6 )
@@ -175,10 +175,10 @@ __meta__ = {
 }
 
 [node name="ProgressBarRight" type="ProgressBar" parent="ProgressBars"]
-margin_left = 120.0
-margin_top = 128.0
-margin_right = 373.0
-margin_bottom = 156.0
+margin_left = 56.0
+margin_top = 51.0
+margin_right = 158.0
+margin_bottom = 65.0
 rect_rotation = -90.0
 mouse_filter = 2
 custom_styles/fg = SubResource( 7 )

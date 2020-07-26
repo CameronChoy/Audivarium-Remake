@@ -3,7 +3,7 @@ onready var ShockwaveCanvas = $CanvasLayer/ShockwaveRect
 onready var ShockwaveTween = $CanvasLayer/ShockwaveRect/ShockwaveTween
 onready var FrontLayer = $CanvasLayer
 onready var MainCamera = $MainCamera
-
+var Trail = preload("res://Globals/GlobalEffects/Trail.gd")
 
 func _ready():
 	MainCamera.position = OS.get_screen_size()/2
@@ -43,4 +43,19 @@ func add_effects_node(node = null, pos : Vector2 = Vector2(), raise : bool = tru
 			add_child(new_node)
 
 
+func create_trail(parent, color : Color = Color.white, width : float = 10, life_time : float = 10, fade_time : float = 1, raise : bool = true):
+	if !parent.get("global_position"): return
+	var t = Trail.new()
+	t.default_color = color
+	t.width = width
+	t.fade_time = fade_time
+	t.life_time = life_time
+	t.parent_follow = parent
+	t.origin = parent.global_position
+	
+	if raise:
+		FrontLayer.add_child(t)
+	else:
+		add_child(t)
+	
 

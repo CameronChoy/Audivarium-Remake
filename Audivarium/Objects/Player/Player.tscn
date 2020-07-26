@@ -77,7 +77,6 @@ rect_rotation = 270.0
 custom_styles/fg = ExtResource( 10 )
 custom_styles/bg = ExtResource( 9 )
 max_value = 1.0
-step = 0.01
 percent_visible = false
 __meta__ = {
 "_edit_use_anchors_": false
@@ -97,7 +96,6 @@ rect_scale = Vector2( 1, -1 )
 custom_styles/fg = ExtResource( 10 )
 custom_styles/bg = ExtResource( 9 )
 max_value = 1.0
-step = 0.01
 percent_visible = false
 __meta__ = {
 "_edit_use_anchors_": false

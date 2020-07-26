@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/sniper_fire.wav-ad92419483e5b1f11e6a96470ebe5e23.sample"
+
+[deps]
+
+source_file="res://Objects/Bullets/Sniper/sniper_fire.wav"
+dest_files=[ "res://.import/sniper_fire.wav-ad92419483e5b1f11e6a96470ebe5e23.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

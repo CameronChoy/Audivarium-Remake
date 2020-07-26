@@ -313,13 +313,18 @@ position = Vector2( 439, 480 )
 collision_layer = 1024
 
 [node name="BulletPickup" parent="." instance=ExtResource( 3 )]
-position = Vector2( 309, 315 )
+position = Vector2( 310, 315 )
 bullet_path = "res://Objects/Bullets/MachineGun/Bullet_MachineGun.tscn"
 one_time_pickup = false
 
 [node name="BulletPickup2" parent="." instance=ExtResource( 3 )]
-position = Vector2( 413, 315 )
+position = Vector2( 420, 315 )
 bullet_path = "res://Objects/Bullets/Pistol/Bullet_Pistol.tscn"
+one_time_pickup = false
+
+[node name="BulletPickup3" parent="." instance=ExtResource( 3 )]
+position = Vector2( 530, 315 )
+bullet_path = "res://Objects/Bullets/Sniper/Bullet_Sniper.tscn"
 one_time_pickup = false
 [connection signal="pressed" from="MenuOptions/ExitButton" to="." method="_on_ExitButton_pressed"]
 [connection signal="color_changed" from="MenuOptions/MarginContainer/ScrollContainer/VBoxContainer/PlayerColor1/PlayerColor1Input" to="." method="_on_PlayerColor1Input_color_changed"]
