@@ -39,6 +39,7 @@ onready var EquipedBulletText = $Hud/EquipedBulletText
 onready var Anim = $PlayerAnim
 onready var HealthBarLeft = $Hud/HealthBarLeft
 onready var HealthBarRight = $Hud/HealthBarRight
+onready var EffectsTree = $MainSprite/PlayerEffectsTree/Node2D
 var bullet
 
 
@@ -221,6 +222,7 @@ func Damaged(_culprit):
 
 
 func shoot():
+	
 	var new_bullet = bullet.duplicate(8)
 	new_bullet.rotation = get_global_mouse_position().angle_to_point(position)
 	new_bullet.position = position
@@ -231,13 +233,31 @@ func shoot():
 	can_shoot = false
 	CrossHair.play_BulletReload(PlayerGlobals.get_FireDelay())
 	
+	var reload_audio = bullet.get("reload_audio")
+	if reload_audio:
+		GlobalAudio.play_audio(reload_audio)
+		print("nice")
+	
 
 
 func bullet_change_signal():
+	
 	bullet = PlayerGlobals.get_CurrentBullet()
 	EquipedBulletText.text = bullet.get_name()
+	GlobalAudio.play_audio(bullet.pickup_audio)
+	
+	for x in EffectsTree.get_children():
+		x.queue_free()
+	
+	var effect = bullet.get("effects_node")
+	if effect:
+		
+		effect = effect.instance()
+		effect.player = self
+		EffectsTree.add_child(effect)
+		
+	
 
 
 func bullet_reload_completion_signal():
 	can_shoot = true
-

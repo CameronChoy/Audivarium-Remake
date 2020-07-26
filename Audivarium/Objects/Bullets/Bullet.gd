@@ -7,6 +7,9 @@ var automatic = false
 var delay = 0.15
 var bullet_texture
 var bullet_name = "..."
+var reload_audio
+var effects_node
+var pickup_audio = preload("res://Objects/Bullets/weapon_switch_01.wav")
 
 func setup(speed : float = s, color : Color = col, fire_audio : AudioStream = audio_fire):
 	s = speed

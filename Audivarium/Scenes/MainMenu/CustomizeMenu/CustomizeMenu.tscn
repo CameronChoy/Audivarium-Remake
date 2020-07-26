@@ -273,6 +273,8 @@ __meta__ = {
 [node name="PlayerWalls" type="StaticBody2D" parent="." groups=[
 "Solid",
 ]]
+collision_layer = 1025
+collision_mask = 1025
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerWalls"]
 position = Vector2( 230, 480 )

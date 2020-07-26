@@ -4,9 +4,14 @@ var direction = Vector2()
 const scene_path_impact = "res://Objects/Bullets/Pistol/Bullet_Pistol_Impact.tscn"
 const audio_path_fire = "res://Objects/Bullets/Sniper/sniper_fire.wav"
 const audio_path_hit = "res://Objects/Bullets/impact_01.wav"
+const audio_path_reload = "res://Objects/Bullets/Sniper/sniper_reload.wav"
 const texture_path_pickup = "res://Objects/Bullets/Sniper/sniper_icon.png"
+const node_path_effects = "res://Objects/Bullets/Sniper/SniperLaser.tscn"
 
+
+var effects = preload(node_path_effects)
 var _audio_fire = preload(audio_path_fire)
+var audio_reload = preload(audio_path_reload)
 var impact_particles = preload(scene_path_impact)
 var impact_audio = preload(audio_path_hit)
 var pickup_texture = preload(texture_path_pickup)
@@ -14,7 +19,9 @@ var pickup_texture = preload(texture_path_pickup)
 
 func _init():
 	delay = 1.2
+	effects_node = effects
 	bullet_texture = pickup_texture
+	reload_audio = audio_reload
 	bullet_name = "Sniper"
 
 

@@ -1358,13 +1358,6 @@ current_path = "/Users/Cam/Documents/Audivarium/"
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="Button" type="Button" parent="."]
-margin_right = 12.0
-margin_bottom = 20.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 [connection signal="pressed" from="MarginContainer/VBoxContainer/MenuContainer/ExitButton" to="." method="_on_ExitButton_pressed"]
 [connection signal="toggled" from="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/ParentKey" to="." method="_on_ParentKey_toggled"]
 [connection signal="focus_entered" from="MarginContainer/VBoxContainer/MainUISplitter/TopContainer/WindowUISplitter/UISplitter/PropertiesContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/Properties/ParentContainer/ParentInput" to="." method="_update_parents_lists"]
