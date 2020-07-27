@@ -119,5 +119,5 @@ delete={
 [rendering]
 
 environment/default_clear_color=Color( 0.137255, 0.12549, 0.12549, 1 )
-quality/filters/msaa=1
+quality/filters/msaa=2
 environment/default_environment="res://Globals/GlobalEffects/world_env.tres"

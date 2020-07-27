@@ -10,7 +10,7 @@ onready var DashColorInput = $MenuOptions/MarginContainer/ScrollContainer/VBoxCo
 onready var ReloadColorInput = $MenuOptions/MarginContainer/ScrollContainer/VBoxContainer/Reload/ReloadInput
 onready var BulletColorInput = $MenuOptions/MarginContainer/ScrollContainer/VBoxContainer/Bullet/BulletInput
 onready var Menu = $MenuOptions/MarginContainer
-onready var Square = $PlayerWalls/CanvasLayer/ColorRect
+onready var Square = $PlayerWalls/ColorRect
 
 func _ready():
 	PlayerColor1Input.color = PlayerGlobals.ColorPlayerMain

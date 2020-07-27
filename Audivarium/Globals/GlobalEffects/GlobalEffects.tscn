@@ -23,8 +23,11 @@ position = Vector2( 960, 540 )
 current = true
 script = ExtResource( 5 )
 
+[node name="Tween" type="Tween" parent="MainCamera"]
+
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = 5
+follow_viewport_enable = true
 
 [node name="ShockwaveRect" type="ColorRect" parent="CanvasLayer"]
 material = SubResource( 1 )

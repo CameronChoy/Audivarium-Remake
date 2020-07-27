@@ -31,6 +31,7 @@ func _ready():
 	var trail_color = PlayerGlobals.ColorBullet
 	trail_color.a = 0.4
 	GlobalEffects.create_trail(self, trail_color, 3, 10, 0.6, true)
+	GlobalEffects.shake(0.25, 30, 10)
 
 
 func setup(speed : float = 4200, color : Color = Color.purple, fire_audio : AudioStream = audio_fire):

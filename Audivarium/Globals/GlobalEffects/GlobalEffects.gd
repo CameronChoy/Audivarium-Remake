@@ -59,3 +59,6 @@ func create_trail(parent, color : Color = Color.white, width : float = 10, life_
 		add_child(t)
 	
 
+
+func shake(time : float, amount_per_second : float, amplitude : float):
+	MainCamera.shake(time, amount_per_second, amplitude)

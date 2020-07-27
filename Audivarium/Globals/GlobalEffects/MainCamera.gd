@@ -1,42 +1,69 @@
+#Taken from https://pastebin.com/LY52qRE5, https://godotengine.org/qa/438/camera2d-screen-shake-extension?show=438#q438
 extends Camera2D
-
-var sway_speed = 3.0
-var sway_amount = 0.05
-var wiggle_time
-var time = 0.0
-var pixel_sway = 0.0
-var current_random_x
-var current_random_y
-
+ 
+var _duration = 0.0
+var _period_in_ms = 0.0
+var _amplitude = 0.0
+var _timer = 0.0
+var _last_shook_timer = 0
+var _previous_x = 0.0
+var _previous_y = 0.0
+var _last_offset = Vector2(0, 0)
+ 
+ 
 func _ready():
-	set_process(false)
-	
-	set_sway()
-	new_random()
-	pass
+	set_process(true)
+
 
 func _process(delta):
-	time += delta
-	if time >= wiggle_time:
-		new_random()
-		time = 0
 	
-	offset = offset.cubic_interpolate(
-		Vector2(current_random_x,current_random_y),
-		Vector2(0.25,0),
-		Vector2(-0.25,0),
-		wiggle_time / ((delta+0.0001) * 1000))
+	if _timer == 0:
+		set_offset(Vector2())
+		set_process(false)
+		return
 	
-	pass
+	_last_shook_timer = _last_shook_timer + delta
+	
+	while _last_shook_timer >= _period_in_ms:
+		
+		_last_shook_timer = _last_shook_timer - _period_in_ms
+		
+		var intensity = _amplitude * (1 - ((_duration - _timer) / _duration))
+		#Noise calculation logic from http://jonny.morrill.me/blog/view/14
+		var new_x = rand_range(-1.0, 1.0)
+		var x_component = intensity * (_previous_x + (delta * (new_x - _previous_x)))
+		var new_y = rand_range(-1.0, 1.0)
+		var y_component = intensity * (_previous_y + (delta * (new_y - _previous_y)))
+		
+		_previous_x = new_x
+		_previous_y = new_y
+		
+		var new_offset = Vector2(x_component, y_component)
+		set_offset(get_offset() - _last_offset + new_offset)
+		_last_offset = new_offset
+		
+	
+	_timer = _timer - delta
+	if _timer <= 0:
+		_timer = 0
+		set_offset(get_offset() - _last_offset)
+		
+	
 
-func set_sway(amount_per_second : float = 3, screen_percent_sway : float = 0.02):
-	sway_speed = amount_per_second
-	sway_amount = screen_percent_sway
-	pixel_sway = OS.get_screen_size() * sway_amount
-	wiggle_time = 1.0 / sway_speed
-	
 
-func new_random():
-	current_random_x = rand_range(-pixel_sway.x,pixel_sway.x)
-	current_random_y = rand_range(-pixel_sway.y,pixel_sway.y)
+func shake(duration, frequency, amplitude):
+	
+	if(_timer != 0):
+		return
+	
+	_duration = duration
+	_timer = duration
+	_period_in_ms = 1.0 / frequency
+	_amplitude = amplitude
+	_previous_x = rand_range(-1.0, 1.0)
+	_previous_y = rand_range(-1.0, 1.0)
+	
+	set_offset(get_offset() - _last_offset)
+	_last_offset = Vector2(0, 0)
+	set_process(true)
 	

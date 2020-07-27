@@ -296,6 +296,7 @@ shape = SubResource( 1 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="PlayerWalls"]
 layer = -2
+follow_viewport_enable = true
 
 [node name="ColorRect" type="ColorRect" parent="PlayerWalls/CanvasLayer"]
 show_behind_parent = true

@@ -236,7 +236,7 @@ func shoot():
 	var reload_audio = bullet.get("reload_audio")
 	if reload_audio:
 		GlobalAudio.play_audio(reload_audio)
-		print("nice")
+		
 	
 
 
