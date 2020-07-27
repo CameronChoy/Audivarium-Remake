@@ -48,6 +48,10 @@ config/name="Audivarium"
 boot_splash/bg_color=Color( 0.0627451, 0.0627451, 0.0627451, 1 )
 config/icon="res://icon.png"
 
+[audio]
+
+default_bus_layout="res://Globals/AudioPlayer/default_bus_layout.tres"
+
 [autoload]
 
 CrossHair="*res://Objects/CrossHair/CrossHair.tscn"

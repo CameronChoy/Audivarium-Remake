@@ -244,7 +244,6 @@ func bullet_change_signal():
 	
 	bullet = PlayerGlobals.get_CurrentBullet()
 	EquipedBulletText.text = bullet.get_name()
-	GlobalAudio.play_audio(bullet.pickup_audio)
 	
 	for x in EffectsTree.get_children():
 		x.queue_free()

@@ -3,14 +3,10 @@ extends Node
 var loaded_level_directory
 var loaded_level_info = Dictionary()
 var loaded_level
+#signal level_load_completed
 
 
-func _ready():
-	
-	get_level("res://Objects/Bullets/MachineGun/")
-
-
-func get_level(dir_path):
+func open_level(dir_path):
 	var directory = Directory.new()
 	if directory.open(dir_path) != OK: return
 	
@@ -56,7 +52,7 @@ func get_level(dir_path):
 func collect_info(data):
 	
 	loaded_level_info.clear()
-	var variable = data.get(GlobalConstants.KEY_LEVEL_NAME)
+	#var variable = data.get(GlobalConstants.KEY_LEVEL_NAME)
 	
 	loaded_level_info = {
 	GlobalConstants.KEY_LEVEL_NAME : data.get(GlobalConstants.KEY_LEVEL_NAME),
@@ -68,14 +64,39 @@ func collect_info(data):
 	GlobalConstants.KEY_LEVEL_SONG_OFFSET : data.get(GlobalConstants.KEY_LEVEL_SONG_OFFSET),
 	GlobalConstants.KEY_LEVEL_TYPE : data.get(GlobalConstants.KEY_LEVEL_TYPE),
 	GlobalConstants.KEY_LEVEL_BG : data.get(GlobalConstants.KEY_LEVEL_BG),
+	GlobalConstants.KEY_PLAYER_POS : data.get(GlobalConstants.KEY_PLAYER_POS),
+	GlobalConstants.KEY_CREATOR : data.get(GlobalConstants.KEY_CREATOR),
+	GlobalConstants.KEY_SONG_PREVIEW_OFFSET : data.get(GlobalConstants.KEY_SONG_PREVIEW_OFFSET),
 	GlobalConstants.KEY_LEVEL_INFO_PALETTE : data.get(GlobalConstants.KEY_LEVEL_INFO_PALETTE),
 	}
 	
 	
 
 
-func load_level():
+func load_anim_level():
 	
 	var level_path = loaded_level_directory + loaded_level_info.get(GlobalConstants.KEY_LEVEL_PATH)
+	var thread = Thread.new()
+	thread.start(self, "_thread_load", level_path)
+	loaded_level = thread.wait_to_finish()
 	
+
+
+func _thread_load(path):
+	var ril = ResourceLoader.load_interactive(path)
+	if !ril: return
 	
+	while true:
+		
+		var err = ril.poll()
+		
+		if err == ERR_FILE_EOF:
+			
+			return ril.get_resource()
+			
+		elif err != OK:
+			print("There was an error loading")
+			return
+		
+	
+

@@ -32,6 +32,7 @@ func change_bullet(new_bullet = DefaultBullet):
 	if !new_bullet.has_method("get_delay"): return
 	CurrentBullet = new_bullet
 	FireDelay = new_bullet.get_delay()
+	GlobalAudio.play_audio(new_bullet.pickup_audio)
 	emit_signal("bullet_changed")
 	
 
