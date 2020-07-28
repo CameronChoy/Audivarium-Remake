@@ -55,8 +55,9 @@ func add_effects_node(node = null, pos : Vector2 = Vector2(), raise : bool = tru
 			add_child(new_node)
 
 
-func create_trail(parent : NodePath, color : Color = Color.white, width : float = 10, life_time : float = 10, fade_time : float = 1, delay : float = 0.1, raise : bool = true):
-	var p = get_node(parent)
+func create_trail(parent, color : Color = Color.white, width : float = 10, life_time : float = 10, fade_time : float = 1, delay : float = 0.1, raise : bool = true):
+	var p
+	p = get_node(parent) if parent is NodePath else parent
 	
 	if !p.get("global_position"): return
 	var t = Trail.new()

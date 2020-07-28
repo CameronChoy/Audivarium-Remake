@@ -25,7 +25,7 @@ onready var can_dash = true
 onready var can_teleport = true
 onready var teleport_readying = false
 onready var can_shoot = true
-onready var current_health = max_health
+onready var current_health = 0
 var velocity = Vector2()
 var current_max_speed
 var last_direction = Vector2.RIGHT
@@ -212,8 +212,9 @@ func Damaged(_culprit):
 	GlobalAudio.play_audio(audio_damaged)
 	Anim.play(ANIM_DAMAGED)
 	
-	current_health -= 1
-	var h = current_health / max_health
+	current_health += 1
+	var h = float(current_health) / max_health
+	
 	HealthBarLeft.value = h
 	HealthBarRight.value = h
 	

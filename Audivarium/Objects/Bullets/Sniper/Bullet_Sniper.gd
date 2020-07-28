@@ -30,7 +30,7 @@ func _ready():
 	GlobalAudio.play_audio(audio_fire,false)
 	var trail_color = PlayerGlobals.ColorBullet
 	trail_color.a = 0.4
-	GlobalEffects.create_trail(self, trail_color, 3, 10, 0.6, true)
+	GlobalEffects.create_trail(self, trail_color, 3, 10, 0.6, 0.1, true)
 	GlobalEffects.shake(0.25, 30, 10)
 
 
@@ -53,8 +53,9 @@ func destroy():
 
 
 func _object_enter(body):
+	if body.is_in_group(GlobalConstants.GROUP_PLAYER): return
 	if body.has_method("Damaged") and body.is_in_group(GlobalConstants.GROUP_DAMAGABLE):
-		body.Damaged()
+		body.Damaged(self)
 	if body.is_in_group(GlobalConstants.GROUP_BULLET_SOLID):
 		GlobalAudio.play_audio(impact_audio)
 		destroy()

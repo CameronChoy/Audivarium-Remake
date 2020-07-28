@@ -2,7 +2,6 @@
 
 [ext_resource path="res://EngineEditor/EditorResources/EditorFont.tres" type="DynamicFont" id=1]
 
-
 [resource]
 default_font = ExtResource( 1 )
 Button/colors/font_color = Color( 1, 1, 1, 1 )
@@ -419,7 +418,7 @@ WindowDialog/colors/title_color = Color( 0, 0, 0, 1 )
 WindowDialog/constants/close_h_ofs = 18
 WindowDialog/constants/close_v_ofs = 18
 WindowDialog/constants/scaleborder_size = 4
-WindowDialog/constants/title_height = 24
+WindowDialog/constants/title_height = 26
 WindowDialog/fonts/title_font = null
 WindowDialog/icons/close = null
 WindowDialog/icons/close_highlight = null

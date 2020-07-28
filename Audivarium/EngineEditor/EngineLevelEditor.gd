@@ -6,7 +6,7 @@ var PlayerSpawnPoint
 var Confirmation
 var EditorUI
 var Background
-enum ButtonChoices {QUIT, TEST, EXPORT, OVERWRITE}
+enum ButtonChoices {QUIT, TEST, EXPORT, OVERWRITE, DUPLICATE}
 var current_button_choice
 var build_complete = false
 var can_overwrite = false
@@ -32,6 +32,7 @@ export(NodePath) var spawn_point
 
 var prev_bg = background_color
 const LEVEL_ANIM_MAIN = "leveldata"
+const CUSTOMS_PATH = "res://EngineEditor/Customs/"
 
 
 func _ready():
@@ -77,7 +78,8 @@ func _ready():
 func _physics_process(_delta):
 	if prev_bg != background_color:
 		prev_bg = background_color
-		Background.color = background_color
+		if !Background: Background = $BackgroundSimulator
+		else: Background.color = background_color
 
 
 func _export_level():
@@ -159,6 +161,74 @@ func _export_level():
 	
 
 
+func _duplicate_scene():
+	if !assert_important_nodes(): return
+	
+	var duplicate_name = _ensure_unique_duplicate_name(level_name + "_duplicate")
+	if duplicate_name is int:
+		print("Error opening: '", CUSTOMS_PATH, "'. Cannot duplicate.")
+	
+	var folder_path = "%s/%s" % [CUSTOMS_PATH, duplicate_name]
+	var scene_path = "%s/%s.tscn" % [folder_path, duplicate_name]
+	
+	var directory = Directory.new()
+	
+	if directory.make_dir_recursive(folder_path) != OK:
+		print("Error creating folder. Cannot duplicate.")
+		return
+	
+	var scene = PackedScene.new()
+	if scene.pack(get_tree().current_scene) != OK:
+		print("Error packing scene. Cannot duplicate.")
+		return
+	
+	
+	if ResourceSaver.save(scene_path, scene, ResourceSaver.FLAG_BUNDLE_RESOURCES) != OK:
+		print("Error saving scene. Cannot duplicate.")
+		return
+	
+	print("Successfully duplicated scene")
+	
+
+
+func _ensure_unique_duplicate_name(name):
+	var dir = Directory.new()
+	if dir.open(CUSTOMS_PATH) != OK: return ("-1"+name)
+	
+	dir.list_dir_begin()
+	var file_name = dir.get_next()
+	
+	while file_name != "":
+		
+		if file_name == name:
+			
+			var new_name = name
+			var new_end = name.substr(name.length() - 1)
+			
+			if new_end.is_valid_integer():
+				var iter = 1
+				var end = name.length() - iter
+				
+				while new_end.is_valid_integer():
+					iter += 1
+					
+					end -= 1
+					new_end = name.substr(end)
+					
+				
+				new_name = name.substr(0, end + 1)
+				var new_num = int(new_end) + 1
+				return _ensure_unique_duplicate_name(new_name + str(new_num))
+				
+			
+			return _ensure_unique_duplicate_name(name + "1")
+		
+		file_name = dir.get_next()
+	
+	return name
+	
+
+
 func _on_ConfirmationDialog_confirmed():
 	
 	match current_button_choice:
@@ -171,7 +241,9 @@ func _on_ConfirmationDialog_confirmed():
 		ButtonChoices.OVERWRITE:
 			can_overwrite = true
 			_export_level()
-	
+		ButtonChoices.DUPLICATE:
+			_duplicate_scene()
+		
 
 
 func _on_TestButton_pressed():
@@ -179,6 +251,7 @@ func _on_TestButton_pressed():
 	if enable_test_confirmation:
 		current_button_choice = ButtonChoices.TEST
 		Confirmation.window_title = "Test level?"
+		Confirmation.dialog_text = ""
 		Confirmation.show()
 	else:
 		_test_level()
@@ -191,6 +264,7 @@ func _on_ExportButton_button_down():
 	
 	current_button_choice = ButtonChoices.EXPORT
 	Confirmation.window_title = "Export level?"
+	Confirmation.dialog_text = ""
 	Confirmation.show()
 	
 
@@ -200,6 +274,7 @@ func _on_QuitButton_button_down():
 	if enable_quit_confirmation:
 		current_button_choice = ButtonChoices.QUIT
 		Confirmation.window_title = "Exit? (Nothing will be lost)"
+		Confirmation.dialog_text = ""
 		Confirmation.show()
 	else:
 		get_tree().quit()
@@ -234,6 +309,13 @@ func assert_important_nodes():
 	
 
 func _input(event):
-	if event.is_action_pressed("ui_cancel"):
+	if event.is_action_pressed("ui_focus_next"):
 		EditorUI.visible = !EditorUI.visible
 
+
+
+func _on_DuplicateButton_pressed():
+	current_button_choice = ButtonChoices.DUPLICATE
+	Confirmation.window_title = "Duplicate this scene?"
+	Confirmation.dialog_text = "It will be saved to " + CUSTOMS_PATH
+	Confirmation.show()
