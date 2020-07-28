@@ -4,7 +4,7 @@ const TitleScene = "res://Scenes/MainMenu/TitleMenu/TitleMain.tscn"
 var saved
 
 var NodeObject = preload("res://Scenes/Editor/ObjectNode.tscn")
-var DefaultObject = preload("res://Objects/Statics/Circle.tscn")
+var DefaultObject = preload("res://Objects/Statics/Circle/Circle.tscn")
 
 onready var AudioPlayer = $AudioStreamPlayer
 onready var FileSelector = $Control/FileDialog

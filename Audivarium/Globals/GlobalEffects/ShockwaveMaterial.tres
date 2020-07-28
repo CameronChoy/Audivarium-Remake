@@ -1,0 +1,13 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=2]
+
+[ext_resource path="res://Globals/GlobalEffects/Shockwave.shader" type="Shader" id=1]
+
+[resource]
+shader = ExtResource( 1 )
+shader_param/active = false
+shader_param/center = Vector2( 0.5, 0.5 )
+shader_param/screen_ratio = 1.77777
+shader_param/wave_size = 0.1
+shader_param/wave_scale = Vector2( 10, 0.8 )
+shader_param/wave_depreciation = 40.0
+shader_param/time = -0.1

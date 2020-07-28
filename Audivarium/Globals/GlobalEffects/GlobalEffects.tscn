@@ -1,24 +1,13 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://Globals/GlobalEffects/Shockwave.shader" type="Shader" id=1]
 [ext_resource path="res://Globals/GlobalEffects/GlobalEffects.gd" type="Script" id=3]
 [ext_resource path="res://Globals/GlobalEffects/MainCamera.gd" type="Script" id=5]
-[ext_resource path="res://Globals/GlobalEffects/world_env.tres" type="Environment" id=6]
-
-[sub_resource type="ShaderMaterial" id=1]
-shader = ExtResource( 1 )
-shader_param/active = false
-shader_param/center = Vector2( 0.5, 0.5 )
-shader_param/screen_ratio = 1.77777
-shader_param/wave_size = 0.1
-shader_param/wave_scale = Vector2( 10, 0.8 )
-shader_param/wave_depreciation = 40.0
-shader_param/time = -0.1
 
 [node name="GlobalEffects" type="Node"]
 script = ExtResource( 3 )
 
 [node name="MainCamera" type="Camera2D" parent="."]
+visible = false
 position = Vector2( 960, 540 )
 current = true
 script = ExtResource( 5 )
@@ -30,7 +19,6 @@ layer = 5
 follow_viewport_enable = true
 
 [node name="ShockwaveRect" type="ColorRect" parent="CanvasLayer"]
-material = SubResource( 1 )
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -50,5 +38,4 @@ __meta__ = {
 [node name="ShockwaveTween" type="Tween" parent="CanvasLayer/ShockwaveRect"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = ExtResource( 6 )
 [connection signal="tween_all_completed" from="CanvasLayer/ShockwaveRect/ShockwaveTween" to="." method="_on_ShockwaveTween_tween_all_completed"]

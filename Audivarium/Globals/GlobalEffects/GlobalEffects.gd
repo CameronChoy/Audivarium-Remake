@@ -1,13 +1,24 @@
+tool
 extends Node
 onready var ShockwaveCanvas = $CanvasLayer/ShockwaveRect
 onready var ShockwaveTween = $CanvasLayer/ShockwaveRect/ShockwaveTween
 onready var FrontLayer = $CanvasLayer
 onready var MainCamera = $MainCamera
+onready var MainEnvironment = $WorldEnvironment
 var Default_bg_Color = Color("232020")
+var Default_env = preload("res://Globals/GlobalEffects/world_env.tres")
 var Trail = preload("res://Globals/GlobalEffects/Trail.gd")
+var ShockWaveMaterial = preload("res://Globals/GlobalEffects/ShockwaveMaterial.tres")
 
 func _ready():
 	MainCamera.position = OS.get_screen_size()/2
+	if Engine.editor_hint:
+		ShockwaveCanvas.material = null
+		MainEnvironment.environment = null
+	else:
+		ShockwaveCanvas.material = ShockWaveMaterial
+		MainEnvironment.environment = Default_env
+		MainCamera.show()
 	
 
 func Spawn_Shockwave(global_pos : Vector2,time : float = 1):
@@ -44,15 +55,18 @@ func add_effects_node(node = null, pos : Vector2 = Vector2(), raise : bool = tru
 			add_child(new_node)
 
 
-func create_trail(parent, color : Color = Color.white, width : float = 10, life_time : float = 10, fade_time : float = 1, raise : bool = true):
-	if !parent.get("global_position"): return
+func create_trail(parent : NodePath, color : Color = Color.white, width : float = 10, life_time : float = 10, fade_time : float = 1, delay : float = 0.1, raise : bool = true):
+	var p = get_node(parent)
+	
+	if !p.get("global_position"): return
 	var t = Trail.new()
 	t.default_color = color
 	t.width = width
 	t.fade_time = fade_time
 	t.life_time = life_time
-	t.parent_follow = parent
-	t.origin = parent.global_position
+	t.delay = delay
+	t.parent_follow = p
+	t.origin = p.global_position
 	
 	if raise:
 		FrontLayer.add_child(t)
