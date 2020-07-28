@@ -50,8 +50,8 @@ func _on_Area2D_body_entered(body):
 
 
 func _object_enter(body):
+	if body.has_method("Damaged") and body.is_in_group(GlobalConstants.GROUP_DAMAGABLE):
+		body.Damaged()
 	if body.is_in_group(GlobalConstants.GROUP_BULLET_SOLID):
-		if body.has_method("Damaged"):
-			body.Damaged()
 		GlobalAudio.play_audio(impact_audio)
 		destroy()

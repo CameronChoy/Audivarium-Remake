@@ -45,7 +45,7 @@ func _input(event):
 	elif event is InputEventMouseButton:
 		Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
 		CrossHairSprite.set_process(true)
-		#Input.set_custom_mouse_cursor(inGame_Cursor)
+		Input.set_custom_mouse_cursor(inGame_Cursor)
 		
 	
 

@@ -3,6 +3,7 @@ onready var ShockwaveCanvas = $CanvasLayer/ShockwaveRect
 onready var ShockwaveTween = $CanvasLayer/ShockwaveRect/ShockwaveTween
 onready var FrontLayer = $CanvasLayer
 onready var MainCamera = $MainCamera
+var Default_bg_Color = Color("232020")
 var Trail = preload("res://Globals/GlobalEffects/Trail.gd")
 
 func _ready():

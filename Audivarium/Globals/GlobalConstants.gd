@@ -9,7 +9,7 @@ const GROUP_BULLET_SOLID = "Solid"
 const FILE_NAME_LEVEL_INFO = "levelinfo.audivarium"
 const FILE_NAME_LEVEL_DATA_ANIM = "leveldata.tscn"
 const FILE_NAME_LEVEL_DATA_FILE = "leveldata.audivarium"
-const FILE_NAME_SONG_DATA = "song.sample"
+const FILE_NAME_SONG_DATA = "song.res"
 
 const KEY_LEVEL_NAME = "name"
 const KEY_LEVEL_LENGTH = "length"

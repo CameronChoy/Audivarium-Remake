@@ -1,12 +1,26 @@
 extends Area2D
+tool
 class_name Static
 
-var bullet_solid = false
-var destructable = false
+export var bullet_solid : bool = false setget set_bullet_solid, is_bullet_solid
+export var destructable : bool = false setget set_destructable, is_destructable
 var tracks
 var spawn_time
 var despawn_time
+onready var prev_bullet = bullet_solid
+onready var prev_destruct = destructable
 
+func _ready():
+	set_process(Engine.editor_hint)
+
+func _process(delta):
+	if prev_bullet != bullet_solid:
+		set_bullet_solid(bullet_solid)
+		prev_bullet = bullet_solid
+	if prev_destruct != destructable:
+		set_destructable(destructable)
+		prev_destruct = destructable
+	
 
 func setup(_tracks, _unique_name : String, _spawn_time : float, _despawn_time : float, _bullet_solid : bool, _destructable : bool):
 	tracks = _tracks
@@ -75,12 +89,21 @@ func _set_z_index(new : int):
 
 func set_bullet_solid(new : bool):
 	bullet_solid = new
+	if new:
+		call_deferred("self.add_to_group", GlobalConstants.GROUP_BULLET_SOLID)
+	else:
+		call_deferred("self.remove_from_group", GlobalConstants.GROUP_BULLET_SOLID)
 
 func is_bullet_solid():
 	return bullet_solid
 
 func set_destructable(new : bool):
 	destructable = new
+	print((new))
+	if new:
+		call_deferred("self.add_to_group", GlobalConstants.GROUP_DAMAGABLE)
+	else:
+		call_deferred("self.remove_from_group", GlobalConstants.GROUP_DAMAGABLE)
 
 func is_destructable():
 	return destructable
@@ -102,3 +125,6 @@ func bezier(p1, p2, p3, p4, t : float):
 			(3.0 * t_inverse * t_s * p3) + \
 			(t_s * t * p4)
 	
+
+func Damaged(_culprit = null):
+	queue_free()
