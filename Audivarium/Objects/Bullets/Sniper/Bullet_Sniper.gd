@@ -57,7 +57,8 @@ func _object_enter(body):
 	if body.has_method("Damaged") and body.is_in_group(GlobalConstants.GROUP_DAMAGABLE):
 		body.Damaged(self)
 	if body.is_in_group(GlobalConstants.GROUP_BULLET_SOLID):
-		GlobalAudio.play_audio(impact_audio)
+		if !body.is_in_group(GlobalConstants.GROUP_OUSTIDE_BOUNDARIES):
+			GlobalAudio.play_audio(impact_audio)
 		destroy()
 	
 

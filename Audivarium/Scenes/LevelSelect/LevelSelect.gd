@@ -3,6 +3,7 @@ extends Control
 const OFFICIAL_LEVELS_PATH = "res://Scenes/Levels/OfficialLevels/"
 
 var LevelButton = preload("res://Scenes/Levels/LevelButton.tscn")
+var LevelScene = preload("res://Scenes/LevelScene/LevelScene.tscn")
 
 onready var InfoCard1 = $InfoCards/Info1
 onready var InfoCard2 = $InfoCards/Info2
@@ -16,6 +17,9 @@ var officials_thread
 var customs_thread
 
 func _ready():
+	
+	InfoCard1.connect("button_pressed",self,"InfoCard_selected",[InfoCard1])
+	InfoCard2.connect("button_pressed",self,"InfoCard_selected",[InfoCard2])
 	
 	officials_thread = Thread.new()
 	var _err = officials_thread.start(self,"get_official_levels", 0)
@@ -50,13 +54,13 @@ func get_official_levels(_err):
 		
 		dir_name = directory.get_next()
 		
-	
+	return officials_thread
 
 
 func get_custom_levels(_err):
 	
 	var directory = Directory.new()
-	var levels_path = "%s/%s" % [OS.get_user_data_dir(), GlobalLevelManager.LEVELS_FOLDER_NAME]
+	var levels_path = "%s/%s" % [OS.get_user_data_dir(), GlobalConstants.LEVELS_FOLDER_NAME]
 	
 	if directory.open(levels_path) != OK: return
 	
@@ -65,7 +69,7 @@ func get_custom_levels(_err):
 	
 	while dir_name != "":
 		
-		var level = get_level(levels_path + dir_name)
+		var level = get_level("%s/%s" % [levels_path, dir_name])
 		
 		if !level.empty(): 
 			
@@ -76,7 +80,7 @@ func get_custom_levels(_err):
 		
 		dir_name = directory.get_next()
 		
-	
+	return customs_thread
 
 
 func _create_button(level):
@@ -104,29 +108,28 @@ func get_level(dir):
 	var file = File.new()
 	while file_name != "":
 		
-		var file_path = dir + file_name
+		var file_path = "%s/%s" % [dir, file_name]
 		
 		match file_name:
 			GlobalConstants.FILE_NAME_LEVEL_INFO:
 				
-				file.open(file_path, File.READ)
-				
-				var info = parse_json(file.get_line())
-				if info.error == OK:
-					level_info = info.result
-				
-				file.close()
+				if file.open(file_path, File.READ) == OK:
+					
+					var info = JSON.parse(file.get_as_text())
+					
+					if info.error == OK:
+						level_info = info.result
+					
+					file.close()
+					
 				
 			GlobalConstants.FILE_NAME_SONG_DATA:
 				
-				var song = ResourceLoader.load(file_path)
-				if song is AudioStreamSample or song is AudioStreamOGGVorbis:
-					song_data = song
+				song_data = file_path
 				
 			GlobalConstants.FILE_NAME_LEVEL_DATA_ANIM:
-				var data = ResourceLoader.load(file_path)
-				if data is Animation:
-					level_data = data
+				
+				level_data = file_path
 				
 			GlobalConstants.FILE_NAME_LEVEL_DATA_FILE:
 				pass #To be implemented, maybe
@@ -141,6 +144,7 @@ func get_level(dir):
 		list = [level_info, level_data, song_data]
 		
 	
+	
 	return list
 	
 
@@ -151,9 +155,8 @@ func _level_selected(level):
 		SelectedLevel = level
 		set_Info(InfoCard1, level)
 		InfoAnim.play("Begin")
-		return
-	
-	if SelectedLevel.get_instance_id() != level.get_instance_id():
+		
+	elif SelectedLevel.get_instance_id() != level.get_instance_id():
 		
 		if SelectedLevel.global_rect_position.y < level.global_rect_position.y:
 			set_Info(InfoCard1, level)
@@ -164,19 +167,44 @@ func _level_selected(level):
 			set_Info(InfoCard1, SelectedLevel)
 			InfoAnim.play("SlideDown")
 		
-		PreviewSong.stop()
-		
 		SelectedLevel = level
 	
-	PreviewSong = GlobalAudio.play_audio(SelectedLevel.song_data, true, 
-	SelectedLevel.level_info.get(GlobalConstants.KEY_SONG_PREVIEW_OFFSET))
+	if PreviewSong: PreviewSong.stop()
+	
+	var song = ResourceLoader.load(SelectedLevel.song_data)
+	var offset = SelectedLevel.level_info.get(GlobalConstants.KEY_SONG_PREVIEW_OFFSET)
+	if song is AudioStreamSample or song is AudioStreamOGGVorbis:
+		PreviewSong = GlobalAudio.play_audio(song, true, 
+		offset if offset else 0, "Master", -6.0)
 	
 
 
 func set_Info(InfoCard, info):
-	
+	InfoCard.current_level = info
 	InfoCard.set_title(info.level_info.get(GlobalConstants.KEY_LEVEL_NAME))
 	InfoCard.set_length(info.level_info.get(GlobalConstants.KEY_LEVEL_LENGTH))
 	InfoCard.set_description(info.level_info.get(GlobalConstants.KEY_LEVEL_DESCRIPTION))
 	#Image and Theme not yet implemented
 
+
+func InfoCard_selected(Card):
+	if Card.current_level:
+		var level = ResourceLoader.load(SelectedLevel.level_data)
+		if level:
+			GlobalLevelManager.loaded_level = level
+			GlobalLevelManager.loaded_level_info = SelectedLevel.level_info
+			SceneManager.change_to_preloaded(LevelScene, SceneManager.TransitionType.INFALLZOOMINWARD)
+
+
+func _thread_completed(thread):
+	var _err = thread.wait_to_finish()
+
+func _exit_tree():
+	if PreviewSong:
+		PreviewSong.stop()
+		
+	
+
+
+func _on_Button_pressed():
+	var _err = OS.shell_open(str("file://", OS.get_user_data_dir()))

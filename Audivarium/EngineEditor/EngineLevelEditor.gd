@@ -1,7 +1,7 @@
 tool
 extends Node2D
 
-var PlayerObject = preload("res://Objects/Player/Player.tscn")
+#var PlayerObject = preload("res://Objects/Player/Player.tscn")
 var PlayerSpawnPoint
 var Confirmation
 var EditorUI
@@ -26,6 +26,7 @@ export(String) var creator_name = ""
 export(float) var preview_offset = 0
 export(bool) var enable_test_confirmation = true
 export(bool) var enable_quit_confirmation = true
+export(NodePath) var player_node
 export(NodePath) var animation_player
 export(NodePath) var level_scene
 export(NodePath) var spawn_point
@@ -49,27 +50,21 @@ func _ready():
 	Anim = get_node(animation_player)
 	Scene = get_node(level_scene)
 	PlayerSpawnPoint = get_node(spawn_point)
-	Player = PlayerObject.instance()
+	Player = get_node(player_node)
 	
 	#VisualServer.set_default_clear_color(background_color)
 	
-	if !assert_important_nodes(): 
-		print("Error, missing important node:",
-		"\nAnimationPlayer: ", Anim,
-		"\nLevelScene: ", Scene,
-		"\nPlayer: ", Player
-		)
-		return
+	if !assert_important_nodes(): return
 	
 	if !Engine.editor_hint:
 		Player.global_position = PlayerSpawnPoint.global_position
-		Scene.add_child_below_node(PlayerSpawnPoint, Player)
+		#Scene.add_child_below_node(PlayerSpawnPoint, Player)
 		player_spawn_pos = Player.global_position
 		set_physics_process(false)
 	
 	var _err = Anim.connect("animation_finished",self,"_on_AnimationPlayer_animation_finished")
 	
-	
+	PlayerSpawnPoint.hide()
 	
 	build_complete = true
 	
@@ -86,9 +81,14 @@ func _export_level():
 	if !assert_important_nodes(): return
 	
 	var directory = Directory.new()
+	var levels_dir_path = "%s/%s" % [OS.get_user_data_dir(), GlobalConstants.LEVELS_FOLDER_NAME]
+	var dir_path = "%s/%s" % [levels_dir_path, level_name]
+	
+	if !directory.dir_exists(levels_dir_path):
+		directory.make_dir_recursive(levels_dir_path)
 	
 	
-	directory.open(OS.get_user_data_dir())
+	directory.open(levels_dir_path)
 	
 	if !can_overwrite and directory.dir_exists(level_name):
 		current_button_choice = ButtonChoices.OVERWRITE
@@ -98,33 +98,35 @@ func _export_level():
 	
 	can_overwrite = false
 	
+	
 	directory.make_dir(level_name)
 	
 	var file = File.new()
 	
-	var dir_path = "%s%s/%s" % [OS.get_user_data_dir(), GlobalLevelManager.LEVELS_FOLDER_NAME, level_name]
+	
 	var level_path = "%s/%s" % [dir_path, GlobalConstants.FILE_NAME_LEVEL_INFO]
 	var level_data_path = "%s/%s" % [dir_path, GlobalConstants.FILE_NAME_LEVEL_DATA_ANIM]
 	var song_data_path = "%s/%s" % [dir_path, GlobalConstants.FILE_NAME_SONG_DATA]
 	
 	file.open(level_path, File.WRITE)
 	
-	Scene.remove_child(Player)
-	for child in Scene.get_children():
-		child.set_owner(Scene)
+
+	Player.global_position = player_spawn_pos
+	Player.rotation = 0
+	if Player.has_method("clear_bullets"): Player.clear_bullets()
+	
+	PlayerSpawnPoint.hide()
+	set_all_owners(Scene)
 	
 	var level_data = PackedScene.new()
 	if level_data.pack(Scene) != OK:
 		print("Error packing level data, cannot export")
-		Scene.add_child_below_node(PlayerSpawnPoint, Player)
 		return
 	if ResourceSaver.save(level_data_path, level_data, ResourceSaver.FLAG_BUNDLE_RESOURCES) != OK:
 		print("Error saving level data, cannot export")
-		Scene.add_child_below_node(PlayerSpawnPoint, Player)
 		return
 	
 	print("Level data successfully saved")
-	Scene.add_child_below_node(PlayerSpawnPoint, Player)
 	
 	var song_data = load(song)
 	if not song_data is AudioStreamSample and not song_data is AudioStreamOGGVorbis:
@@ -158,6 +160,19 @@ func _export_level():
 	
 	file.close()
 	print("Export complete\n")
+	
+
+
+#https://www.reddit.com/r/godot/comments/40cm3w/looping_through_all_children_and_subchildren_of_a/
+func set_all_owners(node):
+	for child in node.get_children():
+		
+		if child.get_child_count() > 0:
+			set_all_owners(child)
+		
+		child.set_filename("")
+		child.set_owner(Scene)
+		
 	
 
 
@@ -281,6 +296,7 @@ func _on_QuitButton_button_down():
 	
 
 func _test_level():
+	Player.fire_while_focused = true
 	EditorUI.hide()
 	Anim.play(LEVEL_ANIM_MAIN)
 

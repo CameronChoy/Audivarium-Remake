@@ -1,0 +1,1212 @@
+[gd_scene load_steps=14 format=2]
+
+[ext_resource path="res://Objects/Statics/Laser/Laser.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Objects/Statics/Square/Square.tscn" type="PackedScene" id=2]
+[ext_resource path="res://EngineEditor/Customs/ChaozImpact/ParagonX9 - Chaoz Impact.ogg" type="AudioStream" id=3]
+[ext_resource path="res://Objects/Player/Player.tscn" type="PackedScene" id=4]
+
+[sub_resource type="GDScript" id=1]
+script/source = "tool
+extends Node2D
+
+#var PlayerObject = preload(\"res://Objects/Player/Player.tscn\")
+var PlayerSpawnPoint
+var Confirmation
+var EditorUI
+var Background
+enum ButtonChoices {QUIT, TEST, EXPORT, OVERWRITE, DUPLICATE}
+var current_button_choice
+var build_complete = false
+var can_overwrite = false
+
+
+var Anim
+var Scene
+var Player
+var player_spawn_pos = OS.window_size / 2
+export(String) var level_name = \"level\"
+export(String, MULTILINE) var description = \"\"
+export(Color) var background_color = Color(\"3b3b3b\")
+export(String, FILE, GLOBAL, \"*.ogg, *.wav\") var song
+export(String) var song_name = \"\"
+#export(float) var song_offset = 0
+export(String) var creator_name = \"\"
+export(float) var preview_offset = 0
+export(bool) var enable_test_confirmation = true
+export(bool) var enable_quit_confirmation = true
+export(NodePath) var player_node
+export(NodePath) var animation_player
+export(NodePath) var level_scene
+export(NodePath) var spawn_point
+
+var prev_bg = background_color
+const LEVEL_ANIM_MAIN = \"leveldata\"
+const CUSTOMS_PATH = \"res://EngineEditor/Customs/\"
+
+
+func _ready():
+	
+	build_complete = false
+	can_overwrite = false
+	
+	prev_bg = background_color
+	
+	Confirmation = $editorinfo/Control/ConfirmationDialog
+	EditorUI = $editorinfo
+	Background = $BackgroundSimulator
+	
+	Anim = get_node(animation_player)
+	Scene = get_node(level_scene)
+	PlayerSpawnPoint = get_node(spawn_point)
+	Player = get_node(player_node)
+	
+	#VisualServer.set_default_clear_color(background_color)
+	
+	if !assert_important_nodes(): return
+	
+	if !Engine.editor_hint:
+		Player.global_position = PlayerSpawnPoint.global_position
+		#Scene.add_child_below_node(PlayerSpawnPoint, Player)
+		player_spawn_pos = Player.global_position
+		set_physics_process(false)
+	
+	var _err = Anim.connect(\"animation_finished\",self,\"_on_AnimationPlayer_animation_finished\")
+	
+	PlayerSpawnPoint.hide()
+	
+	build_complete = true
+	
+
+
+func _physics_process(_delta):
+	if prev_bg != background_color:
+		prev_bg = background_color
+		if !Background: Background = $BackgroundSimulator
+		else: Background.color = background_color
+
+
+func _export_level():
+	if !assert_important_nodes(): return
+	
+	var directory = Directory.new()
+	var levels_dir_path = \"%s/%s\" % [OS.get_user_data_dir(), GlobalConstants.LEVELS_FOLDER_NAME]
+	var dir_path = \"%s/%s\" % [levels_dir_path, level_name]
+	
+	if !directory.dir_exists(levels_dir_path):
+		directory.make_dir_recursive(levels_dir_path)
+	
+	
+	directory.open(levels_dir_path)
+	
+	if !can_overwrite and directory.dir_exists(level_name):
+		current_button_choice = ButtonChoices.OVERWRITE
+		Confirmation.window_title = \"Level name already exists. Overwrite?\"
+		Confirmation.show()
+		return
+	
+	can_overwrite = false
+	
+	
+	directory.make_dir(level_name)
+	
+	var file = File.new()
+	
+	
+	var level_path = \"%s/%s\" % [dir_path, GlobalConstants.FILE_NAME_LEVEL_INFO]
+	var level_data_path = \"%s/%s\" % [dir_path, GlobalConstants.FILE_NAME_LEVEL_DATA_ANIM]
+	var song_data_path = \"%s/%s\" % [dir_path, GlobalConstants.FILE_NAME_SONG_DATA]
+	
+	file.open(level_path, File.WRITE)
+	
+
+	Player.global_position = player_spawn_pos
+	Player.rotation = 0
+	if Player.has_method(\"clear_bullets\"): Player.clear_bullets()
+	
+	PlayerSpawnPoint.hide()
+	set_all_owners(Scene)
+	
+	var level_data = PackedScene.new()
+	if level_data.pack(Scene) != OK:
+		print(\"Error packing level data, cannot export\")
+		return
+	if ResourceSaver.save(level_data_path, level_data, ResourceSaver.FLAG_BUNDLE_RESOURCES) != OK:
+		print(\"Error saving level data, cannot export\")
+		return
+	
+	print(\"Level data successfully saved\")
+	
+	var song_data = load(song)
+	if not song_data is AudioStreamSample and not song_data is AudioStreamOGGVorbis:
+		print(\"Error, song is not compatible, cannot export\")
+		return
+	
+	if ResourceSaver.save(song_data_path, song_data) != OK:
+		print(\"Error saving song data, cannot export\")
+		return
+	
+	print(\"Song successfully saved\")
+	
+	var level_info = {
+		GlobalConstants.KEY_LEVEL_NAME : level_name,
+		GlobalConstants.KEY_LEVEL_PATH : GlobalConstants.FILE_NAME_LEVEL_DATA_ANIM,
+		GlobalConstants.KEY_LEVEL_LENGTH : Anim.get_animation(LEVEL_ANIM_MAIN).length,
+		GlobalConstants.KEY_LEVEL_DESCRIPTION : description,
+		GlobalConstants.KEY_LEVEL_SONG_NAME : song_name,
+		GlobalConstants.KEY_LEVEL_SONG_PATH : GlobalConstants.FILE_NAME_SONG_DATA,
+		GlobalConstants.KEY_LEVEL_SONG_OFFSET : 0,#song_offset, #Not needed
+		GlobalConstants.KEY_LEVEL_TYPE : GlobalConstants.VAR_LEVEL_TYPE_ANIM,
+		GlobalConstants.KEY_LEVEL_BG : background_color,
+		GlobalConstants.KEY_PLAYER_POS : player_spawn_pos,
+		GlobalConstants.KEY_CREATOR : creator_name,
+		GlobalConstants.KEY_LEVEL_INFO_PALETTE : 0, #Not yet implemented
+	}
+	
+	file.store_string(to_json(level_info))
+	
+	print(\"Level Info saved\")
+	
+	file.close()
+	print(\"Export complete\\n\")
+	
+
+
+#https://www.reddit.com/r/godot/comments/40cm3w/looping_through_all_children_and_subchildren_of_a/
+func set_all_owners(node):
+	for child in node.get_children():
+		
+		if child.get_child_count() > 0:
+			set_all_owners(child)
+		
+		child.set_filename(\"\")
+		child.set_owner(Scene)
+		
+	
+
+
+func _duplicate_scene():
+	if !assert_important_nodes(): return
+	
+	var duplicate_name = _ensure_unique_duplicate_name(level_name + \"_duplicate\")
+	if duplicate_name is int:
+		print(\"Error opening: '\", CUSTOMS_PATH, \"'. Cannot duplicate.\")
+	
+	var folder_path = \"%s/%s\" % [CUSTOMS_PATH, duplicate_name]
+	var scene_path = \"%s/%s.tscn\" % [folder_path, duplicate_name]
+	
+	var directory = Directory.new()
+	
+	if directory.make_dir_recursive(folder_path) != OK:
+		print(\"Error creating folder. Cannot duplicate.\")
+		return
+	
+	var scene = PackedScene.new()
+	if scene.pack(get_tree().current_scene) != OK:
+		print(\"Error packing scene. Cannot duplicate.\")
+		return
+	
+	
+	if ResourceSaver.save(scene_path, scene, ResourceSaver.FLAG_BUNDLE_RESOURCES) != OK:
+		print(\"Error saving scene. Cannot duplicate.\")
+		return
+	
+	print(\"Successfully duplicated scene\")
+	
+
+
+func _ensure_unique_duplicate_name(name):
+	var dir = Directory.new()
+	if dir.open(CUSTOMS_PATH) != OK: return (\"-1\"+name)
+	
+	dir.list_dir_begin()
+	var file_name = dir.get_next()
+	
+	while file_name != \"\":
+		
+		if file_name == name:
+			
+			var new_name = name
+			var new_end = name.substr(name.length() - 1)
+			
+			if new_end.is_valid_integer():
+				var iter = 1
+				var end = name.length() - iter
+				
+				while new_end.is_valid_integer():
+					iter += 1
+					
+					end -= 1
+					new_end = name.substr(end)
+					
+				
+				new_name = name.substr(0, end + 1)
+				var new_num = int(new_end) + 1
+				return _ensure_unique_duplicate_name(new_name + str(new_num))
+				
+			
+			return _ensure_unique_duplicate_name(name + \"1\")
+		
+		file_name = dir.get_next()
+	
+	return name
+	
+
+
+func _on_ConfirmationDialog_confirmed():
+	
+	match current_button_choice:
+		ButtonChoices.QUIT:
+			get_tree().quit()
+		ButtonChoices.TEST:
+			_test_level()
+		ButtonChoices.EXPORT:
+			_export_level()
+		ButtonChoices.OVERWRITE:
+			can_overwrite = true
+			_export_level()
+		ButtonChoices.DUPLICATE:
+			_duplicate_scene()
+		
+
+
+func _on_TestButton_pressed():
+	
+	if enable_test_confirmation:
+		current_button_choice = ButtonChoices.TEST
+		Confirmation.window_title = \"Test level?\"
+		Confirmation.dialog_text = \"\"
+		Confirmation.show()
+	else:
+		_test_level()
+	
+
+
+func _on_ExportButton_button_down():
+	if !build_complete: return
+	current_button_choice = ButtonChoices.EXPORT
+	
+	current_button_choice = ButtonChoices.EXPORT
+	Confirmation.window_title = \"Export level?\"
+	Confirmation.dialog_text = \"\"
+	Confirmation.show()
+	
+
+
+func _on_QuitButton_button_down():
+	
+	if enable_quit_confirmation:
+		current_button_choice = ButtonChoices.QUIT
+		Confirmation.window_title = \"Exit? (Nothing will be lost)\"
+		Confirmation.dialog_text = \"\"
+		Confirmation.show()
+	else:
+		get_tree().quit()
+	
+
+func _test_level():
+	Player.fire_while_focused = true
+	EditorUI.hide()
+	Anim.play(LEVEL_ANIM_MAIN)
+
+
+func _on_AnimationPlayer_animation_finished(_anim_name):
+	EditorUI.show()
+
+func assert_important_nodes():
+	if (Anim and Player and Scene 
+		and PlayerSpawnPoint and Confirmation and EditorUI 
+		and Background):
+		
+		return true
+		
+	else:
+		print(\"Error, missing important node(s):\",
+		\"\\nAnimationPlayer: \", Anim,
+		\"\\nLevelScene: \", Scene,
+		\"\\nPlayer: \", Player,
+		\"\\nSpawn Point: \", PlayerSpawnPoint,
+		\"\\nBackground\", Background,
+		\"\\nConfirmation Window: \", Confirmation,
+		\"\\nEditorUI: \", EditorUI
+		)
+		return false
+	
+
+func _input(event):
+	if event.is_action_pressed(\"ui_focus_next\"):
+		EditorUI.visible = !EditorUI.visible
+
+
+
+func _on_DuplicateButton_pressed():
+	current_button_choice = ButtonChoices.DUPLICATE
+	Confirmation.window_title = \"Duplicate this scene?\"
+	Confirmation.dialog_text = \"It will be saved to \" + CUSTOMS_PATH
+	Confirmation.show()
+"
+
+[sub_resource type="DynamicFontData" id=2]
+font_path = "res://Fonts/Cruft/cruft.ttf"
+
+[sub_resource type="DynamicFont" id=3]
+size = 25
+outline_color = Color( 0, 0, 0, 1 )
+use_mipmaps = true
+use_filter = true
+font_data = SubResource( 2 )
+
+[sub_resource type="Theme" id=4]
+default_font = SubResource( 3 )
+Button/colors/font_color = Color( 1, 1, 1, 1 )
+Button/colors/font_color_disabled = Color( 0, 0, 0, 1 )
+Button/colors/font_color_hover = Color( 0, 0.952941, 1, 1 )
+Button/colors/font_color_pressed = Color( 0, 0, 0, 1 )
+Button/constants/hseparation = 2
+Button/fonts/font = null
+Button/styles/disabled = null
+Button/styles/focus = null
+Button/styles/hover = null
+Button/styles/normal = null
+Button/styles/pressed = null
+CheckBox/colors/font_color = Color( 0, 0, 0, 1 )
+CheckBox/colors/font_color_disabled = Color( 0, 0, 0, 1 )
+CheckBox/colors/font_color_hover = Color( 0, 0, 0, 1 )
+CheckBox/colors/font_color_hover_pressed = Color( 0, 0, 0, 1 )
+CheckBox/colors/font_color_pressed = Color( 0, 0, 0, 1 )
+CheckBox/constants/check_vadjust = 0
+CheckBox/constants/hseparation = 4
+CheckBox/fonts/font = null
+CheckBox/icons/checked = null
+CheckBox/icons/radio_checked = null
+CheckBox/icons/radio_unchecked = null
+CheckBox/icons/unchecked = null
+CheckBox/styles/disabled = null
+CheckBox/styles/focus = null
+CheckBox/styles/hover = null
+CheckBox/styles/hover_pressed = null
+CheckBox/styles/normal = null
+CheckBox/styles/pressed = null
+CheckButton/colors/font_color = Color( 0, 0, 0, 1 )
+CheckButton/colors/font_color_disabled = Color( 0, 0, 0, 1 )
+CheckButton/colors/font_color_hover = Color( 0, 0, 0, 1 )
+CheckButton/colors/font_color_hover_pressed = Color( 0, 0, 0, 1 )
+CheckButton/colors/font_color_pressed = Color( 0, 0, 0, 1 )
+CheckButton/constants/check_vadjust = 0
+CheckButton/constants/hseparation = 4
+CheckButton/fonts/font = null
+CheckButton/icons/off = null
+CheckButton/icons/off_disabled = null
+CheckButton/icons/on = null
+CheckButton/icons/on_disabled = null
+CheckButton/styles/disabled = null
+CheckButton/styles/focus = null
+CheckButton/styles/hover = null
+CheckButton/styles/hover_pressed = null
+CheckButton/styles/normal = null
+CheckButton/styles/pressed = null
+ColorPicker/constants/h_width = 30
+ColorPicker/constants/label_width = 10
+ColorPicker/constants/margin = 4
+ColorPicker/constants/sv_height = 256
+ColorPicker/constants/sv_width = 256
+ColorPicker/icons/add_preset = null
+ColorPicker/icons/color_hue = null
+ColorPicker/icons/color_sample = null
+ColorPicker/icons/overbright_indicator = null
+ColorPicker/icons/preset_bg = null
+ColorPicker/icons/screen_picker = null
+ColorPickerButton/colors/font_color = Color( 0, 0, 0, 1 )
+ColorPickerButton/colors/font_color_disabled = Color( 0, 0, 0, 1 )
+ColorPickerButton/colors/font_color_hover = Color( 0, 0, 0, 1 )
+ColorPickerButton/colors/font_color_pressed = Color( 0, 0, 0, 1 )
+ColorPickerButton/constants/hseparation = 2
+ColorPickerButton/fonts/font = null
+ColorPickerButton/icons/bg = null
+ColorPickerButton/styles/disabled = null
+ColorPickerButton/styles/focus = null
+ColorPickerButton/styles/hover = null
+ColorPickerButton/styles/normal = null
+ColorPickerButton/styles/pressed = null
+Dialogs/constants/button_margin = 32
+Dialogs/constants/margin = 8
+FileDialog/colors/file_icon_modulate = Color( 0, 0, 0, 1 )
+FileDialog/colors/files_disabled = Color( 0, 0, 0, 1 )
+FileDialog/colors/folder_icon_modulate = Color( 0, 0, 0, 1 )
+FileDialog/icons/file = null
+FileDialog/icons/folder = null
+FileDialog/icons/parent_folder = null
+FileDialog/icons/reload = null
+FileDialog/icons/toggle_hidden = null
+Fonts/fonts/large = null
+Fonts/fonts/normal = null
+GraphEdit/colors/activity = Color( 0, 0, 0, 1 )
+GraphEdit/colors/grid_major = Color( 0, 0, 0, 1 )
+GraphEdit/colors/grid_minor = Color( 0, 0, 0, 1 )
+GraphEdit/colors/selection_fill = Color( 0, 0, 0, 1 )
+GraphEdit/colors/selection_stroke = Color( 0, 0, 0, 1 )
+GraphEdit/constants/bezier_len_neg = 160
+GraphEdit/constants/bezier_len_pos = 80
+GraphEdit/constants/port_grab_distance_horizontal = 48
+GraphEdit/constants/port_grab_distance_vertical = 6
+GraphEdit/icons/minus = null
+GraphEdit/icons/more = null
+GraphEdit/icons/reset = null
+GraphEdit/icons/snap = null
+GraphEdit/styles/bg = null
+GraphNode/colors/close_color = Color( 0, 0, 0, 1 )
+GraphNode/colors/resizer_color = Color( 0, 0, 0, 1 )
+GraphNode/colors/title_color = Color( 0, 0, 0, 1 )
+GraphNode/constants/close_offset = 18
+GraphNode/constants/port_offset = 3
+GraphNode/constants/separation = 1
+GraphNode/constants/title_offset = 20
+GraphNode/fonts/title_font = null
+GraphNode/icons/close = null
+GraphNode/icons/port = null
+GraphNode/icons/resizer = null
+GraphNode/styles/breakpoint = null
+GraphNode/styles/comment = null
+GraphNode/styles/commentfocus = null
+GraphNode/styles/defaultfocus = null
+GraphNode/styles/defaultframe = null
+GraphNode/styles/frame = null
+GraphNode/styles/position = null
+GraphNode/styles/selectedframe = null
+GridContainer/constants/hseparation = 4
+GridContainer/constants/vseparation = 4
+HBoxContainer/constants/separation = 4
+HScrollBar/icons/decrement = null
+HScrollBar/icons/decrement_highlight = null
+HScrollBar/icons/increment = null
+HScrollBar/icons/increment_highlight = null
+HScrollBar/styles/grabber = null
+HScrollBar/styles/grabber_highlight = null
+HScrollBar/styles/grabber_pressed = null
+HScrollBar/styles/scroll = null
+HScrollBar/styles/scroll_focus = null
+HSeparator/constants/separation = 4
+HSeparator/styles/separator = null
+HSlider/icons/grabber = null
+HSlider/icons/grabber_disabled = null
+HSlider/icons/grabber_highlight = null
+HSlider/icons/tick = null
+HSlider/styles/grabber_area = null
+HSlider/styles/grabber_area_highlight = null
+HSlider/styles/slider = null
+HSplitContainer/constants/autohide = 1
+HSplitContainer/constants/separation = 12
+HSplitContainer/icons/grabber = null
+HSplitContainer/styles/bg = null
+Icons/icons/close = null
+ItemList/colors/font_color = Color( 0, 0, 0, 1 )
+ItemList/colors/font_color_selected = Color( 0, 0, 0, 1 )
+ItemList/colors/guide_color = Color( 0, 0, 0, 1 )
+ItemList/constants/hseparation = 4
+ItemList/constants/icon_margin = 4
+ItemList/constants/line_separation = 2
+ItemList/constants/vseparation = 2
+ItemList/fonts/font = null
+ItemList/styles/bg = null
+ItemList/styles/bg_focus = null
+ItemList/styles/cursor = null
+ItemList/styles/cursor_unfocused = null
+ItemList/styles/selected = null
+ItemList/styles/selected_focus = null
+Label/colors/font_color = Color( 0, 0, 0, 1 )
+Label/colors/font_color_shadow = Color( 0, 0, 0, 1 )
+Label/colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+Label/constants/line_spacing = 3
+Label/constants/shadow_as_outline = 0
+Label/constants/shadow_offset_x = 1
+Label/constants/shadow_offset_y = 1
+Label/fonts/font = null
+Label/styles/normal = null
+LineEdit/colors/clear_button_color = Color( 0, 0, 0, 1 )
+LineEdit/colors/clear_button_color_pressed = Color( 0, 0, 0, 1 )
+LineEdit/colors/cursor_color = Color( 0, 0, 0, 1 )
+LineEdit/colors/font_color = Color( 0, 0, 0, 1 )
+LineEdit/colors/font_color_selected = Color( 0, 0, 0, 1 )
+LineEdit/colors/font_color_uneditable = Color( 0, 0, 0, 1 )
+LineEdit/colors/selection_color = Color( 0, 0, 0, 1 )
+LineEdit/constants/minimum_spaces = 12
+LineEdit/fonts/font = null
+LineEdit/icons/clear = null
+LineEdit/styles/focus = null
+LineEdit/styles/normal = null
+LineEdit/styles/read_only = null
+LinkButton/colors/font_color = Color( 0, 0, 0, 1 )
+LinkButton/colors/font_color_hover = Color( 0, 0, 0, 1 )
+LinkButton/colors/font_color_pressed = Color( 0, 0, 0, 1 )
+LinkButton/constants/underline_spacing = 2
+LinkButton/fonts/font = null
+LinkButton/styles/focus = null
+MarginContainer/constants/margin_bottom = 0
+MarginContainer/constants/margin_left = 0
+MarginContainer/constants/margin_right = 0
+MarginContainer/constants/margin_top = 0
+MenuButton/colors/font_color = Color( 0, 0, 0, 1 )
+MenuButton/colors/font_color_disabled = Color( 0, 0, 0, 1 )
+MenuButton/colors/font_color_hover = Color( 0, 0, 0, 1 )
+MenuButton/colors/font_color_pressed = Color( 0, 0, 0, 1 )
+MenuButton/constants/hseparation = 3
+MenuButton/fonts/font = null
+MenuButton/styles/disabled = null
+MenuButton/styles/focus = null
+MenuButton/styles/hover = null
+MenuButton/styles/normal = null
+MenuButton/styles/pressed = null
+OptionButton/colors/font_color = Color( 0, 0, 0, 1 )
+OptionButton/colors/font_color_disabled = Color( 0, 0, 0, 1 )
+OptionButton/colors/font_color_hover = Color( 0, 0, 0, 1 )
+OptionButton/colors/font_color_pressed = Color( 0, 0, 0, 1 )
+OptionButton/constants/arrow_margin = 2
+OptionButton/constants/hseparation = 2
+OptionButton/fonts/font = null
+OptionButton/icons/arrow = null
+OptionButton/styles/disabled = null
+OptionButton/styles/focus = null
+OptionButton/styles/hover = null
+OptionButton/styles/normal = null
+OptionButton/styles/pressed = null
+Panel/styles/panel = null
+PanelContainer/styles/panel = null
+PopupDialog/styles/panel = null
+PopupMenu/colors/font_color = Color( 0, 0, 0, 1 )
+PopupMenu/colors/font_color_accel = Color( 0, 0, 0, 1 )
+PopupMenu/colors/font_color_disabled = Color( 0, 0, 0, 1 )
+PopupMenu/colors/font_color_hover = Color( 0, 0, 0, 1 )
+PopupMenu/constants/hseparation = 4
+PopupMenu/constants/vseparation = 4
+PopupMenu/fonts/font = null
+PopupMenu/icons/checked = null
+PopupMenu/icons/radio_checked = null
+PopupMenu/icons/radio_unchecked = null
+PopupMenu/icons/submenu = null
+PopupMenu/icons/unchecked = null
+PopupMenu/styles/hover = null
+PopupMenu/styles/labeled_separator_left = null
+PopupMenu/styles/labeled_separator_right = null
+PopupMenu/styles/panel = null
+PopupMenu/styles/panel_disabled = null
+PopupMenu/styles/separator = null
+PopupPanel/styles/panel = null
+ProgressBar/colors/font_color = Color( 0, 0, 0, 1 )
+ProgressBar/colors/font_color_shadow = Color( 0, 0, 0, 1 )
+ProgressBar/fonts/font = null
+ProgressBar/styles/bg = null
+ProgressBar/styles/fg = null
+RichTextLabel/colors/default_color = Color( 0, 0, 0, 1 )
+RichTextLabel/colors/font_color_selected = Color( 0, 0, 0, 1 )
+RichTextLabel/colors/font_color_shadow = Color( 0, 0, 0, 1 )
+RichTextLabel/colors/selection_color = Color( 0, 0, 0, 1 )
+RichTextLabel/constants/line_separation = 1
+RichTextLabel/constants/shadow_as_outline = 0
+RichTextLabel/constants/shadow_offset_x = 1
+RichTextLabel/constants/shadow_offset_y = 1
+RichTextLabel/constants/table_hseparation = 3
+RichTextLabel/constants/table_vseparation = 3
+RichTextLabel/fonts/bold_font = null
+RichTextLabel/fonts/bold_italics_font = null
+RichTextLabel/fonts/italics_font = null
+RichTextLabel/fonts/mono_font = null
+RichTextLabel/fonts/normal_font = null
+RichTextLabel/styles/focus = null
+RichTextLabel/styles/normal = null
+ScrollContainer/styles/bg = null
+SpinBox/icons/updown = null
+TabContainer/colors/font_color_bg = Color( 0, 0, 0, 1 )
+TabContainer/colors/font_color_disabled = Color( 0, 0, 0, 1 )
+TabContainer/colors/font_color_fg = Color( 0, 0, 0, 1 )
+TabContainer/constants/hseparation = 4
+TabContainer/constants/label_valign_bg = 2
+TabContainer/constants/label_valign_fg = 0
+TabContainer/constants/side_margin = 8
+TabContainer/constants/top_margin = 24
+TabContainer/fonts/font = null
+TabContainer/icons/decrement = null
+TabContainer/icons/decrement_highlight = null
+TabContainer/icons/increment = null
+TabContainer/icons/increment_highlight = null
+TabContainer/icons/menu = null
+TabContainer/icons/menu_highlight = null
+TabContainer/styles/panel = null
+TabContainer/styles/tab_bg = null
+TabContainer/styles/tab_disabled = null
+TabContainer/styles/tab_fg = null
+Tabs/colors/font_color_bg = Color( 0, 0, 0, 1 )
+Tabs/colors/font_color_disabled = Color( 0, 0, 0, 1 )
+Tabs/colors/font_color_fg = Color( 0, 0, 0, 1 )
+Tabs/constants/hseparation = 4
+Tabs/constants/label_valign_bg = 2
+Tabs/constants/label_valign_fg = 0
+Tabs/constants/top_margin = 24
+Tabs/fonts/font = null
+Tabs/icons/close = null
+Tabs/icons/decrement = null
+Tabs/icons/decrement_highlight = null
+Tabs/icons/increment = null
+Tabs/icons/increment_highlight = null
+Tabs/styles/button = null
+Tabs/styles/button_pressed = null
+Tabs/styles/panel = null
+Tabs/styles/tab_bg = null
+Tabs/styles/tab_disabled = null
+Tabs/styles/tab_fg = null
+TextEdit/colors/background_color = Color( 0, 0, 0, 1 )
+TextEdit/colors/bookmark_color = Color( 0, 0, 0, 1 )
+TextEdit/colors/brace_mismatch_color = Color( 0, 0, 0, 1 )
+TextEdit/colors/breakpoint_color = Color( 0, 0, 0, 1 )
+TextEdit/colors/caret_background_color = Color( 0, 0, 0, 1 )
+TextEdit/colors/caret_color = Color( 0, 0, 0, 1 )
+TextEdit/colors/code_folding_color = Color( 0, 0, 0, 1 )
+TextEdit/colors/completion_background_color = Color( 0, 0, 0, 1 )
+TextEdit/colors/completion_existing_color = Color( 0, 0, 0, 1 )
+TextEdit/colors/completion_font_color = Color( 0, 0, 0, 1 )
+TextEdit/colors/completion_scroll_color = Color( 0, 0, 0, 1 )
+TextEdit/colors/completion_selected_color = Color( 0, 0, 0, 1 )
+TextEdit/colors/current_line_color = Color( 0, 0, 0, 1 )
+TextEdit/colors/executing_line_color = Color( 0, 0, 0, 1 )
+TextEdit/colors/font_color = Color( 0, 0, 0, 1 )
+TextEdit/colors/font_color_readonly = Color( 0, 0, 0, 1 )
+TextEdit/colors/font_color_selected = Color( 0, 0, 0, 1 )
+TextEdit/colors/function_color = Color( 0, 0, 0, 1 )
+TextEdit/colors/line_number_color = Color( 0, 0, 0, 1 )
+TextEdit/colors/mark_color = Color( 0, 0, 0, 1 )
+TextEdit/colors/member_variable_color = Color( 0, 0, 0, 1 )
+TextEdit/colors/number_color = Color( 0, 0, 0, 1 )
+TextEdit/colors/safe_line_number_color = Color( 0, 0, 0, 1 )
+TextEdit/colors/selection_color = Color( 0, 0, 0, 1 )
+TextEdit/colors/symbol_color = Color( 0, 0, 0, 1 )
+TextEdit/colors/word_highlighted_color = Color( 0, 0, 0, 1 )
+TextEdit/constants/completion_lines = 7
+TextEdit/constants/completion_max_width = 50
+TextEdit/constants/completion_scroll_width = 3
+TextEdit/constants/line_spacing = 4
+TextEdit/fonts/font = null
+TextEdit/icons/fold = null
+TextEdit/icons/folded = null
+TextEdit/icons/space = null
+TextEdit/icons/tab = null
+TextEdit/styles/completion = null
+TextEdit/styles/focus = null
+TextEdit/styles/normal = null
+TextEdit/styles/read_only = null
+ToolButton/colors/font_color = Color( 0, 0, 0, 1 )
+ToolButton/colors/font_color_disabled = Color( 0, 0, 0, 1 )
+ToolButton/colors/font_color_hover = Color( 0, 0, 0, 1 )
+ToolButton/colors/font_color_pressed = Color( 0, 0, 0, 1 )
+ToolButton/constants/hseparation = 3
+ToolButton/fonts/font = null
+ToolButton/styles/disabled = null
+ToolButton/styles/focus = null
+ToolButton/styles/hover = null
+ToolButton/styles/normal = null
+ToolButton/styles/pressed = null
+TooltipLabel/colors/font_color = Color( 0, 0, 0, 1 )
+TooltipLabel/colors/font_color_shadow = Color( 0, 0, 0, 1 )
+TooltipLabel/constants/shadow_offset_x = 1
+TooltipLabel/constants/shadow_offset_y = 1
+TooltipLabel/fonts/font = null
+TooltipPanel/styles/panel = null
+Tree/colors/custom_button_font_highlight = Color( 0, 0, 0, 1 )
+Tree/colors/drop_position_color = Color( 0, 0, 0, 1 )
+Tree/colors/font_color = Color( 0, 0, 0, 1 )
+Tree/colors/font_color_selected = Color( 0, 0, 0, 1 )
+Tree/colors/guide_color = Color( 0, 0, 0, 1 )
+Tree/colors/relationship_line_color = Color( 0, 0, 0, 1 )
+Tree/colors/title_button_color = Color( 0, 0, 0, 1 )
+Tree/constants/button_margin = 4
+Tree/constants/draw_guides = 1
+Tree/constants/draw_relationship_lines = 0
+Tree/constants/hseparation = 4
+Tree/constants/item_margin = 12
+Tree/constants/scroll_border = 4
+Tree/constants/scroll_speed = 12
+Tree/constants/vseparation = 4
+Tree/fonts/font = null
+Tree/fonts/title_button_font = null
+Tree/icons/arrow = null
+Tree/icons/arrow_collapsed = null
+Tree/icons/checked = null
+Tree/icons/select_arrow = null
+Tree/icons/unchecked = null
+Tree/icons/updown = null
+Tree/styles/bg = null
+Tree/styles/bg_focus = null
+Tree/styles/button_pressed = null
+Tree/styles/cursor = null
+Tree/styles/cursor_unfocused = null
+Tree/styles/custom_button = null
+Tree/styles/custom_button_hover = null
+Tree/styles/custom_button_pressed = null
+Tree/styles/selected = null
+Tree/styles/selected_focus = null
+Tree/styles/title_button_hover = null
+Tree/styles/title_button_normal = null
+Tree/styles/title_button_pressed = null
+VBoxContainer/constants/separation = 4
+VScrollBar/icons/decrement = null
+VScrollBar/icons/decrement_highlight = null
+VScrollBar/icons/increment = null
+VScrollBar/icons/increment_highlight = null
+VScrollBar/styles/grabber = null
+VScrollBar/styles/grabber_highlight = null
+VScrollBar/styles/grabber_pressed = null
+VScrollBar/styles/scroll = null
+VScrollBar/styles/scroll_focus = null
+VSeparator/constants/separation = 4
+VSeparator/styles/separator = null
+VSlider/icons/grabber = null
+VSlider/icons/grabber_disabled = null
+VSlider/icons/grabber_highlight = null
+VSlider/icons/tick = null
+VSlider/styles/grabber_area = null
+VSlider/styles/grabber_area_highlight = null
+VSlider/styles/slider = null
+VSplitContainer/constants/autohide = 1
+VSplitContainer/constants/separation = 12
+VSplitContainer/icons/grabber = null
+VSplitContainer/styles/bg = null
+WindowDialog/colors/title_color = Color( 0, 0, 0, 1 )
+WindowDialog/constants/close_h_ofs = 18
+WindowDialog/constants/close_v_ofs = 18
+WindowDialog/constants/scaleborder_size = 4
+WindowDialog/constants/title_height = 26
+WindowDialog/fonts/title_font = null
+WindowDialog/icons/close = null
+WindowDialog/icons/close_highlight = null
+WindowDialog/styles/panel = null
+
+[sub_resource type="Animation" id=5]
+resource_name = "leveldata"
+length = 71.0
+tracks/0/type = "audio"
+tracks/0/path = NodePath("AnimationPlayer/AudioStreamPlayer")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"clips": [ {
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource( 3 )
+} ],
+"times": PoolRealArray( 0 )
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath("/root/GlobalEffects")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.3 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ 1.5, 30.0, 4.0 ],
+"method": "shake"
+} ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Layer1/LeftWave:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.3, 3.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, 0 ), Vector2( 3840, 0 ) ]
+}
+tracks/3/type = "method"
+tracks/3/path = NodePath("Layer1/LaserWave1/Laser")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 3.71, 4.6 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [ 1.0, 0.3 ],
+"method": "fade_in"
+}, {
+"args": [ Color( 1, 0, 0, 1 ), 0.3 ],
+"method": "flash_attack"
+} ]
+}
+tracks/4/type = "method"
+tracks/4/path = NodePath("Layer1/LaserWave1/Laser2")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 3.89, 4.78 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [ 1.0, 0.3 ],
+"method": "fade_in"
+}, {
+"args": [ Color( 1, 0, 0, 1 ), 0.3 ],
+"method": "flash_attack"
+} ]
+}
+tracks/5/type = "method"
+tracks/5/path = NodePath("Layer1/LaserWave1/Laser3")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 4.06, 4.94 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [ 1.0, 0.3 ],
+"method": "fade_in"
+}, {
+"args": [ Color( 1, 0, 0, 1 ), 0.3 ],
+"method": "flash_attack"
+} ]
+}
+tracks/6/type = "method"
+tracks/6/path = NodePath("Layer1/LaserWave1/Laser4")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 4.23, 5.12 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [ 1.0, 0.3 ],
+"method": "fade_in"
+}, {
+"args": [ Color( 1, 0, 0, 1 ), 0.3 ],
+"method": "flash_attack"
+} ]
+}
+tracks/7/type = "method"
+tracks/7/path = NodePath("Layer1/LaserWave1/Laser5")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 4.35, 5.24 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [ 1.0, 0.3 ],
+"method": "fade_in"
+}, {
+"args": [ Color( 1, 0, 0, 1 ), 0.3 ],
+"method": "flash_attack"
+} ]
+}
+tracks/8/type = "method"
+tracks/8/path = NodePath("Layer1/LaserWave1/Laser6")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 4.56, 5.45 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [ 1.0, 0.3 ],
+"method": "fade_in"
+}, {
+"args": [ Color( 1, 0, 0, 1 ), 0.3 ],
+"method": "flash_attack"
+} ]
+}
+
+[sub_resource type="GDScript" id=6]
+script/source = "extends AnimationPlayer
+
+func _ready():
+	GlobalLevelManager.loaded_level_anim = self
+"
+
+[sub_resource type="StreamTexture" id=7]
+flags = 4
+load_path = "res://.import/icon.png-487276ed1e3a0c39cad0279d744ee560.stex"
+
+[sub_resource type="GDScript" id=8]
+script/source = "extends Node2D
+
+func _ready():
+	for child in get_children():
+		child.position.y = rand_range(96, 984)
+"
+
+[sub_resource type="GDScript" id=9]
+script/source = "extends Node2D
+
+func _ready():
+	var pos = rand_range(64,320)
+	for child in get_children():
+		child.monitoring = false
+		child.position.x = pos
+		pos += rand_range(128,386)
+"
+
+[node name="EngineLevelEditor" type="Node2D"]
+script = SubResource( 1 )
+level_name = "Chaoz Impact"
+description = "Survival of the fittest"
+background_color = Color( 0.0666667, 0.0666667, 0.0666667, 1 )
+song = "C:/Users/Cam/Documents/Audivarium/EngineEditor/Customs/ChaozImpact/ParagonX9 - Chaoz Impact.ogg"
+song_name = "Chaoz Impact"
+creator_name = "Kiplog"
+enable_test_confirmation = false
+player_node = NodePath("leveldata/Player")
+animation_player = NodePath("leveldata/AnimationPlayer")
+level_scene = NodePath("leveldata")
+spawn_point = NodePath("leveldata/PlayerSpawnPoint")
+
+[node name="BackgroundSimulator" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -3792.55
+margin_top = -3690.08
+margin_right = 6207.45
+margin_bottom = 6309.92
+mouse_filter = 2
+color = Color( 0.0666667, 0.0666667, 0.0666667, 1 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="editorinfo" type="Node2D" parent="."]
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="Label" type="Label" parent="editorinfo"]
+margin_left = 16.0
+margin_top = -300.0
+margin_right = 1071.0
+margin_bottom = -98.0
+custom_fonts/font = SubResource( 3 )
+text = "
+Only objects in the leveldata node will be saved
+levels saved at: C:\\Users\\User\\AppData\\Roaming\\Godot\\app_userdata\\Audivarium
+Info about level is inputed in the EngineLevelEditor node
+Audio currently only supports .ogg and .wav files,
+I recommend .ogg for music, and .wav for sound effects
+ESC: free mouse"
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="editorinfo"]
+margin_left = 1370.53
+margin_top = -300.0
+margin_right = 2425.53
+margin_bottom = -16.0
+custom_fonts/font = SubResource( 3 )
+text = "
+/root/GlobalEffects functions
+func shake((float)time, (float)frequency, (float)amplitude)
+func Spawn_Shockwave((Vector2)global position, (float)life time)
+func add_effects_node(node, (Vector2)position, (bool)raise)
+func create_trail(parent, (Color)color, (float)width, (float)life time, (float)fade time)"
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Control" type="Control" parent="editorinfo"]
+margin_right = 40.0
+margin_bottom = 40.0
+theme = SubResource( 4 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="TestButton" type="Button" parent="editorinfo/Control"]
+margin_left = 264.0
+margin_right = 464.0
+margin_bottom = 54.0
+text = "Test Level"
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="ExportButton" type="Button" parent="editorinfo/Control"]
+margin_left = 528.0
+margin_right = 728.0
+margin_bottom = 54.0
+text = "Export Level"
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="DuplicateButton" type="Button" parent="editorinfo/Control"]
+margin_left = 792.0
+margin_right = 992.0
+margin_bottom = 54.0
+text = "Duplicate Template"
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="QuitButton" type="Button" parent="editorinfo/Control"]
+margin_right = 200.0
+margin_bottom = 54.0
+text = "Close"
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="ConfirmationDialog" type="ConfirmationDialog" parent="editorinfo/Control"]
+margin_left = 280.0
+margin_top = 306.0
+margin_right = 770.0
+margin_bottom = 451.0
+window_title = "Duplicate this scene?"
+resizable = true
+dialog_text = "It will be saved to res://EngineEditor/Customs/"
+dialog_autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="leveldata" type="Node2D" parent="."]
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="leveldata"]
+anims/leveldata = SubResource( 5 )
+script = SubResource( 6 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="leveldata/AnimationPlayer"]
+stream = ExtResource( 3 )
+
+[node name="Layer0" type="Node2D" parent="leveldata"]
+
+[node name="PlayerSpawnPoint" type="Sprite" parent="leveldata"]
+visible = false
+position = Vector2( 960, 540 )
+texture = SubResource( 7 )
+
+[node name="Player" parent="leveldata" instance=ExtResource( 4 )]
+position = Vector2( 960, 540 )
+
+[node name="Layer1" type="Node2D" parent="leveldata"]
+
+[node name="LeftWave" type="Node2D" parent="leveldata/Layer1"]
+script = SubResource( 8 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Square" parent="leveldata/Layer1/LeftWave" instance=ExtResource( 2 )]
+modulate = Color( 1, 0, 0, 1 )
+position = Vector2( -80, 0 )
+scale = Vector2( 1.5, 1.5 )
+bullet_solid = true
+destructable = true
+
+[node name="Square2" parent="leveldata/Layer1/LeftWave" instance=ExtResource( 2 )]
+modulate = Color( 1, 0, 0, 1 )
+position = Vector2( -752, 0 )
+scale = Vector2( 1.5, 1.5 )
+bullet_solid = true
+destructable = true
+
+[node name="Square3" parent="leveldata/Layer1/LeftWave" instance=ExtResource( 2 )]
+modulate = Color( 1, 0, 0, 1 )
+position = Vector2( -304, 0 )
+scale = Vector2( 1.5, 1.5 )
+bullet_solid = true
+destructable = true
+
+[node name="Square4" parent="leveldata/Layer1/LeftWave" instance=ExtResource( 2 )]
+modulate = Color( 1, 0, 0, 1 )
+position = Vector2( -976, 0 )
+scale = Vector2( 1.5, 1.5 )
+bullet_solid = true
+destructable = true
+
+[node name="Square6" parent="leveldata/Layer1/LeftWave" instance=ExtResource( 2 )]
+modulate = Color( 1, 0, 0, 1 )
+position = Vector2( -1200, 0 )
+scale = Vector2( 1.5, 1.5 )
+bullet_solid = true
+destructable = true
+
+[node name="Square7" parent="leveldata/Layer1/LeftWave" instance=ExtResource( 2 )]
+modulate = Color( 1, 0, 0, 1 )
+position = Vector2( -1424, 0 )
+scale = Vector2( 1.5, 1.5 )
+bullet_solid = true
+destructable = true
+
+[node name="Square8" parent="leveldata/Layer1/LeftWave" instance=ExtResource( 2 )]
+modulate = Color( 1, 0, 0, 1 )
+position = Vector2( -1648, -8 )
+scale = Vector2( 1.5, 1.5 )
+bullet_solid = true
+destructable = true
+
+[node name="Square5" parent="leveldata/Layer1/LeftWave" instance=ExtResource( 2 )]
+modulate = Color( 1, 0, 0, 1 )
+position = Vector2( -528, 0 )
+scale = Vector2( 1.5, 1.5 )
+bullet_solid = true
+destructable = true
+
+[node name="LaserWave1" type="Node2D" parent="leveldata/Layer1"]
+script = SubResource( 9 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Laser" parent="leveldata/Layer1/LaserWave1" instance=ExtResource( 1 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+monitoring = false
+monitorable = false
+
+[node name="Laser2" parent="leveldata/Layer1/LaserWave1" instance=ExtResource( 1 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+monitoring = false
+monitorable = false
+
+[node name="Laser3" parent="leveldata/Layer1/LaserWave1" instance=ExtResource( 1 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+monitoring = false
+monitorable = false
+
+[node name="Laser4" parent="leveldata/Layer1/LaserWave1" instance=ExtResource( 1 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+monitoring = false
+monitorable = false
+
+[node name="Laser5" parent="leveldata/Layer1/LaserWave1" instance=ExtResource( 1 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+monitoring = false
+monitorable = false
+
+[node name="Laser6" parent="leveldata/Layer1/LaserWave1" instance=ExtResource( 1 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+monitoring = false
+monitorable = false
+[connection signal="pressed" from="editorinfo/Control/TestButton" to="." method="_on_TestButton_pressed"]
+[connection signal="button_down" from="editorinfo/Control/ExportButton" to="." method="_on_ExportButton_button_down"]
+[connection signal="pressed" from="editorinfo/Control/DuplicateButton" to="." method="_on_DuplicateButton_pressed"]
+[connection signal="button_down" from="editorinfo/Control/QuitButton" to="." method="_on_QuitButton_button_down"]
+[connection signal="confirmed" from="editorinfo/Control/ConfirmationDialog" to="." method="_on_ConfirmationDialog_confirmed"]

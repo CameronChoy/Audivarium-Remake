@@ -1,11 +1,13 @@
 extends PanelContainer
 signal button_pressed
 
+var current_level
+
 func set_title(new : String):
 	$Control/Title.text = new
 
 func set_length(new):
-	$Control/Length.text = new
+	$Control/Length.text = str(new)
 
 func set_image(new):
 	$Control/Image.texture = new

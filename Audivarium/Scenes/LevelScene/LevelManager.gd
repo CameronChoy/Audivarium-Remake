@@ -4,13 +4,49 @@ const MAX_ITERATIONS = 50
 var objects = []
 var current_objects = []
 onready var level_time = 0
-onready var TitleAnim = $TitleAnim
-onready var Title = $LevelTitle
-onready var LevelAnim = $LevelAnim
+
+var Title
+var TitleTween
+var TitleTimer
+onready var Scene
+onready var title_move_back = true
+
 
 func _ready():
 	set_process(false)
+	
+	Scene = $Scene
+	TitleTween = $TitleTween
+	TitleTimer = $TitleTween/Timer
+	Title = $LevelTitle
+	
+	
+	if GlobalLevelManager.loaded_level and GlobalLevelManager.loaded_level_info:
+		yield(SceneManager, "scene_transition_completed")
+		var level = GlobalLevelManager.loaded_level.instance()
+		
+		if GlobalLevelManager.loaded_level_info.get(GlobalConstants.KEY_LEVEL_TYPE) == GlobalConstants.VAR_LEVEL_TYPE_ANIM:
+			Scene.add_child(level)
+			print_children(self)
+			if GlobalLevelManager.loaded_level_anim is AnimationPlayer and GlobalLevelManager.loaded_level_anim.has_animation(GlobalConstants.LEVEL_ANIM_NAME):
+				GlobalLevelManager.loaded_level_anim.play(GlobalConstants.LEVEL_ANIM_NAME)
+				
+		
+		Title.text = GlobalLevelManager.loaded_level_info.get(GlobalConstants.KEY_LEVEL_NAME)
+		
+		TitleTween.interpolate_property(Title, "rect_position:x",Title.rect_position.x, 0, 1,Tween.TRANS_SINE,Tween.EASE_OUT)
+		TitleTween.start()
+		
+	
 	#setup_level()
+
+
+func print_children(node):
+	for child in node.get_children():
+		print(child.name)
+		if child.get_child_count() > 0:
+			print_children(child)
+		
 
 func setup_level(name : String, level_objects : Array):
 	objects = level_objects
@@ -69,3 +105,17 @@ func _step(delta):
 
 func _process(delta):
 	_step(delta)
+
+
+func _on_TitleTween_tween_all_completed():
+	
+	if title_move_back:
+		title_move_back = false
+		TitleTimer.start(1.25)
+		
+	
+
+
+func _on_Timer_timeout():
+	TitleTween.interpolate_property(Title, "rect_position:x",0, -Title.rect_size.x, 1,Tween.TRANS_SINE,Tween.EASE_IN)
+	TitleTween.start()

@@ -1,10 +1,13 @@
 extends Node
 
-const LEVELS_FOLDER_NAME = "levels"
+
 
 var loaded_level_directory
 var loaded_level_info = Dictionary()
+var loaded_level_anim
 var loaded_level
+var player_spawn_node
+
 #signal level_load_completed
 
 

@@ -4,9 +4,9 @@ const ANIM_DAMAGED = "Damaged"
 var audio_damaged = preload("res://Objects/Player/PlayerAudio/player_hit_02.wav")
 
 export var max_health : int = 5
-export var acceleration : float = 35
+export var acceleration : float = 40
 export var deceleration : float = 0.75
-export var max_speed : float = 450
+export var max_speed : float = 600
 export var dash_speed : float = 1450
 export var dash_time : float = 0.15
 export var dash_reset_time : float = 0.75
@@ -14,6 +14,7 @@ export var teleport_range : float = 500
 export var teleport_reset_time : float = 1
 export var teleport_shockwave_time : float = 2
 export var invincible : bool = false
+export var fire_while_focused = false
 
 onready var left = false
 onready var right = false
@@ -47,14 +48,17 @@ func _ready():
 	current_max_speed = max_speed
 	MainSprite.self_modulate = PlayerGlobals.get_ColorPlayerMain()
 	var _err
-	#ignore-warning:warning_identifier
+	
 	_err = CrossHair.connect("dash_reset_completed",self,"dash_reset_completion_signal")
-	#ignore-warning:warning_identifier
+	
 	_err = CrossHair.connect("teleport_reset_completed",self,"teleport_reset_completion_signal")
-	#ignore-warning:warning_identifier
+	
 	_err = CrossHair.connect("bullet_reload_completed",self,"bullet_reload_completion_signal")
 	
 	_err = PlayerGlobals.connect("bullet_changed",self,"bullet_change_signal")
+	
+	_err = DashTween.connect("tween_all_completed",self,"_on_DashTween_tween_all_completed")
+	
 	
 	bullet_change_signal()
 	
@@ -153,9 +157,16 @@ func _input(event):
 			TeleportIndicator.stop_aiming()
 			return
 	
+	if fire_while_focused:
+		_check_shoot(event)
+		return
 
 
 func _unhandled_input(event):
+	_check_shoot(event)
+
+
+func _check_shoot(event):
 	if event.is_action_pressed("shoot"):
 		
 		teleport_readying = false
@@ -184,11 +195,6 @@ func _dash():
 	can_dash = false
 	DashTween.interpolate_property(self,"current_max_speed",dash_speed,max_speed,dash_time,Tween.TRANS_SINE,Tween.EASE_OUT)
 	DashTween.start()
-	
-
-
-func _on_DashResetTimer_timeout():
-	can_dash = true
 	
 
 
@@ -240,6 +246,9 @@ func shoot():
 		
 	
 
+func clear_bullets():
+	for _bullet in BulletTree.get_children():
+		_bullet.free()
 
 func bullet_change_signal():
 	

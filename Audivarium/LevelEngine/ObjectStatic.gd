@@ -4,6 +4,7 @@ class_name Static
 
 export var bullet_solid : bool = false setget set_bullet_solid, is_bullet_solid
 export var destructable : bool = false setget set_destructable, is_destructable
+export var damaging : bool = true
 var tracks
 var spawn_time
 var despawn_time
@@ -12,8 +13,12 @@ onready var prev_destruct = destructable
 
 func _ready():
 	set_process(Engine.editor_hint)
+	
+	if bullet_solid: add_to_group(GlobalConstants.GROUP_BULLET_SOLID)
+	if destructable: add_to_group(GlobalConstants.GROUP_DAMAGABLE)
+	
 
-func _process(delta):
+func _process(_delta):
 	if prev_bullet != bullet_solid:
 		set_bullet_solid(bullet_solid)
 		prev_bullet = bullet_solid
@@ -90,20 +95,20 @@ func _set_z_index(new : int):
 func set_bullet_solid(new : bool):
 	bullet_solid = new
 	if new:
-		call_deferred("self.add_to_group", GlobalConstants.GROUP_BULLET_SOLID)
-	else:
-		call_deferred("self.remove_from_group", GlobalConstants.GROUP_BULLET_SOLID)
+		call_deferred("add_to_group", GlobalConstants.GROUP_BULLET_SOLID)
+	elif is_in_group(GlobalConstants.GROUP_BULLET_SOLID):
+		call_deferred("remove_from_group", GlobalConstants.GROUP_BULLET_SOLID)
 
 func is_bullet_solid():
 	return bullet_solid
 
 func set_destructable(new : bool):
 	destructable = new
-	print((new))
+	#print((new))
 	if new:
-		call_deferred("self.add_to_group", GlobalConstants.GROUP_DAMAGABLE)
-	else:
-		call_deferred("self.remove_from_group", GlobalConstants.GROUP_DAMAGABLE)
+		call_deferred("add_to_group", GlobalConstants.GROUP_DAMAGABLE)
+	elif is_in_group(GlobalConstants.GROUP_DAMAGABLE):
+		call_deferred("remove_from_group", GlobalConstants.GROUP_DAMAGABLE)
 
 func is_destructable():
 	return destructable
@@ -128,3 +133,14 @@ func bezier(p1, p2, p3, p4, t : float):
 
 func Damaged(_culprit = null):
 	queue_free()
+
+
+func _check_player(body):
+	if body.is_in_group(GlobalConstants.GROUP_PLAYER):
+		if damaging:
+			body.Damaged(self)
+		if destructable:
+			Damaged(body)
+		return true
+	return false
+

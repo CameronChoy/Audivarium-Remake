@@ -47,9 +47,6 @@ update_rotation = false
 [node name="Node2D" type="Node2D" parent="MainSprite/PlayerEffectsTree"]
 scale = Vector2( 0.1, 0.1 )
 
-[node name="DashResetTimer" type="Timer" parent="."]
-one_shot = true
-
 [node name="DashTween" type="Tween" parent="."]
 
 [node name="TeleportIndicator" type="Sprite" parent="."]
@@ -113,5 +110,3 @@ __meta__ = {
 
 [node name="PlayerAnim" type="AnimationPlayer" parent="."]
 anims/Damaged = ExtResource( 8 )
-[connection signal="timeout" from="DashResetTimer" to="." method="_on_DashResetTimer_timeout"]
-[connection signal="tween_all_completed" from="DashTween" to="." method="_on_DashTween_tween_all_completed"]

@@ -466,6 +466,7 @@ margin_left = -40.0
 margin_top = -40.0
 margin_right = 1960.0
 margin_bottom = 1120.0
+mouse_filter = 2
 
 [node name="Viewport" type="Viewport" parent="SceneIn"]
 size = Vector2( 1920, 1080 )
@@ -495,6 +496,7 @@ margin_left = -40.0
 margin_top = -40.0
 margin_right = 1960.0
 margin_bottom = 1120.0
+mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
