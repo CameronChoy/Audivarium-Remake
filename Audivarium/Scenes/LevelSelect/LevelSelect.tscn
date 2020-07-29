@@ -1,7 +1,46 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Scenes/LevelSelect/LevelSelect.gd" type="Script" id=1]
-[ext_resource path="res://icon.png" type="Texture" id=2]
+[ext_resource path="res://Scenes/LevelSelect/LevelInfoCard.tscn" type="PackedScene" id=2]
+
+[sub_resource type="Animation" id=1]
+resource_name = "Begin"
+length = 0.75
+tracks/0/type = "bezier"
+tracks/0/path = NodePath(".:rect_position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray(  ),
+"times": PoolRealArray(  )
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath(".:rect_position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( -1080, -0.25, 0, 0.25, 0, 0.578957, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.75 )
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "SlideDown"
+length = 0.75
+step = 0.05
+tracks/0/type = "bezier"
+tracks/0/path = NodePath(".:rect_position:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0, 1080, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.75 )
+}
 
 [node name="LevelSelect" type="Control"]
 anchor_right = 1.0
@@ -40,7 +79,9 @@ margin_bottom = 944.0
 follow_focus = true
 scroll_horizontal_enabled = false
 
-[node name="Custom Levels" type="MarginContainer" parent="LevelsList/TabContainer"]
+[node name="OfficialsList" type="VBoxContainer" parent="LevelsList/TabContainer/Levels/Scroll"]
+
+[node name="CustomLevels" type="MarginContainer" parent="LevelsList/TabContainer"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -49,81 +90,29 @@ margin_top = 32.0
 margin_right = -4.0
 margin_bottom = -4.0
 
-[node name="Scroll" type="ScrollContainer" parent="LevelsList/TabContainer/Custom Levels"]
+[node name="Scroll" type="ScrollContainer" parent="LevelsList/TabContainer/CustomLevels"]
 margin_right = 852.0
 margin_bottom = 944.0
 follow_focus = true
 scroll_horizontal_enabled = false
 
-[node name="Info1" type="PanelContainer" parent="."]
-margin_left = 100.0
-margin_top = 80.0
-margin_right = 861.0
-margin_bottom = 988.0
+[node name="CustomsList" type="VBoxContainer" parent="LevelsList/TabContainer/CustomLevels/Scroll"]
+
+[node name="InfoCards" type="Control" parent="."]
+margin_top = 1080.0
+margin_right = 40.0
+margin_bottom = 1120.0
+mouse_filter = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Control" type="Control" parent="Info1"]
-margin_left = 7.0
-margin_top = 7.0
-margin_right = 754.0
-margin_bottom = 901.0
+[node name="Info1" parent="InfoCards" instance=ExtResource( 2 )]
 
-[node name="Title" type="Label" parent="Info1/Control"]
-margin_left = 21.0
-margin_top = 33.0
-margin_right = 725.0
-margin_bottom = 105.0
-text = "Title"
-align = 1
-autowrap = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="Info2" parent="InfoCards" instance=ExtResource( 2 )]
+margin_top = -1000.0
+margin_bottom = -92.0001
 
-[node name="Length" type="Label" parent="Info1/Control"]
-margin_left = 21.0
-margin_top = 177.0
-margin_right = 277.0
-margin_bottom = 241.0
-text = "Length"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Image" type="Sprite" parent="Info1/Control"]
-position = Vector2( 501, 137 )
-texture = ExtResource( 2 )
-
-[node name="ScrollContainer" type="ScrollContainer" parent="Info1/Control"]
-margin_left = 21.0
-margin_top = 305.0
-margin_right = 405.0
-margin_bottom = 553.0
-follow_focus = true
-scroll_horizontal_enabled = false
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Description" type="Label" parent="Info1/Control/ScrollContainer"]
-margin_right = 384.0
-margin_bottom = 248.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-text = "Description"
-autowrap = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Play" type="Button" parent="Info1/Control"]
-margin_left = 21.0
-margin_top = 793.0
-margin_right = 725.0
-margin_bottom = 874.0
-text = "Play"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="InfoCardsAnim" type="AnimationPlayer" parent="InfoCards"]
+anims/Begin = SubResource( 1 )
+anims/SlideDown = SubResource( 2 )

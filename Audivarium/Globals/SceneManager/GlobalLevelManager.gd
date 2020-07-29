@@ -1,5 +1,7 @@
 extends Node
 
+const LEVELS_FOLDER_NAME = "levels"
+
 var loaded_level_directory
 var loaded_level_info = Dictionary()
 var loaded_level

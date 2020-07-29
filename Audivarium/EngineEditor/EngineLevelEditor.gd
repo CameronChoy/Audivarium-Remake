@@ -102,7 +102,7 @@ func _export_level():
 	
 	var file = File.new()
 	
-	var dir_path = "%s/%s" % [OS.get_user_data_dir(), level_name]
+	var dir_path = "%s%s/%s" % [OS.get_user_data_dir(), GlobalLevelManager.LEVELS_FOLDER_NAME, level_name]
 	var level_path = "%s/%s" % [dir_path, GlobalConstants.FILE_NAME_LEVEL_INFO]
 	var level_data_path = "%s/%s" % [dir_path, GlobalConstants.FILE_NAME_LEVEL_DATA_ANIM]
 	var song_data_path = "%s/%s" % [dir_path, GlobalConstants.FILE_NAME_SONG_DATA]
