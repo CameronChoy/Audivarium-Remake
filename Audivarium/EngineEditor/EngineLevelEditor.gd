@@ -24,13 +24,15 @@ export(String) var song_name = ""
 #export(float) var song_offset = 0
 export(String) var creator_name = ""
 export(float) var preview_offset = 0
-export(bool) var enable_test_confirmation = true
-export(bool) var enable_quit_confirmation = true
+
 export(NodePath) var player_node
 export(NodePath) var animation_player
 export(NodePath) var level_scene
+export(NodePath) var background_node
 export(NodePath) var spawn_point
 
+export(bool) var enable_test_confirmation = true
+export(bool) var enable_quit_confirmation = true
 var prev_bg = background_color
 const LEVEL_ANIM_MAIN = "leveldata"
 const CUSTOMS_PATH = "res://EngineEditor/Customs/"
@@ -45,7 +47,7 @@ func _ready():
 	
 	Confirmation = $editorinfo/Control/ConfirmationDialog
 	EditorUI = $editorinfo
-	Background = $BackgroundSimulator
+	Background = get_node(background_node)
 	
 	Anim = get_node(animation_player)
 	Scene = get_node(level_scene)

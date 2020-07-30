@@ -4,6 +4,7 @@
 [ext_resource path="res://Objects/Statics/Square/Square.tscn" type="PackedScene" id=2]
 [ext_resource path="res://EngineEditor/Customs/ChaozImpact/ParagonX9 - Chaoz Impact.ogg" type="AudioStream" id=3]
 [ext_resource path="res://Objects/Player/Player.tscn" type="PackedScene" id=4]
+[ext_resource path="res://EngineEditor/Customs/ChaozImpact/LaserWave1.gd" type="Script" id=5]
 
 [sub_resource type="GDScript" id=1]
 script/source = "tool
@@ -32,13 +33,16 @@ export(String) var song_name = \"\"
 #export(float) var song_offset = 0
 export(String) var creator_name = \"\"
 export(float) var preview_offset = 0
-export(bool) var enable_test_confirmation = true
-export(bool) var enable_quit_confirmation = true
+
+
 export(NodePath) var player_node
 export(NodePath) var animation_player
+export(NodePath) var background_node
 export(NodePath) var level_scene
 export(NodePath) var spawn_point
 
+export(bool) var enable_test_confirmation = true
+export(bool) var enable_quit_confirmation = true
 var prev_bg = background_color
 const LEVEL_ANIM_MAIN = \"leveldata\"
 const CUSTOMS_PATH = \"res://EngineEditor/Customs/\"
@@ -53,7 +57,7 @@ func _ready():
 	
 	Confirmation = $editorinfo/Control/ConfirmationDialog
 	EditorUI = $editorinfo
-	Background = $BackgroundSimulator
+	Background = get_node(background_node)
 	
 	Anim = get_node(animation_player)
 	Scene = get_node(level_scene)
@@ -63,6 +67,8 @@ func _ready():
 	#VisualServer.set_default_clear_color(background_color)
 	
 	if !assert_important_nodes(): return
+	
+	EditorUI.show()
 	
 	if !Engine.editor_hint:
 		Player.global_position = PlayerSpawnPoint.global_position
@@ -345,18 +351,604 @@ func _on_DuplicateButton_pressed():
 	Confirmation.show()
 "
 
-[sub_resource type="DynamicFontData" id=2]
+[sub_resource type="Animation" id=2]
+resource_name = "leveldata"
+length = 71.0
+tracks/0/type = "method"
+tracks/0/path = NodePath("/root/GlobalEffects")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.3, 5.8 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [ 1.5, 30.0, 4.0 ],
+"method": "shake"
+}, {
+"args": [ 1.5, 30.0, 4.0 ],
+"method": "shake"
+} ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Layer1/LeftWave:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.3, 3.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, 0 ), Vector2( 3840, 0 ) ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath("Layer1/LaserWave/Laser")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 3.71, 4.6 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [ 1.0, 0.3 ],
+"method": "Effect_fade_in"
+}, {
+"args": [ Color( 1, 0, 0, 1 ), 0.3 ],
+"method": "Effect_flash_attack"
+} ]
+}
+tracks/3/type = "method"
+tracks/3/path = NodePath("Layer1/LaserWave/Laser2")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 3.89, 4.78 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [ 1.0, 0.3 ],
+"method": "Effect_fade_in"
+}, {
+"args": [ Color( 1, 0, 0, 1 ), 0.3 ],
+"method": "Effect_flash_attack"
+} ]
+}
+tracks/4/type = "method"
+tracks/4/path = NodePath("Layer1/LaserWave/Laser3")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 4.06, 4.94 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [ 1.0, 0.3 ],
+"method": "Effect_fade_in"
+}, {
+"args": [ Color( 1, 0, 0, 1 ), 0.3 ],
+"method": "Effect_flash_attack"
+} ]
+}
+tracks/5/type = "method"
+tracks/5/path = NodePath("Layer1/LaserWave/Laser4")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 4.23, 5.12 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [ 1.0, 0.3 ],
+"method": "Effect_fade_in"
+}, {
+"args": [ Color( 1, 0, 0, 1 ), 0.3 ],
+"method": "Effect_flash_attack"
+} ]
+}
+tracks/6/type = "method"
+tracks/6/path = NodePath("Layer1/LaserWave/Laser5")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 4.35, 5.24 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [ 1.0, 0.3 ],
+"method": "Effect_fade_in"
+}, {
+"args": [ Color( 1, 0, 0, 1 ), 0.3 ],
+"method": "Effect_flash_attack"
+} ]
+}
+tracks/7/type = "method"
+tracks/7/path = NodePath("Layer1/LaserWave/Laser6")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 4.56, 5.45 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [ 1.0, 0.3 ],
+"method": "Effect_fade_in"
+}, {
+"args": [ Color( 1, 0, 0, 1 ), 0.3 ],
+"method": "Effect_flash_attack"
+} ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("Layer1/LongBois:position")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 5.8, 9.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, -2160 ) ]
+}
+tracks/9/type = "method"
+tracks/9/path = NodePath("Layer1/BlockFlash/Square")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 9.3, 11.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [ 1.9, 0.3 ],
+"method": "Effect_fade_in"
+}, {
+"args": [ Color( 1, 0, 0, 1 ), 0.3, false ],
+"method": "Effect_flash_attack"
+} ]
+}
+tracks/10/type = "method"
+tracks/10/path = NodePath("Layer1/BlockFlash/Square2")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"times": PoolRealArray( 10, 12 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [ 1.9, 0.3 ],
+"method": "Effect_fade_in"
+}, {
+"args": [ Color( 1, 0, 0, 1 ), 0.3, false ],
+"method": "Effect_flash_attack"
+} ]
+}
+tracks/11/type = "method"
+tracks/11/path = NodePath("Layer1/BlockFlash/Square3")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/keys = {
+"times": PoolRealArray( 10.4, 12.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [ 1.9, 0.3 ],
+"method": "Effect_fade_in"
+}, {
+"args": [ Color( 1, 0, 0, 1 ), 0.3, false ],
+"method": "Effect_flash_attack"
+} ]
+}
+tracks/12/type = "method"
+tracks/12/path = NodePath("Layer1/BlockFlash/Square4")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/keys = {
+"times": PoolRealArray( 10.5, 12.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [ 1.9, 0.3 ],
+"method": "Effect_fade_in"
+}, {
+"args": [ Color( 1, 0, 0, 1 ), 0.3, false ],
+"method": "Effect_flash_attack"
+} ]
+}
+tracks/13/type = "method"
+tracks/13/path = NodePath("Layer1/BlockFlash/Square5")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/keys = {
+"times": PoolRealArray( 10.8, 12.8 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [ 1.9, 0.3 ],
+"method": "Effect_fade_in"
+}, {
+"args": [ Color( 1, 0, 0, 1 ), 0.3, false ],
+"method": "Effect_flash_attack"
+} ]
+}
+tracks/14/type = "method"
+tracks/14/path = NodePath("Layer1/BlockFlash/Square6")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/keys = {
+"times": PoolRealArray( 11.3, 13.2346 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [ 1.9, 0.3 ],
+"method": "Effect_fade_in"
+}, {
+"args": [ Color( 1, 0, 0, 1 ), 0.3, false ],
+"method": "Effect_flash_attack"
+} ]
+}
+tracks/15/type = "method"
+tracks/15/path = NodePath("Layer1/BlockFlash/Square7")
+tracks/15/interp = 1
+tracks/15/loop_wrap = true
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/keys = {
+"times": PoolRealArray( 11.4, 13.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [ 1.9, 0.3 ],
+"method": "Effect_fade_in"
+}, {
+"args": [ Color( 1, 0, 0, 1 ), 0.3, false ],
+"method": "Effect_flash_attack"
+} ]
+}
+tracks/16/type = "method"
+tracks/16/path = NodePath("Layer1/BlockFlash/Square8")
+tracks/16/interp = 1
+tracks/16/loop_wrap = true
+tracks/16/imported = false
+tracks/16/enabled = true
+tracks/16/keys = {
+"times": PoolRealArray( 11.7, 13.7069 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [ 1.9, 0.3 ],
+"method": "Effect_fade_in"
+}, {
+"args": [ Color( 1, 0, 0, 1 ), 0.3, false ],
+"method": "Effect_flash_attack"
+} ]
+}
+tracks/17/type = "method"
+tracks/17/path = NodePath("Layer1/BlockFlash/Square10")
+tracks/17/interp = 1
+tracks/17/loop_wrap = true
+tracks/17/imported = false
+tracks/17/enabled = true
+tracks/17/keys = {
+"times": PoolRealArray( 12.2, 14.1255 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [ 1.9, 0.3 ],
+"method": "Effect_fade_in"
+}, {
+"args": [ Color( 1, 0, 0, 1 ), 0.3, false ],
+"method": "Effect_flash_attack"
+} ]
+}
+tracks/18/type = "method"
+tracks/18/path = NodePath("Layer1/BlockFlash/Square9")
+tracks/18/interp = 1
+tracks/18/loop_wrap = true
+tracks/18/imported = false
+tracks/18/enabled = true
+tracks/18/keys = {
+"times": PoolRealArray( 12.7, 14.7 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [ 1.9, 0.3 ],
+"method": "Effect_fade_in"
+}, {
+"args": [ Color( 1, 0, 0, 1 ), 0.3, false ],
+"method": "Effect_flash_attack"
+} ]
+}
+tracks/19/type = "method"
+tracks/19/path = NodePath("Layer1/LaserWave/Laser")
+tracks/19/interp = 1
+tracks/19/loop_wrap = true
+tracks/19/imported = false
+tracks/19/enabled = true
+tracks/19/keys = {
+"times": PoolRealArray( 14.7, 15.6 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [ 1.0, 0.3 ],
+"method": "Effect_fade_in"
+}, {
+"args": [ Color( 1, 0, 0, 1 ), 0.3 ],
+"method": "Effect_flash_attack"
+} ]
+}
+tracks/20/type = "method"
+tracks/20/path = NodePath("Layer1/LaserWave/Laser2")
+tracks/20/interp = 1
+tracks/20/loop_wrap = true
+tracks/20/imported = false
+tracks/20/enabled = true
+tracks/20/keys = {
+"times": PoolRealArray( 14.9, 15.8 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [ 1.0, 0.3 ],
+"method": "Effect_fade_in"
+}, {
+"args": [ Color( 1, 0, 0, 1 ), 0.3 ],
+"method": "Effect_flash_attack"
+} ]
+}
+tracks/21/type = "method"
+tracks/21/path = NodePath("Layer1/LaserWave/Laser3")
+tracks/21/interp = 1
+tracks/21/loop_wrap = true
+tracks/21/imported = false
+tracks/21/enabled = true
+tracks/21/keys = {
+"times": PoolRealArray( 15, 15.9 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [ 1.0, 0.3 ],
+"method": "Effect_fade_in"
+}, {
+"args": [ Color( 1, 0, 0, 1 ), 0.3 ],
+"method": "Effect_flash_attack"
+} ]
+}
+tracks/22/type = "method"
+tracks/22/path = NodePath("Layer1/LaserWave/Laser4")
+tracks/22/interp = 1
+tracks/22/loop_wrap = true
+tracks/22/imported = false
+tracks/22/enabled = true
+tracks/22/keys = {
+"times": PoolRealArray( 15.2, 16.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [ 1.0, 0.3 ],
+"method": "Effect_fade_in"
+}, {
+"args": [ Color( 1, 0, 0, 1 ), 0.3 ],
+"method": "Effect_flash_attack"
+} ]
+}
+tracks/23/type = "method"
+tracks/23/path = NodePath("Layer1/LaserWave/Laser5")
+tracks/23/interp = 1
+tracks/23/loop_wrap = true
+tracks/23/imported = false
+tracks/23/enabled = true
+tracks/23/keys = {
+"times": PoolRealArray( 15.3, 16.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [ 1.0, 0.3 ],
+"method": "Effect_fade_in"
+}, {
+"args": [ Color( 1, 0, 0, 1 ), 0.3 ],
+"method": "Effect_flash_attack"
+} ]
+}
+tracks/24/type = "method"
+tracks/24/path = NodePath("Layer1/LaserWave/Laser6")
+tracks/24/interp = 1
+tracks/24/loop_wrap = true
+tracks/24/imported = false
+tracks/24/enabled = true
+tracks/24/keys = {
+"times": PoolRealArray( 15.5, 16.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [ 1.0, 0.3 ],
+"method": "Effect_fade_in"
+}, {
+"args": [ Color( 1, 0, 0, 1 ), 0.3 ],
+"method": "Effect_flash_attack"
+} ]
+}
+tracks/25/type = "method"
+tracks/25/path = NodePath("Layer1/LaserWave")
+tracks/25/interp = 1
+tracks/25/loop_wrap = true
+tracks/25/imported = false
+tracks/25/enabled = true
+tracks/25/keys = {
+"times": PoolRealArray( 14.3 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "random"
+} ]
+}
+tracks/26/type = "audio"
+tracks/26/path = NodePath("AnimationPlayer/AudioStreamPlayer")
+tracks/26/interp = 1
+tracks/26/loop_wrap = true
+tracks/26/imported = false
+tracks/26/enabled = true
+tracks/26/keys = {
+"clips": [ {
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource( 3 )
+} ],
+"times": PoolRealArray( 0 )
+}
+tracks/27/type = "value"
+tracks/27/path = NodePath("Layer1/SlideIndicators/ColorRect:modulate")
+tracks/27/interp = 1
+tracks/27/loop_wrap = true
+tracks/27/imported = false
+tracks/27/enabled = true
+tracks/27/keys = {
+"times": PoolRealArray( 15.1, 16 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.392157 ) ]
+}
+tracks/28/type = "value"
+tracks/28/path = NodePath("Layer1/SlideIndicators/ColorRect2:modulate")
+tracks/28/interp = 1
+tracks/28/loop_wrap = true
+tracks/28/imported = false
+tracks/28/enabled = true
+tracks/28/keys = {
+"times": PoolRealArray( 15.4, 16.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.392157 ) ]
+}
+tracks/29/type = "value"
+tracks/29/path = NodePath("Layer1/SlideIndicators/ColorRect3:modulate")
+tracks/29/interp = 1
+tracks/29/loop_wrap = true
+tracks/29/imported = false
+tracks/29/enabled = true
+tracks/29/keys = {
+"times": PoolRealArray( 15.7, 16.6 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.392157 ) ]
+}
+tracks/30/type = "value"
+tracks/30/path = NodePath("Layer1/SlideIndicators/ColorRect4:modulate")
+tracks/30/interp = 1
+tracks/30/loop_wrap = true
+tracks/30/imported = false
+tracks/30/enabled = true
+tracks/30/keys = {
+"times": PoolRealArray( 16, 16.9 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.392157 ) ]
+}
+tracks/31/type = "value"
+tracks/31/path = NodePath("Layer1/SlideIndicators/ColorRect5:modulate")
+tracks/31/interp = 1
+tracks/31/loop_wrap = true
+tracks/31/imported = false
+tracks/31/enabled = true
+tracks/31/keys = {
+"times": PoolRealArray( 16.3, 17.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.392157 ) ]
+}
+tracks/32/type = "value"
+tracks/32/path = NodePath("Layer1/SlideIndicators/ColorRect6:modulate")
+tracks/32/interp = 1
+tracks/32/loop_wrap = true
+tracks/32/imported = false
+tracks/32/enabled = true
+tracks/32/keys = {
+"times": PoolRealArray( 16.6, 17.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.392157 ) ]
+}
+tracks/33/type = "value"
+tracks/33/path = NodePath("Layer1/SlideIndicators/ColorRect7:modulate")
+tracks/33/interp = 1
+tracks/33/loop_wrap = true
+tracks/33/imported = false
+tracks/33/enabled = true
+tracks/33/keys = {
+"times": PoolRealArray( 16.9, 17.8 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.392157 ) ]
+}
+tracks/34/type = "value"
+tracks/34/path = NodePath("Layer1/SlideIndicators/ColorRect8:modulate")
+tracks/34/interp = 1
+tracks/34/loop_wrap = true
+tracks/34/imported = false
+tracks/34/enabled = true
+tracks/34/keys = {
+"times": PoolRealArray( 17.2, 18.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.392157 ) ]
+}
+tracks/35/type = "value"
+tracks/35/path = NodePath("Layer1/SlideIndicators/ColorRect9:modulate")
+tracks/35/interp = 1
+tracks/35/loop_wrap = true
+tracks/35/imported = false
+tracks/35/enabled = true
+tracks/35/keys = {
+"times": PoolRealArray( 17.5, 18.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.392157 ) ]
+}
+tracks/36/type = "value"
+tracks/36/path = NodePath("Layer1/SlideIndicators/ColorRect10:modulate")
+tracks/36/interp = 1
+tracks/36/loop_wrap = true
+tracks/36/imported = false
+tracks/36/enabled = true
+tracks/36/keys = {
+"times": PoolRealArray( 17.8, 18.7 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.392157 ) ]
+}
+
+[sub_resource type="GDScript" id=3]
+script/source = "extends AnimationPlayer
+
+func _ready():
+	GlobalLevelManager.loaded_level_anim = self
+"
+
+[sub_resource type="StreamTexture" id=4]
+flags = 4
+load_path = "res://.import/icon.png-487276ed1e3a0c39cad0279d744ee560.stex"
+
+[sub_resource type="GDScript" id=5]
+script/source = "extends Node2D
+
+func _ready():
+	for child in get_children():
+		child.position.y = rand_range(96, 984)
+"
+
+[sub_resource type="DynamicFontData" id=7]
 font_path = "res://Fonts/Cruft/cruft.ttf"
 
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="DynamicFont" id=8]
 size = 25
 outline_color = Color( 0, 0, 0, 1 )
 use_mipmaps = true
 use_filter = true
-font_data = SubResource( 2 )
+font_data = SubResource( 7 )
 
-[sub_resource type="Theme" id=4]
-default_font = SubResource( 3 )
+[sub_resource type="Theme" id=9]
+default_font = SubResource( 8 )
 Button/colors/font_color = Color( 1, 1, 1, 1 )
 Button/colors/font_color_disabled = Color( 0, 0, 0, 1 )
 Button/colors/font_color_hover = Color( 0, 0.952941, 1, 1 )
@@ -777,182 +1369,6 @@ WindowDialog/icons/close = null
 WindowDialog/icons/close_highlight = null
 WindowDialog/styles/panel = null
 
-[sub_resource type="Animation" id=5]
-resource_name = "leveldata"
-length = 71.0
-tracks/0/type = "audio"
-tracks/0/path = NodePath("AnimationPlayer/AudioStreamPlayer")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"clips": [ {
-"end_offset": 0.0,
-"start_offset": 0.0,
-"stream": ExtResource( 3 )
-} ],
-"times": PoolRealArray( 0 )
-}
-tracks/1/type = "method"
-tracks/1/path = NodePath("/root/GlobalEffects")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0.3 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [ 1.5, 30.0, 4.0 ],
-"method": "shake"
-} ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("Layer1/LeftWave:position")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 0.3, 3.4 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( 0, 0 ), Vector2( 0, 0 ), Vector2( 3840, 0 ) ]
-}
-tracks/3/type = "method"
-tracks/3/path = NodePath("Layer1/LaserWave1/Laser")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 3.71, 4.6 ),
-"transitions": PoolRealArray( 1, 1 ),
-"values": [ {
-"args": [ 1.0, 0.3 ],
-"method": "fade_in"
-}, {
-"args": [ Color( 1, 0, 0, 1 ), 0.3 ],
-"method": "flash_attack"
-} ]
-}
-tracks/4/type = "method"
-tracks/4/path = NodePath("Layer1/LaserWave1/Laser2")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
-"times": PoolRealArray( 3.89, 4.78 ),
-"transitions": PoolRealArray( 1, 1 ),
-"values": [ {
-"args": [ 1.0, 0.3 ],
-"method": "fade_in"
-}, {
-"args": [ Color( 1, 0, 0, 1 ), 0.3 ],
-"method": "flash_attack"
-} ]
-}
-tracks/5/type = "method"
-tracks/5/path = NodePath("Layer1/LaserWave1/Laser3")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/keys = {
-"times": PoolRealArray( 4.06, 4.94 ),
-"transitions": PoolRealArray( 1, 1 ),
-"values": [ {
-"args": [ 1.0, 0.3 ],
-"method": "fade_in"
-}, {
-"args": [ Color( 1, 0, 0, 1 ), 0.3 ],
-"method": "flash_attack"
-} ]
-}
-tracks/6/type = "method"
-tracks/6/path = NodePath("Layer1/LaserWave1/Laser4")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/keys = {
-"times": PoolRealArray( 4.23, 5.12 ),
-"transitions": PoolRealArray( 1, 1 ),
-"values": [ {
-"args": [ 1.0, 0.3 ],
-"method": "fade_in"
-}, {
-"args": [ Color( 1, 0, 0, 1 ), 0.3 ],
-"method": "flash_attack"
-} ]
-}
-tracks/7/type = "method"
-tracks/7/path = NodePath("Layer1/LaserWave1/Laser5")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/keys = {
-"times": PoolRealArray( 4.35, 5.24 ),
-"transitions": PoolRealArray( 1, 1 ),
-"values": [ {
-"args": [ 1.0, 0.3 ],
-"method": "fade_in"
-}, {
-"args": [ Color( 1, 0, 0, 1 ), 0.3 ],
-"method": "flash_attack"
-} ]
-}
-tracks/8/type = "method"
-tracks/8/path = NodePath("Layer1/LaserWave1/Laser6")
-tracks/8/interp = 1
-tracks/8/loop_wrap = true
-tracks/8/imported = false
-tracks/8/enabled = true
-tracks/8/keys = {
-"times": PoolRealArray( 4.56, 5.45 ),
-"transitions": PoolRealArray( 1, 1 ),
-"values": [ {
-"args": [ 1.0, 0.3 ],
-"method": "fade_in"
-}, {
-"args": [ Color( 1, 0, 0, 1 ), 0.3 ],
-"method": "flash_attack"
-} ]
-}
-
-[sub_resource type="GDScript" id=6]
-script/source = "extends AnimationPlayer
-
-func _ready():
-	GlobalLevelManager.loaded_level_anim = self
-"
-
-[sub_resource type="StreamTexture" id=7]
-flags = 4
-load_path = "res://.import/icon.png-487276ed1e3a0c39cad0279d744ee560.stex"
-
-[sub_resource type="GDScript" id=8]
-script/source = "extends Node2D
-
-func _ready():
-	for child in get_children():
-		child.position.y = rand_range(96, 984)
-"
-
-[sub_resource type="GDScript" id=9]
-script/source = "extends Node2D
-
-func _ready():
-	var pos = rand_range(64,320)
-	for child in get_children():
-		child.monitoring = false
-		child.position.x = pos
-		pos += rand_range(128,386)
-"
-
 [node name="EngineLevelEditor" type="Node2D"]
 script = SubResource( 1 )
 level_name = "Chaoz Impact"
@@ -961,13 +1377,21 @@ background_color = Color( 0.0666667, 0.0666667, 0.0666667, 1 )
 song = "C:/Users/Cam/Documents/Audivarium/EngineEditor/Customs/ChaozImpact/ParagonX9 - Chaoz Impact.ogg"
 song_name = "Chaoz Impact"
 creator_name = "Kiplog"
-enable_test_confirmation = false
+preview_offset = 21.0
 player_node = NodePath("leveldata/Player")
 animation_player = NodePath("leveldata/AnimationPlayer")
+background_node = NodePath("leveldata/BackgroundSimulator")
 level_scene = NodePath("leveldata")
 spawn_point = NodePath("leveldata/PlayerSpawnPoint")
+enable_test_confirmation = false
 
-[node name="BackgroundSimulator" type="ColorRect" parent="."]
+[node name="leveldata" type="Node2D" parent="."]
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="BackgroundSimulator" type="ColorRect" parent="leveldata"]
+show_behind_parent = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = -3792.55
@@ -982,116 +1406,9 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="editorinfo" type="Node2D" parent="."]
-__meta__ = {
-"_edit_group_": true,
-"_edit_lock_": true
-}
-
-[node name="Label" type="Label" parent="editorinfo"]
-margin_left = 16.0
-margin_top = -300.0
-margin_right = 1071.0
-margin_bottom = -98.0
-custom_fonts/font = SubResource( 3 )
-text = "
-Only objects in the leveldata node will be saved
-levels saved at: C:\\Users\\User\\AppData\\Roaming\\Godot\\app_userdata\\Audivarium
-Info about level is inputed in the EngineLevelEditor node
-Audio currently only supports .ogg and .wav files,
-I recommend .ogg for music, and .wav for sound effects
-ESC: free mouse"
-__meta__ = {
-"_edit_lock_": true,
-"_edit_use_anchors_": false
-}
-
-[node name="Label2" type="Label" parent="editorinfo"]
-margin_left = 1370.53
-margin_top = -300.0
-margin_right = 2425.53
-margin_bottom = -16.0
-custom_fonts/font = SubResource( 3 )
-text = "
-/root/GlobalEffects functions
-func shake((float)time, (float)frequency, (float)amplitude)
-func Spawn_Shockwave((Vector2)global position, (float)life time)
-func add_effects_node(node, (Vector2)position, (bool)raise)
-func create_trail(parent, (Color)color, (float)width, (float)life time, (float)fade time)"
-__meta__ = {
-"_edit_lock_": true,
-"_edit_use_anchors_": false
-}
-
-[node name="Control" type="Control" parent="editorinfo"]
-margin_right = 40.0
-margin_bottom = 40.0
-theme = SubResource( 4 )
-__meta__ = {
-"_edit_lock_": true,
-"_edit_use_anchors_": false
-}
-
-[node name="TestButton" type="Button" parent="editorinfo/Control"]
-margin_left = 264.0
-margin_right = 464.0
-margin_bottom = 54.0
-text = "Test Level"
-__meta__ = {
-"_edit_lock_": true,
-"_edit_use_anchors_": false
-}
-
-[node name="ExportButton" type="Button" parent="editorinfo/Control"]
-margin_left = 528.0
-margin_right = 728.0
-margin_bottom = 54.0
-text = "Export Level"
-__meta__ = {
-"_edit_lock_": true,
-"_edit_use_anchors_": false
-}
-
-[node name="DuplicateButton" type="Button" parent="editorinfo/Control"]
-margin_left = 792.0
-margin_right = 992.0
-margin_bottom = 54.0
-text = "Duplicate Template"
-__meta__ = {
-"_edit_lock_": true,
-"_edit_use_anchors_": false
-}
-
-[node name="QuitButton" type="Button" parent="editorinfo/Control"]
-margin_right = 200.0
-margin_bottom = 54.0
-text = "Close"
-__meta__ = {
-"_edit_lock_": true,
-"_edit_use_anchors_": false
-}
-
-[node name="ConfirmationDialog" type="ConfirmationDialog" parent="editorinfo/Control"]
-margin_left = 280.0
-margin_top = 306.0
-margin_right = 770.0
-margin_bottom = 451.0
-window_title = "Duplicate this scene?"
-resizable = true
-dialog_text = "It will be saved to res://EngineEditor/Customs/"
-dialog_autowrap = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="leveldata" type="Node2D" parent="."]
-__meta__ = {
-"_edit_lock_": true
-}
-
 [node name="AnimationPlayer" type="AnimationPlayer" parent="leveldata"]
-anims/leveldata = SubResource( 5 )
-script = SubResource( 6 )
+anims/leveldata = SubResource( 2 )
+script = SubResource( 3 )
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="leveldata/AnimationPlayer"]
 stream = ExtResource( 3 )
@@ -1101,7 +1418,7 @@ stream = ExtResource( 3 )
 [node name="PlayerSpawnPoint" type="Sprite" parent="leveldata"]
 visible = false
 position = Vector2( 960, 540 )
-texture = SubResource( 7 )
+texture = SubResource( 4 )
 
 [node name="Player" parent="leveldata" instance=ExtResource( 4 )]
 position = Vector2( 960, 540 )
@@ -1109,7 +1426,8 @@ position = Vector2( 960, 540 )
 [node name="Layer1" type="Node2D" parent="leveldata"]
 
 [node name="LeftWave" type="Node2D" parent="leveldata/Layer1"]
-script = SubResource( 8 )
+position = Vector2( 3840, 0 )
+script = SubResource( 5 )
 __meta__ = {
 "_edit_group_": true
 }
@@ -1170,41 +1488,394 @@ scale = Vector2( 1.5, 1.5 )
 bullet_solid = true
 destructable = true
 
-[node name="LaserWave1" type="Node2D" parent="leveldata/Layer1"]
-script = SubResource( 9 )
+[node name="LongBois" type="Node2D" parent="leveldata/Layer1"]
+modulate = Color( 1, 0, 0, 1 )
+position = Vector2( 0, -2160 )
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="Laser" parent="leveldata/Layer1/LaserWave1" instance=ExtResource( 1 )]
+[node name="Square" parent="leveldata/Layer1/LongBois" instance=ExtResource( 2 )]
+position = Vector2( 192, 1280 )
+scale = Vector2( 1, 4 )
+bullet_solid = true
+destructable = true
+
+[node name="Square2" parent="leveldata/Layer1/LongBois" instance=ExtResource( 2 )]
+position = Vector2( 576, 1280 )
+scale = Vector2( 1, 4 )
+bullet_solid = true
+destructable = true
+
+[node name="Square4" parent="leveldata/Layer1/LongBois" instance=ExtResource( 2 )]
+position = Vector2( 960, 1280 )
+scale = Vector2( 1, 4 )
+bullet_solid = true
+destructable = true
+
+[node name="Square5" parent="leveldata/Layer1/LongBois" instance=ExtResource( 2 )]
+position = Vector2( 1344, 1280 )
+scale = Vector2( 1, 4 )
+bullet_solid = true
+destructable = true
+
+[node name="Square7" parent="leveldata/Layer1/LongBois" instance=ExtResource( 2 )]
+position = Vector2( 1728, 1280 )
+scale = Vector2( 1, 4 )
+bullet_solid = true
+destructable = true
+
+[node name="Square10" parent="leveldata/Layer1/LongBois" instance=ExtResource( 2 )]
+position = Vector2( 1536, 1792 )
+scale = Vector2( 1, 4 )
+bullet_solid = true
+destructable = true
+
+[node name="Square11" parent="leveldata/Layer1/LongBois" instance=ExtResource( 2 )]
+position = Vector2( 1152, 1792 )
+scale = Vector2( 1, 4 )
+bullet_solid = true
+destructable = true
+
+[node name="Square12" parent="leveldata/Layer1/LongBois" instance=ExtResource( 2 )]
+position = Vector2( 770, 1792 )
+scale = Vector2( 1, 4 )
+bullet_solid = true
+destructable = true
+
+[node name="Square13" parent="leveldata/Layer1/LongBois" instance=ExtResource( 2 )]
+position = Vector2( 384, 1792 )
+scale = Vector2( 1, 4 )
+bullet_solid = true
+destructable = true
+
+[node name="SlideIndicators" type="Node2D" parent="leveldata/Layer1"]
+modulate = Color( 1, 0.74902, 0, 1 )
+
+[node name="ColorRect" type="ColorRect" parent="leveldata/Layer1/SlideIndicators"]
+modulate = Color( 1, 1, 1, 0 )
+margin_left = 150.0
+margin_top = -104.0
+margin_right = 312.0
+margin_bottom = 280.0
+color = Color( 1, 0.74902, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect2" type="ColorRect" parent="leveldata/Layer1/SlideIndicators"]
+modulate = Color( 1, 1, 1, 0 )
+margin_left = -288.0
+margin_top = 120.0
+margin_right = 1042.0
+margin_bottom = 280.0
+color = Color( 1, 0.74902, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect3" type="ColorRect" parent="leveldata/Layer1/SlideIndicators"]
+modulate = Color( 1, 1, 1, 0 )
+margin_left = 1608.0
+margin_top = 120.0
+margin_right = 1770.0
+margin_bottom = 1104.0
+color = Color( 1, 0.74902, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect4" type="ColorRect" parent="leveldata/Layer1/SlideIndicators"]
+modulate = Color( 1, 1, 1, 0 )
+margin_left = -424.0
+margin_top = 460.0
+margin_right = 1770.0
+margin_bottom = 620.0
+color = Color( 1, 0.74902, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect5" type="ColorRect" parent="leveldata/Layer1/SlideIndicators"]
+modulate = Color( 1, 1, 1, 0 )
+margin_left = 1608.0
+margin_top = 840.0
+margin_right = 1770.0
+margin_bottom = 1552.0
+color = Color( 1, 0.74902, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect6" type="ColorRect" parent="leveldata/Layer1/SlideIndicators"]
+modulate = Color( 1, 1, 1, 0 )
+margin_left = 1110.0
+margin_top = 464.0
+margin_right = 1272.0
+margin_bottom = 1288.0
+color = Color( 1, 0.74902, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect7" type="ColorRect" parent="leveldata/Layer1/SlideIndicators"]
+modulate = Color( 1, 1, 1, 0 )
+margin_left = 880.0
+margin_top = -192.0
+margin_right = 1042.0
+margin_bottom = 1000.0
+color = Color( 1, 0.74902, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect8" type="ColorRect" parent="leveldata/Layer1/SlideIndicators"]
+modulate = Color( 1, 1, 1, 0 )
+margin_left = 152.0
+margin_top = 848.0
+margin_right = 2112.0
+margin_bottom = 1008.0
+color = Color( 1, 0.74902, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect9" type="ColorRect" parent="leveldata/Layer1/SlideIndicators"]
+modulate = Color( 1, 1, 1, 0 )
+margin_left = 152.0
+margin_top = 460.0
+margin_right = 314.0
+margin_bottom = 1264.0
+color = Color( 1, 0.74902, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect10" type="ColorRect" parent="leveldata/Layer1/SlideIndicators"]
+modulate = Color( 1, 1, 1, 0 )
+margin_left = 632.0
+margin_top = -300.0
+margin_right = 794.0
+margin_bottom = 620.0
+color = Color( 1, 0.74902, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BlockFlash" type="Node2D" parent="leveldata/Layer1"]
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="Square" parent="leveldata/Layer1/BlockFlash" instance=ExtResource( 2 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+position = Vector2( 230, 200 )
+scale = Vector2( 2.5, 2.5 )
+monitoring = false
+monitorable = false
+
+[node name="Square2" parent="leveldata/Layer1/BlockFlash" instance=ExtResource( 2 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+position = Vector2( 960, 200 )
+scale = Vector2( 2.5, 2.5 )
+monitoring = false
+monitorable = false
+
+[node name="Square3" parent="leveldata/Layer1/BlockFlash" instance=ExtResource( 2 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+position = Vector2( 1690, 200 )
+scale = Vector2( 2.5, 2.5 )
+monitoring = false
+monitorable = false
+
+[node name="Square7" parent="leveldata/Layer1/BlockFlash" instance=ExtResource( 2 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+position = Vector2( 230, 540 )
+scale = Vector2( 2.5, 2.5 )
+monitoring = false
+monitorable = false
+
+[node name="Square8" parent="leveldata/Layer1/BlockFlash" instance=ExtResource( 2 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+position = Vector2( 710, 540 )
+scale = Vector2( 2.5, 2.5 )
+monitoring = false
+monitorable = false
+
+[node name="Square10" parent="leveldata/Layer1/BlockFlash" instance=ExtResource( 2 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+position = Vector2( 1190, 540 )
+scale = Vector2( 2.5, 2.5 )
+monitoring = false
+monitorable = false
+
+[node name="Square9" parent="leveldata/Layer1/BlockFlash" instance=ExtResource( 2 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+position = Vector2( 1690, 540 )
+scale = Vector2( 2.5, 2.5 )
+monitoring = false
+monitorable = false
+
+[node name="Square4" parent="leveldata/Layer1/BlockFlash" instance=ExtResource( 2 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+position = Vector2( 1690, 920 )
+scale = Vector2( 2.5, 2.5 )
+monitoring = false
+monitorable = false
+
+[node name="Square5" parent="leveldata/Layer1/BlockFlash" instance=ExtResource( 2 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+position = Vector2( 960, 920 )
+scale = Vector2( 2.5, 2.5 )
+monitoring = false
+monitorable = false
+
+[node name="Square6" parent="leveldata/Layer1/BlockFlash" instance=ExtResource( 2 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+position = Vector2( 230, 920 )
+scale = Vector2( 2.5, 2.5 )
+monitoring = false
+monitorable = false
+
+[node name="LaserWave" type="Node2D" parent="leveldata/Layer1"]
+position = Vector2( 0, 480 )
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Laser" parent="leveldata/Layer1/LaserWave" instance=ExtResource( 1 )]
 modulate = Color( 1, 0.74902, 0, 0 )
 monitoring = false
 monitorable = false
 
-[node name="Laser2" parent="leveldata/Layer1/LaserWave1" instance=ExtResource( 1 )]
+[node name="Laser2" parent="leveldata/Layer1/LaserWave" instance=ExtResource( 1 )]
 modulate = Color( 1, 0.74902, 0, 0 )
 monitoring = false
 monitorable = false
 
-[node name="Laser3" parent="leveldata/Layer1/LaserWave1" instance=ExtResource( 1 )]
+[node name="Laser3" parent="leveldata/Layer1/LaserWave" instance=ExtResource( 1 )]
 modulate = Color( 1, 0.74902, 0, 0 )
 monitoring = false
 monitorable = false
 
-[node name="Laser4" parent="leveldata/Layer1/LaserWave1" instance=ExtResource( 1 )]
+[node name="Laser4" parent="leveldata/Layer1/LaserWave" instance=ExtResource( 1 )]
 modulate = Color( 1, 0.74902, 0, 0 )
 monitoring = false
 monitorable = false
 
-[node name="Laser5" parent="leveldata/Layer1/LaserWave1" instance=ExtResource( 1 )]
+[node name="Laser5" parent="leveldata/Layer1/LaserWave" instance=ExtResource( 1 )]
 modulate = Color( 1, 0.74902, 0, 0 )
 monitoring = false
 monitorable = false
 
-[node name="Laser6" parent="leveldata/Layer1/LaserWave1" instance=ExtResource( 1 )]
+[node name="Laser6" parent="leveldata/Layer1/LaserWave" instance=ExtResource( 1 )]
 modulate = Color( 1, 0.74902, 0, 0 )
 monitoring = false
 monitorable = false
+
+[node name="editorinfo" type="Node2D" parent="."]
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="Label" type="Label" parent="editorinfo"]
+margin_left = 16.0
+margin_top = -300.0
+margin_right = 1071.0
+margin_bottom = -98.0
+custom_fonts/font = SubResource( 8 )
+text = "
+Only objects in the leveldata node will be saved
+levels saved at: C:\\Users\\User\\AppData\\Roaming\\Godot\\app_userdata\\Audivarium
+Info about level is inputed in the EngineLevelEditor node
+Audio currently only supports .ogg and .wav files,
+I recommend .ogg for music, and .wav for sound effects
+ESC: free mouse"
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="editorinfo"]
+margin_left = 1370.53
+margin_top = -300.0
+margin_right = 2425.53
+margin_bottom = -16.0
+custom_fonts/font = SubResource( 8 )
+text = "
+/root/GlobalEffects functions
+func shake((float)time, (float)frequency, (float)amplitude)
+func Spawn_Shockwave((Vector2)global position, (float)life time)
+func add_effects_node(node, (Vector2)position, (bool)raise)
+func create_trail(parent, (Color)color, (float)width, (float)life time, (float)fade time)"
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Control" type="Control" parent="editorinfo"]
+margin_right = 40.0
+margin_bottom = 40.0
+theme = SubResource( 9 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="TestButton" type="Button" parent="editorinfo/Control"]
+margin_left = 264.0
+margin_right = 464.0
+margin_bottom = 54.0
+text = "Test Level"
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="ExportButton" type="Button" parent="editorinfo/Control"]
+margin_left = 528.0
+margin_right = 728.0
+margin_bottom = 54.0
+text = "Export Level"
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="DuplicateButton" type="Button" parent="editorinfo/Control"]
+margin_left = 792.0
+margin_right = 992.0
+margin_bottom = 54.0
+text = "Duplicate Template"
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="QuitButton" type="Button" parent="editorinfo/Control"]
+margin_right = 200.0
+margin_bottom = 54.0
+text = "Close"
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="ConfirmationDialog" type="ConfirmationDialog" parent="editorinfo/Control"]
+margin_left = 280.0
+margin_top = 306.0
+margin_right = 770.0
+margin_bottom = 451.0
+window_title = "Duplicate this scene?"
+resizable = true
+dialog_text = "It will be saved to res://EngineEditor/Customs/"
+dialog_autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="pressed" from="editorinfo/Control/TestButton" to="." method="_on_TestButton_pressed"]
 [connection signal="button_down" from="editorinfo/Control/ExportButton" to="." method="_on_ExportButton_button_down"]
 [connection signal="pressed" from="editorinfo/Control/DuplicateButton" to="." method="_on_DuplicateButton_pressed"]

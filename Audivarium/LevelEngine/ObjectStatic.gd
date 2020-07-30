@@ -10,6 +10,10 @@ var spawn_time
 var despawn_time
 onready var prev_bullet = bullet_solid
 onready var prev_destruct = destructable
+var tween
+var prev_time 
+var prev_color
+
 
 func _ready():
 	set_process(Engine.editor_hint)
@@ -17,6 +21,12 @@ func _ready():
 	if bullet_solid: add_to_group(GlobalConstants.GROUP_BULLET_SOLID)
 	if destructable: add_to_group(GlobalConstants.GROUP_DAMAGABLE)
 	
+	tween = Tween.new()
+	add_child(tween)
+	
+	var _err = tween.connect("tween_completed",self,"_on_Tween_tween_completed")
+	
+
 
 func _process(_delta):
 	if prev_bullet != bullet_solid:
@@ -26,6 +36,7 @@ func _process(_delta):
 		set_destructable(destructable)
 		prev_destruct = destructable
 	
+
 
 func setup(_tracks, _unique_name : String, _spawn_time : float, _despawn_time : float, _bullet_solid : bool, _destructable : bool):
 	tracks = _tracks
@@ -131,6 +142,7 @@ func bezier(p1, p2, p3, p4, t : float):
 			(t_s * t * p4)
 	
 
+
 func Damaged(_culprit = null):
 	queue_free()
 
@@ -144,3 +156,37 @@ func _check_player(body):
 		return true
 	return false
 
+
+func Effect_fade_in(time : float, end_alpha : float = 1):
+	
+	tween.interpolate_property(self,"modulate:a",0, end_alpha, time, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+	tween.start()
+
+var flash_fade_out = true
+func Effect_flash_attack(color : Color, time : float, fade_out : bool = true):
+	
+	tween.interpolate_property(self,"modulate",modulate, color, 0.05, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+	prev_time = time
+	prev_color = modulate
+	monitoring = true
+	monitorable = true
+	flash_fade_out = fade_out
+	tween.start()
+
+
+func _on_Tween_tween_completed(_object, key):
+	
+	if key == ":modulate":
+		
+		tween.interpolate_property(self,"modulate:r",modulate.r, prev_color.r, prev_time, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+		tween.interpolate_property(self,"modulate:g",modulate.g, prev_color.g, prev_time, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+		tween.interpolate_property(self,"modulate:b",modulate.b, prev_color.b, prev_time, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+		
+		if flash_fade_out:
+			monitoring = false
+			monitorable = false
+			tween.interpolate_property(self,"modulate:a",1, 0, prev_time, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+		
+		tween.start()
+		
+	
