@@ -1,5 +1,10 @@
 extends Static
 
+var destroy = preload("res://Objects/Statics/Square/SquareDestroyParticles.tscn")
+
+func _init():
+	destroy_effect = destroy
+
 func _ready():
 	var _err = connect("body_entered",self,"_on_Square_body_entered")
 	

@@ -1,5 +1,6 @@
 extends Node2D
 
+const LevelSelect = "res://Scenes/LevelSelect/LevelSelect.tscn"
 const MAX_ITERATIONS = 50
 var objects = []
 var current_objects = []
@@ -27,10 +28,11 @@ func _ready():
 		
 		if GlobalLevelManager.loaded_level_info.get(GlobalConstants.KEY_LEVEL_TYPE) == GlobalConstants.VAR_LEVEL_TYPE_ANIM:
 			Scene.add_child(level)
-			print_children(self)
+			
 			if GlobalLevelManager.loaded_level_anim is AnimationPlayer and GlobalLevelManager.loaded_level_anim.has_animation(GlobalConstants.LEVEL_ANIM_NAME):
 				GlobalLevelManager.loaded_level_anim.play(GlobalConstants.LEVEL_ANIM_NAME)
-				
+				var _err = GlobalLevelManager.loaded_level_anim.connect("animation_finished", self, "_on_level_completed")
+			
 		
 		Title.text = GlobalLevelManager.loaded_level_info.get(GlobalConstants.KEY_LEVEL_NAME)
 		
@@ -40,13 +42,9 @@ func _ready():
 	
 	#setup_level()
 
+func _on_level_completed(_anim):
+	SceneManager.load_scene(LevelSelect, SceneManager.TransitionType.OUTZOOMINWARDFADE)
 
-func print_children(node):
-	for child in node.get_children():
-		print(child.name)
-		if child.get_child_count() > 0:
-			print_children(child)
-		
 
 func setup_level(name : String, level_objects : Array):
 	objects = level_objects

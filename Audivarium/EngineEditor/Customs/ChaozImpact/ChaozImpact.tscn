@@ -30,6 +30,7 @@ export(String, MULTILINE) var description = \"\"
 export(Color) var background_color = Color(\"3b3b3b\")
 export(String, FILE, GLOBAL, \"*.ogg, *.wav\") var song
 export(String) var song_name = \"\"
+export(String) var song_author = \"\"
 #export(float) var song_offset = 0
 export(String) var creator_name = \"\"
 export(float) var preview_offset = 0
@@ -159,13 +160,15 @@ func _export_level():
 		GlobalConstants.KEY_LEVEL_LENGTH : Anim.get_animation(LEVEL_ANIM_MAIN).length,
 		GlobalConstants.KEY_LEVEL_DESCRIPTION : description,
 		GlobalConstants.KEY_LEVEL_SONG_NAME : song_name,
+		GlobalConstants.KEY_LEVEL_SONG_CREATOR : song_author,
 		GlobalConstants.KEY_LEVEL_SONG_PATH : GlobalConstants.FILE_NAME_SONG_DATA,
-		GlobalConstants.KEY_LEVEL_SONG_OFFSET : 0,#song_offset, #Not needed
+		GlobalConstants.KEY_SONG_PREVIEW_OFFSET : preview_offset,
 		GlobalConstants.KEY_LEVEL_TYPE : GlobalConstants.VAR_LEVEL_TYPE_ANIM,
 		GlobalConstants.KEY_LEVEL_BG : background_color,
 		GlobalConstants.KEY_PLAYER_POS : player_spawn_pos,
 		GlobalConstants.KEY_CREATOR : creator_name,
 		GlobalConstants.KEY_LEVEL_INFO_PALETTE : 0, #Not yet implemented
+		GlobalConstants.KEY_LEVEL_SONG_OFFSET : 0 #Not needed
 	}
 	
 	file.store_string(to_json(level_info))
@@ -937,18 +940,18 @@ func _ready():
 		child.position.y = rand_range(96, 984)
 "
 
-[sub_resource type="DynamicFontData" id=7]
+[sub_resource type="DynamicFontData" id=6]
 font_path = "res://Fonts/Cruft/cruft.ttf"
 
-[sub_resource type="DynamicFont" id=8]
+[sub_resource type="DynamicFont" id=7]
 size = 25
 outline_color = Color( 0, 0, 0, 1 )
 use_mipmaps = true
 use_filter = true
-font_data = SubResource( 7 )
+font_data = SubResource( 6 )
 
-[sub_resource type="Theme" id=9]
-default_font = SubResource( 8 )
+[sub_resource type="Theme" id=8]
+default_font = SubResource( 7 )
 Button/colors/font_color = Color( 1, 1, 1, 1 )
 Button/colors/font_color_disabled = Color( 0, 0, 0, 1 )
 Button/colors/font_color_hover = Color( 0, 0.952941, 1, 1 )
@@ -1489,61 +1492,69 @@ bullet_solid = true
 destructable = true
 
 [node name="LongBois" type="Node2D" parent="leveldata/Layer1"]
-modulate = Color( 1, 0, 0, 1 )
 position = Vector2( 0, -2160 )
 __meta__ = {
 "_edit_group_": true
 }
 
 [node name="Square" parent="leveldata/Layer1/LongBois" instance=ExtResource( 2 )]
+modulate = Color( 1, 0, 0, 1 )
 position = Vector2( 192, 1280 )
 scale = Vector2( 1, 4 )
 bullet_solid = true
 destructable = true
 
 [node name="Square2" parent="leveldata/Layer1/LongBois" instance=ExtResource( 2 )]
+modulate = Color( 1, 0, 0, 1 )
 position = Vector2( 576, 1280 )
 scale = Vector2( 1, 4 )
 bullet_solid = true
 destructable = true
 
 [node name="Square4" parent="leveldata/Layer1/LongBois" instance=ExtResource( 2 )]
+modulate = Color( 1, 0, 0, 1 )
 position = Vector2( 960, 1280 )
 scale = Vector2( 1, 4 )
 bullet_solid = true
 destructable = true
 
 [node name="Square5" parent="leveldata/Layer1/LongBois" instance=ExtResource( 2 )]
+modulate = Color( 1, 0, 0, 1 )
 position = Vector2( 1344, 1280 )
 scale = Vector2( 1, 4 )
 bullet_solid = true
 destructable = true
 
 [node name="Square7" parent="leveldata/Layer1/LongBois" instance=ExtResource( 2 )]
+modulate = Color( 1, 0, 0, 1 )
 position = Vector2( 1728, 1280 )
 scale = Vector2( 1, 4 )
 bullet_solid = true
 destructable = true
 
 [node name="Square10" parent="leveldata/Layer1/LongBois" instance=ExtResource( 2 )]
+modulate = Color( 1, 0, 0, 1 )
 position = Vector2( 1536, 1792 )
 scale = Vector2( 1, 4 )
 bullet_solid = true
 destructable = true
 
 [node name="Square11" parent="leveldata/Layer1/LongBois" instance=ExtResource( 2 )]
+modulate = Color( 1, 0, 0, 1 )
 position = Vector2( 1152, 1792 )
 scale = Vector2( 1, 4 )
 bullet_solid = true
 destructable = true
 
 [node name="Square12" parent="leveldata/Layer1/LongBois" instance=ExtResource( 2 )]
+modulate = Color( 1, 0, 0, 1 )
 position = Vector2( 770, 1792 )
 scale = Vector2( 1, 4 )
 bullet_solid = true
 destructable = true
 
 [node name="Square13" parent="leveldata/Layer1/LongBois" instance=ExtResource( 2 )]
+modulate = Color( 1, 0, 0, 1 )
 position = Vector2( 384, 1792 )
 scale = Vector2( 1, 4 )
 bullet_solid = true
@@ -1786,7 +1797,7 @@ margin_left = 16.0
 margin_top = -300.0
 margin_right = 1071.0
 margin_bottom = -98.0
-custom_fonts/font = SubResource( 8 )
+custom_fonts/font = SubResource( 7 )
 text = "
 Only objects in the leveldata node will be saved
 levels saved at: C:\\Users\\User\\AppData\\Roaming\\Godot\\app_userdata\\Audivarium
@@ -1804,7 +1815,7 @@ margin_left = 1370.53
 margin_top = -300.0
 margin_right = 2425.53
 margin_bottom = -16.0
-custom_fonts/font = SubResource( 8 )
+custom_fonts/font = SubResource( 7 )
 text = "
 /root/GlobalEffects functions
 func shake((float)time, (float)frequency, (float)amplitude)
@@ -1819,7 +1830,7 @@ __meta__ = {
 [node name="Control" type="Control" parent="editorinfo"]
 margin_right = 40.0
 margin_bottom = 40.0
-theme = SubResource( 9 )
+theme = SubResource( 8 )
 __meta__ = {
 "_edit_lock_": true,
 "_edit_use_anchors_": false

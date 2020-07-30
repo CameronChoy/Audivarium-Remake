@@ -10,6 +10,7 @@ var spawn_time
 var despawn_time
 onready var prev_bullet = bullet_solid
 onready var prev_destruct = destructable
+var destroy_effect
 var tween
 var prev_time 
 var prev_color
@@ -25,6 +26,8 @@ func _ready():
 	add_child(tween)
 	
 	var _err = tween.connect("tween_completed",self,"_on_Tween_tween_completed")
+	if destroy_effect:
+		destroy_effect = destroy_effect.instance()
 	
 
 
@@ -144,7 +147,24 @@ func bezier(p1, p2, p3, p4, t : float):
 
 
 func Damaged(_culprit = null):
+	
+	if destroy_effect:
+		destroy_effect.modulate = modulate
+		destroy_effect.self_modulate = self_modulate
+		GlobalEffects.add_effects_node(destroy_effect, global_position)
+	
 	queue_free()
+	
+
+
+func Change_Destroy_effect(new):
+	
+	if new:
+		if new is PackedScene:
+			destroy_effect = new.instance()
+		elif new is Node:
+			destroy_effect = new
+	
 
 
 func _check_player(body):

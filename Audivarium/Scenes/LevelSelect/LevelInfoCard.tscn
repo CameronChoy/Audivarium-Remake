@@ -19,14 +19,20 @@ margin_top = 7.0
 margin_right = 754.0
 margin_bottom = 901.0
 
-[node name="Title" type="Label" parent="Control"]
+[node name="TitleScroll" type="ScrollContainer" parent="Control"]
 margin_left = 21.0
 margin_top = 33.0
 margin_right = 725.0
 margin_bottom = 105.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Title" type="Label" parent="Control/TitleScroll"]
+margin_right = 28.0
+margin_bottom = 14.0
 text = "Title"
 align = 1
-autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -41,11 +47,47 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="SongScroll" type="ScrollContainer" parent="Control"]
+margin_left = 437.0
+margin_top = 297.0
+margin_right = 725.0
+margin_bottom = 361.0
+follow_focus = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Song" type="Label" parent="Control/SongScroll"]
+margin_right = 30.0
+margin_bottom = 14.0
+text = "Song"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SongAuthorScroll" type="ScrollContainer" parent="Control"]
+margin_left = 437.0
+margin_top = 377.0
+margin_right = 725.0
+margin_bottom = 441.0
+follow_focus = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SongAuthor" type="Label" parent="Control/SongAuthorScroll"]
+margin_right = 77.0
+margin_bottom = 14.0
+text = "Song Author"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Image" type="Sprite" parent="Control"]
 position = Vector2( 501, 137 )
 texture = ExtResource( 1 )
 
-[node name="ScrollContainer" type="ScrollContainer" parent="Control"]
+[node name="DescriptionScroll" type="ScrollContainer" parent="Control"]
 margin_left = 21.0
 margin_top = 305.0
 margin_right = 405.0
@@ -56,7 +98,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Description" type="Label" parent="Control/ScrollContainer"]
+[node name="Description" type="Label" parent="Control/DescriptionScroll"]
 margin_right = 384.0
 margin_bottom = 248.0
 size_flags_horizontal = 3

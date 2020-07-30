@@ -1,10 +1,15 @@
 extends Control
 
 const OFFICIAL_LEVELS_PATH = "res://Scenes/Levels/OfficialLevels/"
+const PREVIEW_SONG_MAX_DB = -6.0
+const PREVIEW_SONG_MIN_DB = -50
+const PREVIEW_FADE_TIME = 0.75
 
 var LevelButton = preload("res://Scenes/Levels/LevelButton.tscn")
 var LevelScene = preload("res://Scenes/LevelScene/LevelScene.tscn")
 
+onready var FadeOut = $FadeOut
+onready var FadeIn = $FadeIn
 onready var InfoCard1 = $InfoCards/Info1
 onready var InfoCard2 = $InfoCards/Info2
 onready var InfoAnim = $InfoCards/InfoCardsAnim
@@ -15,6 +20,7 @@ var SelectedLevel
 var PreviewSong
 var officials_thread
 var customs_thread
+onready var loaded_songs = []
 
 func _ready():
 	
@@ -39,7 +45,7 @@ func get_official_levels(_err):
 	
 	directory.list_dir_begin()
 	var dir_name = directory.get_next()
-	
+	var index = 0
 	while dir_name != "":
 		
 		var level = get_level(levels_path + dir_name)
@@ -47,6 +53,8 @@ func get_official_levels(_err):
 		if !level.empty(): 
 			
 			var button = _create_button(level)
+			button.index = index
+			index += 1
 			
 			OfficialsList.add_child(button)
 			var _er = (button.connect("pressed", self, "_level_selected", [button]))
@@ -66,6 +74,7 @@ func get_custom_levels(_err):
 	
 	directory.list_dir_begin()
 	var dir_name = directory.get_next()
+	var index = 0
 	
 	while dir_name != "":
 		
@@ -74,9 +83,12 @@ func get_custom_levels(_err):
 		if !level.empty(): 
 			
 			var button = _create_button(level)
+			button.index = index
+			index += 1
 			
 			CustomsList.add_child(button)
 			button.connect("pressed", self, "_level_selected", [button])
+			
 		
 		dir_name = directory.get_next()
 		
@@ -155,10 +167,11 @@ func _level_selected(level):
 		SelectedLevel = level
 		set_Info(InfoCard1, level)
 		InfoAnim.play("Begin")
+		fade_in()
 		
 	elif SelectedLevel.get_instance_id() != level.get_instance_id():
 		
-		if SelectedLevel.global_rect_position.y < level.global_rect_position.y:
+		if SelectedLevel.index < level.index:
 			set_Info(InfoCard1, level)
 			set_Info(InfoCard2, SelectedLevel)
 			InfoAnim.play_backwards("SlideDown")
@@ -168,14 +181,60 @@ func _level_selected(level):
 			InfoAnim.play("SlideDown")
 		
 		SelectedLevel = level
+		
+		fade_out()
+		
 	
-	if PreviewSong: PreviewSong.stop()
+
+#song file path
+#Selected level index
+#previous song
+func fade_in():
+	if FadeOut.is_active():
+		yield(FadeOut,"tween_all_completed")
+	
+	var offset = SelectedLevel.level_info.get(GlobalConstants.KEY_SONG_PREVIEW_OFFSET)
+	
+	if PreviewSong:
+		
+		for s in loaded_songs:
+			
+			if s.index != SelectedLevel.index: continue
+			
+			PreviewSong.song.stream_paused = true
+			PreviewSong = s
+			s.song.stream_paused = false
+			fade_in_interpolate()
+			return
+			
+			
+		
 	
 	var song = ResourceLoader.load(SelectedLevel.song_data)
-	var offset = SelectedLevel.level_info.get(GlobalConstants.KEY_SONG_PREVIEW_OFFSET)
 	if song is AudioStreamSample or song is AudioStreamOGGVorbis:
-		PreviewSong = GlobalAudio.play_audio(song, true, 
-		offset if offset else 0, "Master", -6.0)
+		var new_preview = LoadedSong.new()
+		new_preview.index = SelectedLevel.index
+		new_preview.song = GlobalAudio.play_audio(song, true, offset if offset else 0, "Master", -50)
+		print("fucking new")
+		PreviewSong = new_preview
+		loaded_songs.append(PreviewSong)
+		
+		fade_in_interpolate()
+		
+	
+
+
+func fade_in_interpolate():
+	#PreviewSong.song.playing = true
+	FadeIn.interpolate_property(PreviewSong.song, "volume_db", -50, PREVIEW_SONG_MAX_DB, 1.25)
+	FadeIn.start()
+
+
+func fade_out():
+	if FadeIn.is_active():
+		yield(FadeIn,"tween_all_completed")
+	FadeOut.interpolate_property(PreviewSong.song, "volume_db", PREVIEW_SONG_MAX_DB, -50, 1.25)
+	FadeOut.start()
 	
 
 
@@ -184,6 +243,8 @@ func set_Info(InfoCard, info):
 	InfoCard.set_title(info.level_info.get(GlobalConstants.KEY_LEVEL_NAME))
 	InfoCard.set_length(info.level_info.get(GlobalConstants.KEY_LEVEL_LENGTH))
 	InfoCard.set_description(info.level_info.get(GlobalConstants.KEY_LEVEL_DESCRIPTION))
+	InfoCard.set_song(info.level_info.get(GlobalConstants.KEY_LEVEL_SONG_NAME))
+	InfoCard.set_song_author((info.level_info.get(GlobalConstants.KEY_LEVEL_SONG_CREATOR)))
 	#Image and Theme not yet implemented
 
 
@@ -191,6 +252,8 @@ func InfoCard_selected(Card):
 	if Card.current_level:
 		var level = ResourceLoader.load(SelectedLevel.level_data)
 		if level:
+			FadeIn.interpolate_property(PreviewSong.song, "volume_db", 0, -50, 1.25)
+			FadeIn.start()
 			GlobalLevelManager.loaded_level = level
 			GlobalLevelManager.loaded_level_info = SelectedLevel.level_info
 			SceneManager.change_to_preloaded(LevelScene, SceneManager.TransitionType.INFALLZOOMINWARD)
@@ -199,12 +262,14 @@ func InfoCard_selected(Card):
 func _thread_completed(thread):
 	var _err = thread.wait_to_finish()
 
+
 func _exit_tree():
 	if PreviewSong:
-		PreviewSong.stop()
+		PreviewSong.song.stop()
 		
 	
 
 
 func _on_Button_pressed():
 	var _err = OS.shell_open(str("file://", OS.get_user_data_dir()))
+

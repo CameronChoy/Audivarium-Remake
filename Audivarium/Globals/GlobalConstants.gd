@@ -20,6 +20,7 @@ const KEY_LEVEL_NAME = "name"
 const KEY_LEVEL_LENGTH = "length"
 const KEY_LEVEL_SONG_PATH = "song_path"
 const KEY_LEVEL_SONG_NAME = "song_name"
+const KEY_LEVEL_SONG_CREATOR = "song_creator"
 const KEY_LEVEL_SONG_OFFSET = "song_offset"
 const KEY_LEVEL_INFO_PALETTE = "info_palette"
 

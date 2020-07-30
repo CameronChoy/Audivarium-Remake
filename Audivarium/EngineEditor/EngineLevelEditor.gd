@@ -1,7 +1,7 @@
 tool
 extends Node2D
 
-#var PlayerObject = preload("res://Objects/Player/Player.tscn")
+
 var PlayerSpawnPoint
 var Confirmation
 var EditorUI
@@ -21,6 +21,7 @@ export(String, MULTILINE) var description = ""
 export(Color) var background_color = Color("3b3b3b")
 export(String, FILE, GLOBAL, "*.ogg, *.wav") var song
 export(String) var song_name = ""
+export(String) var song_author = ""
 #export(float) var song_offset = 0
 export(String) var creator_name = ""
 export(float) var preview_offset = 0
@@ -147,13 +148,15 @@ func _export_level():
 		GlobalConstants.KEY_LEVEL_LENGTH : Anim.get_animation(LEVEL_ANIM_MAIN).length,
 		GlobalConstants.KEY_LEVEL_DESCRIPTION : description,
 		GlobalConstants.KEY_LEVEL_SONG_NAME : song_name,
+		GlobalConstants.KEY_LEVEL_SONG_CREATOR : song_author,
 		GlobalConstants.KEY_LEVEL_SONG_PATH : GlobalConstants.FILE_NAME_SONG_DATA,
-		GlobalConstants.KEY_LEVEL_SONG_OFFSET : 0,#song_offset, #Not needed
+		GlobalConstants.KEY_SONG_PREVIEW_OFFSET : preview_offset,
 		GlobalConstants.KEY_LEVEL_TYPE : GlobalConstants.VAR_LEVEL_TYPE_ANIM,
 		GlobalConstants.KEY_LEVEL_BG : background_color,
 		GlobalConstants.KEY_PLAYER_POS : player_spawn_pos,
 		GlobalConstants.KEY_CREATOR : creator_name,
 		GlobalConstants.KEY_LEVEL_INFO_PALETTE : 0, #Not yet implemented
+		GlobalConstants.KEY_LEVEL_SONG_OFFSET : 0 #Not needed
 	}
 	
 	file.store_string(to_json(level_info))

@@ -23,5 +23,7 @@ __meta__ = {
 
 [node name="Timer" type="Timer" parent="TitleTween"]
 one_shot = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 [connection signal="tween_all_completed" from="TitleTween" to="." method="_on_TitleTween_tween_all_completed"]
 [connection signal="timeout" from="TitleTween/Timer" to="." method="_on_Timer_timeout"]
