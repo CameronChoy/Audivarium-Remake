@@ -13,7 +13,7 @@ func _on_LevelSelectButton_pressed():
 
 
 func _on_CustomizeButton_pressed():
-	SceneManager.load_scene(CustomizeScene,SceneManager.TransitionType.INOUTSLIDEDOWN)
+	SceneManager.load_scene(CustomizeScene,SceneManager.TransitionType.INFALLZOOMINWARD)
 	
 
 

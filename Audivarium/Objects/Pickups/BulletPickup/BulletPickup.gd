@@ -1,7 +1,9 @@
 extends Area2D
 
 export var bullet_path : String = ""
-export var one_time_pickup = true
+export var one_time_pickup : bool = true
+export var drift_to_player : bool = false setget set_drift, is_drifting_to_player
+export var acceleration : float = 350
 onready var Anim = $AnimationPlayer
 
 var bullet
@@ -27,6 +29,10 @@ func _ready():
 	if t is Texture:
 		$Sprite.texture = t
 	
+	var _err = connect("body_entered",self,"_on_BulletPickup_body_entered")
+	_err = Anim.connect("animation_finished",self,"_on_AnimationPlayer_animation_finished")
+	set_physics_process(drift_to_player)
+	
 
 func _on_BulletPickup_body_entered(body):
 	if body.is_in_group(GlobalConstants.GROUP_PLAYER) and bullet != null and bullet != PlayerGlobals.CurrentBullet:
@@ -36,4 +42,23 @@ func _on_BulletPickup_body_entered(body):
 
 
 func _on_AnimationPlayer_animation_finished(_anim_name):
-	queue_free()
+	monitoring = false
+	monitorable = false
+	hide()
+
+func set_drift(new):
+	drift_to_player = new
+	set_physics_process(new)
+
+func is_drifting_to_player():
+	return drift_to_player
+
+func _physics_process(delta):
+	if !PlayerGlobals.current_player: return
+	
+	rotation = (global_position.angle_to_point(PlayerGlobals.current_player.global_position))
+	
+	var direction = -Vector2(cos(rotation), sin(rotation))
+	
+	global_position += direction * acceleration * delta
+	

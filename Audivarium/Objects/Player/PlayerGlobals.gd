@@ -1,5 +1,7 @@
 extends Node
 
+var current_player
+
 var ColorPlayerMain = Color.lightblue
 var ColorBullet = Color.orange
 var ColorCrossHair = Color.white

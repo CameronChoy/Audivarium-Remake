@@ -1,10 +1,13 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://Objects/Statics/Laser/Laser.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Objects/Statics/Square/Square.tscn" type="PackedScene" id=2]
 [ext_resource path="res://EngineEditor/Customs/ChaozImpact/ParagonX9 - Chaoz Impact.ogg" type="AudioStream" id=3]
 [ext_resource path="res://Objects/Player/Player.tscn" type="PackedScene" id=4]
 [ext_resource path="res://EngineEditor/Customs/ChaozImpact/LaserWave1.gd" type="Script" id=5]
+[ext_resource path="res://Objects/Enemies/EnemyFollow/EnemyFollow.tscn" type="PackedScene" id=6]
+[ext_resource path="res://EngineEditor/Customs/ChaozImpact/Wave1.gd" type="Script" id=7]
+[ext_resource path="res://Objects/Pickups/BulletPickup/BulletPickup.tscn" type="PackedScene" id=8]
 
 [sub_resource type="GDScript" id=1]
 script/source = "tool
@@ -28,7 +31,7 @@ var player_spawn_pos = OS.window_size / 2
 export(String) var level_name = \"level\"
 export(String, MULTILINE) var description = \"\"
 export(Color) var background_color = Color(\"3b3b3b\")
-export(String, FILE, GLOBAL, \"*.ogg, *.wav\") var song
+export(String, FILE, \"*.ogg, *.wav\") var song
 export(String) var song_name = \"\"
 export(String) var song_author = \"\"
 #export(float) var song_offset = 0
@@ -72,6 +75,10 @@ func _ready():
 	EditorUI.show()
 	
 	if !Engine.editor_hint:
+		Scene.pause_mode = PAUSE_MODE_STOP
+		EditorUI.pause_mode = PAUSE_MODE_PROCESS
+		Player.pause_mode = PAUSE_MODE_PROCESS
+		get_tree().paused = true
 		Player.global_position = PlayerSpawnPoint.global_position
 		#Scene.add_child_below_node(PlayerSpawnPoint, Player)
 		player_spawn_pos = Player.global_position
@@ -316,6 +323,7 @@ func _on_QuitButton_button_down():
 func _test_level():
 	Player.fire_while_focused = true
 	EditorUI.hide()
+	get_tree().paused = false
 	Anim.play(LEVEL_ANIM_MAIN)
 
 
@@ -496,10 +504,10 @@ tracks/8/loop_wrap = true
 tracks/8/imported = false
 tracks/8/enabled = true
 tracks/8/keys = {
-"times": PoolRealArray( 5.8, 9.3 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0.0136857, 5.8, 9.3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 0, 0 ), Vector2( 0, -2160 ) ]
+"values": [ Vector2( 0, -1.68562 ), Vector2( 0, 0 ), Vector2( 0, -2160 ) ]
 }
 tracks/9/type = "method"
 tracks/9/path = NodePath("Layer1/BlockFlash/Square")
@@ -676,7 +684,7 @@ tracks/19/path = NodePath("Layer1/LaserWave/Laser")
 tracks/19/interp = 1
 tracks/19/loop_wrap = true
 tracks/19/imported = false
-tracks/19/enabled = true
+tracks/19/enabled = false
 tracks/19/keys = {
 "times": PoolRealArray( 14.7, 15.6 ),
 "transitions": PoolRealArray( 1, 1 ),
@@ -693,7 +701,7 @@ tracks/20/path = NodePath("Layer1/LaserWave/Laser2")
 tracks/20/interp = 1
 tracks/20/loop_wrap = true
 tracks/20/imported = false
-tracks/20/enabled = true
+tracks/20/enabled = false
 tracks/20/keys = {
 "times": PoolRealArray( 14.9, 15.8 ),
 "transitions": PoolRealArray( 1, 1 ),
@@ -710,7 +718,7 @@ tracks/21/path = NodePath("Layer1/LaserWave/Laser3")
 tracks/21/interp = 1
 tracks/21/loop_wrap = true
 tracks/21/imported = false
-tracks/21/enabled = true
+tracks/21/enabled = false
 tracks/21/keys = {
 "times": PoolRealArray( 15, 15.9 ),
 "transitions": PoolRealArray( 1, 1 ),
@@ -727,7 +735,7 @@ tracks/22/path = NodePath("Layer1/LaserWave/Laser4")
 tracks/22/interp = 1
 tracks/22/loop_wrap = true
 tracks/22/imported = false
-tracks/22/enabled = true
+tracks/22/enabled = false
 tracks/22/keys = {
 "times": PoolRealArray( 15.2, 16.1 ),
 "transitions": PoolRealArray( 1, 1 ),
@@ -744,7 +752,7 @@ tracks/23/path = NodePath("Layer1/LaserWave/Laser5")
 tracks/23/interp = 1
 tracks/23/loop_wrap = true
 tracks/23/imported = false
-tracks/23/enabled = true
+tracks/23/enabled = false
 tracks/23/keys = {
 "times": PoolRealArray( 15.3, 16.2 ),
 "transitions": PoolRealArray( 1, 1 ),
@@ -761,7 +769,7 @@ tracks/24/path = NodePath("Layer1/LaserWave/Laser6")
 tracks/24/interp = 1
 tracks/24/loop_wrap = true
 tracks/24/imported = false
-tracks/24/enabled = true
+tracks/24/enabled = false
 tracks/24/keys = {
 "times": PoolRealArray( 15.5, 16.4 ),
 "transitions": PoolRealArray( 1, 1 ),
@@ -778,7 +786,7 @@ tracks/25/path = NodePath("Layer1/LaserWave")
 tracks/25/interp = 1
 tracks/25/loop_wrap = true
 tracks/25/imported = false
-tracks/25/enabled = true
+tracks/25/enabled = false
 tracks/25/keys = {
 "times": PoolRealArray( 14.3 ),
 "transitions": PoolRealArray( 1 ),
@@ -787,19 +795,19 @@ tracks/25/keys = {
 "method": "random"
 } ]
 }
-tracks/26/type = "audio"
-tracks/26/path = NodePath("AnimationPlayer/AudioStreamPlayer")
+tracks/26/type = "method"
+tracks/26/path = NodePath("Enemies/Wave1")
 tracks/26/interp = 1
 tracks/26/loop_wrap = true
 tracks/26/imported = false
 tracks/26/enabled = true
 tracks/26/keys = {
-"clips": [ {
-"end_offset": 0.0,
-"start_offset": 0.0,
-"stream": ExtResource( 3 )
-} ],
-"times": PoolRealArray( 0 )
+"times": PoolRealArray( 14.3329 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "set_active"
+} ]
 }
 tracks/27/type = "value"
 tracks/27/path = NodePath("Layer1/SlideIndicators/ColorRect:modulate")
@@ -808,10 +816,10 @@ tracks/27/loop_wrap = true
 tracks/27/imported = false
 tracks/27/enabled = true
 tracks/27/keys = {
-"times": PoolRealArray( 15.1, 16 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 11.7401, 15.1, 16, 16.7913 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.392157 ) ]
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 0 ) ]
 }
 tracks/28/type = "value"
 tracks/28/path = NodePath("Layer1/SlideIndicators/ColorRect2:modulate")
@@ -820,10 +828,10 @@ tracks/28/loop_wrap = true
 tracks/28/imported = false
 tracks/28/enabled = true
 tracks/28/keys = {
-"times": PoolRealArray( 15.4, 16.3 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 12.0401, 15.4, 16.3, 17.0913 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.392157 ) ]
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 0 ) ]
 }
 tracks/29/type = "value"
 tracks/29/path = NodePath("Layer1/SlideIndicators/ColorRect3:modulate")
@@ -832,10 +840,10 @@ tracks/29/loop_wrap = true
 tracks/29/imported = false
 tracks/29/enabled = true
 tracks/29/keys = {
-"times": PoolRealArray( 15.7, 16.6 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 12.3401, 15.7, 16.6, 17.3913 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.392157 ) ]
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 0 ) ]
 }
 tracks/30/type = "value"
 tracks/30/path = NodePath("Layer1/SlideIndicators/ColorRect4:modulate")
@@ -844,10 +852,10 @@ tracks/30/loop_wrap = true
 tracks/30/imported = false
 tracks/30/enabled = true
 tracks/30/keys = {
-"times": PoolRealArray( 16, 16.9 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 12.6401, 16, 16.9, 17.6913 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.392157 ) ]
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 0 ) ]
 }
 tracks/31/type = "value"
 tracks/31/path = NodePath("Layer1/SlideIndicators/ColorRect5:modulate")
@@ -856,10 +864,10 @@ tracks/31/loop_wrap = true
 tracks/31/imported = false
 tracks/31/enabled = true
 tracks/31/keys = {
-"times": PoolRealArray( 16.3, 17.2 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 12.9401, 16.3, 17.2, 17.9913 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.392157 ) ]
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 0 ) ]
 }
 tracks/32/type = "value"
 tracks/32/path = NodePath("Layer1/SlideIndicators/ColorRect6:modulate")
@@ -868,10 +876,10 @@ tracks/32/loop_wrap = true
 tracks/32/imported = false
 tracks/32/enabled = true
 tracks/32/keys = {
-"times": PoolRealArray( 16.6, 17.5 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 13.2401, 16.6, 17.5, 18.2913 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.392157 ) ]
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 0 ) ]
 }
 tracks/33/type = "value"
 tracks/33/path = NodePath("Layer1/SlideIndicators/ColorRect7:modulate")
@@ -880,10 +888,10 @@ tracks/33/loop_wrap = true
 tracks/33/imported = false
 tracks/33/enabled = true
 tracks/33/keys = {
-"times": PoolRealArray( 16.9, 17.8 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 13.5401, 16.9, 17.8, 18.5913 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.392157 ) ]
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 0 ) ]
 }
 tracks/34/type = "value"
 tracks/34/path = NodePath("Layer1/SlideIndicators/ColorRect8:modulate")
@@ -892,10 +900,10 @@ tracks/34/loop_wrap = true
 tracks/34/imported = false
 tracks/34/enabled = true
 tracks/34/keys = {
-"times": PoolRealArray( 17.2, 18.1 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 13.8401, 17.2, 18.1, 18.8913 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.392157 ) ]
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 0 ) ]
 }
 tracks/35/type = "value"
 tracks/35/path = NodePath("Layer1/SlideIndicators/ColorRect9:modulate")
@@ -904,10 +912,10 @@ tracks/35/loop_wrap = true
 tracks/35/imported = false
 tracks/35/enabled = true
 tracks/35/keys = {
-"times": PoolRealArray( 17.5, 18.4 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 14.1401, 17.5, 18.4, 19.1913 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.392157 ) ]
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 0 ) ]
 }
 tracks/36/type = "value"
 tracks/36/path = NodePath("Layer1/SlideIndicators/ColorRect10:modulate")
@@ -916,10 +924,158 @@ tracks/36/loop_wrap = true
 tracks/36/imported = false
 tracks/36/enabled = true
 tracks/36/keys = {
-"times": PoolRealArray( 17.8, 18.7 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 14.4401, 17.8, 18.7, 19.4913 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.392157 ) ]
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/37/type = "value"
+tracks/37/path = NodePath("Layer1/BlockFlash/Square:position")
+tracks/37/interp = 1
+tracks/37/loop_wrap = true
+tracks/37/imported = false
+tracks/37/enabled = true
+tracks/37/keys = {
+"times": PoolRealArray( 0, 16.7723, 17.52 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 230, 191.559 ), Vector2( 230, 200 ), Vector2( 230, -880 ) ]
+}
+tracks/38/type = "value"
+tracks/38/path = NodePath("Layer1/BlockFlash/Square2:position")
+tracks/38/interp = 1
+tracks/38/loop_wrap = true
+tracks/38/imported = false
+tracks/38/enabled = true
+tracks/38/keys = {
+"times": PoolRealArray( 0, 17.1518, 17.9 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 935.586, 200 ), Vector2( 960, 200 ), Vector2( -960, 200 ) ]
+}
+tracks/39/type = "value"
+tracks/39/path = NodePath("Layer1/BlockFlash/Square3:position")
+tracks/39/interp = 1
+tracks/39/loop_wrap = true
+tracks/39/imported = false
+tracks/39/enabled = true
+tracks/39/keys = {
+"times": PoolRealArray( 0, 17.5151, 18.26 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1690, 202.987 ), Vector2( 1690, 200 ), Vector2( 1690, 1280 ) ]
+}
+tracks/40/type = "value"
+tracks/40/path = NodePath("Layer1/BlockFlash/Square9:position")
+tracks/40/interp = 1
+tracks/40/loop_wrap = true
+tracks/40/imported = false
+tracks/40/enabled = true
+tracks/40/keys = {
+"times": PoolRealArray( 0, 17.8574, 18.61 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1690, 540 ), Vector2( 1690, 540 ), Vector2( -730, 540 ) ]
+}
+tracks/41/type = "value"
+tracks/41/path = NodePath("Layer1/BlockFlash/Square4:position")
+tracks/41/interp = 1
+tracks/41/loop_wrap = true
+tracks/41/imported = false
+tracks/41/enabled = true
+tracks/41/keys = {
+"times": PoolRealArray( 0, 18.1742, 18.93 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1690, 920 ), Vector2( 1690, 920 ), Vector2( 3610, 920 ) ]
+}
+tracks/42/type = "value"
+tracks/42/path = NodePath("Layer1/BlockFlash/Square10:position")
+tracks/42/interp = 1
+tracks/42/loop_wrap = true
+tracks/42/imported = false
+tracks/42/enabled = true
+tracks/42/keys = {
+"times": PoolRealArray( 0, 18.5039, 19.26 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1185, 540 ), Vector2( 1185, 540 ), Vector2( 1185, 1620 ) ]
+}
+tracks/43/type = "value"
+tracks/43/path = NodePath("Layer1/BlockFlash/Square5:position")
+tracks/43/interp = 1
+tracks/43/loop_wrap = true
+tracks/43/imported = false
+tracks/43/enabled = true
+tracks/43/keys = {
+"times": PoolRealArray( 0, 18.8641, 19.6 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 960, 920 ), Vector2( 960, 920 ), Vector2( 960, -160 ) ]
+}
+tracks/44/type = "value"
+tracks/44/path = NodePath("Layer1/BlockFlash/Square6:position")
+tracks/44/interp = 1
+tracks/44/loop_wrap = true
+tracks/44/imported = false
+tracks/44/enabled = true
+tracks/44/keys = {
+"times": PoolRealArray( 0, 19.1982, 19.95 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 230, 920 ), Vector2( 230, 920 ), Vector2( 2150, 920 ) ]
+}
+tracks/45/type = "value"
+tracks/45/path = NodePath("Layer1/BlockFlash/Square7:position")
+tracks/45/interp = 1
+tracks/45/loop_wrap = true
+tracks/45/imported = false
+tracks/45/enabled = true
+tracks/45/keys = {
+"times": PoolRealArray( 0, 19.5367, 20.3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 230, 540 ), Vector2( 230, 540 ), Vector2( 230, 1620 ) ]
+}
+tracks/46/type = "value"
+tracks/46/path = NodePath("Layer1/BlockFlash/Square8:position")
+tracks/46/interp = 1
+tracks/46/loop_wrap = true
+tracks/46/imported = false
+tracks/46/enabled = true
+tracks/46/keys = {
+"times": PoolRealArray( 0, 19.7189, 20.4643 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 710, 540 ), Vector2( 710, 540 ), Vector2( 710, -540 ) ]
+}
+tracks/47/type = "audio"
+tracks/47/path = NodePath("AnimationPlayer/AudioStreamPlayer")
+tracks/47/interp = 1
+tracks/47/loop_wrap = true
+tracks/47/imported = false
+tracks/47/enabled = true
+tracks/47/keys = {
+"clips": [ {
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource( 3 )
+} ],
+"times": PoolRealArray( 0 )
+}
+tracks/48/type = "method"
+tracks/48/path = NodePath("Layer1/BulletPickup")
+tracks/48/interp = 1
+tracks/48/loop_wrap = true
+tracks/48/imported = false
+tracks/48/enabled = true
+tracks/48/keys = {
+"times": PoolRealArray( 16.8246 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ true ],
+"method": "set_drift"
+} ]
 }
 
 [sub_resource type="GDScript" id=3]
@@ -1390,6 +1546,7 @@ spawn_point = NodePath("leveldata/PlayerSpawnPoint")
 enable_test_confirmation = false
 
 [node name="leveldata" type="Node2D" parent="."]
+pause_mode = 1
 __meta__ = {
 "_edit_lock_": true
 }
@@ -1428,7 +1585,106 @@ texture = SubResource( 4 )
 position = Vector2( 960, 540 )
 fire_while_focused = false
 
+[node name="Enemies" type="Node2D" parent="leveldata"]
+
+[node name="Wave1" type="Node2D" parent="leveldata/Enemies"]
+script = ExtResource( 7 )
+
+[node name="EnemyFollow" parent="leveldata/Enemies/Wave1" instance=ExtResource( 6 )]
+position = Vector2( -88, 232 )
+bullet_solid = true
+destructable = true
+screen_shake_on_destroy = true
+AI_active = false
+
+[node name="EnemyFollow2" parent="leveldata/Enemies/Wave1" instance=ExtResource( 6 )]
+position = Vector2( -88, 520 )
+bullet_solid = true
+destructable = true
+screen_shake_on_destroy = true
+AI_active = false
+
+[node name="EnemyFollow3" parent="leveldata/Enemies/Wave1" instance=ExtResource( 6 )]
+position = Vector2( -112, 912 )
+bullet_solid = true
+destructable = true
+screen_shake_on_destroy = true
+AI_active = false
+
+[node name="EnemyFollow7" parent="leveldata/Enemies/Wave1" instance=ExtResource( 6 )]
+position = Vector2( -960, 232 )
+bullet_solid = true
+destructable = true
+screen_shake_on_destroy = true
+AI_active = false
+
+[node name="EnemyFollow8" parent="leveldata/Enemies/Wave1" instance=ExtResource( 6 )]
+position = Vector2( -960, 520 )
+bullet_solid = true
+destructable = true
+screen_shake_on_destroy = true
+AI_active = false
+
+[node name="EnemyFollow9" parent="leveldata/Enemies/Wave1" instance=ExtResource( 6 )]
+position = Vector2( -984, 912 )
+bullet_solid = true
+destructable = true
+screen_shake_on_destroy = true
+AI_active = false
+
+[node name="EnemyFollow4" parent="leveldata/Enemies/Wave1" instance=ExtResource( 6 )]
+position = Vector2( 2040, 904 )
+rotation = -3.14159
+bullet_solid = true
+destructable = true
+screen_shake_on_destroy = true
+AI_active = false
+
+[node name="EnemyFollow5" parent="leveldata/Enemies/Wave1" instance=ExtResource( 6 )]
+position = Vector2( 2064, 566 )
+rotation = -3.14159
+bullet_solid = true
+destructable = true
+screen_shake_on_destroy = true
+AI_active = false
+
+[node name="EnemyFollow6" parent="leveldata/Enemies/Wave1" instance=ExtResource( 6 )]
+position = Vector2( 2024, 184 )
+rotation = -3.14159
+bullet_solid = true
+destructable = true
+screen_shake_on_destroy = true
+AI_active = false
+
+[node name="EnemyFollow10" parent="leveldata/Enemies/Wave1" instance=ExtResource( 6 )]
+position = Vector2( 3048, 914 )
+rotation = -3.14159
+bullet_solid = true
+destructable = true
+screen_shake_on_destroy = true
+AI_active = false
+
+[node name="EnemyFollow11" parent="leveldata/Enemies/Wave1" instance=ExtResource( 6 )]
+position = Vector2( 3072, 576 )
+rotation = -3.14159
+bullet_solid = true
+destructable = true
+screen_shake_on_destroy = true
+AI_active = false
+
+[node name="EnemyFollow12" parent="leveldata/Enemies/Wave1" instance=ExtResource( 6 )]
+position = Vector2( 3032, 194 )
+rotation = -3.14159
+bullet_solid = true
+destructable = true
+screen_shake_on_destroy = true
+AI_active = false
+
 [node name="Layer1" type="Node2D" parent="leveldata"]
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
 
 [node name="LeftWave" type="Node2D" parent="leveldata/Layer1"]
 script = SubResource( 5 )
@@ -1570,6 +1826,7 @@ margin_left = 150.0
 margin_top = -104.0
 margin_right = 312.0
 margin_bottom = 280.0
+mouse_filter = 2
 color = Color( 1, 0.74902, 0, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -1581,6 +1838,7 @@ margin_left = -288.0
 margin_top = 120.0
 margin_right = 1042.0
 margin_bottom = 280.0
+mouse_filter = 2
 color = Color( 1, 0.74902, 0, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -1592,6 +1850,7 @@ margin_left = 1608.0
 margin_top = 120.0
 margin_right = 1770.0
 margin_bottom = 1104.0
+mouse_filter = 2
 color = Color( 1, 0.74902, 0, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -1603,6 +1862,7 @@ margin_left = -424.0
 margin_top = 460.0
 margin_right = 1770.0
 margin_bottom = 620.0
+mouse_filter = 2
 color = Color( 1, 0.74902, 0, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -1612,8 +1872,9 @@ __meta__ = {
 modulate = Color( 1, 1, 1, 0 )
 margin_left = 1608.0
 margin_top = 840.0
-margin_right = 1770.0
-margin_bottom = 1552.0
+margin_right = 2504.0
+margin_bottom = 1002.0
+mouse_filter = 2
 color = Color( 1, 0.74902, 0, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -1625,6 +1886,7 @@ margin_left = 1110.0
 margin_top = 464.0
 margin_right = 1272.0
 margin_bottom = 1288.0
+mouse_filter = 2
 color = Color( 1, 0.74902, 0, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -1636,6 +1898,7 @@ margin_left = 880.0
 margin_top = -192.0
 margin_right = 1042.0
 margin_bottom = 1000.0
+mouse_filter = 2
 color = Color( 1, 0.74902, 0, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -1647,6 +1910,7 @@ margin_left = 152.0
 margin_top = 848.0
 margin_right = 2112.0
 margin_bottom = 1008.0
+mouse_filter = 2
 color = Color( 1, 0.74902, 0, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -1658,6 +1922,7 @@ margin_left = 152.0
 margin_top = 460.0
 margin_right = 314.0
 margin_bottom = 1264.0
+mouse_filter = 2
 color = Color( 1, 0.74902, 0, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -1669,6 +1934,7 @@ margin_left = 632.0
 margin_top = -300.0
 margin_right = 794.0
 margin_bottom = 620.0
+mouse_filter = 2
 color = Color( 1, 0.74902, 0, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -1682,21 +1948,21 @@ __meta__ = {
 
 [node name="Square" parent="leveldata/Layer1/BlockFlash" instance=ExtResource( 2 )]
 modulate = Color( 1, 0.74902, 0, 0 )
-position = Vector2( 230, 200 )
+position = Vector2( 230, 191.559 )
 scale = Vector2( 2.5, 2.5 )
 monitoring = false
 monitorable = false
 
 [node name="Square2" parent="leveldata/Layer1/BlockFlash" instance=ExtResource( 2 )]
 modulate = Color( 1, 0.74902, 0, 0 )
-position = Vector2( 960, 200 )
+position = Vector2( 935.586, 200 )
 scale = Vector2( 2.5, 2.5 )
 monitoring = false
 monitorable = false
 
 [node name="Square3" parent="leveldata/Layer1/BlockFlash" instance=ExtResource( 2 )]
 modulate = Color( 1, 0.74902, 0, 0 )
-position = Vector2( 1690, 200 )
+position = Vector2( 1690, 202.987 )
 scale = Vector2( 2.5, 2.5 )
 monitoring = false
 monitorable = false
@@ -1717,7 +1983,7 @@ monitorable = false
 
 [node name="Square10" parent="leveldata/Layer1/BlockFlash" instance=ExtResource( 2 )]
 modulate = Color( 1, 0.74902, 0, 0 )
-position = Vector2( 1190, 540 )
+position = Vector2( 1185, 540 )
 scale = Vector2( 2.5, 2.5 )
 monitoring = false
 monitorable = false
@@ -1793,7 +2059,32 @@ monitoring = false
 monitorable = false
 screen_shake_values = PoolRealArray(  )
 
+[node name="WaveIndicators" type="Node2D" parent="leveldata/Layer1"]
+modulate = Color( 1, 1, 1, 0 )
+
+[node name="ColorRect" type="ColorRect" parent="leveldata/Layer1/WaveIndicators"]
+margin_right = 1920.0
+margin_bottom = 320.0
+color = Color( 1, 0.74902, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect2" type="ColorRect" parent="leveldata/Layer1/WaveIndicators"]
+margin_top = 760.0
+margin_right = 1920.0
+margin_bottom = 1080.0
+color = Color( 1, 0.74902, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BulletPickup" parent="leveldata/Layer1" instance=ExtResource( 8 )]
+position = Vector2( 1144.01, -100 )
+bullet_path = "res://Objects/Bullets/MachineGun/Bullet_MachineGun.tscn"
+
 [node name="editorinfo" type="Node2D" parent="."]
+pause_mode = 2
 __meta__ = {
 "_edit_group_": true,
 "_edit_lock_": true

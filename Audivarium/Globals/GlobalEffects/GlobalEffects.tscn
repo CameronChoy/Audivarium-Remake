@@ -4,6 +4,7 @@
 [ext_resource path="res://Globals/GlobalEffects/MainCamera.gd" type="Script" id=5]
 
 [node name="GlobalEffects" type="Node"]
+pause_mode = 2
 script = ExtResource( 3 )
 
 [node name="MainCamera" type="Camera2D" parent="."]

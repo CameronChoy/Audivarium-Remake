@@ -175,7 +175,7 @@ func _on_SceneTransition_animation_finished(_anim_name):
 	for child in ViewportIn.get_children():
 		ViewportIn.remove_child(child)
 	for child in ViewportOut.get_children():
-		child.queue_free()
+		ViewportOut.remove_child(child)
 	
 #	get_tree().current_scene.free()
 #	get_tree().current_scene = null

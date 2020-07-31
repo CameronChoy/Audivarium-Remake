@@ -5,6 +5,8 @@ class_name Static
 export var bullet_solid : bool = false setget set_bullet_solid, is_bullet_solid
 export var destructable : bool = false setget set_destructable, is_destructable
 export var damaging : bool = true
+export var health : float = 1
+export var screen_shake_on_damaged : bool = false
 export var screen_shake_on_destroy : bool = false
 export var screen_shake_values : PoolRealArray = [0.2, 30, 3]
 var tracks
@@ -151,6 +153,13 @@ func bezier(p1, p2, p3, p4, t : float):
 
 
 func Damaged(_culprit = null):
+	health -= 1
+	if health > 0: 
+		
+		if screen_shake_on_damaged and screen_shake_values.size() >= 3:
+			GlobalEffects.shake(screen_shake_values[0],screen_shake_values[1],screen_shake_values[2])
+		
+		return
 	
 	if destroy_effect:
 		destroy_effect.modulate = modulate

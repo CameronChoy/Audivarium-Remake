@@ -66,6 +66,7 @@ func _ready():
 	HealthBarRight.value = 0
 	HealthBarLeft.get("custom_styles/fg").border_color = PlayerGlobals.ColorPlayerMain
 	
+	PlayerGlobals.current_player = self
 	
 
 
