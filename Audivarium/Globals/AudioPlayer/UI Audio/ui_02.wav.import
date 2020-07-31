@@ -2,12 +2,12 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/ui_01.wav-49a3bd1fb0ec78f3c634969c2eade1f8.sample"
+path="res://.import/ui_02.wav-10c945fde7df52e150d7887c68f91aab.sample"
 
 [deps]
 
-source_file="res://Globals/AudioPlayer/UI Audio/ui_01.wav"
-dest_files=[ "res://.import/ui_01.wav-49a3bd1fb0ec78f3c634969c2eade1f8.sample" ]
+source_file="res://Globals/AudioPlayer/UI Audio/ui_02.wav"
+dest_files=[ "res://.import/ui_02.wav-10c945fde7df52e150d7887c68f91aab.sample" ]
 
 [params]
 

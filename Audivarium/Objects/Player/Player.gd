@@ -14,7 +14,7 @@ export var teleport_range : float = 500
 export var teleport_reset_time : float = 1
 export var teleport_shockwave_time : float = 2
 export var invincible : bool = false
-export var fire_while_focused = false
+export var fire_while_focused = true
 
 onready var left = false
 onready var right = false
@@ -65,6 +65,7 @@ func _ready():
 	HealthBarLeft.value = 0
 	HealthBarRight.value = 0
 	HealthBarLeft.get("custom_styles/fg").border_color = PlayerGlobals.ColorPlayerMain
+	
 	
 
 
@@ -156,6 +157,7 @@ func _input(event):
 			teleport_readying = false
 			TeleportIndicator.stop_aiming()
 			return
+	
 	
 	if fire_while_focused:
 		_check_shoot(event)

@@ -68,6 +68,7 @@ func _ready():
 	var _err = Anim.connect("animation_finished",self,"_on_AnimationPlayer_animation_finished")
 	
 	PlayerSpawnPoint.hide()
+	Player.fire_while_focused = false
 	
 	build_complete = true
 	

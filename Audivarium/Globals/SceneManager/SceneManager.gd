@@ -99,7 +99,7 @@ func _thread_load(path):
 func _thread_done(anim_name):
 	
 	if thread and thread.is_active():
-		thread.wait_to_finish()
+		var _result = thread.wait_to_finish()
 	assert(res)
 	
 	new_scene = res.instance()

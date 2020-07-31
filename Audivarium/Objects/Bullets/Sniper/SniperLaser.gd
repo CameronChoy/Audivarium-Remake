@@ -9,7 +9,7 @@ func _ready():
 	default_color = PlayerGlobals.ColorPlayerMain
 	Ray.add_exception(player)
 
-func _process(delta):
+func _process(_delta):
 	
 	var direction = MAX_DISTANCE * (CrossHair.CrossHairSprite.global_position - global_position).normalized()
 	Ray.cast_to = direction

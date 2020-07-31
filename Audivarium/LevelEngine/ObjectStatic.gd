@@ -5,14 +5,17 @@ class_name Static
 export var bullet_solid : bool = false setget set_bullet_solid, is_bullet_solid
 export var destructable : bool = false setget set_destructable, is_destructable
 export var damaging : bool = true
+export var screen_shake_on_destroy : bool = false
+export var screen_shake_values : PoolRealArray = [0.2, 30, 3]
 var tracks
 var spawn_time
 var despawn_time
 onready var prev_bullet = bullet_solid
 onready var prev_destruct = destructable
 var destroy_effect
+var destroy_audio
 var tween
-var prev_time 
+var prev_time
 var prev_color
 
 
@@ -26,8 +29,9 @@ func _ready():
 	add_child(tween)
 	
 	var _err = tween.connect("tween_completed",self,"_on_Tween_tween_completed")
-	if destroy_effect:
+	if destroy_effect is PackedScene:
 		destroy_effect = destroy_effect.instance()
+	
 	
 
 
@@ -153,6 +157,12 @@ func Damaged(_culprit = null):
 		destroy_effect.self_modulate = self_modulate
 		GlobalEffects.add_effects_node(destroy_effect, global_position)
 	
+	if destroy_audio is AudioStreamOGGVorbis or destroy_audio is AudioStreamSample:
+		GlobalAudio.play_audio(destroy_audio)
+	
+	if screen_shake_on_destroy and screen_shake_values.size() >= 3:
+		GlobalEffects.shake(screen_shake_values[0],screen_shake_values[1],screen_shake_values[2])
+	
 	queue_free()
 	
 
@@ -181,6 +191,7 @@ func Effect_fade_in(time : float, end_alpha : float = 1):
 	
 	tween.interpolate_property(self,"modulate:a",0, end_alpha, time, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	tween.start()
+
 
 var flash_fade_out = true
 func Effect_flash_attack(color : Color, time : float, fade_out : bool = true):

@@ -4,7 +4,7 @@ func _ready():
 	var pos = rand_range(128,384)
 	for c in get_children():
 		c.monitoring = false
-		c.position.x += pos
+		c.position.x = pos
 		pos += rand_range(128,384)
 
 func random():

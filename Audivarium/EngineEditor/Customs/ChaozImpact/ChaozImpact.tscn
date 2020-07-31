@@ -80,6 +80,7 @@ func _ready():
 	var _err = Anim.connect(\"animation_finished\",self,\"_on_AnimationPlayer_animation_finished\")
 	
 	PlayerSpawnPoint.hide()
+	Player.fire_while_focused = false
 	
 	build_complete = true
 	
@@ -1425,11 +1426,11 @@ texture = SubResource( 4 )
 
 [node name="Player" parent="leveldata" instance=ExtResource( 4 )]
 position = Vector2( 960, 540 )
+fire_while_focused = false
 
 [node name="Layer1" type="Node2D" parent="leveldata"]
 
 [node name="LeftWave" type="Node2D" parent="leveldata/Layer1"]
-position = Vector2( 3840, 0 )
 script = SubResource( 5 )
 __meta__ = {
 "_edit_group_": true
@@ -1760,31 +1761,37 @@ __meta__ = {
 modulate = Color( 1, 0.74902, 0, 0 )
 monitoring = false
 monitorable = false
+screen_shake_values = PoolRealArray(  )
 
 [node name="Laser2" parent="leveldata/Layer1/LaserWave" instance=ExtResource( 1 )]
 modulate = Color( 1, 0.74902, 0, 0 )
 monitoring = false
 monitorable = false
+screen_shake_values = PoolRealArray(  )
 
 [node name="Laser3" parent="leveldata/Layer1/LaserWave" instance=ExtResource( 1 )]
 modulate = Color( 1, 0.74902, 0, 0 )
 monitoring = false
 monitorable = false
+screen_shake_values = PoolRealArray(  )
 
 [node name="Laser4" parent="leveldata/Layer1/LaserWave" instance=ExtResource( 1 )]
 modulate = Color( 1, 0.74902, 0, 0 )
 monitoring = false
 monitorable = false
+screen_shake_values = PoolRealArray(  )
 
 [node name="Laser5" parent="leveldata/Layer1/LaserWave" instance=ExtResource( 1 )]
 modulate = Color( 1, 0.74902, 0, 0 )
 monitoring = false
 monitorable = false
+screen_shake_values = PoolRealArray(  )
 
 [node name="Laser6" parent="leveldata/Layer1/LaserWave" instance=ExtResource( 1 )]
 modulate = Color( 1, 0.74902, 0, 0 )
 monitoring = false
 monitorable = false
+screen_shake_values = PoolRealArray(  )
 
 [node name="editorinfo" type="Node2D" parent="."]
 __meta__ = {

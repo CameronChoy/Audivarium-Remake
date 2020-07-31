@@ -7,6 +7,7 @@ const PREVIEW_FADE_TIME = 0.75
 
 var LevelButton = preload("res://Scenes/Levels/LevelButton.tscn")
 var LevelScene = preload("res://Scenes/LevelScene/LevelScene.tscn")
+var TitleScene = preload("res://Scenes/MainMenu/TitleMenu/TitleMain.tscn")
 
 onready var FadeOut = $FadeOut
 onready var FadeIn = $FadeIn
@@ -215,7 +216,7 @@ func fade_in():
 		var new_preview = LoadedSong.new()
 		new_preview.index = SelectedLevel.index
 		new_preview.song = GlobalAudio.play_audio(song, true, offset if offset else 0, "Master", -50)
-		print("fucking new")
+		
 		PreviewSong = new_preview
 		loaded_songs.append(PreviewSong)
 		
@@ -257,14 +258,15 @@ func InfoCard_selected(Card):
 			GlobalLevelManager.loaded_level = level
 			GlobalLevelManager.loaded_level_info = SelectedLevel.level_info
 			SceneManager.change_to_preloaded(LevelScene, SceneManager.TransitionType.INFALLZOOMINWARD)
-
+		
+	
 
 func _thread_completed(thread):
 	var _err = thread.wait_to_finish()
 
 
 func _exit_tree():
-	if PreviewSong:
+	if PreviewSong and PreviewSong.song:
 		PreviewSong.song.stop()
 		
 	
@@ -273,3 +275,7 @@ func _exit_tree():
 func _on_Button_pressed():
 	var _err = OS.shell_open(str("file://", OS.get_user_data_dir()))
 
+
+
+func _on_QuitButton_pressed():
+	SceneManager.change_to_preloaded(TitleScene, SceneManager.TransitionType.INOUTSLIDERIGHT)

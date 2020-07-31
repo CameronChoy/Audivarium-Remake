@@ -1,6 +1,6 @@
 extends Node2D
 
-const LevelSelectScene = ("res://Objects/Player/Player.tscn")
+const LevelSelectScene = ("res://Scenes/LevelSelect/LevelSelect.tscn")
 const CustomizeScene = ("res://Scenes/MainMenu/CustomizeMenu/CustomizeMenu.tscn")
 const SettingsScene = ("res://Scenes/MainMenu/SettingsMenu/SettingsMenu.tscn")
 const EditorScene = "res://Scenes/Editor/LevelEditor.tscn"

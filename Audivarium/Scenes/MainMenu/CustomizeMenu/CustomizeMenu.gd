@@ -2,17 +2,18 @@ extends Node2D
 
 var TitleScene = preload("res://Scenes/MainMenu/TitleMenu/TitleMain.tscn")
 onready var Player = $Player
-onready var PlayerColor1Input = $MenuOptions/MarginContainer/ScrollContainer/VBoxContainer/PlayerColor1/PlayerColor1Input
-onready var CrossHairColorInput = $MenuOptions/MarginContainer/ScrollContainer/VBoxContainer/CrossHair/CrossHairInput
-onready var TeleportColorInput = $MenuOptions/MarginContainer/ScrollContainer/VBoxContainer/Teleport/TeleportInput
-onready var TeleportCooldownColorInput = $MenuOptions/MarginContainer/ScrollContainer/VBoxContainer/TeleportCooldown/TeleportCooldownInput
-onready var DashColorInput = $MenuOptions/MarginContainer/ScrollContainer/VBoxContainer/Dash/DashInput
-onready var ReloadColorInput = $MenuOptions/MarginContainer/ScrollContainer/VBoxContainer/Reload/ReloadInput
-onready var BulletColorInput = $MenuOptions/MarginContainer/ScrollContainer/VBoxContainer/Bullet/BulletInput
+onready var PlayerColor1Input = $MenuOptions/MarginContainer/CenterContainer/ScrollContainer/VBoxContainer/PlayerColor1/PlayerColor1Input
+onready var CrossHairColorInput = $MenuOptions/MarginContainer/CenterContainer/ScrollContainer/VBoxContainer/CrossHair/CrossHairInput
+onready var TeleportColorInput = $MenuOptions/MarginContainer/CenterContainer/ScrollContainer/VBoxContainer/Teleport/TeleportInput
+onready var TeleportCooldownColorInput = $MenuOptions/MarginContainer/CenterContainer/ScrollContainer/VBoxContainer/TeleportCooldown/TeleportCooldownInput
+onready var DashColorInput = $MenuOptions/MarginContainer/CenterContainer/ScrollContainer/VBoxContainer/Dash/DashInput
+onready var ReloadColorInput = $MenuOptions/MarginContainer/CenterContainer/ScrollContainer/VBoxContainer/Reload/ReloadInput
+onready var BulletColorInput = $MenuOptions/MarginContainer/CenterContainer/ScrollContainer/VBoxContainer/Bullet/BulletInput
 onready var Menu = $MenuOptions/MarginContainer
-onready var Square = $PlayerWalls/ColorRect
+onready var Square = $PlayerWalls/CanvasLayer/ColorRect
 
 func _ready():
+	
 	PlayerColor1Input.color = PlayerGlobals.ColorPlayerMain
 	CrossHairColorInput.color = PlayerGlobals.ColorCrossHair
 	TeleportColorInput.color = PlayerGlobals.ColorTeleportIndicator
@@ -20,7 +21,8 @@ func _ready():
 	DashColorInput.color = PlayerGlobals.ColorDashResetProgress
 	ReloadColorInput.color = PlayerGlobals.ColorFireDelayProgress
 	BulletColorInput.color = PlayerGlobals.ColorBullet
-
+	Player.fire_while_focused = false
+	
 
 func _on_PlayerColor1Input_color_changed(color):
 	PlayerGlobals.ColorPlayerMain = color

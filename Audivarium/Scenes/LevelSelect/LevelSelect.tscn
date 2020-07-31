@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Scenes/LevelSelect/LevelSelect.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/LevelSelect/LevelInfoCard.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Globals/SceneManager/GlobalTheme.tres" type="Theme" id=3]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Begin"
@@ -45,9 +46,30 @@ tracks/0/keys = {
 [node name="LevelSelect" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+theme = ExtResource( 3 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="QuitButton" type="Button" parent="."]
+margin_left = 8.0
+margin_top = 16.0
+margin_right = 136.0
+margin_bottom = 88.0
+text = "Back"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="FolderButton" type="Button" parent="."]
+margin_left = 1536.0
+margin_top = 24.0
+margin_right = 1906.0
+margin_bottom = 70.0
+text = "Open Levels Folder"
+__meta__ = {
 "_edit_use_anchors_": false
 }
 
@@ -59,44 +81,75 @@ margin_left = 50.0
 margin_top = 50.0
 margin_right = -50.0
 margin_bottom = -50.0
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="TabContainer" type="TabContainer" parent="LevelsList"]
 margin_right = 860.0
 margin_bottom = 980.0
+mouse_filter = 1
 tab_align = 0
 
-[node name="Levels" type="MarginContainer" parent="LevelsList/TabContainer"]
+[node name="Levels" type="Control" parent="LevelsList/TabContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 32.0
-margin_right = -4.0
-margin_bottom = -4.0
+margin_left = 5.0
+margin_top = 51.0
+margin_right = -5.0
+margin_bottom = -5.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="Scroll" type="ScrollContainer" parent="LevelsList/TabContainer/Levels"]
-margin_right = 852.0
-margin_bottom = 944.0
+margin_left = 50.0
+margin_top = 50.0
+margin_right = 801.0
+margin_bottom = 881.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 follow_focus = true
 scroll_horizontal_enabled = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="OfficialsList" type="VBoxContainer" parent="LevelsList/TabContainer/Levels/Scroll"]
+margin_right = 751.0
+margin_bottom = 831.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
-[node name="CustomLevels" type="MarginContainer" parent="LevelsList/TabContainer"]
+[node name="CustomLevels" type="Control" parent="LevelsList/TabContainer"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 32.0
-margin_right = -4.0
-margin_bottom = -4.0
+margin_left = 5.0
+margin_top = 51.0
+margin_right = -5.0
+margin_bottom = -5.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="Scroll" type="ScrollContainer" parent="LevelsList/TabContainer/CustomLevels"]
-margin_right = 852.0
-margin_bottom = 944.0
+margin_left = 50.0
+margin_top = 50.0
+margin_right = 801.0
+margin_bottom = 881.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 follow_focus = true
 scroll_horizontal_enabled = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="CustomsList" type="VBoxContainer" parent="LevelsList/TabContainer/CustomLevels/Scroll"]
+margin_right = 751.0
+margin_bottom = 831.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="InfoCards" type="Control" parent="."]
 margin_top = -1080.0
@@ -108,27 +161,20 @@ __meta__ = {
 }
 
 [node name="Info1" parent="InfoCards" instance=ExtResource( 2 )]
+mouse_filter = 2
 
 [node name="Info2" parent="InfoCards" instance=ExtResource( 2 )]
 margin_top = -1000.0
 margin_bottom = -92.0001
+mouse_filter = 2
 
 [node name="InfoCardsAnim" type="AnimationPlayer" parent="InfoCards"]
 anims/Begin = SubResource( 1 )
 anims/SlideDown = SubResource( 2 )
 
-[node name="Button" type="Button" parent="."]
-margin_left = 1768.0
-margin_top = 8.0
-margin_right = 1904.0
-margin_bottom = 48.0
-text = "Open Levels Folder"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="FadeOut" type="Tween" parent="."]
 
 [node name="FadeIn" type="Tween" parent="."]
-[connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
+[connection signal="pressed" from="QuitButton" to="." method="_on_QuitButton_pressed"]
+[connection signal="pressed" from="FolderButton" to="." method="_on_Button_pressed"]
 [connection signal="tween_all_completed" from="FadeOut" to="." method="fade_in"]
