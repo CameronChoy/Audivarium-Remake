@@ -8,7 +8,7 @@ export var damaging : bool = true
 export var health : float = 1
 export var screen_shake_on_damaged : bool = false
 export var screen_shake_on_destroy : bool = false
-export var screen_shake_values : PoolRealArray = [0.2, 30, 3]
+export var screen_shake_values : PoolRealArray = [0.2, 30, 5]
 var tracks
 var spawn_time
 var despawn_time
@@ -33,6 +33,7 @@ func _ready():
 	var _err = tween.connect("tween_completed",self,"_on_Tween_tween_completed")
 	if destroy_effect is PackedScene:
 		destroy_effect = destroy_effect.instance()
+		
 	
 	
 
@@ -172,7 +173,12 @@ func Damaged(_culprit = null):
 	if screen_shake_on_destroy and screen_shake_values.size() >= 3:
 		GlobalEffects.shake(screen_shake_values[0],screen_shake_values[1],screen_shake_values[2])
 	
-	queue_free()
+	hide()
+	set_deferred("monitorable", false)
+	set_deferred("monitoring", false)
+	set_process(false)
+	set_physics_process(false)
+	position.x = -99999
 	
 
 

@@ -23,7 +23,7 @@ void fragment(){
 		float scale = (1.0 - pow(abs(difference * wave_scale.x),wave_scale.y));
 		float time_difference = difference * scale;
 		
-		vec2 new_coords = normalize(uv - new_center);
+		vec2 new_coords = normalize(uv - new_center - vec2(-0.8,-0.8));
 		float decrease = time * dist * wave_depreciation;
 		
 		new_coords += (uv * time_difference) / decrease;

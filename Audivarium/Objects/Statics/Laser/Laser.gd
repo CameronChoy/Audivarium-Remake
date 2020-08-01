@@ -1,4 +1,4 @@
-tool
+#tool
 extends Static
 var t = 0
 var c

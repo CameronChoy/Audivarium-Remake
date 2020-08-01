@@ -56,9 +56,9 @@ func is_drifting_to_player():
 func _physics_process(delta):
 	if !PlayerGlobals.current_player: return
 	
-	rotation = (global_position.angle_to_point(PlayerGlobals.current_player.global_position))
+	var r = (global_position.angle_to_point(PlayerGlobals.current_player.global_position))
 	
-	var direction = -Vector2(cos(rotation), sin(rotation))
+	var direction = -Vector2(cos(r), sin(r))
 	
 	global_position += direction * acceleration * delta
 	

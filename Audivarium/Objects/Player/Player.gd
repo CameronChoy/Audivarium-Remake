@@ -273,3 +273,4 @@ func bullet_change_signal():
 
 func bullet_reload_completion_signal():
 	can_shoot = true
+

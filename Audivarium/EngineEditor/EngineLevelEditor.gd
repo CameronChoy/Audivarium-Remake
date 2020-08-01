@@ -59,7 +59,13 @@ func _ready():
 	
 	if !assert_important_nodes(): return
 	
+	EditorUI.show()
+	
 	if !Engine.editor_hint:
+		Scene.pause_mode = PAUSE_MODE_STOP
+		EditorUI.pause_mode = PAUSE_MODE_PROCESS
+		Player.pause_mode = PAUSE_MODE_PROCESS
+		get_tree().paused = true
 		Player.global_position = PlayerSpawnPoint.global_position
 		#Scene.add_child_below_node(PlayerSpawnPoint, Player)
 		player_spawn_pos = Player.global_position

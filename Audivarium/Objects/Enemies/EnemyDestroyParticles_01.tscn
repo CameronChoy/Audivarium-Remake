@@ -1,0 +1,31 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Objects/Particles/OneShotParticles.gd" type="Script" id=1]
+[ext_resource path="res://Objects/Statics/Square/square.png" type="Texture" id=2]
+
+[sub_resource type="Curve" id=1]
+_data = [ Vector2( 0.733333, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.955556, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=2]
+width = 64
+curve = SubResource( 1 )
+
+[sub_resource type="ParticlesMaterial" id=3]
+flag_disable_z = true
+spread = 180.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 40.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+linear_accel = -30.0
+angle = 180.0
+angle_random = 1.0
+scale = 0.17
+scale_curve = SubResource( 2 )
+
+[node name="Particles2D" type="Particles2D"]
+lifetime = 1.5
+explosiveness = 0.75
+process_material = SubResource( 3 )
+texture = ExtResource( 2 )
+script = ExtResource( 1 )

@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Objects/Statics/Laser/Laser.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Objects/Statics/Square/Square.tscn" type="PackedScene" id=2]
@@ -31,13 +31,12 @@ var player_spawn_pos = OS.window_size / 2
 export(String) var level_name = \"level\"
 export(String, MULTILINE) var description = \"\"
 export(Color) var background_color = Color(\"3b3b3b\")
-export(String, FILE, \"*.ogg, *.wav\") var song
+export(String, FILE, GLOBAL, \"*.ogg, *.wav\") var song
 export(String) var song_name = \"\"
 export(String) var song_author = \"\"
 #export(float) var song_offset = 0
 export(String) var creator_name = \"\"
 export(float) var preview_offset = 0
-
 
 export(NodePath) var player_node
 export(NodePath) var animation_player
@@ -684,11 +683,17 @@ tracks/19/path = NodePath("Layer1/LaserWave/Laser")
 tracks/19/interp = 1
 tracks/19/loop_wrap = true
 tracks/19/imported = false
-tracks/19/enabled = false
+tracks/19/enabled = true
 tracks/19/keys = {
-"times": PoolRealArray( 14.7, 15.6 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 24.1, 25, 29.6, 30.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
 "values": [ {
+"args": [ 1.0, 0.3 ],
+"method": "Effect_fade_in"
+}, {
+"args": [ Color( 1, 0, 0, 1 ), 0.3 ],
+"method": "Effect_flash_attack"
+}, {
 "args": [ 1.0, 0.3 ],
 "method": "Effect_fade_in"
 }, {
@@ -701,11 +706,17 @@ tracks/20/path = NodePath("Layer1/LaserWave/Laser2")
 tracks/20/interp = 1
 tracks/20/loop_wrap = true
 tracks/20/imported = false
-tracks/20/enabled = false
+tracks/20/enabled = true
 tracks/20/keys = {
-"times": PoolRealArray( 14.9, 15.8 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 24.3, 25.2, 29.8, 30.7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
 "values": [ {
+"args": [ 1.0, 0.3 ],
+"method": "Effect_fade_in"
+}, {
+"args": [ Color( 1, 0, 0, 1 ), 0.3 ],
+"method": "Effect_flash_attack"
+}, {
 "args": [ 1.0, 0.3 ],
 "method": "Effect_fade_in"
 }, {
@@ -718,11 +729,17 @@ tracks/21/path = NodePath("Layer1/LaserWave/Laser3")
 tracks/21/interp = 1
 tracks/21/loop_wrap = true
 tracks/21/imported = false
-tracks/21/enabled = false
+tracks/21/enabled = true
 tracks/21/keys = {
-"times": PoolRealArray( 15, 15.9 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 24.4, 25.3, 29.9, 30.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
 "values": [ {
+"args": [ 1.0, 0.3 ],
+"method": "Effect_fade_in"
+}, {
+"args": [ Color( 1, 0, 0, 1 ), 0.3 ],
+"method": "Effect_flash_attack"
+}, {
 "args": [ 1.0, 0.3 ],
 "method": "Effect_fade_in"
 }, {
@@ -735,11 +752,17 @@ tracks/22/path = NodePath("Layer1/LaserWave/Laser4")
 tracks/22/interp = 1
 tracks/22/loop_wrap = true
 tracks/22/imported = false
-tracks/22/enabled = false
+tracks/22/enabled = true
 tracks/22/keys = {
-"times": PoolRealArray( 15.2, 16.1 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 24.6, 25.5, 30.1, 31 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
 "values": [ {
+"args": [ 1.0, 0.3 ],
+"method": "Effect_fade_in"
+}, {
+"args": [ Color( 1, 0, 0, 1 ), 0.3 ],
+"method": "Effect_flash_attack"
+}, {
 "args": [ 1.0, 0.3 ],
 "method": "Effect_fade_in"
 }, {
@@ -752,11 +775,17 @@ tracks/23/path = NodePath("Layer1/LaserWave/Laser5")
 tracks/23/interp = 1
 tracks/23/loop_wrap = true
 tracks/23/imported = false
-tracks/23/enabled = false
+tracks/23/enabled = true
 tracks/23/keys = {
-"times": PoolRealArray( 15.3, 16.2 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 24.7, 25.6, 30.2, 31.1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
 "values": [ {
+"args": [ 1.0, 0.3 ],
+"method": "Effect_fade_in"
+}, {
+"args": [ Color( 1, 0, 0, 1 ), 0.3 ],
+"method": "Effect_flash_attack"
+}, {
 "args": [ 1.0, 0.3 ],
 "method": "Effect_fade_in"
 }, {
@@ -769,11 +798,17 @@ tracks/24/path = NodePath("Layer1/LaserWave/Laser6")
 tracks/24/interp = 1
 tracks/24/loop_wrap = true
 tracks/24/imported = false
-tracks/24/enabled = false
+tracks/24/enabled = true
 tracks/24/keys = {
-"times": PoolRealArray( 15.5, 16.4 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 24.9, 25.8, 30.4, 31.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
 "values": [ {
+"args": [ 1.0, 0.3 ],
+"method": "Effect_fade_in"
+}, {
+"args": [ Color( 1, 0, 0, 1 ), 0.3 ],
+"method": "Effect_flash_attack"
+}, {
 "args": [ 1.0, 0.3 ],
 "method": "Effect_fade_in"
 }, {
@@ -786,11 +821,14 @@ tracks/25/path = NodePath("Layer1/LaserWave")
 tracks/25/interp = 1
 tracks/25/loop_wrap = true
 tracks/25/imported = false
-tracks/25/enabled = false
+tracks/25/enabled = true
 tracks/25/keys = {
-"times": PoolRealArray( 14.3 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 23.5, 29 ),
+"transitions": PoolRealArray( 1, 1 ),
 "values": [ {
+"args": [  ],
+"method": "random"
+}, {
 "args": [  ],
 "method": "random"
 } ]
@@ -810,244 +848,244 @@ tracks/26/keys = {
 } ]
 }
 tracks/27/type = "value"
-tracks/27/path = NodePath("Layer1/SlideIndicators/ColorRect:modulate")
+tracks/27/path = NodePath("Layer1/BlockFlash/Square:position")
 tracks/27/interp = 1
 tracks/27/loop_wrap = true
 tracks/27/imported = false
 tracks/27/enabled = true
 tracks/27/keys = {
-"times": PoolRealArray( 0, 11.7401, 15.1, 16, 16.7913 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 0 ) ]
-}
-tracks/28/type = "value"
-tracks/28/path = NodePath("Layer1/SlideIndicators/ColorRect2:modulate")
-tracks/28/interp = 1
-tracks/28/loop_wrap = true
-tracks/28/imported = false
-tracks/28/enabled = true
-tracks/28/keys = {
-"times": PoolRealArray( 0, 12.0401, 15.4, 16.3, 17.0913 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 0 ) ]
-}
-tracks/29/type = "value"
-tracks/29/path = NodePath("Layer1/SlideIndicators/ColorRect3:modulate")
-tracks/29/interp = 1
-tracks/29/loop_wrap = true
-tracks/29/imported = false
-tracks/29/enabled = true
-tracks/29/keys = {
-"times": PoolRealArray( 0, 12.3401, 15.7, 16.6, 17.3913 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 0 ) ]
-}
-tracks/30/type = "value"
-tracks/30/path = NodePath("Layer1/SlideIndicators/ColorRect4:modulate")
-tracks/30/interp = 1
-tracks/30/loop_wrap = true
-tracks/30/imported = false
-tracks/30/enabled = true
-tracks/30/keys = {
-"times": PoolRealArray( 0, 12.6401, 16, 16.9, 17.6913 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 0 ) ]
-}
-tracks/31/type = "value"
-tracks/31/path = NodePath("Layer1/SlideIndicators/ColorRect5:modulate")
-tracks/31/interp = 1
-tracks/31/loop_wrap = true
-tracks/31/imported = false
-tracks/31/enabled = true
-tracks/31/keys = {
-"times": PoolRealArray( 0, 12.9401, 16.3, 17.2, 17.9913 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 0 ) ]
-}
-tracks/32/type = "value"
-tracks/32/path = NodePath("Layer1/SlideIndicators/ColorRect6:modulate")
-tracks/32/interp = 1
-tracks/32/loop_wrap = true
-tracks/32/imported = false
-tracks/32/enabled = true
-tracks/32/keys = {
-"times": PoolRealArray( 0, 13.2401, 16.6, 17.5, 18.2913 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 0 ) ]
-}
-tracks/33/type = "value"
-tracks/33/path = NodePath("Layer1/SlideIndicators/ColorRect7:modulate")
-tracks/33/interp = 1
-tracks/33/loop_wrap = true
-tracks/33/imported = false
-tracks/33/enabled = true
-tracks/33/keys = {
-"times": PoolRealArray( 0, 13.5401, 16.9, 17.8, 18.5913 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 0 ) ]
-}
-tracks/34/type = "value"
-tracks/34/path = NodePath("Layer1/SlideIndicators/ColorRect8:modulate")
-tracks/34/interp = 1
-tracks/34/loop_wrap = true
-tracks/34/imported = false
-tracks/34/enabled = true
-tracks/34/keys = {
-"times": PoolRealArray( 0, 13.8401, 17.2, 18.1, 18.8913 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 0 ) ]
-}
-tracks/35/type = "value"
-tracks/35/path = NodePath("Layer1/SlideIndicators/ColorRect9:modulate")
-tracks/35/interp = 1
-tracks/35/loop_wrap = true
-tracks/35/imported = false
-tracks/35/enabled = true
-tracks/35/keys = {
-"times": PoolRealArray( 0, 14.1401, 17.5, 18.4, 19.1913 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 0 ) ]
-}
-tracks/36/type = "value"
-tracks/36/path = NodePath("Layer1/SlideIndicators/ColorRect10:modulate")
-tracks/36/interp = 1
-tracks/36/loop_wrap = true
-tracks/36/imported = false
-tracks/36/enabled = true
-tracks/36/keys = {
-"times": PoolRealArray( 0, 14.4401, 17.8, 18.7, 19.4913 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 0 ) ]
-}
-tracks/37/type = "value"
-tracks/37/path = NodePath("Layer1/BlockFlash/Square:position")
-tracks/37/interp = 1
-tracks/37/loop_wrap = true
-tracks/37/imported = false
-tracks/37/enabled = true
-tracks/37/keys = {
 "times": PoolRealArray( 0, 16.7723, 17.52 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 230, 191.559 ), Vector2( 230, 200 ), Vector2( 230, -880 ) ]
 }
-tracks/38/type = "value"
-tracks/38/path = NodePath("Layer1/BlockFlash/Square2:position")
-tracks/38/interp = 1
-tracks/38/loop_wrap = true
-tracks/38/imported = false
-tracks/38/enabled = true
-tracks/38/keys = {
+tracks/28/type = "value"
+tracks/28/path = NodePath("Layer1/SlideIndicators/ColorRect:modulate")
+tracks/28/interp = 1
+tracks/28/loop_wrap = true
+tracks/28/imported = false
+tracks/28/enabled = true
+tracks/28/keys = {
+"times": PoolRealArray( 0, 11.7401, 15.2, 16.1, 16.8, 17.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/29/type = "value"
+tracks/29/path = NodePath("Layer1/BlockFlash/Square2:position")
+tracks/29/interp = 1
+tracks/29/loop_wrap = true
+tracks/29/imported = false
+tracks/29/enabled = true
+tracks/29/keys = {
 "times": PoolRealArray( 0, 17.1518, 17.9 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 935.586, 200 ), Vector2( 960, 200 ), Vector2( -960, 200 ) ]
 }
-tracks/39/type = "value"
-tracks/39/path = NodePath("Layer1/BlockFlash/Square3:position")
-tracks/39/interp = 1
-tracks/39/loop_wrap = true
-tracks/39/imported = false
-tracks/39/enabled = true
-tracks/39/keys = {
+tracks/30/type = "value"
+tracks/30/path = NodePath("Layer1/SlideIndicators/ColorRect2:modulate")
+tracks/30/interp = 1
+tracks/30/loop_wrap = true
+tracks/30/imported = false
+tracks/30/enabled = true
+tracks/30/keys = {
+"times": PoolRealArray( 0, 12.0401, 15.4, 16.3, 17.2, 17.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/31/type = "value"
+tracks/31/path = NodePath("Layer1/BlockFlash/Square3:position")
+tracks/31/interp = 1
+tracks/31/loop_wrap = true
+tracks/31/imported = false
+tracks/31/enabled = true
+tracks/31/keys = {
 "times": PoolRealArray( 0, 17.5151, 18.26 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 1690, 202.987 ), Vector2( 1690, 200 ), Vector2( 1690, 1280 ) ]
 }
-tracks/40/type = "value"
-tracks/40/path = NodePath("Layer1/BlockFlash/Square9:position")
-tracks/40/interp = 1
-tracks/40/loop_wrap = true
-tracks/40/imported = false
-tracks/40/enabled = true
-tracks/40/keys = {
+tracks/32/type = "value"
+tracks/32/path = NodePath("Layer1/SlideIndicators/ColorRect3:modulate")
+tracks/32/interp = 1
+tracks/32/loop_wrap = true
+tracks/32/imported = false
+tracks/32/enabled = true
+tracks/32/keys = {
+"times": PoolRealArray( 0, 12.3401, 15.7, 16.6, 17.5, 18.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/33/type = "value"
+tracks/33/path = NodePath("Layer1/BlockFlash/Square9:position")
+tracks/33/interp = 1
+tracks/33/loop_wrap = true
+tracks/33/imported = false
+tracks/33/enabled = true
+tracks/33/keys = {
 "times": PoolRealArray( 0, 17.8574, 18.61 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 1690, 540 ), Vector2( 1690, 540 ), Vector2( -730, 540 ) ]
 }
-tracks/41/type = "value"
-tracks/41/path = NodePath("Layer1/BlockFlash/Square4:position")
-tracks/41/interp = 1
-tracks/41/loop_wrap = true
-tracks/41/imported = false
-tracks/41/enabled = true
-tracks/41/keys = {
+tracks/34/type = "value"
+tracks/34/path = NodePath("Layer1/SlideIndicators/ColorRect4:modulate")
+tracks/34/interp = 1
+tracks/34/loop_wrap = true
+tracks/34/imported = false
+tracks/34/enabled = true
+tracks/34/keys = {
+"times": PoolRealArray( 0, 12.6401, 16, 16.9, 17.9, 18.7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/35/type = "value"
+tracks/35/path = NodePath("Layer1/BlockFlash/Square4:position")
+tracks/35/interp = 1
+tracks/35/loop_wrap = true
+tracks/35/imported = false
+tracks/35/enabled = true
+tracks/35/keys = {
 "times": PoolRealArray( 0, 18.1742, 18.93 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 1690, 920 ), Vector2( 1690, 920 ), Vector2( 3610, 920 ) ]
 }
-tracks/42/type = "value"
-tracks/42/path = NodePath("Layer1/BlockFlash/Square10:position")
-tracks/42/interp = 1
-tracks/42/loop_wrap = true
-tracks/42/imported = false
-tracks/42/enabled = true
-tracks/42/keys = {
+tracks/36/type = "value"
+tracks/36/path = NodePath("Layer1/SlideIndicators/ColorRect5:modulate")
+tracks/36/interp = 1
+tracks/36/loop_wrap = true
+tracks/36/imported = false
+tracks/36/enabled = true
+tracks/36/keys = {
+"times": PoolRealArray( 0, 12.9401, 16.3, 17.2, 18.2, 19 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/37/type = "value"
+tracks/37/path = NodePath("Layer1/BlockFlash/Square10:position")
+tracks/37/interp = 1
+tracks/37/loop_wrap = true
+tracks/37/imported = false
+tracks/37/enabled = true
+tracks/37/keys = {
 "times": PoolRealArray( 0, 18.5039, 19.26 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 1185, 540 ), Vector2( 1185, 540 ), Vector2( 1185, 1620 ) ]
 }
-tracks/43/type = "value"
-tracks/43/path = NodePath("Layer1/BlockFlash/Square5:position")
-tracks/43/interp = 1
-tracks/43/loop_wrap = true
-tracks/43/imported = false
-tracks/43/enabled = true
-tracks/43/keys = {
+tracks/38/type = "value"
+tracks/38/path = NodePath("Layer1/SlideIndicators/ColorRect6:modulate")
+tracks/38/interp = 1
+tracks/38/loop_wrap = true
+tracks/38/imported = false
+tracks/38/enabled = true
+tracks/38/keys = {
+"times": PoolRealArray( 0, 13.2401, 16.6, 17.5, 18.5, 19.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/39/type = "value"
+tracks/39/path = NodePath("Layer1/BlockFlash/Square5:position")
+tracks/39/interp = 1
+tracks/39/loop_wrap = true
+tracks/39/imported = false
+tracks/39/enabled = true
+tracks/39/keys = {
 "times": PoolRealArray( 0, 18.8641, 19.6 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 960, 920 ), Vector2( 960, 920 ), Vector2( 960, -160 ) ]
 }
-tracks/44/type = "value"
-tracks/44/path = NodePath("Layer1/BlockFlash/Square6:position")
-tracks/44/interp = 1
-tracks/44/loop_wrap = true
-tracks/44/imported = false
-tracks/44/enabled = true
-tracks/44/keys = {
+tracks/40/type = "value"
+tracks/40/path = NodePath("Layer1/SlideIndicators/ColorRect7:modulate")
+tracks/40/interp = 1
+tracks/40/loop_wrap = true
+tracks/40/imported = false
+tracks/40/enabled = true
+tracks/40/keys = {
+"times": PoolRealArray( 0, 13.5401, 16.9, 17.8, 18.9, 19.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/41/type = "value"
+tracks/41/path = NodePath("Layer1/BlockFlash/Square6:position")
+tracks/41/interp = 1
+tracks/41/loop_wrap = true
+tracks/41/imported = false
+tracks/41/enabled = true
+tracks/41/keys = {
 "times": PoolRealArray( 0, 19.1982, 19.95 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 230, 920 ), Vector2( 230, 920 ), Vector2( 2150, 920 ) ]
 }
-tracks/45/type = "value"
-tracks/45/path = NodePath("Layer1/BlockFlash/Square7:position")
-tracks/45/interp = 1
-tracks/45/loop_wrap = true
-tracks/45/imported = false
-tracks/45/enabled = true
-tracks/45/keys = {
+tracks/42/type = "value"
+tracks/42/path = NodePath("Layer1/SlideIndicators/ColorRect8:modulate")
+tracks/42/interp = 1
+tracks/42/loop_wrap = true
+tracks/42/imported = false
+tracks/42/enabled = true
+tracks/42/keys = {
+"times": PoolRealArray( 0, 13.8401, 17.2, 18.1, 19.2, 20 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/43/type = "value"
+tracks/43/path = NodePath("Layer1/BlockFlash/Square7:position")
+tracks/43/interp = 1
+tracks/43/loop_wrap = true
+tracks/43/imported = false
+tracks/43/enabled = true
+tracks/43/keys = {
 "times": PoolRealArray( 0, 19.5367, 20.3 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 230, 540 ), Vector2( 230, 540 ), Vector2( 230, 1620 ) ]
 }
+tracks/44/type = "value"
+tracks/44/path = NodePath("Layer1/SlideIndicators/ColorRect9:modulate")
+tracks/44/interp = 1
+tracks/44/loop_wrap = true
+tracks/44/imported = false
+tracks/44/enabled = true
+tracks/44/keys = {
+"times": PoolRealArray( 0, 14.1401, 17.5, 18.4, 19.5, 20.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/45/type = "value"
+tracks/45/path = NodePath("Layer1/BlockFlash/Square8:position")
+tracks/45/interp = 1
+tracks/45/loop_wrap = true
+tracks/45/imported = false
+tracks/45/enabled = true
+tracks/45/keys = {
+"times": PoolRealArray( 0, 19.7189, 20.4643 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 710, 540 ), Vector2( 710, 540 ), Vector2( 710, -540 ) ]
+}
 tracks/46/type = "value"
-tracks/46/path = NodePath("Layer1/BlockFlash/Square8:position")
+tracks/46/path = NodePath("Layer1/SlideIndicators/ColorRect10:modulate")
 tracks/46/interp = 1
 tracks/46/loop_wrap = true
 tracks/46/imported = false
 tracks/46/enabled = true
 tracks/46/keys = {
-"times": PoolRealArray( 0, 19.7189, 20.4643 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PoolRealArray( 0, 14.4401, 17.8, 18.7, 19.7, 20.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 710, 540 ), Vector2( 710, 540 ), Vector2( 710, -540 ) ]
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 0 ) ]
 }
 tracks/47/type = "audio"
 tracks/47/path = NodePath("AnimationPlayer/AudioStreamPlayer")
@@ -1077,6 +1115,56 @@ tracks/48/keys = {
 "method": "set_drift"
 } ]
 }
+tracks/49/type = "value"
+tracks/49/path = NodePath("Layer1/WaveIndicators:modulate")
+tracks/49/interp = 1
+tracks/49/loop_wrap = true
+tracks/49/imported = false
+tracks/49/enabled = true
+tracks/49/keys = {
+"times": PoolRealArray( 0, 20.8, 21.9, 23.2, 23.9, 26.2, 27.3, 28.6, 29.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/50/type = "animation"
+tracks/50/path = NodePath("SecondaryPlayer")
+tracks/50/interp = 1
+tracks/50/loop_wrap = true
+tracks/50/imported = false
+tracks/50/enabled = true
+tracks/50/keys = {
+"clips": PoolStringArray( "Wave", "WaveBackward" ),
+"times": PoolRealArray( 22.3, 27.7 )
+}
+tracks/51/type = "method"
+tracks/51/path = NodePath("Enemies/DropWave")
+tracks/51/interp = 1
+tracks/51/loop_wrap = true
+tracks/51/imported = false
+tracks/51/enabled = true
+tracks/51/keys = {
+"times": PoolRealArray( 22.2 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "set_active"
+} ]
+}
+tracks/52/type = "method"
+tracks/52/path = NodePath("Enemies/Wave3")
+tracks/52/interp = 1
+tracks/52/loop_wrap = true
+tracks/52/imported = false
+tracks/52/enabled = true
+tracks/52/keys = {
+"times": PoolRealArray( 31.5 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "set_active"
+} ]
+}
 
 [sub_resource type="GDScript" id=3]
 script/source = "extends AnimationPlayer
@@ -1085,11 +1173,443 @@ func _ready():
 	GlobalLevelManager.loaded_level_anim = self
 "
 
-[sub_resource type="StreamTexture" id=4]
+[sub_resource type="Animation" id=4]
+resource_name = "Wave"
+length = 2.0
+tracks/0/type = "bezier"
+tracks/0/path = NodePath("Layer1/WaveBottom/Square:position:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 1384, -0.25, 0, 0.25, 0, 984, -0.25, 0, 0.25, 0, 1384, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.5, 1 )
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath("Layer1/WaveBottom/Square2:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( 1384, -0.25, 0, 0.25, 0, 984, -0.25, 0, 0.25, 0, 1384, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0.1, 0.6, 1.1 )
+}
+tracks/2/type = "bezier"
+tracks/2/path = NodePath("Layer1/WaveBottom/Square3:position:y")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"points": PoolRealArray( 1384, -0.25, 0, 0.25, 0, 984, -0.25, 0, 0.25, 0, 1384, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0.2, 0.7, 1.2 )
+}
+tracks/3/type = "bezier"
+tracks/3/path = NodePath("Layer1/WaveBottom/Square4:position:y")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"points": PoolRealArray( 1384, -0.25, 0, 0.25, 0, 984, -0.25, 0, 0.25, 0, 1384, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0.3, 0.8, 1.3 )
+}
+tracks/4/type = "bezier"
+tracks/4/path = NodePath("Layer1/WaveBottom/Square5:position:y")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"points": PoolRealArray( 1384, -0.25, 0, 0.25, 0, 984, -0.25, 0, 0.25, 0, 1384, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0.4, 0.9, 1.4 )
+}
+tracks/5/type = "bezier"
+tracks/5/path = NodePath("Layer1/WaveBottom/Square6:position:y")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"points": PoolRealArray( 1384, -0.25, 0, 0.25, 0, 984, -0.25, 0, 0.25, 0, 1384, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0.5, 1, 1.5 )
+}
+tracks/6/type = "bezier"
+tracks/6/path = NodePath("Layer1/WaveBottom/Square7:position:y")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"points": PoolRealArray( 1384, -0.25, 0, 0.25, 0, 984, -0.25, 0, 0.25, 0, 1384, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0.6, 1.1, 1.6 )
+}
+tracks/7/type = "bezier"
+tracks/7/path = NodePath("Layer1/WaveBottom/Square8:position:y")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"points": PoolRealArray( 1384, -0.25, 0, 0.25, 0, 984, -0.25, 0, 0.25, 0, 1384, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0.7, 1.2, 1.7 )
+}
+tracks/8/type = "bezier"
+tracks/8/path = NodePath("Layer1/WaveBottom/Square9:position:y")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"points": PoolRealArray( 1384, -0.25, 0, 0.25, 0, 984, -0.25, 0, 0.25, 0, 1384, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0.8, 1.3, 1.8 )
+}
+tracks/9/type = "bezier"
+tracks/9/path = NodePath("Layer1/WaveBottom/Square10:position:y")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"points": PoolRealArray( 1384, -0.25, 0, 0.25, 0, 984, -0.25, 0, 0.25, 0, 1384, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0.9, 1.4, 1.9 )
+}
+tracks/10/type = "bezier"
+tracks/10/path = NodePath("Layer1/WaveTop/Square:position:y")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"points": PoolRealArray( -290, -0.25, 0, 0.25, 0, 96, -0.25, 0, 0.25, 0, -290, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0.9, 1.4, 1.9 )
+}
+tracks/11/type = "bezier"
+tracks/11/path = NodePath("Layer1/WaveTop/Square2:position:y")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/keys = {
+"points": PoolRealArray( -290, -0.25, 0, 0.25, 0, 96, -0.25, 0, 0.25, 0, -290, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0.8, 1.3, 1.8 )
+}
+tracks/12/type = "bezier"
+tracks/12/path = NodePath("Layer1/WaveTop/Square3:position:y")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/keys = {
+"points": PoolRealArray( -290, -0.25, 0, 0.25, 0, 96, -0.25, 0, 0.25, 0, -290, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0.7, 1.2, 1.7 )
+}
+tracks/13/type = "bezier"
+tracks/13/path = NodePath("Layer1/WaveTop/Square4:position:y")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/keys = {
+"points": PoolRealArray( -290, -0.25, 0, 0.25, 0, 96, -0.25, 0, 0.25, 0, -290, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0.6, 1.1, 1.6 )
+}
+tracks/14/type = "bezier"
+tracks/14/path = NodePath("Layer1/WaveTop/Square5:position:y")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/keys = {
+"points": PoolRealArray( -290, -0.25, 0, 0.25, 0, 96, -0.25, 0, 0.25, 0, -290, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0.5, 1, 1.5 )
+}
+tracks/15/type = "bezier"
+tracks/15/path = NodePath("Layer1/WaveTop/Square6:position:y")
+tracks/15/interp = 1
+tracks/15/loop_wrap = true
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/keys = {
+"points": PoolRealArray( -290, -0.25, 0, 0.25, 0, 96, -0.25, 0, 0.25, 0, -290, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0.4, 0.9, 1.4 )
+}
+tracks/16/type = "bezier"
+tracks/16/path = NodePath("Layer1/WaveTop/Square7:position:y")
+tracks/16/interp = 1
+tracks/16/loop_wrap = true
+tracks/16/imported = false
+tracks/16/enabled = true
+tracks/16/keys = {
+"points": PoolRealArray( -290, -0.25, 0, 0.25, 0, 96, -0.25, 0, 0.25, 0, -290, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0.3, 0.8, 1.3 )
+}
+tracks/17/type = "bezier"
+tracks/17/path = NodePath("Layer1/WaveTop/Square8:position:y")
+tracks/17/interp = 1
+tracks/17/loop_wrap = true
+tracks/17/imported = false
+tracks/17/enabled = true
+tracks/17/keys = {
+"points": PoolRealArray( -290, -0.25, 0, 0.25, 0, 96, -0.25, 0, 0.25, 0, -290, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0.2, 0.7, 1.2 )
+}
+tracks/18/type = "bezier"
+tracks/18/path = NodePath("Layer1/WaveTop/Square9:position:y")
+tracks/18/interp = 1
+tracks/18/loop_wrap = true
+tracks/18/imported = false
+tracks/18/enabled = true
+tracks/18/keys = {
+"points": PoolRealArray( -290, -0.25, 0, 0.25, 0, 96, -0.25, 0, 0.25, 0, -290, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0.1, 0.6, 1.1 )
+}
+tracks/19/type = "bezier"
+tracks/19/path = NodePath("Layer1/WaveTop/Square10:position:y")
+tracks/19/interp = 1
+tracks/19/loop_wrap = true
+tracks/19/imported = false
+tracks/19/enabled = true
+tracks/19/keys = {
+"points": PoolRealArray( -290, -0.25, 0, 0.25, 0, 96, -0.25, 0, 0.25, 0, -290, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.5, 1 )
+}
+tracks/20/type = "value"
+tracks/20/path = NodePath("Layer1/WaveIndicators:modulate")
+tracks/20/interp = 1
+tracks/20/loop_wrap = true
+tracks/20/imported = false
+tracks/20/enabled = false
+tracks/20/keys = {
+"times": PoolRealArray( 0, 1.1, 1.6 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "WaveBackward"
+length = 2.0
+tracks/0/type = "bezier"
+tracks/0/path = NodePath("Layer1/WaveBottom/Square10:position:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 1384, -0.25, 0, 0.25, 0, 984, -0.25, 0, 0.25, 0, 1384, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.5, 1 )
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath("Layer1/WaveBottom/Square9:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( 1384, -0.25, 0, 0.25, 0, 984, -0.25, 0, 0.25, 0, 1384, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0.1, 0.6, 1.1 )
+}
+tracks/2/type = "bezier"
+tracks/2/path = NodePath("Layer1/WaveBottom/Square8:position:y")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"points": PoolRealArray( 1384, -0.25, 0, 0.25, 0, 984, -0.25, 0, 0.25, 0, 1384, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0.2, 0.7, 1.2 )
+}
+tracks/3/type = "bezier"
+tracks/3/path = NodePath("Layer1/WaveBottom/Square7:position:y")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"points": PoolRealArray( 1384, -0.25, 0, 0.25, 0, 984, -0.25, 0, 0.25, 0, 1384, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0.3, 0.8, 1.3 )
+}
+tracks/4/type = "bezier"
+tracks/4/path = NodePath("Layer1/WaveBottom/Square6:position:y")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"points": PoolRealArray( 1384, -0.25, 0, 0.25, 0, 984, -0.25, 0, 0.25, 0, 1384, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0.4, 0.9, 1.4 )
+}
+tracks/5/type = "bezier"
+tracks/5/path = NodePath("Layer1/WaveBottom/Square5:position:y")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"points": PoolRealArray( 1384, -0.25, 0, 0.25, 0, 984, -0.25, 0, 0.25, 0, 1384, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0.5, 1, 1.5 )
+}
+tracks/6/type = "bezier"
+tracks/6/path = NodePath("Layer1/WaveBottom/Square4:position:y")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"points": PoolRealArray( 1384, -0.25, 0, 0.25, 0, 984, -0.25, 0, 0.25, 0, 1384, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0.6, 1.1, 1.6 )
+}
+tracks/7/type = "bezier"
+tracks/7/path = NodePath("Layer1/WaveBottom/Square3:position:y")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"points": PoolRealArray( 1384, -0.25, 0, 0.25, 0, 984, -0.25, 0, 0.25, 0, 1384, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0.7, 1.2, 1.7 )
+}
+tracks/8/type = "bezier"
+tracks/8/path = NodePath("Layer1/WaveBottom/Square2:position:y")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"points": PoolRealArray( 1384, -0.25, 0, 0.25, 0, 984, -0.25, 0, 0.25, 0, 1384, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0.8, 1.3, 1.8 )
+}
+tracks/9/type = "bezier"
+tracks/9/path = NodePath("Layer1/WaveBottom/Square:position:y")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"points": PoolRealArray( 1384, -0.25, 0, 0.25, 0, 984, -0.25, 0, 0.25, 0, 1384, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0.9, 1.4, 1.9 )
+}
+tracks/10/type = "bezier"
+tracks/10/path = NodePath("Layer1/WaveTop/Square10:position:y")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"points": PoolRealArray( -290, -0.25, 0, 0.25, 0, 96, -0.25, 0, 0.25, 0, -290, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0.9, 1.4, 1.9 )
+}
+tracks/11/type = "bezier"
+tracks/11/path = NodePath("Layer1/WaveTop/Square9:position:y")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/keys = {
+"points": PoolRealArray( -290, -0.25, 0, 0.25, 0, 96, -0.25, 0, 0.25, 0, -290, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0.8, 1.3, 1.8 )
+}
+tracks/12/type = "bezier"
+tracks/12/path = NodePath("Layer1/WaveTop/Square8:position:y")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/keys = {
+"points": PoolRealArray( -290, -0.25, 0, 0.25, 0, 96, -0.25, 0, 0.25, 0, -290, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0.7, 1.2, 1.7 )
+}
+tracks/13/type = "bezier"
+tracks/13/path = NodePath("Layer1/WaveTop/Square7:position:y")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/keys = {
+"points": PoolRealArray( -290, -0.25, 0, 0.25, 0, 96, -0.25, 0, 0.25, 0, -290, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0.6, 1.1, 1.6 )
+}
+tracks/14/type = "bezier"
+tracks/14/path = NodePath("Layer1/WaveTop/Square6:position:y")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/keys = {
+"points": PoolRealArray( -290, -0.25, 0, 0.25, 0, 96, -0.25, 0, 0.25, 0, -290, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0.5, 1, 1.5 )
+}
+tracks/15/type = "bezier"
+tracks/15/path = NodePath("Layer1/WaveTop/Square5:position:y")
+tracks/15/interp = 1
+tracks/15/loop_wrap = true
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/keys = {
+"points": PoolRealArray( -290, -0.25, 0, 0.25, 0, 96, -0.25, 0, 0.25, 0, -290, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0.4, 0.9, 1.4 )
+}
+tracks/16/type = "bezier"
+tracks/16/path = NodePath("Layer1/WaveTop/Square4:position:y")
+tracks/16/interp = 1
+tracks/16/loop_wrap = true
+tracks/16/imported = false
+tracks/16/enabled = true
+tracks/16/keys = {
+"points": PoolRealArray( -290, -0.25, 0, 0.25, 0, 96, -0.25, 0, 0.25, 0, -290, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0.3, 0.8, 1.3 )
+}
+tracks/17/type = "bezier"
+tracks/17/path = NodePath("Layer1/WaveTop/Square3:position:y")
+tracks/17/interp = 1
+tracks/17/loop_wrap = true
+tracks/17/imported = false
+tracks/17/enabled = true
+tracks/17/keys = {
+"points": PoolRealArray( -290, -0.25, 0, 0.25, 0, 96, -0.25, 0, 0.25, 0, -290, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0.2, 0.7, 1.2 )
+}
+tracks/18/type = "bezier"
+tracks/18/path = NodePath("Layer1/WaveTop/Square2:position:y")
+tracks/18/interp = 1
+tracks/18/loop_wrap = true
+tracks/18/imported = false
+tracks/18/enabled = true
+tracks/18/keys = {
+"points": PoolRealArray( -290, -0.25, 0, 0.25, 0, 96, -0.25, 0, 0.25, 0, -290, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0.1, 0.6, 1.1 )
+}
+tracks/19/type = "bezier"
+tracks/19/path = NodePath("Layer1/WaveTop/Square:position:y")
+tracks/19/interp = 1
+tracks/19/loop_wrap = true
+tracks/19/imported = false
+tracks/19/enabled = true
+tracks/19/keys = {
+"points": PoolRealArray( -290, -0.25, 0, 0.25, 0, 96, -0.25, 0, 0.25, 0, -290, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.5, 1 )
+}
+tracks/20/type = "value"
+tracks/20/path = NodePath("Layer1/WaveIndicators:modulate")
+tracks/20/interp = 1
+tracks/20/loop_wrap = true
+tracks/20/imported = false
+tracks/20/enabled = false
+tracks/20/keys = {
+"times": PoolRealArray( 0, 1.1, 1.6 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="StreamTexture" id=6]
 flags = 4
 load_path = "res://.import/icon.png-487276ed1e3a0c39cad0279d744ee560.stex"
 
-[sub_resource type="GDScript" id=5]
+[sub_resource type="GDScript" id=7]
 script/source = "extends Node2D
 
 func _ready():
@@ -1097,18 +1617,18 @@ func _ready():
 		child.position.y = rand_range(96, 984)
 "
 
-[sub_resource type="DynamicFontData" id=6]
+[sub_resource type="DynamicFontData" id=8]
 font_path = "res://Fonts/Cruft/cruft.ttf"
 
-[sub_resource type="DynamicFont" id=7]
+[sub_resource type="DynamicFont" id=9]
 size = 25
 outline_color = Color( 0, 0, 0, 1 )
 use_mipmaps = true
 use_filter = true
-font_data = SubResource( 6 )
+font_data = SubResource( 8 )
 
-[sub_resource type="Theme" id=8]
-default_font = SubResource( 7 )
+[sub_resource type="Theme" id=10]
+default_font = SubResource( 9 )
 Button/colors/font_color = Color( 1, 1, 1, 1 )
 Button/colors/font_color_disabled = Color( 0, 0, 0, 1 )
 Button/colors/font_color_hover = Color( 0, 0.952941, 1, 1 )
@@ -1574,21 +2094,36 @@ script = SubResource( 3 )
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="leveldata/AnimationPlayer"]
 stream = ExtResource( 3 )
 
+[node name="SecondaryPlayer" type="AnimationPlayer" parent="leveldata"]
+anims/Wave = SubResource( 4 )
+anims/WaveBackward = SubResource( 5 )
+
 [node name="Layer0" type="Node2D" parent="leveldata"]
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
 
 [node name="PlayerSpawnPoint" type="Sprite" parent="leveldata"]
 visible = false
 position = Vector2( 960, 540 )
-texture = SubResource( 4 )
+texture = SubResource( 6 )
 
 [node name="Player" parent="leveldata" instance=ExtResource( 4 )]
 position = Vector2( 960, 540 )
 fire_while_focused = false
 
 [node name="Enemies" type="Node2D" parent="leveldata"]
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="Wave1" type="Node2D" parent="leveldata/Enemies"]
 script = ExtResource( 7 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
 
 [node name="EnemyFollow" parent="leveldata/Enemies/Wave1" instance=ExtResource( 6 )]
 position = Vector2( -88, 232 )
@@ -1680,14 +2215,518 @@ destructable = true
 screen_shake_on_destroy = true
 AI_active = false
 
+[node name="DropWave" type="Node2D" parent="leveldata/Enemies"]
+script = ExtResource( 7 )
+
+[node name="EnemyFollow" parent="leveldata/Enemies/DropWave" instance=ExtResource( 6 )]
+position = Vector2( -296, 688 )
+bullet_solid = true
+destructable = true
+AI_active = false
+
+[node name="EnemyFollow2" parent="leveldata/Enemies/DropWave" instance=ExtResource( 6 )]
+position = Vector2( -288, 552 )
+bullet_solid = true
+destructable = true
+AI_active = false
+
+[node name="EnemyFollow4" parent="leveldata/Enemies/DropWave" instance=ExtResource( 6 )]
+position = Vector2( -880, 704 )
+bullet_solid = true
+destructable = true
+AI_active = false
+
+[node name="EnemyFollow5" parent="leveldata/Enemies/DropWave" instance=ExtResource( 6 )]
+position = Vector2( -864, 558 )
+bullet_solid = true
+destructable = true
+AI_active = false
+
+[node name="EnemyFollow6" parent="leveldata/Enemies/DropWave" instance=ExtResource( 6 )]
+position = Vector2( -864, 408 )
+bullet_solid = true
+destructable = true
+AI_active = false
+
+[node name="EnemyFollow7" parent="leveldata/Enemies/DropWave" instance=ExtResource( 6 )]
+position = Vector2( -1368, 408 )
+bullet_solid = true
+destructable = true
+AI_active = false
+
+[node name="EnemyFollow8" parent="leveldata/Enemies/DropWave" instance=ExtResource( 6 )]
+position = Vector2( -1400, 572 )
+bullet_solid = true
+destructable = true
+AI_active = false
+
+[node name="EnemyFollow9" parent="leveldata/Enemies/DropWave" instance=ExtResource( 6 )]
+position = Vector2( -1406, 712 )
+bullet_solid = true
+destructable = true
+AI_active = false
+
+[node name="EnemyFollow3" parent="leveldata/Enemies/DropWave" instance=ExtResource( 6 )]
+position = Vector2( -288, 408 )
+bullet_solid = true
+destructable = true
+AI_active = false
+
+[node name="EnemyFollow10" parent="leveldata/Enemies/DropWave" instance=ExtResource( 6 )]
+position = Vector2( 2216, 704 )
+rotation = 3.14159
+bullet_solid = true
+destructable = true
+AI_active = false
+
+[node name="EnemyFollow11" parent="leveldata/Enemies/DropWave" instance=ExtResource( 6 )]
+position = Vector2( 2216, 560 )
+rotation = 3.14159
+bullet_solid = true
+destructable = true
+AI_active = false
+
+[node name="EnemyFollow12" parent="leveldata/Enemies/DropWave" instance=ExtResource( 6 )]
+position = Vector2( 2224, 416 )
+rotation = 3.14159
+bullet_solid = true
+destructable = true
+AI_active = false
+
+[node name="EnemyFollow13" parent="leveldata/Enemies/DropWave" instance=ExtResource( 6 )]
+position = Vector2( 2592, 736 )
+rotation = 3.14159
+bullet_solid = true
+destructable = true
+AI_active = false
+
+[node name="EnemyFollow14" parent="leveldata/Enemies/DropWave" instance=ExtResource( 6 )]
+position = Vector2( 2640, 568 )
+rotation = 3.14159
+bullet_solid = true
+destructable = true
+AI_active = false
+
+[node name="EnemyFollow15" parent="leveldata/Enemies/DropWave" instance=ExtResource( 6 )]
+position = Vector2( 2600, 370 )
+rotation = 3.14159
+bullet_solid = true
+destructable = true
+AI_active = false
+
+[node name="EnemyFollow16" parent="leveldata/Enemies/DropWave" instance=ExtResource( 6 )]
+position = Vector2( 3232, 742 )
+rotation = 3.14159
+bullet_solid = true
+destructable = true
+AI_active = false
+
+[node name="EnemyFollow17" parent="leveldata/Enemies/DropWave" instance=ExtResource( 6 )]
+position = Vector2( 3256, 576 )
+rotation = 3.14159
+bullet_solid = true
+destructable = true
+AI_active = false
+
+[node name="EnemyFollow18" parent="leveldata/Enemies/DropWave" instance=ExtResource( 6 )]
+position = Vector2( 3264, 370 )
+rotation = 3.14159
+bullet_solid = true
+destructable = true
+AI_active = false
+
+[node name="EnemyFollow19" parent="leveldata/Enemies/DropWave" instance=ExtResource( 6 )]
+position = Vector2( 2600, 1568 )
+rotation = 3.14159
+bullet_solid = true
+destructable = true
+AI_active = false
+
+[node name="EnemyFollow20" parent="leveldata/Enemies/DropWave" instance=ExtResource( 6 )]
+position = Vector2( -472, 1496 )
+bullet_solid = true
+destructable = true
+AI_active = false
+
+[node name="EnemyFollow21" parent="leveldata/Enemies/DropWave" instance=ExtResource( 6 )]
+position = Vector2( -326, -224 )
+bullet_solid = true
+destructable = true
+AI_active = false
+
+[node name="EnemyFollow22" parent="leveldata/Enemies/DropWave" instance=ExtResource( 6 )]
+position = Vector2( 2328, -264 )
+rotation = 3.14159
+bullet_solid = true
+destructable = true
+AI_active = false
+
+[node name="Wave3" type="Node2D" parent="leveldata/Enemies"]
+modulate = Color( 1, 0, 0, 1 )
+script = ExtResource( 7 )
+
+[node name="EnemyFollow" parent="leveldata/Enemies/Wave3" instance=ExtResource( 6 )]
+position = Vector2( -362, 1032 )
+bullet_solid = true
+health = 3.0
+screen_shake_on_damaged = true
+screen_shake_on_destroy = true
+AI_active = false
+acceleration = 250.0
+
+[node name="EnemyFollow2" parent="leveldata/Enemies/Wave3" instance=ExtResource( 6 )]
+position = Vector2( 224, 1752 )
+rotation = -1.5708
+bullet_solid = true
+health = 3.0
+screen_shake_on_damaged = true
+screen_shake_on_destroy = true
+AI_active = false
+acceleration = 250.0
+
+[node name="EnemyFollow3" parent="leveldata/Enemies/Wave3" instance=ExtResource( 6 )]
+position = Vector2( 2496, 1104 )
+rotation = -3.14159
+bullet_solid = true
+health = 3.0
+screen_shake_on_damaged = true
+screen_shake_on_destroy = true
+AI_active = false
+acceleration = 250.0
+
+[node name="EnemyFollow4" parent="leveldata/Enemies/Wave3" instance=ExtResource( 6 )]
+position = Vector2( 480, 1768 )
+rotation = -1.5708
+bullet_solid = true
+health = 3.0
+screen_shake_on_damaged = true
+screen_shake_on_destroy = true
+AI_active = false
+acceleration = 250.0
+
+[node name="EnemyFollow5" parent="leveldata/Enemies/Wave3" instance=ExtResource( 6 )]
+position = Vector2( 2504, 808 )
+rotation = -3.14159
+bullet_solid = true
+health = 3.0
+screen_shake_on_damaged = true
+screen_shake_on_destroy = true
+AI_active = false
+acceleration = 250.0
+
+[node name="EnemyFollow6" parent="leveldata/Enemies/Wave3" instance=ExtResource( 6 )]
+position = Vector2( 768, 1768 )
+rotation = -1.5708
+bullet_solid = true
+health = 3.0
+screen_shake_on_damaged = true
+screen_shake_on_destroy = true
+AI_active = false
+acceleration = 250.0
+
+[node name="EnemyFollow7" parent="leveldata/Enemies/Wave3" instance=ExtResource( 6 )]
+position = Vector2( 2504, 496 )
+rotation = -3.14159
+bullet_solid = true
+health = 3.0
+screen_shake_on_damaged = true
+screen_shake_on_destroy = true
+AI_active = false
+acceleration = 250.0
+
+[node name="EnemyFollow8" parent="leveldata/Enemies/Wave3" instance=ExtResource( 6 )]
+position = Vector2( 1080, 1784 )
+rotation = -1.5708
+bullet_solid = true
+health = 3.0
+screen_shake_on_damaged = true
+screen_shake_on_destroy = true
+AI_active = false
+acceleration = 250.0
+
+[node name="EnemyFollow9" parent="leveldata/Enemies/Wave3" instance=ExtResource( 6 )]
+position = Vector2( -442, 888 )
+bullet_solid = true
+health = 3.0
+screen_shake_on_damaged = true
+screen_shake_on_destroy = true
+AI_active = false
+acceleration = 250.0
+
+[node name="EnemyFollow27" parent="leveldata/Enemies/Wave3" instance=ExtResource( 6 )]
+position = Vector2( -426, 664 )
+bullet_solid = true
+health = 3.0
+screen_shake_on_damaged = true
+screen_shake_on_destroy = true
+AI_active = false
+acceleration = 250.0
+
+[node name="EnemyFollow28" parent="leveldata/Enemies/Wave3" instance=ExtResource( 6 )]
+position = Vector2( -506, 520 )
+bullet_solid = true
+health = 3.0
+screen_shake_on_damaged = true
+screen_shake_on_destroy = true
+AI_active = false
+acceleration = 250.0
+
+[node name="EnemyFollow29" parent="leveldata/Enemies/Wave3" instance=ExtResource( 6 )]
+position = Vector2( -464, 144 )
+bullet_solid = true
+health = 3.0
+screen_shake_on_damaged = true
+screen_shake_on_destroy = true
+AI_active = false
+acceleration = 250.0
+
+[node name="EnemyFollow30" parent="leveldata/Enemies/Wave3" instance=ExtResource( 6 )]
+position = Vector2( -544, 0 )
+bullet_solid = true
+health = 3.0
+screen_shake_on_damaged = true
+screen_shake_on_destroy = true
+AI_active = false
+acceleration = 250.0
+
+[node name="EnemyFollow10" parent="leveldata/Enemies/Wave3" instance=ExtResource( 6 )]
+position = Vector2( 2480, 304 )
+rotation = -3.14159
+bullet_solid = true
+health = 3.0
+screen_shake_on_damaged = true
+screen_shake_on_destroy = true
+AI_active = false
+acceleration = 250.0
+
+[node name="EnemyFollow31" parent="leveldata/Enemies/Wave3" instance=ExtResource( 6 )]
+position = Vector2( 2528, 944 )
+rotation = -3.14159
+bullet_solid = true
+health = 3.0
+screen_shake_on_damaged = true
+screen_shake_on_destroy = true
+AI_active = false
+acceleration = 250.0
+
+[node name="EnemyFollow11" parent="leveldata/Enemies/Wave3" instance=ExtResource( 6 )]
+position = Vector2( 1360, 1784 )
+rotation = -1.5708
+bullet_solid = true
+health = 3.0
+screen_shake_on_damaged = true
+screen_shake_on_destroy = true
+AI_active = false
+acceleration = 250.0
+
+[node name="EnemyFollow13" parent="leveldata/Enemies/Wave3" instance=ExtResource( 6 )]
+position = Vector2( 2520, 96 )
+rotation = -3.14159
+bullet_solid = true
+health = 3.0
+screen_shake_on_damaged = true
+screen_shake_on_destroy = true
+AI_active = false
+acceleration = 250.0
+
+[node name="EnemyFollow12" parent="leveldata/Enemies/Wave3" instance=ExtResource( 6 )]
+position = Vector2( 1672, 1800 )
+rotation = -1.5708
+bullet_solid = true
+health = 3.0
+screen_shake_on_damaged = true
+screen_shake_on_destroy = true
+AI_active = false
+acceleration = 250.0
+
+[node name="EnemyFollow14" parent="leveldata/Enemies/Wave3" instance=ExtResource( 6 )]
+position = Vector2( -2264, 480 )
+rotation = -1.5708
+bullet_solid = true
+health = 3.0
+screen_shake_on_damaged = true
+screen_shake_on_destroy = true
+AI_active = false
+acceleration = 250.0
+
+[node name="EnemyFollow15" parent="leveldata/Enemies/Wave3" instance=ExtResource( 6 )]
+position = Vector2( -2072, 480 )
+rotation = -1.5708
+bullet_solid = true
+health = 3.0
+screen_shake_on_damaged = true
+screen_shake_on_destroy = true
+AI_active = false
+acceleration = 250.0
+
+[node name="EnemyFollow16" parent="leveldata/Enemies/Wave3" instance=ExtResource( 6 )]
+position = Vector2( -2024, 664 )
+rotation = -1.5708
+bullet_solid = true
+health = 3.0
+screen_shake_on_damaged = true
+screen_shake_on_destroy = true
+AI_active = false
+acceleration = 250.0
+
+[node name="EnemyFollow17" parent="leveldata/Enemies/Wave3" instance=ExtResource( 6 )]
+position = Vector2( -1816, 496 )
+rotation = -1.5708
+bullet_solid = true
+health = 3.0
+screen_shake_on_damaged = true
+screen_shake_on_destroy = true
+AI_active = false
+acceleration = 250.0
+
+[node name="EnemyFollow18" parent="leveldata/Enemies/Wave3" instance=ExtResource( 6 )]
+position = Vector2( -1714, 696 )
+rotation = -1.5708
+bullet_solid = true
+health = 3.0
+screen_shake_on_damaged = true
+screen_shake_on_destroy = true
+AI_active = false
+acceleration = 250.0
+
+[node name="EnemyFollow19" parent="leveldata/Enemies/Wave3" instance=ExtResource( 6 )]
+position = Vector2( 816, 2864 )
+rotation = -1.5708
+bullet_solid = true
+health = 3.0
+screen_shake_on_damaged = true
+screen_shake_on_destroy = true
+AI_active = false
+acceleration = 250.0
+
+[node name="EnemyFollow20" parent="leveldata/Enemies/Wave3" instance=ExtResource( 6 )]
+position = Vector2( 1008, 3032 )
+rotation = -1.5708
+bullet_solid = true
+health = 3.0
+screen_shake_on_damaged = true
+screen_shake_on_destroy = true
+AI_active = false
+acceleration = 250.0
+
+[node name="EnemyFollow21" parent="leveldata/Enemies/Wave3" instance=ExtResource( 6 )]
+position = Vector2( 3832, 624 )
+rotation = -1.5708
+bullet_solid = true
+health = 3.0
+screen_shake_on_damaged = true
+screen_shake_on_destroy = true
+AI_active = false
+acceleration = 250.0
+
+[node name="EnemyFollow22" parent="leveldata/Enemies/Wave3" instance=ExtResource( 6 )]
+position = Vector2( 960, 2840 )
+rotation = -1.5708
+bullet_solid = true
+health = 3.0
+screen_shake_on_damaged = true
+screen_shake_on_destroy = true
+AI_active = false
+acceleration = 250.0
+
+[node name="EnemyFollow32" parent="leveldata/Enemies/Wave3" instance=ExtResource( 6 )]
+position = Vector2( 544, 2984 )
+rotation = -1.5708
+bullet_solid = true
+health = 3.0
+screen_shake_on_damaged = true
+screen_shake_on_destroy = true
+AI_active = false
+acceleration = 250.0
+
+[node name="EnemyFollow33" parent="leveldata/Enemies/Wave3" instance=ExtResource( 6 )]
+position = Vector2( 688, 2960 )
+rotation = -1.5708
+bullet_solid = true
+health = 3.0
+screen_shake_on_damaged = true
+screen_shake_on_destroy = true
+AI_active = false
+acceleration = 250.0
+
+[node name="EnemyFollow35" parent="leveldata/Enemies/Wave3" instance=ExtResource( 6 )]
+position = Vector2( -568, -2560 )
+rotation = -1.5708
+bullet_solid = true
+health = 3.0
+screen_shake_on_damaged = true
+screen_shake_on_destroy = true
+AI_active = false
+acceleration = 250.0
+
+[node name="EnemyFollow36" parent="leveldata/Enemies/Wave3" instance=ExtResource( 6 )]
+position = Vector2( 960, -2576 )
+rotation = -1.5708
+bullet_solid = true
+health = 3.0
+screen_shake_on_damaged = true
+screen_shake_on_destroy = true
+AI_active = false
+acceleration = 250.0
+
+[node name="EnemyFollow37" parent="leveldata/Enemies/Wave3" instance=ExtResource( 6 )]
+position = Vector2( 2680, -2536 )
+rotation = -1.5708
+bullet_solid = true
+health = 3.0
+screen_shake_on_damaged = true
+screen_shake_on_destroy = true
+AI_active = false
+acceleration = 250.0
+
+[node name="EnemyFollow23" parent="leveldata/Enemies/Wave3" instance=ExtResource( 6 )]
+position = Vector2( 3968, 776 )
+rotation = -1.5708
+bullet_solid = true
+health = 3.0
+screen_shake_on_damaged = true
+screen_shake_on_destroy = true
+AI_active = false
+acceleration = 250.0
+
+[node name="EnemyFollow24" parent="leveldata/Enemies/Wave3" instance=ExtResource( 6 )]
+position = Vector2( 4112, 624 )
+rotation = -1.5708
+bullet_solid = true
+health = 3.0
+screen_shake_on_damaged = true
+screen_shake_on_destroy = true
+AI_active = false
+acceleration = 250.0
+
+[node name="EnemyFollow25" parent="leveldata/Enemies/Wave3" instance=ExtResource( 6 )]
+position = Vector2( 4288, 792 )
+rotation = -1.5708
+bullet_solid = true
+health = 3.0
+screen_shake_on_damaged = true
+screen_shake_on_destroy = true
+AI_active = false
+acceleration = 250.0
+
+[node name="EnemyFollow26" parent="leveldata/Enemies/Wave3" instance=ExtResource( 6 )]
+position = Vector2( 4424, 640 )
+rotation = -1.5708
+bullet_solid = true
+health = 3.0
+screen_shake_on_damaged = true
+screen_shake_on_destroy = true
+AI_active = false
+acceleration = 250.0
+
 [node name="Layer1" type="Node2D" parent="leveldata"]
 __meta__ = {
-"_edit_group_": true,
 "_edit_lock_": true
 }
 
 [node name="LeftWave" type="Node2D" parent="leveldata/Layer1"]
-script = SubResource( 5 )
+position = Vector2( 3840, 0 )
+script = SubResource( 7 )
 __meta__ = {
 "_edit_group_": true
 }
@@ -1819,6 +2858,10 @@ destructable = true
 
 [node name="SlideIndicators" type="Node2D" parent="leveldata/Layer1"]
 modulate = Color( 1, 0.74902, 0, 1 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
 
 [node name="ColorRect" type="ColorRect" parent="leveldata/Layer1/SlideIndicators"]
 modulate = Color( 1, 1, 1, 0 )
@@ -1948,76 +2991,96 @@ __meta__ = {
 
 [node name="Square" parent="leveldata/Layer1/BlockFlash" instance=ExtResource( 2 )]
 modulate = Color( 1, 0.74902, 0, 0 )
-position = Vector2( 230, 191.559 )
+position = Vector2( 230, -880 )
 scale = Vector2( 2.5, 2.5 )
 monitoring = false
 monitorable = false
+bullet_solid = true
+screen_shake_on_damaged = true
 
 [node name="Square2" parent="leveldata/Layer1/BlockFlash" instance=ExtResource( 2 )]
 modulate = Color( 1, 0.74902, 0, 0 )
-position = Vector2( 935.586, 200 )
+position = Vector2( -960, 200 )
 scale = Vector2( 2.5, 2.5 )
 monitoring = false
 monitorable = false
+bullet_solid = true
+screen_shake_on_damaged = true
 
 [node name="Square3" parent="leveldata/Layer1/BlockFlash" instance=ExtResource( 2 )]
 modulate = Color( 1, 0.74902, 0, 0 )
-position = Vector2( 1690, 202.987 )
+position = Vector2( 1690, 1280 )
 scale = Vector2( 2.5, 2.5 )
 monitoring = false
 monitorable = false
+bullet_solid = true
+screen_shake_on_damaged = true
 
 [node name="Square7" parent="leveldata/Layer1/BlockFlash" instance=ExtResource( 2 )]
 modulate = Color( 1, 0.74902, 0, 0 )
-position = Vector2( 230, 540 )
+position = Vector2( 230, 1620 )
 scale = Vector2( 2.5, 2.5 )
 monitoring = false
 monitorable = false
+bullet_solid = true
+screen_shake_on_damaged = true
 
 [node name="Square8" parent="leveldata/Layer1/BlockFlash" instance=ExtResource( 2 )]
 modulate = Color( 1, 0.74902, 0, 0 )
-position = Vector2( 710, 540 )
+position = Vector2( 710, -540 )
 scale = Vector2( 2.5, 2.5 )
 monitoring = false
 monitorable = false
+bullet_solid = true
+screen_shake_on_damaged = true
 
 [node name="Square10" parent="leveldata/Layer1/BlockFlash" instance=ExtResource( 2 )]
 modulate = Color( 1, 0.74902, 0, 0 )
-position = Vector2( 1185, 540 )
+position = Vector2( 1185, 1620 )
 scale = Vector2( 2.5, 2.5 )
 monitoring = false
 monitorable = false
+bullet_solid = true
+screen_shake_on_damaged = true
 
 [node name="Square9" parent="leveldata/Layer1/BlockFlash" instance=ExtResource( 2 )]
 modulate = Color( 1, 0.74902, 0, 0 )
-position = Vector2( 1690, 540 )
+position = Vector2( -730, 540 )
 scale = Vector2( 2.5, 2.5 )
 monitoring = false
 monitorable = false
+bullet_solid = true
+screen_shake_on_damaged = true
 
 [node name="Square4" parent="leveldata/Layer1/BlockFlash" instance=ExtResource( 2 )]
 modulate = Color( 1, 0.74902, 0, 0 )
-position = Vector2( 1690, 920 )
+position = Vector2( 3610, 920 )
 scale = Vector2( 2.5, 2.5 )
 monitoring = false
 monitorable = false
+bullet_solid = true
+screen_shake_on_damaged = true
 
 [node name="Square5" parent="leveldata/Layer1/BlockFlash" instance=ExtResource( 2 )]
 modulate = Color( 1, 0.74902, 0, 0 )
-position = Vector2( 960, 920 )
+position = Vector2( 960, -160 )
 scale = Vector2( 2.5, 2.5 )
 monitoring = false
 monitorable = false
+bullet_solid = true
+screen_shake_on_damaged = true
 
 [node name="Square6" parent="leveldata/Layer1/BlockFlash" instance=ExtResource( 2 )]
 modulate = Color( 1, 0.74902, 0, 0 )
-position = Vector2( 230, 920 )
+position = Vector2( 2150, 920 )
 scale = Vector2( 2.5, 2.5 )
 monitoring = false
 monitorable = false
+bullet_solid = true
+screen_shake_on_damaged = true
 
 [node name="LaserWave" type="Node2D" parent="leveldata/Layer1"]
-position = Vector2( 0, 480 )
+position = Vector2( 80, 480 )
 script = ExtResource( 5 )
 __meta__ = {
 "_edit_group_": true
@@ -2059,8 +3122,16 @@ monitoring = false
 monitorable = false
 screen_shake_values = PoolRealArray(  )
 
+[node name="BulletPickup" parent="leveldata/Layer1" instance=ExtResource( 8 )]
+position = Vector2( 1144.01, -100 )
+bullet_path = "res://Objects/Bullets/MachineGun/Bullet_MachineGun.tscn"
+
 [node name="WaveIndicators" type="Node2D" parent="leveldata/Layer1"]
 modulate = Color( 1, 1, 1, 0 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
 
 [node name="ColorRect" type="ColorRect" parent="leveldata/Layer1/WaveIndicators"]
 margin_right = 1920.0
@@ -2079,9 +3150,117 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="BulletPickup" parent="leveldata/Layer1" instance=ExtResource( 8 )]
-position = Vector2( 1144.01, -100 )
-bullet_path = "res://Objects/Bullets/MachineGun/Bullet_MachineGun.tscn"
+[node name="WaveBottom" type="Node2D" parent="leveldata/Layer1"]
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="Square" parent="leveldata/Layer1/WaveBottom" instance=ExtResource( 2 )]
+modulate = Color( 1, 0, 0, 1 )
+position = Vector2( 96, 1384 )
+scale = Vector2( 3, 7 )
+
+[node name="Square2" parent="leveldata/Layer1/WaveBottom" instance=ExtResource( 2 )]
+modulate = Color( 1, 0, 0, 1 )
+position = Vector2( 288, 1384 )
+scale = Vector2( 3, 7 )
+
+[node name="Square3" parent="leveldata/Layer1/WaveBottom" instance=ExtResource( 2 )]
+modulate = Color( 1, 0, 0, 1 )
+position = Vector2( 480, 1384 )
+scale = Vector2( 3, 7 )
+
+[node name="Square4" parent="leveldata/Layer1/WaveBottom" instance=ExtResource( 2 )]
+modulate = Color( 1, 0, 0, 1 )
+position = Vector2( 672, 1384 )
+scale = Vector2( 3, 7 )
+
+[node name="Square5" parent="leveldata/Layer1/WaveBottom" instance=ExtResource( 2 )]
+modulate = Color( 1, 0, 0, 1 )
+position = Vector2( 864, 1384 )
+scale = Vector2( 3, 7 )
+
+[node name="Square6" parent="leveldata/Layer1/WaveBottom" instance=ExtResource( 2 )]
+modulate = Color( 1, 0, 0, 1 )
+position = Vector2( 1056, 1384 )
+scale = Vector2( 3, 7 )
+
+[node name="Square7" parent="leveldata/Layer1/WaveBottom" instance=ExtResource( 2 )]
+modulate = Color( 1, 0, 0, 1 )
+position = Vector2( 1248, 1384 )
+scale = Vector2( 3, 7 )
+
+[node name="Square8" parent="leveldata/Layer1/WaveBottom" instance=ExtResource( 2 )]
+modulate = Color( 1, 0, 0, 1 )
+position = Vector2( 1440, 1384 )
+scale = Vector2( 3, 7 )
+
+[node name="Square9" parent="leveldata/Layer1/WaveBottom" instance=ExtResource( 2 )]
+modulate = Color( 1, 0, 0, 1 )
+position = Vector2( 1632, 1384 )
+scale = Vector2( 3, 7 )
+
+[node name="Square10" parent="leveldata/Layer1/WaveBottom" instance=ExtResource( 2 )]
+modulate = Color( 1, 0, 0, 1 )
+position = Vector2( 1824, 1384 )
+scale = Vector2( 3, 7 )
+
+[node name="WaveTop" type="Node2D" parent="leveldata/Layer1"]
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="Square" parent="leveldata/Layer1/WaveTop" instance=ExtResource( 2 )]
+modulate = Color( 1, 0, 0, 1 )
+position = Vector2( 96, -290 )
+scale = Vector2( 3, 7 )
+
+[node name="Square2" parent="leveldata/Layer1/WaveTop" instance=ExtResource( 2 )]
+modulate = Color( 1, 0, 0, 1 )
+position = Vector2( 288, -290 )
+scale = Vector2( 3, 7 )
+
+[node name="Square3" parent="leveldata/Layer1/WaveTop" instance=ExtResource( 2 )]
+modulate = Color( 1, 0, 0, 1 )
+position = Vector2( 480, -290 )
+scale = Vector2( 3, 7 )
+
+[node name="Square4" parent="leveldata/Layer1/WaveTop" instance=ExtResource( 2 )]
+modulate = Color( 1, 0, 0, 1 )
+position = Vector2( 672, -290 )
+scale = Vector2( 3, 7 )
+
+[node name="Square5" parent="leveldata/Layer1/WaveTop" instance=ExtResource( 2 )]
+modulate = Color( 1, 0, 0, 1 )
+position = Vector2( 864, -290 )
+scale = Vector2( 3, 7 )
+
+[node name="Square6" parent="leveldata/Layer1/WaveTop" instance=ExtResource( 2 )]
+modulate = Color( 1, 0, 0, 1 )
+position = Vector2( 1056, -290 )
+scale = Vector2( 3, 7 )
+
+[node name="Square7" parent="leveldata/Layer1/WaveTop" instance=ExtResource( 2 )]
+modulate = Color( 1, 0, 0, 1 )
+position = Vector2( 1248, -290 )
+scale = Vector2( 3, 7 )
+
+[node name="Square8" parent="leveldata/Layer1/WaveTop" instance=ExtResource( 2 )]
+modulate = Color( 1, 0, 0, 1 )
+position = Vector2( 1440, -290 )
+scale = Vector2( 3, 7 )
+
+[node name="Square9" parent="leveldata/Layer1/WaveTop" instance=ExtResource( 2 )]
+modulate = Color( 1, 0, 0, 1 )
+position = Vector2( 1632, -290 )
+scale = Vector2( 3, 7 )
+
+[node name="Square10" parent="leveldata/Layer1/WaveTop" instance=ExtResource( 2 )]
+modulate = Color( 1, 0, 0, 1 )
+position = Vector2( 1824, -290 )
+scale = Vector2( 3, 7 )
 
 [node name="editorinfo" type="Node2D" parent="."]
 pause_mode = 2
@@ -2095,7 +3274,7 @@ margin_left = 16.0
 margin_top = -300.0
 margin_right = 1071.0
 margin_bottom = -98.0
-custom_fonts/font = SubResource( 7 )
+custom_fonts/font = SubResource( 9 )
 text = "
 Only objects in the leveldata node will be saved
 levels saved at: C:\\Users\\User\\AppData\\Roaming\\Godot\\app_userdata\\Audivarium
@@ -2113,7 +3292,7 @@ margin_left = 1370.53
 margin_top = -300.0
 margin_right = 2425.53
 margin_bottom = -16.0
-custom_fonts/font = SubResource( 7 )
+custom_fonts/font = SubResource( 9 )
 text = "
 /root/GlobalEffects functions
 func shake((float)time, (float)frequency, (float)amplitude)
@@ -2128,7 +3307,7 @@ __meta__ = {
 [node name="Control" type="Control" parent="editorinfo"]
 margin_right = 40.0
 margin_bottom = 40.0
-theme = SubResource( 8 )
+theme = SubResource( 10 )
 __meta__ = {
 "_edit_lock_": true,
 "_edit_use_anchors_": false
