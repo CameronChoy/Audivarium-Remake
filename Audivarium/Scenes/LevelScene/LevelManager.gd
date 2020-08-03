@@ -32,18 +32,23 @@ func _ready():
 			if GlobalLevelManager.loaded_level_anim is AnimationPlayer and GlobalLevelManager.loaded_level_anim.has_animation(GlobalConstants.LEVEL_ANIM_NAME):
 				GlobalLevelManager.loaded_level_anim.play(GlobalConstants.LEVEL_ANIM_NAME)
 				var _err = GlobalLevelManager.loaded_level_anim.connect("animation_finished", self, "_on_level_completed")
+				
 			
-		
 		Title.text = GlobalLevelManager.loaded_level_info.get(GlobalConstants.KEY_LEVEL_NAME)
 		
-		TitleTween.interpolate_property(Title, "rect_position:x",Title.rect_position.x, 0, 1,Tween.TRANS_SINE,Tween.EASE_OUT)
-		TitleTween.start()
-		
+	
+	var pos = -(Title.get("custom_fonts/font").get_string_size(Title.text)).x - 50
+	Title.rect_global_position.x = pos
+	
+	TitleTween.interpolate_property(Title, "rect_position:x", pos, 0, 1, Tween.TRANS_SINE,Tween.EASE_OUT,1)
+	TitleTween.start()
+	
 	
 	#setup_level()
 
+
 func _on_level_completed(_anim):
-	SceneManager.load_scene(LevelSelect, SceneManager.TransitionType.OUTZOOMINWARDFADE)
+	SceneManager.load_scene(LevelSelect, SceneManager.TransitionType.OUTZOOMOUTWARDSPIN)
 
 
 func setup_level(name : String, level_objects : Array):
@@ -115,5 +120,5 @@ func _on_TitleTween_tween_all_completed():
 
 
 func _on_Timer_timeout():
-	TitleTween.interpolate_property(Title, "rect_position:x",0, -Title.rect_size.x, 1,Tween.TRANS_SINE,Tween.EASE_IN)
+	TitleTween.interpolate_property(Title, "rect_position:x",0, -Title.rect_size.x, 1,Tween.TRANS_CUBIC,Tween.EASE_IN)
 	TitleTween.start()

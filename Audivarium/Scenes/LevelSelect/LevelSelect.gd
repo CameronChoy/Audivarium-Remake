@@ -227,14 +227,14 @@ func fade_in():
 
 func fade_in_interpolate():
 	#PreviewSong.song.playing = true
-	FadeIn.interpolate_property(PreviewSong.song, "volume_db", -50, PREVIEW_SONG_MAX_DB, 1.25)
+	FadeIn.interpolate_property(PreviewSong.song, "volume_db", PREVIEW_SONG_MIN_DB, PREVIEW_SONG_MAX_DB, PREVIEW_FADE_TIME)
 	FadeIn.start()
 
 
 func fade_out():
 	if FadeIn.is_active():
 		yield(FadeIn,"tween_all_completed")
-	FadeOut.interpolate_property(PreviewSong.song, "volume_db", PREVIEW_SONG_MAX_DB, -50, 1.25)
+	FadeOut.interpolate_property(PreviewSong.song, "volume_db", PREVIEW_SONG_MAX_DB, PREVIEW_SONG_MIN_DB, PREVIEW_FADE_TIME)
 	FadeOut.start()
 	
 
@@ -248,17 +248,19 @@ func set_Info(InfoCard, info):
 	InfoCard.set_song_author((info.level_info.get(GlobalConstants.KEY_LEVEL_SONG_CREATOR)))
 	#Image and Theme not yet implemented
 
-
+onready var selected = false
 func InfoCard_selected(Card):
-	if Card.current_level:
+	if Card.current_level and !selected:
+		selected = true
 		var level = ResourceLoader.load(SelectedLevel.level_data)
 		if level:
-			FadeIn.interpolate_property(PreviewSong.song, "volume_db", 0, -50, 1.25)
+			FadeIn.interpolate_property(PreviewSong.song, "volume_db", 0, PREVIEW_SONG_MIN_DB, PREVIEW_FADE_TIME)
 			FadeIn.start()
 			GlobalLevelManager.loaded_level = level
 			GlobalLevelManager.loaded_level_info = SelectedLevel.level_info
 			SceneManager.change_to_preloaded(LevelScene, SceneManager.TransitionType.INFALLZOOMINWARD)
-		
+		else:
+			selected = false
 	
 
 func _thread_completed(thread):
