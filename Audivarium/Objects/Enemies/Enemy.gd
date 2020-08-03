@@ -14,7 +14,7 @@ func _init():
 func _ready():
 	._ready()
 	set_physics_process(AI_active)
-	connect("body_entered",self,"_check_player")
+	var _err = connect("body_entered",self,"_check_player")
 
 
 func _physics_process(_delta):

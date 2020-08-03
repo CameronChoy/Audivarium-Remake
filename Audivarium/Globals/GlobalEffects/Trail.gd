@@ -33,8 +33,8 @@ func _process(delta):
 			parent_follow = null
 		
 	else:
-		prev_points.append(parent_follow.global_position)
-		points = prev_points
+#		prev_points.append(parent_follow.global_position)
+#		points = prev_points
 		(TrailTween.interpolate_property(
 		self,"self_modulate:a",1,0,fade_time,
 		Tween.TRANS_LINEAR,Tween.EASE_IN_OUT))

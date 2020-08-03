@@ -60,7 +60,8 @@ func _ready():
 	_err = DashTween.connect("tween_all_completed",self,"_on_DashTween_tween_all_completed")
 	
 	
-	bullet_change_signal()
+	bullet = PlayerGlobals.get_DefaultBullet().instance()
+	EquipedBulletText.text = bullet.get_name()
 	
 	HealthBarLeft.value = 0
 	HealthBarRight.value = 0
