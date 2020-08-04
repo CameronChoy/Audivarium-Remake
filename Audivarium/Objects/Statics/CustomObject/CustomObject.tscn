@@ -4,6 +4,7 @@
 
 [node name="CustomObject" type="Area2D"]
 script = ExtResource( 1 )
+INFO = "This object cannot be properly used. So don't."
 
 [node name="Sprite" type="Sprite" parent="."]
 

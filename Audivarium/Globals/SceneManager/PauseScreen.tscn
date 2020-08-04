@@ -1,0 +1,86 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Globals/SceneManager/GlobalTheme.tres" type="Theme" id=1]
+[ext_resource path="res://Fonts/lunchtime-doubly-so/lunchds.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://Globals/SceneManager/PauseScreen.gd" type="Script" id=3]
+
+[sub_resource type="DynamicFont" id=1]
+size = 60
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+use_mipmaps = true
+font_data = ExtResource( 2 )
+
+[node name="PauseScreen" type="Node"]
+pause_mode = 2
+script = ExtResource( 3 )
+
+[node name="PauseMenu" type="CenterContainer" parent="."]
+pause_mode = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PauseMenu"]
+pause_mode = 2
+margin_left = 610.0
+margin_top = 290.0
+margin_right = 1310.0
+margin_bottom = 790.0
+rect_min_size = Vector2( 700, 500 )
+mouse_filter = 0
+
+[node name="Label" type="Label" parent="PauseMenu/VBoxContainer"]
+pause_mode = 2
+margin_right = 700.0
+margin_bottom = 128.0
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.7
+custom_fonts/font = SubResource( 1 )
+text = "PAUSED"
+align = 1
+valign = 1
+
+[node name="GridContainer" type="GridContainer" parent="PauseMenu/VBoxContainer"]
+pause_mode = 2
+margin_top = 132.0
+margin_right = 700.0
+margin_bottom = 500.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 2.0
+custom_constants/vseparation = 90
+custom_constants/hseparation = 90
+columns = 2
+
+[node name="Resume" type="Button" parent="PauseMenu/VBoxContainer/GridContainer"]
+pause_mode = 2
+margin_right = 305.0
+margin_bottom = 139.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Resume"
+
+[node name="Settings" type="Button" parent="PauseMenu/VBoxContainer/GridContainer"]
+pause_mode = 2
+margin_left = 395.0
+margin_right = 700.0
+margin_bottom = 139.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Settings"
+
+[node name="Quit" type="Button" parent="PauseMenu/VBoxContainer/GridContainer"]
+pause_mode = 2
+margin_top = 229.0
+margin_right = 305.0
+margin_bottom = 368.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Exit"

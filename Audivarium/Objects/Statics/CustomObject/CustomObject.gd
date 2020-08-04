@@ -1,6 +1,7 @@
 tool
 extends Static
 
+export(String, MULTILINE) var warning = "This object cannot be properly used. So don't."
 export(String, FILE, GLOBAL, "*.png, *.jpg") var texture
 export(Shape2D) var collision_shape
 

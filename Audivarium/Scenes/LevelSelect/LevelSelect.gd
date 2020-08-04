@@ -248,6 +248,7 @@ func set_Info(InfoCard, info):
 	InfoCard.set_song_author((info.level_info.get(GlobalConstants.KEY_LEVEL_SONG_CREATOR)))
 	#Image and Theme not yet implemented
 
+
 onready var selected = false
 func InfoCard_selected(Card):
 	if Card.current_level and !selected:
@@ -263,6 +264,7 @@ func InfoCard_selected(Card):
 			selected = false
 	
 
+
 func _thread_completed(thread):
 	var _err = thread.wait_to_finish()
 
@@ -276,7 +278,6 @@ func _exit_tree():
 
 func _on_Button_pressed():
 	var _err = OS.shell_open(str("file://", OS.get_user_data_dir()))
-
 
 
 func _on_QuitButton_pressed():

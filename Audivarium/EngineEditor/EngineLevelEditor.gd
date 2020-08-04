@@ -1,7 +1,7 @@
 tool
 extends Node2D
 
-
+#var PlayerObject = preload("res://Objects/Player/Player.tscn")
 var PlayerSpawnPoint
 var Confirmation
 var EditorUI
@@ -28,8 +28,8 @@ export(float) var preview_offset = 0
 
 export(NodePath) var player_node
 export(NodePath) var animation_player
-export(NodePath) var level_scene
 export(NodePath) var background_node
+export(NodePath) var level_scene
 export(NodePath) var spawn_point
 
 export(bool) var enable_test_confirmation = true
@@ -37,7 +37,6 @@ export(bool) var enable_quit_confirmation = true
 var prev_bg = background_color
 const LEVEL_ANIM_MAIN = "leveldata"
 const CUSTOMS_PATH = "res://EngineEditor/Customs/"
-
 
 func _ready():
 	
@@ -123,31 +122,27 @@ func _export_level():
 
 	Player.global_position = player_spawn_pos
 	Player.rotation = 0
+	Player.fire_while_focused = true
 	if Player.has_method("clear_bullets"): Player.clear_bullets()
 	
 	PlayerSpawnPoint.hide()
 	set_all_owners(Scene)
 	
+	
 	var level_data = PackedScene.new()
 	if level_data.pack(Scene) != OK:
-		print("Error packing level data, cannot export")
+		print("Error packing level data, cannot finish export")
 		return
 	if ResourceSaver.save(level_data_path, level_data, ResourceSaver.FLAG_BUNDLE_RESOURCES) != OK:
-		print("Error saving level data, cannot export")
+		print("Error saving level data, cannot finish export")
 		return
 	
 	print("Level data successfully saved")
 	
-	var song_data = load(song)
-	if not song_data is AudioStreamSample and not song_data is AudioStreamOGGVorbis:
-		print("Error, song is not compatible, cannot export")
+	
+	if !save_audio(song, song_data_path):
 		return
 	
-	if ResourceSaver.save(song_data_path, song_data) != OK:
-		print("Error saving song data, cannot export")
-		return
-	
-	print("Song successfully saved")
 	
 	var level_info = {
 		GlobalConstants.KEY_LEVEL_NAME : level_name,
@@ -168,12 +163,25 @@ func _export_level():
 	
 	file.store_string(to_json(level_info))
 	
-	print("Level Info saved")
+	print("Level Info successfully saved")
 	
 	file.close()
 	print("Export complete\n")
 	
 
+
+func save_audio(path, save_path):
+	var audio_data = load(path)
+	if not audio_data is AudioStreamSample and not audio_data is AudioStreamOGGVorbis:
+		print("Error, audio is not compatible, cannot finish export")
+		return false
+	#print(ResourceSaver.get_recognized_extensions(audio_data))
+	if ResourceSaver.save(save_path, audio_data) != OK:
+		print("Error saving audio data, cannot finish export")
+		return false
+	
+	print("Audio successfully saved")
+	return true
 
 #https://www.reddit.com/r/godot/comments/40cm3w/looping_through_all_children_and_subchildren_of_a/
 func set_all_owners(node):
@@ -310,6 +318,7 @@ func _on_QuitButton_button_down():
 func _test_level():
 	Player.fire_while_focused = true
 	EditorUI.hide()
+	get_tree().paused = false
 	Anim.play(LEVEL_ANIM_MAIN)
 
 
@@ -347,3 +356,20 @@ func _on_DuplicateButton_pressed():
 	Confirmation.window_title = "Duplicate this scene?"
 	Confirmation.dialog_text = "It will be saved to " + CUSTOMS_PATH
 	Confirmation.show()
+
+
+#	for name in Anim.get_animation_list():
+#
+#		var a = Anim.get_animation(name)
+#
+#		for track_num in a.get_track_count():
+#
+#			if a.track_get_type(track_num) == Animation.TYPE_AUDIO:
+#
+#				for track_key in a.track_get_key_count(track_num):
+#
+#					var track_stream = a.audio_track_get_key_stream(track_num, track_key)
+#
+#					if ProjectSettings.globalize_path(track_stream.resource_path) == ProjectSettings.globalize_path(song):
+#						#track_stream.take_over_path(song_data_path)
+#						pass

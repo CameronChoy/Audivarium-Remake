@@ -441,6 +441,7 @@ WindowDialog/icons/close_highlight = null
 WindowDialog/styles/panel = null
 
 [node name="Control" type="Control"]
+pause_mode = 2
 margin_right = 40.0
 margin_bottom = 39.9995
 mouse_filter = 2
@@ -451,6 +452,7 @@ __meta__ = {
 }
 
 [node name="SceneIn" type="ViewportContainer" parent="."]
+pause_mode = 2
 margin_top = -1080.0
 margin_right = 1920.0
 rect_scale = Vector2( 0.25, 0.25 )
@@ -461,6 +463,7 @@ __meta__ = {
 }
 
 [node name="Panel" type="Panel" parent="SceneIn"]
+pause_mode = 2
 show_behind_parent = true
 margin_left = -40.0
 margin_top = -40.0
@@ -469,6 +472,7 @@ margin_bottom = 1120.0
 mouse_filter = 2
 
 [node name="Viewport" type="Viewport" parent="SceneIn"]
+pause_mode = 2
 size = Vector2( 1920, 1080 )
 own_world = true
 handle_input_locally = false
@@ -481,6 +485,7 @@ __meta__ = {
 }
 
 [node name="SceneOut" type="ViewportContainer" parent="."]
+pause_mode = 2
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_right = 1880.0
@@ -492,6 +497,7 @@ __meta__ = {
 }
 
 [node name="Panel" type="Panel" parent="SceneOut"]
+pause_mode = 2
 show_behind_parent = true
 margin_left = -40.0
 margin_top = -40.0
@@ -502,6 +508,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Viewport" type="Viewport" parent="SceneOut"]
+pause_mode = 2
 size = Vector2( 1920, 1080 )
 own_world = true
 handle_input_locally = false
@@ -511,6 +518,7 @@ usage = 0
 render_target_update_mode = 3
 
 [node name="SceneTransition" type="AnimationPlayer" parent="."]
+pause_mode = 2
 anims/InFallZoomInward = ExtResource( 8 )
 anims/InOutSlideDown = ExtResource( 3 )
 anims/InOutSlideLeft = ExtResource( 9 )

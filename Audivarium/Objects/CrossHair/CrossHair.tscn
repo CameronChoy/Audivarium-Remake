@@ -121,6 +121,7 @@ __meta__ = {
 inGame_Cursor = ExtResource( 5 )
 
 [node name="CrossHairSprite" type="Sprite" parent="."]
+pause_mode = 2
 scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 1 )
 script = ExtResource( 2 )

@@ -9,7 +9,8 @@ onready var level_time = 0
 var Title
 var TitleTween
 var TitleTimer
-onready var Scene
+var Scene
+onready var PauseMenu = $PauseScreen
 onready var title_move_back = true
 
 
@@ -20,7 +21,7 @@ func _ready():
 	TitleTween = $TitleTween
 	TitleTimer = $TitleTween/Timer
 	Title = $LevelTitle
-	
+	PauseMenu.hide()
 	
 	if GlobalLevelManager.loaded_level and GlobalLevelManager.loaded_level_info:
 		yield(SceneManager, "scene_transition_completed")
@@ -40,16 +41,19 @@ func _ready():
 	var pos = -(Title.get("custom_fonts/font").get_string_size(Title.text)).x - 50
 	Title.rect_global_position.x = pos
 	
-	TitleTween.interpolate_property(Title, "rect_position:x", pos, 0, 1, Tween.TRANS_SINE,Tween.EASE_OUT,1)
+	TitleTween.interpolate_property(Title, "rect_position:x", pos, 25, 1, Tween.TRANS_SINE,Tween.EASE_OUT,1)
 	TitleTween.start()
 	
 	
-	#setup_level()
+	var _err = PauseMenu.Resume.connect("pressed",self,"toggle_pause")
+	_err = PauseMenu.Quit.connect("pressed",self,"_exit_level")
 
 
 func _on_level_completed(_anim):
 	SceneManager.load_scene(LevelSelect, SceneManager.TransitionType.OUTZOOMOUTWARDSPIN)
 
+func _exit_level():
+	SceneManager.load_scene(LevelSelect, SceneManager.TransitionType.INOUTSLIDEUP)
 
 func setup_level(name : String, level_objects : Array):
 	objects = level_objects
@@ -116,9 +120,22 @@ func _on_TitleTween_tween_all_completed():
 		title_move_back = false
 		TitleTimer.start(1.25)
 		
+	else:
+		Title.hide()
 	
 
 
 func _on_Timer_timeout():
 	TitleTween.interpolate_property(Title, "rect_position:x",0, -Title.rect_size.x, 1,Tween.TRANS_CUBIC,Tween.EASE_IN)
 	TitleTween.start()
+
+
+func _unhandled_input(event):
+	if event.is_action_pressed("ui_cancel"):
+		toggle_pause()
+	
+
+
+func toggle_pause():
+	get_tree().paused = !get_tree().paused
+	PauseMenu.toggle_visibility(get_tree().paused)

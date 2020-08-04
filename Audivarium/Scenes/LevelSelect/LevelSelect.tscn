@@ -53,26 +53,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="QuitButton" type="Button" parent="."]
-margin_left = 8.0
-margin_top = 16.0
-margin_right = 136.0
-margin_bottom = 88.0
-text = "Back"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="FolderButton" type="Button" parent="."]
-margin_left = 1536.0
-margin_top = 24.0
-margin_right = 1906.0
-margin_bottom = 70.0
-text = "Open Levels Folder"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="LevelsList" type="MarginContainer" parent="."]
 anchor_left = 0.5
 anchor_right = 1.0
@@ -126,7 +106,7 @@ visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
-margin_top = 51.0
+margin_top = 76.0
 margin_right = -5.0
 margin_bottom = -5.0
 size_flags_horizontal = 3
@@ -151,9 +131,20 @@ margin_bottom = 831.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
+[node name="QuitButton" type="Button" parent="."]
+margin_left = 8.0
+margin_top = 16.0
+margin_right = 136.0
+margin_bottom = 88.0
+text = "Back"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="InfoCards" type="Control" parent="."]
+margin_left = 60.0
 margin_top = -1080.0
-margin_right = 40.0
+margin_right = 100.0
 margin_bottom = -1040.0
 mouse_filter = 2
 __meta__ = {
@@ -171,6 +162,16 @@ mouse_filter = 2
 [node name="InfoCardsAnim" type="AnimationPlayer" parent="InfoCards"]
 anims/Begin = SubResource( 1 )
 anims/SlideDown = SubResource( 2 )
+
+[node name="FolderButton" type="Button" parent="."]
+margin_left = 1536.0
+margin_top = 24.0
+margin_right = 1906.0
+margin_bottom = 70.0
+text = "Open Levels Folder"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="FadeOut" type="Tween" parent="."]
 
