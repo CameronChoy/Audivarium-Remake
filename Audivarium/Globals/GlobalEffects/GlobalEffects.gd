@@ -48,6 +48,11 @@ func _on_ShockwaveTween_tween_all_completed():
 func add_effects_node(node = null, pos : Vector2 = Vector2(), raise : bool = true):
 	var new_node = node
 	if new_node != null:
+		
+		var p = new_node.get_parent()
+		if p:
+			p.remove_child(new_node)
+		
 		new_node.position = pos
 		if raise:
 			FrontLayer.add_child(new_node)

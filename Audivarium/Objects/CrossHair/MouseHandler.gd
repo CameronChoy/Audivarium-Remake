@@ -34,15 +34,15 @@ func show_crosshair():
 
 func _input(event):
 	
-	if Input.get_mouse_mode() != Input.MOUSE_MODE_VISIBLE:
-		
-		if event.is_action_pressed("ui_cancel"):
-			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-			CrossHairSprite.set_process(false)
-			Input.set_custom_mouse_cursor(null)
-			
-		
-	elif event is InputEventMouseButton and Input.get_mouse_mode() != Input.MOUSE_MODE_CONFINED:
+#	if Input.get_mouse_mode() != Input.MOUSE_MODE_VISIBLE:
+#
+#		if event.is_action_pressed("ui_cancel"):
+#			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+#			CrossHairSprite.set_process(false)
+#			Input.set_custom_mouse_cursor(null)
+#
+#
+	if event is InputEventMouseButton and Input.get_mouse_mode() != Input.MOUSE_MODE_CONFINED:
 		Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
 		CrossHairSprite.set_process(true)
 		Input.set_custom_mouse_cursor(inGame_Cursor)

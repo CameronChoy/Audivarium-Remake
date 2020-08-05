@@ -1,7 +1,6 @@
 extends KinematicBody2D
 
 const ANIM_DAMAGED = "Damaged"
-var audio_damaged = preload("res://Objects/Player/PlayerAudio/player_hit_02.wav")
 
 export var max_health : int = 5
 export var acceleration : float = 40
@@ -15,6 +14,9 @@ export var teleport_reset_time : float = 1
 export var teleport_shockwave_time : float = 2
 export var invincible : bool = false
 export var fire_while_focused = true
+export(AudioStream) var audio_damaged = preload("res://Objects/Player/PlayerAudio/player_hit_02.wav")
+export(AudioStream) var audio_die = preload("res://Objects/Player/PlayerAudio/player_gameover.wav")
+
 
 onready var left = false
 onready var right = false
@@ -42,9 +44,10 @@ onready var HealthBarLeft = $Hud/HealthBarLeft
 onready var HealthBarRight = $Hud/HealthBarRight
 onready var EffectsTree = $MainSprite/PlayerEffectsTree/Node2D
 var bullet
-
+signal player_died
 
 func _ready():
+	
 	current_max_speed = max_speed
 	MainSprite.self_modulate = PlayerGlobals.get_ColorPlayerMain()
 	var _err
@@ -59,6 +62,10 @@ func _ready():
 	
 	_err = DashTween.connect("tween_all_completed",self,"_on_DashTween_tween_all_completed")
 	
+	if !audio_damaged:
+		audio_damaged = load(PlayerGlobals.AudioPathPlayerHit)
+	if !audio_die:
+		audio_die = load(PlayerGlobals.AudioPathPlayerGameOver)
 	
 	bullet = PlayerGlobals.get_DefaultBullet().instance()
 	EquipedBulletText.text = bullet.get_name()
@@ -219,8 +226,7 @@ func teleport_reset_completion_signal():
 func Damaged(_culprit):
 	if invincible: return
 	
-	GlobalAudio.play_audio(audio_damaged)
-	Anim.play(ANIM_DAMAGED)
+	
 	
 	current_health += 1
 	var h = float(current_health) / max_health
@@ -230,7 +236,16 @@ func Damaged(_culprit):
 	
 	#destroy culprit
 	
-
+	if h < 1:
+		GlobalAudio.play_audio(audio_damaged)
+		Anim.play(ANIM_DAMAGED)
+	else:
+		hide()
+		GlobalAudio.play_audio(audio_die)
+		emit_signal("player_died")
+		#spawn destruction effect
+		
+	
 
 func shoot():
 	

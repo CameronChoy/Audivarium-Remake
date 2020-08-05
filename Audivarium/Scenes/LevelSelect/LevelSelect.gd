@@ -282,3 +282,7 @@ func _on_Button_pressed():
 
 func _on_QuitButton_pressed():
 	SceneManager.change_to_preloaded(TitleScene, SceneManager.TransitionType.INOUTSLIDERIGHT)
+
+func _input(event):
+	if event.is_action_pressed("ui_cancel"):
+		_on_QuitButton_pressed()

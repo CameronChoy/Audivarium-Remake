@@ -60,11 +60,14 @@ func _on_BulletInput_color_changed(color):
 
 
 func _input(event):
-	if event.is_action("dash"):
+	if event.is_action_pressed("dash"):
 		var focus = Menu.get_focus_owner()
 		if focus:
 			focus.release_focus()
 		return
+	
+	if event.is_action_pressed("ui_cancel"):
+		_exit_menu()
 	
 
 
@@ -73,6 +76,7 @@ func _on_ExitButton_pressed():
 
 
 func _exit_menu():
+	PlayerGlobals.save_player_values()
 	SceneManager.change_to_preloaded(TitleScene, SceneManager.TransitionType.INOUTSLIDELEFT)
 
 

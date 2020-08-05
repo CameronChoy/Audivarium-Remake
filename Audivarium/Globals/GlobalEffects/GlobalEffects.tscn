@@ -16,6 +16,7 @@ script = ExtResource( 5 )
 [node name="Tween" type="Tween" parent="MainCamera"]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+pause_mode = 1
 layer = 5
 follow_viewport_enable = true
 

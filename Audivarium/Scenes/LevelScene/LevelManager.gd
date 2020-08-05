@@ -12,7 +12,7 @@ var TitleTimer
 var Scene
 onready var PauseMenu = $PauseScreen
 onready var title_move_back = true
-
+onready var exiting = false
 
 func _ready():
 	set_process(false)
@@ -44,6 +44,8 @@ func _ready():
 	TitleTween.interpolate_property(Title, "rect_position:x", pos, 25, 1, Tween.TRANS_SINE,Tween.EASE_OUT,1)
 	TitleTween.start()
 	
+	if PlayerGlobals.current_player:
+		PlayerGlobals.current_player.pause_mode = PAUSE_MODE_STOP
 	
 	var _err = PauseMenu.Resume.connect("pressed",self,"toggle_pause")
 	_err = PauseMenu.Quit.connect("pressed",self,"_exit_level")
@@ -53,7 +55,13 @@ func _on_level_completed(_anim):
 	SceneManager.load_scene(LevelSelect, SceneManager.TransitionType.OUTZOOMOUTWARDSPIN)
 
 func _exit_level():
+	get_tree().paused = false
+	exiting = true
+	set_process(false)
+	if GlobalLevelManager.loaded_level_anim is AnimationPlayer:
+		GlobalLevelManager.loaded_level_anim.stop(false)
 	SceneManager.load_scene(LevelSelect, SceneManager.TransitionType.INOUTSLIDEUP)
+	
 
 func setup_level(name : String, level_objects : Array):
 	objects = level_objects
@@ -131,7 +139,7 @@ func _on_Timer_timeout():
 
 
 func _unhandled_input(event):
-	if event.is_action_pressed("ui_cancel"):
+	if event.is_action_pressed("ui_cancel") and !exiting:
 		toggle_pause()
 	
 

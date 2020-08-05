@@ -24,11 +24,60 @@ onready var CurrentBullet = DefaultBullet.instance()
 var FireDelay = 0.15
 signal bullet_changed
 
-func save_player_values(_values : Dictionary):
-	pass
+const COL_MAIN = "ColorPlayerMain"
+const COL_BULLET = "ColorBullet"
+const COL_CROSSHAIR = "ColorCrosshair"
+const COL_DASH = "ColorDashReset"
+const COL_TEL = "ColorTeleportReset"
+const COL_TEL_IND = "ColorTeleportIndicator"
+const COL_FIRE_DELAY = "ColorFireDelay"
+
+
+func _ready():
+	load_player_values()
+
+func save_player_values():
+	var values = {
+		COL_MAIN : ColorPlayerMain.to_html(false),
+		COL_BULLET : ColorBullet.to_html(false),
+		COL_CROSSHAIR : ColorCrossHair.to_html(false),
+		COL_TEL_IND : ColorTeleportIndicator.to_html(false),
+		COL_TEL : ColorTeleportResetProgress.to_html(false),
+		COL_DASH : ColorDashResetProgress.to_html(false),
+		COL_FIRE_DELAY : ColorFireDelayProgress.to_html(false)
+	}
+	
+	var file_path = "%s/%s" % [OS.get_user_data_dir(), GlobalConstants.FILE_NAME_PLAYER_VALUES]
+	var file = File.new()
+	if file.open(file_path, File.WRITE) != OK: return
+	file.store_string(to_json(values))
+	file.close()
+	
+
 
 func load_player_values():
-	return
+	
+	var file_path = "%s/%s" % [OS.get_user_data_dir(), GlobalConstants.FILE_NAME_PLAYER_VALUES]
+	var file = File.new()
+	
+	if file.open(file_path, File.READ) != OK: return
+	
+	var info  = JSON.parse(file.get_as_text())
+	
+	if info.error != OK: return
+	
+	info = info.result
+	
+	ColorPlayerMain = Color(info.get(COL_MAIN)) if info.has(COL_MAIN) else DefaultColor
+	ColorBullet = Color(info.get(COL_BULLET)) if info.has(COL_BULLET) else DefaultColor
+	ColorCrossHair = Color(info.get(COL_CROSSHAIR)) if info.has(COL_CROSSHAIR) else DefaultColor
+	ColorTeleportIndicator = Color(info.get(COL_TEL_IND)) if info.has(COL_TEL_IND) else DefaultColor
+	ColorTeleportResetProgress = Color(info.get(COL_TEL)) if info.has(COL_TEL) else DefaultColor
+	ColorDashResetProgress = Color(info.get(COL_DASH)) if info.has(COL_DASH) else DefaultColor
+	ColorFireDelayProgress = Color(info.get(COL_FIRE_DELAY)) if info.has(COL_FIRE_DELAY) else DefaultColor
+	
+	
+
 
 func change_bullet(new_bullet = DefaultBullet):
 	if !new_bullet.has_method("get_delay"): return
@@ -37,6 +86,7 @@ func change_bullet(new_bullet = DefaultBullet):
 	GlobalAudio.play_audio(new_bullet.pickup_audio)
 	emit_signal("bullet_changed")
 	
+
 
 func get_ColorPlayerMain():
 	return ColorPlayerMain
@@ -70,7 +120,6 @@ func get_FireDelay():
 
 func get_CurrentBullet():
 	return CurrentBullet
-
 
 func get_DefaultColor():
 	return DefaultColor
