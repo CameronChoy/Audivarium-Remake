@@ -2315,6 +2315,7 @@ background_node = NodePath("leveldata/BackgroundSimulator")
 level_scene = NodePath("leveldata")
 spawn_point = NodePath("leveldata/PlayerSpawnPoint")
 enable_test_confirmation = false
+enable_quit_confirmation = true
 
 [node name="leveldata" type="Node2D" parent="."]
 pause_mode = 1

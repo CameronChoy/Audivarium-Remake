@@ -16,6 +16,7 @@ var impact_particles = preload(scene_path_impact)
 var impact_audio = preload(audio_path_hit)
 var pickup_texture = preload(texture_path_pickup)
 
+var trail
 
 func _init():
 	delay = 1.2
@@ -30,7 +31,7 @@ func _ready():
 	GlobalAudio.play_audio(audio_fire,false)
 	var trail_color = PlayerGlobals.ColorBullet
 	trail_color.a = 0.4
-	GlobalEffects.create_trail(self, trail_color, 3, 10, 0.6, 0.1, true)
+	trail = GlobalEffects.create_trail(self, trail_color, 3, 10, 0.6, 0.1, true)
 	GlobalEffects.shake(0.25, 30, 10)
 
 
@@ -47,6 +48,10 @@ func destroy():
 	var particles = impact_particles.instance()
 	particles.modulate = PlayerGlobals.ColorBullet
 	GlobalEffects.add_effects_node(particles, position)
+	
+	if trail is Line2D:
+		trail.prev_points.append(global_position)
+		trail.points = trail.prev_points
 	
 	queue_free()
 	

@@ -7,6 +7,7 @@ const GROUP_STATIC = "Static"
 const GROUP_BULLET_SOLID = "Solid"
 const GROUP_OUSTIDE_BOUNDARIES = "Boundaries"
 
+const FILE_NAME_SETTINGS = "prefs.audivarium"
 const FILE_NAME_PLAYER_VALUES = "playervalues.audivarium"
 const LEVELS_FOLDER_NAME = "Levels"
 

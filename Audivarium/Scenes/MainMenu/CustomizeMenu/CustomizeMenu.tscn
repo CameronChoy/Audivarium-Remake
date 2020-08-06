@@ -14,10 +14,10 @@ script = ExtResource( 2 )
 [node name="MenuOptions" type="Node" parent="."]
 
 [node name="ExitButton" type="Button" parent="MenuOptions"]
-margin_left = 40.0
-margin_top = 88.0
-margin_right = 160.0
-margin_bottom = 148.0
+margin_left = 10.0
+margin_top = 38.0
+margin_right = 180.0
+margin_bottom = 118.0
 theme = ExtResource( 4 )
 text = "Exit"
 __meta__ = {
@@ -46,6 +46,7 @@ mouse_filter = 2
 [node name="CenterContainer" type="CenterContainer" parent="MenuOptions/MarginContainer"]
 margin_right = 860.0
 margin_bottom = 980.0
+mouse_filter = 2
 
 [node name="ScrollContainer" type="ScrollContainer" parent="MenuOptions/MarginContainer/CenterContainer"]
 margin_left = 50.0
@@ -68,6 +69,7 @@ custom_constants/separation = 15
 [node name="PlayerColor1" type="HSplitContainer" parent="MenuOptions/MarginContainer/CenterContainer/ScrollContainer/VBoxContainer"]
 margin_right = 760.0
 margin_bottom = 46.0
+mouse_filter = 2
 split_offset = 25
 dragger_visibility = 1
 
@@ -95,6 +97,7 @@ __meta__ = {
 margin_top = 61.0
 margin_right = 760.0
 margin_bottom = 107.0
+mouse_filter = 2
 split_offset = 25
 dragger_visibility = 1
 
@@ -122,6 +125,7 @@ __meta__ = {
 margin_top = 122.0
 margin_right = 760.0
 margin_bottom = 168.0
+mouse_filter = 2
 split_offset = 25
 dragger_visibility = 1
 
@@ -149,6 +153,7 @@ __meta__ = {
 margin_top = 183.0
 margin_right = 760.0
 margin_bottom = 229.0
+mouse_filter = 2
 split_offset = 25
 dragger_visibility = 1
 
@@ -176,6 +181,7 @@ __meta__ = {
 margin_top = 244.0
 margin_right = 760.0
 margin_bottom = 290.0
+mouse_filter = 2
 split_offset = 25
 dragger_visibility = 1
 
@@ -203,6 +209,7 @@ __meta__ = {
 margin_top = 305.0
 margin_right = 760.0
 margin_bottom = 351.0
+mouse_filter = 2
 split_offset = 25
 dragger_visibility = 1
 
@@ -230,6 +237,7 @@ __meta__ = {
 margin_top = 366.0
 margin_right = 760.0
 margin_bottom = 412.0
+mouse_filter = 2
 split_offset = 25
 dragger_visibility = 1
 
@@ -257,6 +265,7 @@ __meta__ = {
 margin_top = 427.0
 margin_right = 760.0
 margin_bottom = 473.0
+mouse_filter = 2
 split_offset = 25
 dragger_visibility = 1
 
@@ -285,6 +294,9 @@ __meta__ = {
 ]]
 collision_layer = 1025
 collision_mask = 1025
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerWalls"]
 position = Vector2( 230, 480 )

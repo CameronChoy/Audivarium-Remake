@@ -277,7 +277,7 @@ func _exit_tree():
 
 
 func _on_Button_pressed():
-	var _err = OS.shell_open(str("file://", OS.get_user_data_dir()))
+	var _err = OS.shell_open(str("file://", "%s/%s" % [OS.get_user_data_dir(), GlobalConstants.LEVELS_FOLDER_NAME]))
 
 
 func _on_QuitButton_pressed():

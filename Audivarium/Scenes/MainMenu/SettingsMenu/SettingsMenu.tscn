@@ -1,8 +1,151 @@
-[gd_scene format=2]
+[gd_scene load_steps=3 format=2]
 
-[node name="Control" type="Control"]
+[ext_resource path="res://Globals/SceneManager/GlobalTheme.tres" type="Theme" id=1]
+[ext_resource path="res://Scenes/MainMenu/SettingsMenu/SettingsMenu.gd" type="Script" id=2]
+
+[node name="SettingsMenu" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+theme = ExtResource( 1 )
+script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="ExitButton" type="Button" parent="."]
+margin_left = 10.0
+margin_top = 38.0
+margin_right = 180.0
+margin_bottom = 118.0
+theme = ExtResource( 1 )
+text = "Exit"
+__meta__ = {
+"_edit_use_anchors_": false,
+"_editor_description_": ""
+}
+
+[node name="SaveConfirmation" type="AcceptDialog" parent="."]
+margin_left = 494.0
+margin_top = 316.0
+margin_right = 1023.0
+margin_bottom = 449.0
+window_title = "Save Settings?"
+resizable = true
+
+[node name="TabContainer" type="TabContainer" parent="."]
+anchor_left = 0.5
+anchor_top = 0.05
+anchor_right = 0.95
+anchor_bottom = 0.95
+mouse_filter = 2
+custom_constants/label_valign_bg = 0
+tab_align = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Video" type="ScrollContainer" parent="TabContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 51.0
+margin_right = -5.0
+margin_bottom = -5.0
+mouse_filter = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+follow_focus = true
+scroll_horizontal_enabled = false
+
+[node name="HSplitContainer" type="HSplitContainer" parent="TabContainer/Video"]
+margin_right = 854.0
+margin_bottom = 46.0
+mouse_filter = 2
+size_flags_horizontal = 3
+custom_constants/autohide = 0
+custom_constants/separation = 0
+dragger_visibility = 1
+
+[node name="Label" type="Label" parent="TabContainer/Video/HSplitContainer"]
+margin_top = 5.0
+margin_right = 200.0
+margin_bottom = 41.0
+text = "Resolution"
+
+[node name="OptionButton" type="OptionButton" parent="TabContainer/Video/HSplitContainer"]
+margin_left = 208.0
+margin_right = 854.0
+margin_bottom = 46.0
+text = "1920x1080"
+align = 1
+items = [ "1920x1080", null, false, 0, null ]
+selected = 0
+
+[node name="Controls" type="ScrollContainer" parent="TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 51.0
+margin_right = -5.0
+margin_bottom = -5.0
+mouse_filter = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+follow_focus = true
+scroll_horizontal_enabled = false
+
+[node name="HSplitContainer" type="HSplitContainer" parent="TabContainer/Controls"]
+margin_right = 854.0
+mouse_filter = 2
+size_flags_horizontal = 3
+custom_constants/autohide = 0
+custom_constants/separation = 0
+dragger_visibility = 1
+
+[node name="Label" type="Label" parent="TabContainer/Controls/HSplitContainer"]
+margin_top = 5.0
+margin_bottom = 41.0
+
+[node name="OptionButton" type="OptionButton" parent="TabContainer/Controls/HSplitContainer"]
+margin_left = 8.0
+margin_right = 854.0
+margin_bottom = 46.0
+align = 1
+selected = 0
+
+[node name="Audio" type="ScrollContainer" parent="TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 51.0
+margin_right = -5.0
+margin_bottom = -5.0
+mouse_filter = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+follow_focus = true
+scroll_horizontal_enabled = false
+
+[node name="HSplitContainer" type="HSplitContainer" parent="TabContainer/Audio"]
+margin_right = 854.0
+mouse_filter = 2
+size_flags_horizontal = 3
+custom_constants/autohide = 0
+custom_constants/separation = 0
+dragger_visibility = 1
+
+[node name="Label" type="Label" parent="TabContainer/Audio/HSplitContainer"]
+margin_top = 5.0
+margin_right = 200.0
+margin_bottom = 41.0
+
+[node name="OptionButton" type="OptionButton" parent="TabContainer/Audio/HSplitContainer"]
+margin_left = 208.0
+margin_right = 854.0
+margin_bottom = 46.0
+align = 1
+selected = 0
+[connection signal="pressed" from="ExitButton" to="." method="_on_ExitButton_pressed"]
+[connection signal="confirmed" from="SaveConfirmation" to="." method="_on_SaveConfirmation_confirmed"]

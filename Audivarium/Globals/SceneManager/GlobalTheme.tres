@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=7 format=2]
+[gd_resource type="Theme" load_steps=8 format=2]
 
 [ext_resource path="res://Fonts/lunchtime-doubly-so/lunchds.tres" type="DynamicFont" id=1]
 [ext_resource path="res://Globals/SceneManager/GlobalPanelFlat.tres" type="StyleBox" id=2]
@@ -13,6 +13,14 @@ border_color = Color( 0, 0, 0, 1 )
 
 [sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 0.145098, 0.231373, 0.317647, 1 )
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color( 0, 0, 0, 1 )
+
+[sub_resource type="StyleBoxFlat" id=5]
+bg_color = Color( 0.211765, 0.411765, 0.607843, 1 )
 border_width_left = 5
 border_width_top = 5
 border_width_right = 5
@@ -236,10 +244,10 @@ MenuButton/styles/focus = null
 MenuButton/styles/hover = null
 MenuButton/styles/normal = null
 MenuButton/styles/pressed = null
-OptionButton/colors/font_color = Color( 0, 0, 0, 1 )
+OptionButton/colors/font_color = Color( 1, 1, 1, 1 )
 OptionButton/colors/font_color_disabled = Color( 0, 0, 0, 1 )
-OptionButton/colors/font_color_hover = Color( 0, 0, 0, 1 )
-OptionButton/colors/font_color_pressed = Color( 0, 0, 0, 1 )
+OptionButton/colors/font_color_hover = Color( 0.341176, 0.745098, 0.423529, 1 )
+OptionButton/colors/font_color_pressed = Color( 1, 1, 1, 1 )
 OptionButton/constants/arrow_margin = 2
 OptionButton/constants/hseparation = 2
 OptionButton/fonts/font = null
@@ -252,10 +260,10 @@ OptionButton/styles/pressed = null
 Panel/styles/panel = ExtResource( 2 )
 PanelContainer/styles/panel = ExtResource( 2 )
 PopupDialog/styles/panel = null
-PopupMenu/colors/font_color = Color( 0, 0, 0, 1 )
-PopupMenu/colors/font_color_accel = Color( 0, 0, 0, 1 )
+PopupMenu/colors/font_color = Color( 1, 1, 1, 1 )
+PopupMenu/colors/font_color_accel = Color( 1, 1, 1, 1 )
 PopupMenu/colors/font_color_disabled = Color( 0, 0, 0, 1 )
-PopupMenu/colors/font_color_hover = Color( 0, 0, 0, 1 )
+PopupMenu/colors/font_color_hover = Color( 0.341176, 0.745098, 0.423529, 1 )
 PopupMenu/constants/hseparation = 4
 PopupMenu/constants/vseparation = 4
 PopupMenu/fonts/font = null
@@ -267,7 +275,7 @@ PopupMenu/icons/unchecked = null
 PopupMenu/styles/hover = null
 PopupMenu/styles/labeled_separator_left = null
 PopupMenu/styles/labeled_separator_right = null
-PopupMenu/styles/panel = null
+PopupMenu/styles/panel = SubResource( 5 )
 PopupMenu/styles/panel_disabled = null
 PopupMenu/styles/separator = null
 PopupPanel/styles/panel = null
