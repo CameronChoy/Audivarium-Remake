@@ -19,7 +19,7 @@ border_width_right = 5
 border_width_bottom = 5
 border_color = Color( 0, 0, 0, 1 )
 
-[sub_resource type="StyleBoxFlat" id=5]
+[sub_resource type="StyleBoxFlat" id=3]
 bg_color = Color( 0.211765, 0.411765, 0.607843, 1 )
 border_width_left = 5
 border_width_top = 5
@@ -27,7 +27,7 @@ border_width_right = 5
 border_width_bottom = 5
 border_color = Color( 0, 0, 0, 1 )
 
-[sub_resource type="StyleBoxFlat" id=3]
+[sub_resource type="StyleBoxFlat" id=4]
 bg_color = Color( 0.286275, 0.431373, 0.572549, 1 )
 border_width_left = 3
 border_width_top = 3
@@ -36,7 +36,7 @@ border_width_bottom = 3
 border_color = Color( 0, 0, 0, 1 )
 corner_radius_top_left = 10
 
-[sub_resource type="StyleBoxFlat" id=4]
+[sub_resource type="StyleBoxFlat" id=5]
 bg_color = Color( 0.145098, 0.231373, 0.317647, 1 )
 border_width_left = 10
 border_width_top = 42
@@ -275,7 +275,7 @@ PopupMenu/icons/unchecked = null
 PopupMenu/styles/hover = null
 PopupMenu/styles/labeled_separator_left = null
 PopupMenu/styles/labeled_separator_right = null
-PopupMenu/styles/panel = SubResource( 5 )
+PopupMenu/styles/panel = SubResource( 3 )
 PopupMenu/styles/panel_disabled = null
 PopupMenu/styles/separator = null
 PopupPanel/styles/panel = null
@@ -321,7 +321,7 @@ TabContainer/icons/menu_highlight = null
 TabContainer/styles/panel = ExtResource( 2 )
 TabContainer/styles/tab_bg = ExtResource( 2 )
 TabContainer/styles/tab_disabled = null
-TabContainer/styles/tab_fg = SubResource( 3 )
+TabContainer/styles/tab_fg = SubResource( 4 )
 Tabs/colors/font_color_bg = Color( 0, 0, 0, 1 )
 Tabs/colors/font_color_disabled = Color( 0, 0, 0, 1 )
 Tabs/colors/font_color_fg = Color( 0, 0, 0, 1 )
@@ -464,4 +464,4 @@ WindowDialog/constants/title_height = -40
 WindowDialog/fonts/title_font = null
 WindowDialog/icons/close = null
 WindowDialog/icons/close_highlight = null
-WindowDialog/styles/panel = SubResource( 4 )
+WindowDialog/styles/panel = SubResource( 5 )

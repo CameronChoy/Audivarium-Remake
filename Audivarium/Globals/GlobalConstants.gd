@@ -36,3 +36,7 @@ const KEY_LEVEL_DESCRIPTION = "description"
 const KEY_SONG_PREVIEW_OFFSET = "preview_offset"
 const KEY_PLAYER_POS = "player_pos"
 const KEY_CREATOR = "creator"
+
+
+const KEY_SETTING_RESOLUTION_X = "resolution_x"
+const KEY_SETTING_RESOLUTION_Y = "resolution_y"

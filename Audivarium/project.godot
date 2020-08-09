@@ -74,6 +74,7 @@ GlobalEffects="*res://Globals/GlobalEffects/GlobalEffects.tscn"
 GlobalConstants="*res://Globals/GlobalConstants.gd"
 SceneManager="*res://Globals/SceneManager/SceneManager.tscn"
 GlobalLevelManager="*res://Globals/SceneManager/GlobalLevelManager.gd"
+GlobalSettings="*res://Globals/GlobalSettings/GlobalSettings.gd"
 
 [display]
 
