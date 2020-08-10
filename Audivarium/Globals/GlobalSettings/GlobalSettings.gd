@@ -12,14 +12,25 @@ func _ready():
 	settings_keys = [
 		GlobalConstants.KEY_SETTING_RESOLUTION_X,
 		GlobalConstants.KEY_SETTING_RESOLUTION_Y,
+		GlobalConstants.KEY_SETTING_FULLSCREEN,
+		GlobalConstants.KEY_SETTING_BORDERLESS,
+		GlobalConstants.KEY_SETTING_FPS,
+		GlobalConstants.KEY_SETTING_MASTER_DB,
+		GlobalConstants.KEY_SETTING_EFFECTS_DB,
 	]
 	
 	default_settings = {
 		GlobalConstants.KEY_SETTING_RESOLUTION_X : 1920,
 		GlobalConstants.KEY_SETTING_RESOLUTION_Y : 1080,
+		GlobalConstants.KEY_SETTING_FULLSCREEN : true,
+		GlobalConstants.KEY_SETTING_BORDERLESS : true,
+		GlobalConstants.KEY_SETTING_FPS : 60,
+		GlobalConstants.KEY_SETTING_MASTER_DB : 0,
+		GlobalConstants.KEY_SETTING_EFFECTS_DB : 0,
 	}
 	
 	load_settings()
+	_apply_settings()
 	
 
 
@@ -67,6 +78,21 @@ func load_settings():
 		file.store_string(to_json(current_settings))
 	
 	file.close()
+	
+
+
+func _apply_settings():
+	
+	OS.window_size = Vector2(current_settings.get(GlobalConstants.KEY_SETTING_RESOLUTION_X),
+		current_settings.get(GlobalConstants.KEY_SETTING_RESOLUTION_Y))
+	
+	OS.window_fullscreen = bool(current_settings.get(GlobalConstants.KEY_SETTING_FULLSCREEN))
+	OS.window_borderless = bool(current_settings.get(GlobalConstants.KEY_SETTING_BORDERLESS))
+	
+	Engine.target_fps = current_settings.get(GlobalConstants.KEY_SETTING_FPS)
+	ProjectSettings.set_setting("physics/common/physics_fps",current_settings.get(GlobalConstants.KEY_SETTING_FPS))
+	
+	AudioServer.set_bus_volume_db(0,current_settings.get(GlobalConstants.KEY_SETTING_MASTER_DB))
 	
 
 

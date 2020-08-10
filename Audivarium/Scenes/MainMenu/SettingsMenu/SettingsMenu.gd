@@ -15,9 +15,12 @@ var Resolutions = [
 	Vector2(1024,576)
 ]
 
-onready var ResolutionInput = $TabContainer/Video/Resolution/ResolutionOptions
+onready var ResolutionInput = $TabContainer/Video/VBoxContainer/Resolution/ResolutionOptions
 var prev_res_input
 var current_reset_time = 0
+
+onready var FullscreenInput = $TabContainer/Video/VBoxContainer/Fullscreen/FullscreenCheck
+onready var BorderInput = $TabContainer/Video/VBoxContainer/Borderless/BorderCheck
 
 onready var SaveConfirm = $SaveConfirmation
 onready var ConfirmTimer = $SaveConfirmation/Timer
@@ -29,7 +32,10 @@ var original_settings
 var current_settings
 onready var settings_changed = false
 
+
 func _ready():
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	CrossHair.set_mouse_escape(true)
 	
 	original_settings = GlobalSettings.get_settings()
 	current_settings = original_settings
@@ -54,6 +60,9 @@ func _ready():
 		
 	prev_res_input = ResolutionInput.get_item_index(ResolutionInput.get_selected_id())
 	
+	FullscreenInput.pressed = original_settings.get(GlobalConstants.KEY_SETTING_FULLSCREEN)
+	BorderInput.pressed = original_settings.get(GlobalConstants.KEY_SETTING_BORDERLESS)
+	
 
 
 func _input(event):
@@ -61,6 +70,8 @@ func _input(event):
 	if event.is_action_pressed("ui_cancel"):
 		if settings_changed:
 			SaveConfirm.visible = !SaveConfirm.visible
+		else:
+			_exit_settings()
 		
 	elif event.is_action_pressed("ui_accept"):
 		if SaveConfirm.visible:
@@ -76,6 +87,10 @@ func _revert_settings():
 
 
 func _exit_settings():
+	
+	Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
+	CrossHair.set_mouse_escape(false)
+	
 	if exit_hides:
 		hide()
 	else:
@@ -91,6 +106,7 @@ func _on_SaveConfirmation_confirmed():
 			_exit_settings()
 		Confirms.RESOLUTION:
 			ConfirmTimer.stop()
+			settings_changed = true
 			current_settings[GlobalConstants.KEY_SETTING_RESOLUTION_X] = OS.window_size.x
 			current_settings[GlobalConstants.KEY_SETTING_RESOLUTION_Y] = OS.window_size.y
 
@@ -121,8 +137,8 @@ func _on_ExitButton_pressed():
 
 func _on_ResolutionOptions_item_selected(index):
 	if index != prev_res_input:
+		prev_res_input = index
 		OS.window_size = Resolutions[index]
-		settings_changed = true
 		current_confirm = Confirms.RESOLUTION
 		
 		current_reset_time = RESET_TIME
@@ -144,8 +160,10 @@ func _on_Timer_timeout():
 		match current_confirm:
 			Confirms.RESOLUTION:
 				_revert_resolution()
-			_:
-				return
+			
+		
+	
+
 
 func _revert_resolution():
 	
@@ -154,4 +172,20 @@ func _revert_resolution():
 	
 	OS.window_size = Vector2(original_settings.get(GlobalConstants.KEY_SETTING_RESOLUTION_X),
 		original_settings.get(GlobalConstants.KEY_SETTING_RESOLUTION_Y))
+	
+
+
+func _on_FullscreenCheck_pressed():
+	OS.window_fullscreen = !OS.window_fullscreen
+	
+	settings_changed = true
+	current_settings[GlobalConstants.KEY_SETTING_FULLSCREEN] = OS.window_fullscreen
+	
+
+
+func _on_BorderCheck_pressed():
+	OS.window_borderless = !OS.window_borderless
+	print(OS.window_position)
+	settings_changed = true
+	current_settings[GlobalConstants.KEY_SETTING_BORDERLESS] = OS.window_borderless
 	

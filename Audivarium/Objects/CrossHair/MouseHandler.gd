@@ -18,6 +18,7 @@ const ANIM_BULLETRELOAD = "Reload"
 signal dash_reset_completed
 signal teleport_reset_completed
 signal bullet_reload_completed
+onready var mouse_can_escape = false
 
 func _ready():
 	CrossHairSprite.self_modulate = PlayerGlobals.ColorCrossHair
@@ -42,12 +43,15 @@ func _input(event):
 #			Input.set_custom_mouse_cursor(null)
 #
 #
-	if event is InputEventMouseButton and Input.get_mouse_mode() != Input.MOUSE_MODE_CONFINED:
+	if !mouse_can_escape and event is InputEventMouseButton and Input.get_mouse_mode() != Input.MOUSE_MODE_CONFINED:
 		Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
 		CrossHairSprite.set_process(true)
 		Input.set_custom_mouse_cursor(inGame_Cursor)
 		
 	
+
+func set_mouse_escape(new : bool):
+	mouse_can_escape = new
 
 func play_DashReset(length : float = 1):
 	RadialProgressRight.self_modulate = PlayerGlobals.get_ColorDashResetProgress()

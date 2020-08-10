@@ -40,3 +40,9 @@ const KEY_CREATOR = "creator"
 
 const KEY_SETTING_RESOLUTION_X = "resolution_x"
 const KEY_SETTING_RESOLUTION_Y = "resolution_y"
+const KEY_SETTING_FULLSCREEN = "fullscreen"
+const KEY_SETTING_BORDERLESS = "borderless"
+const KEY_SETTING_FPS = "fps"
+const KEY_SETTING_MASTER_DB = "master_db"
+const KEY_SETTING_EFFECTS_DB = "effects_db"
+
