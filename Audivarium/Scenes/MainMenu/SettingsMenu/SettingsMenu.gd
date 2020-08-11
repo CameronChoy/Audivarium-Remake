@@ -16,15 +16,31 @@ var Resolutions = [
 	Vector2(1024,576)
 ]
 
+var Framerates = [
+	144,
+	120,
+	60,
+	30,
+	1,
+]
+
+
 onready var ResolutionInput = $TabContainer/Video/VBoxContainer/Resolution/ResolutionOptions
 var prev_res_input
 var current_reset_time = 0
 
+onready var FpsInput = $TabContainer/Video/VBoxContainer/FPS/FpsOptions
+var prev_fps_input
+
 onready var FullscreenInput = $TabContainer/Video/VBoxContainer/Fullscreen/FullscreenCheck
 onready var BorderInput = $TabContainer/Video/VBoxContainer/Borderless/BorderCheck
 
+
 onready var MasterVolumeLabel = $TabContainer/Audio/VBoxContainer/MasterVolume/volume
 onready var MasterVolumeInput = $TabContainer/Audio/VBoxContainer/MasterVolume/HSplitContainer/HSlider
+onready var EffectsVolumeLabel = $TabContainer/Audio/VBoxContainer/EffectsVolume/volume
+onready var EffectsVolumeInput = $TabContainer/Audio/VBoxContainer/EffectsVolume/HSplitContainer/EffectsSlider
+
 
 onready var SaveConfirm = $SaveConfirmation
 onready var OptionConfirm = $OptionConfirm
@@ -76,6 +92,19 @@ func _ready():
 			
 		
 	prev_res_input = ResolutionInput.get_item_index(ResolutionInput.get_selected_id())
+	
+	var original_fps = original_settings.get(GlobalConstants.KEY_SETTING_FPS)
+	
+	for i in range(Framerates.size()):
+		
+		var framerate = Framerates[i]
+		FpsInput.add_item(str(framerate), i)
+		
+		if framerate == original_fps:
+			FpsInput.select(i)
+		
+	prev_fps_input = FpsInput.get_item_index(FpsInput.get_selected_id())
+	
 	
 	FullscreenInput.pressed = original_settings.get(GlobalConstants.KEY_SETTING_FULLSCREEN)
 	BorderInput.pressed = original_settings.get(GlobalConstants.KEY_SETTING_BORDERLESS)
@@ -232,14 +261,45 @@ func _on_OptionCornfirm_deny():
 func _on_HSlider_value_changed(value):
 	MasterVolumeLabel.text = "%.2f" % [value]
 	
-	var inverse_val = 1.0 - value
-	var new_db = (-60 * inverse_val)
+	var new_db = _convert_to_db(value)
 	
 	AudioServer.set_bus_volume_db(0,new_db)
 	current_settings[GlobalConstants.KEY_SETTING_MASTER_DB] = new_db
-	_test_audio()
+	_test_master_audio()
 	
 
 
-func _test_audio():
+func _test_master_audio():
+	GlobalAudio.play_audio(audio_test,true,0,"Master")
+
+
+func _test_effects_audio():
 	GlobalAudio.play_audio(audio_test)
+
+
+func _on_EffectsSlider_value_changed(value):
+	EffectsVolumeLabel.text = "%.2f" % [value]
+	
+	var new_db = _convert_to_db(value)
+	
+	AudioServer.set_bus_volume_db(1,new_db)
+	current_settings[GlobalConstants.KEY_SETTING_EFFECTS_DB] = new_db
+	_test_effects_audio()
+	
+
+
+func _convert_to_db(value):
+	return (-30 * (1.0 - value)) if value > 0 else -100
+
+
+func _on_FpsOptions_item_selected(index):
+	if index == prev_fps_input: return
+	
+	var framerate = Framerates[index]
+	
+	current_settings[GlobalConstants.KEY_SETTING_FPS] = framerate
+	
+	Engine.target_fps = framerate
+	var phys = clamp(framerate,30,300)
+	ProjectSettings.set_setting("physics/common/physics_fps",phys)
+	

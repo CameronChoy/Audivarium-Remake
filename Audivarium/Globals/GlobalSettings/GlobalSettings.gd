@@ -15,6 +15,7 @@ func _ready():
 		GlobalConstants.KEY_SETTING_FULLSCREEN,
 		GlobalConstants.KEY_SETTING_BORDERLESS,
 		GlobalConstants.KEY_SETTING_FPS,
+		GlobalConstants.KEY_SETTING_VSYNC,
 		GlobalConstants.KEY_SETTING_MASTER_DB,
 		GlobalConstants.KEY_SETTING_EFFECTS_DB,
 	]
@@ -25,6 +26,7 @@ func _ready():
 		GlobalConstants.KEY_SETTING_FULLSCREEN : true,
 		GlobalConstants.KEY_SETTING_BORDERLESS : true,
 		GlobalConstants.KEY_SETTING_FPS : 60,
+		GlobalConstants.KEY_SETTING_VSYNC : true,
 		GlobalConstants.KEY_SETTING_MASTER_DB : 0,
 		GlobalConstants.KEY_SETTING_EFFECTS_DB : 0,
 	}
@@ -96,7 +98,8 @@ func _apply_settings():
 	OS.window_borderless = bool(current_settings.get(GlobalConstants.KEY_SETTING_BORDERLESS))
 	
 	Engine.target_fps = current_settings.get(GlobalConstants.KEY_SETTING_FPS)
-	ProjectSettings.set_setting("physics/common/physics_fps",current_settings.get(GlobalConstants.KEY_SETTING_FPS))
+	var phys = clamp(current_settings.get(GlobalConstants.KEY_SETTING_FPS),30,300)
+	ProjectSettings.set_setting("physics/common/physics_fps",phys)
 	
 	AudioServer.set_bus_volume_db(0,current_settings.get(GlobalConstants.KEY_SETTING_MASTER_DB))
 	

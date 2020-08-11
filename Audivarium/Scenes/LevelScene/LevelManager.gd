@@ -52,7 +52,10 @@ func _ready():
 
 
 func _on_level_completed(_anim):
+	GlobalLevelManager.loaded_level_anim.stop(false)
 	SceneManager.load_scene(LevelSelect, SceneManager.TransitionType.OUTZOOMOUTWARDSPIN)
+	
+
 
 func _exit_level():
 	get_tree().paused = false

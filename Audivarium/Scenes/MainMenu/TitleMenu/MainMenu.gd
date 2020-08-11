@@ -4,9 +4,13 @@ const LevelSelectScene = ("res://Scenes/LevelSelect/LevelSelect.tscn")
 const CustomizeScene = ("res://Scenes/MainMenu/CustomizeMenu/CustomizeMenu.tscn")
 const SettingsScene = ("res://Scenes/MainMenu/SettingsMenu/SettingsMenu.tscn")
 const EditorScene = "res://Scenes/Editor/LevelEditor.tscn"
+onready var TitleAnim = $Title/AnimationPlayer
 onready var QuitConfirm = $MainControl/QuitConfirmation
 onready var quitting = false
 
+func _ready():
+	TitleAnim.play("loop")
+	TitleAnim.seek(randf() * TitleAnim.get_animation("loop").get_length())
 
 func _on_LevelSelectButton_pressed():
 	SceneManager.load_scene(LevelSelectScene,SceneManager.TransitionType.OUTSLIDEUP)

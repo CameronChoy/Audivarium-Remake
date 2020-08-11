@@ -7,7 +7,7 @@ func play_audio(
 stream : AudioStream, 
 queue_free : bool = true, 
 seek : float = 0,
-audio_bus : String = "Master",
+audio_bus : String = "Effects",
 volume : float = 0, 
 pitch : float = 1):
 	

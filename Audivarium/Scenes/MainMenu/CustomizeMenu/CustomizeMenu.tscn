@@ -54,7 +54,7 @@ margin_top = 50.0
 margin_right = 810.0
 margin_bottom = 930.0
 rect_min_size = Vector2( 760, 880 )
-mouse_filter = 2
+mouse_filter = 1
 follow_focus = true
 scroll_horizontal_enabled = false
 
@@ -289,6 +289,39 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="GridContainer" type="GridContainer" parent="MenuOptions/MarginContainer/CenterContainer/ScrollContainer/VBoxContainer"]
+margin_top = 488.0
+margin_right = 760.0
+margin_bottom = 588.0
+mouse_filter = 2
+columns = 3
+
+[node name="Button" type="Button" parent="MenuOptions/MarginContainer/CenterContainer/ScrollContainer/VBoxContainer/GridContainer"]
+margin_right = 250.0
+margin_bottom = 100.0
+rect_min_size = Vector2( 0, 100 )
+mouse_filter = 1
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Button2" type="Button" parent="MenuOptions/MarginContainer/CenterContainer/ScrollContainer/VBoxContainer/GridContainer"]
+margin_left = 254.0
+margin_right = 504.0
+margin_bottom = 100.0
+rect_min_size = Vector2( 0, 100 )
+mouse_filter = 1
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Button3" type="Button" parent="MenuOptions/MarginContainer/CenterContainer/ScrollContainer/VBoxContainer/GridContainer"]
+margin_left = 508.0
+margin_right = 758.0
+margin_bottom = 100.0
+rect_min_size = Vector2( 0, 100 )
+mouse_filter = 1
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
 [node name="PlayerWalls" type="StaticBody2D" parent="." groups=[
 "Solid",
 ]]
@@ -299,11 +332,11 @@ __meta__ = {
 }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerWalls"]
-position = Vector2( 230, 480 )
+position = Vector2( 240, 480 )
 shape = SubResource( 1 )
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="PlayerWalls"]
-position = Vector2( 730, 480 )
+position = Vector2( 720, 480 )
 shape = SubResource( 1 )
 
 [node name="CollisionShape2D3" type="CollisionShape2D" parent="PlayerWalls"]
