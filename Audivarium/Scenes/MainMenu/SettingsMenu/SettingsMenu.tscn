@@ -29,17 +29,25 @@ margin_left = 494.0
 margin_top = 316.0
 margin_right = 1023.0
 margin_bottom = 449.0
+window_title = "Exit Settings?"
+resizable = true
+
+[node name="OptionConfirm" type="AcceptDialog" parent="."]
+margin_left = 494.0
+margin_top = 316.0
+margin_right = 1023.0
+margin_bottom = 449.0
 window_title = "Save Settings?"
 resizable = true
 
-[node name="Timer" type="Timer" parent="SaveConfirmation"]
+[node name="Timer" type="Timer" parent="OptionConfirm"]
 
 [node name="TabContainer" type="TabContainer" parent="."]
 anchor_left = 0.5
 anchor_top = 0.05
 anchor_right = 0.95
 anchor_bottom = 0.95
-mouse_filter = 2
+mouse_filter = 1
 custom_constants/label_valign_bg = 0
 tab_align = 0
 __meta__ = {
@@ -47,6 +55,7 @@ __meta__ = {
 }
 
 [node name="Video" type="ScrollContainer" parent="TabContainer"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
@@ -60,13 +69,14 @@ follow_focus = true
 scroll_horizontal_enabled = false
 
 [node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Video"]
-margin_right = 854.0
+margin_right = 855.0
 margin_bottom = 916.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+custom_constants/separation = 10
 
 [node name="Fullscreen" type="HSplitContainer" parent="TabContainer/Video/VBoxContainer"]
-margin_right = 854.0
+margin_right = 855.0
 margin_bottom = 74.0
 mouse_filter = 2
 size_flags_horizontal = 3
@@ -81,16 +91,16 @@ margin_bottom = 55.0
 text = "Fullscreen"
 
 [node name="FullscreenCheck" type="CheckBox" parent="TabContainer/Video/VBoxContainer/Fullscreen"]
-margin_left = 780.0
-margin_right = 854.0
+margin_left = 781.0
+margin_right = 855.0
 margin_bottom = 74.0
 size_flags_horizontal = 8
 align = 1
 
 [node name="Borderless" type="HSplitContainer" parent="TabContainer/Video/VBoxContainer"]
-margin_top = 78.0
-margin_right = 854.0
-margin_bottom = 152.0
+margin_top = 84.0
+margin_right = 855.0
+margin_bottom = 158.0
 mouse_filter = 2
 size_flags_horizontal = 3
 custom_constants/autohide = 0
@@ -104,16 +114,16 @@ margin_bottom = 55.0
 text = "Borderless"
 
 [node name="BorderCheck" type="CheckBox" parent="TabContainer/Video/VBoxContainer/Borderless"]
-margin_left = 780.0
-margin_right = 854.0
+margin_left = 781.0
+margin_right = 855.0
 margin_bottom = 74.0
 size_flags_horizontal = 8
 align = 1
 
 [node name="Resolution" type="HSplitContainer" parent="TabContainer/Video/VBoxContainer"]
-margin_top = 156.0
-margin_right = 854.0
-margin_bottom = 202.0
+margin_top = 168.0
+margin_right = 855.0
+margin_bottom = 214.0
 mouse_filter = 2
 size_flags_horizontal = 3
 custom_constants/autohide = 0
@@ -128,7 +138,7 @@ text = "Resolution"
 
 [node name="ResolutionOptions" type="OptionButton" parent="TabContainer/Video/VBoxContainer/Resolution"]
 margin_left = 208.0
-margin_right = 854.0
+margin_right = 855.0
 margin_bottom = 46.0
 align = 1
 
@@ -146,26 +156,29 @@ size_flags_vertical = 3
 follow_focus = true
 scroll_horizontal_enabled = false
 
-[node name="HSplitContainer" type="HSplitContainer" parent="TabContainer/Controls"]
-margin_right = 854.0
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Controls"]
+custom_constants/separation = 10
+
+[node name="HSplitContainer" type="HSplitContainer" parent="TabContainer/Controls/VBoxContainer"]
+margin_right = 32.0
+margin_bottom = 46.0
 mouse_filter = 2
 size_flags_horizontal = 3
 custom_constants/autohide = 0
 custom_constants/separation = 0
 dragger_visibility = 1
 
-[node name="Label" type="Label" parent="TabContainer/Controls/HSplitContainer"]
+[node name="Label" type="Label" parent="TabContainer/Controls/VBoxContainer/HSplitContainer"]
 margin_top = 5.0
 margin_bottom = 41.0
 
-[node name="OptionButton" type="OptionButton" parent="TabContainer/Controls/HSplitContainer"]
+[node name="OptionButton" type="OptionButton" parent="TabContainer/Controls/VBoxContainer/HSplitContainer"]
 margin_left = 8.0
-margin_right = 854.0
+margin_right = 32.0
 margin_bottom = 46.0
 align = 1
 
 [node name="Audio" type="ScrollContainer" parent="TabContainer"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
@@ -178,27 +191,58 @@ size_flags_vertical = 3
 follow_focus = true
 scroll_horizontal_enabled = false
 
-[node name="HSplitContainer" type="HSplitContainer" parent="TabContainer/Audio"]
-margin_right = 854.0
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Audio"]
+margin_right = 675.0
+margin_bottom = 92.0
+custom_constants/separation = 10
+
+[node name="Button" type="Button" parent="TabContainer/Audio/VBoxContainer"]
+margin_right = 675.0
+margin_bottom = 46.0
+text = "Test Audio"
+
+[node name="MasterVolume" type="HSplitContainer" parent="TabContainer/Audio/VBoxContainer"]
+margin_top = 56.0
+margin_right = 675.0
+margin_bottom = 92.0
 mouse_filter = 2
 size_flags_horizontal = 3
 custom_constants/autohide = 0
 custom_constants/separation = 0
 dragger_visibility = 1
 
-[node name="Label" type="Label" parent="TabContainer/Audio/HSplitContainer"]
-margin_top = 5.0
-margin_right = 200.0
-margin_bottom = 41.0
+[node name="HSplitContainer" type="HSplitContainer" parent="TabContainer/Audio/VBoxContainer/MasterVolume"]
+margin_right = 587.0
+margin_bottom = 36.0
+rect_min_size = Vector2( 587, 0 )
+size_flags_horizontal = 3
+dragger_visibility = 1
 
-[node name="OptionButton" type="OptionButton" parent="TabContainer/Audio/HSplitContainer"]
-margin_left = 208.0
-margin_right = 854.0
-margin_bottom = 46.0
-align = 1
+[node name="Label" type="Label" parent="TabContainer/Audio/VBoxContainer/MasterVolume/HSplitContainer"]
+margin_right = 260.0
+margin_bottom = 36.0
+text = "Master Volume"
+
+[node name="HSlider" type="HSlider" parent="TabContainer/Audio/VBoxContainer/MasterVolume/HSplitContainer"]
+margin_left = 272.0
+margin_right = 587.0
+margin_bottom = 36.0
+size_flags_vertical = 1
+max_value = 1.0
+step = 0.05
+value = 1.0
+
+[node name="volume" type="Label" parent="TabContainer/Audio/VBoxContainer/MasterVolume"]
+margin_left = 595.0
+margin_right = 675.0
+margin_bottom = 36.0
+text = "1.00"
 [connection signal="pressed" from="ExitButton" to="." method="_on_ExitButton_pressed"]
 [connection signal="confirmed" from="SaveConfirmation" to="." method="_on_SaveConfirmation_confirmed"]
-[connection signal="timeout" from="SaveConfirmation/Timer" to="." method="_on_Timer_timeout"]
+[connection signal="confirmed" from="OptionConfirm" to="." method="_on_OptionConfirm_confirmed"]
+[connection signal="timeout" from="OptionConfirm/Timer" to="." method="_on_Timer_timeout"]
 [connection signal="pressed" from="TabContainer/Video/VBoxContainer/Fullscreen/FullscreenCheck" to="." method="_on_FullscreenCheck_pressed"]
 [connection signal="pressed" from="TabContainer/Video/VBoxContainer/Borderless/BorderCheck" to="." method="_on_BorderCheck_pressed"]
 [connection signal="item_selected" from="TabContainer/Video/VBoxContainer/Resolution/ResolutionOptions" to="." method="_on_ResolutionOptions_item_selected"]
+[connection signal="pressed" from="TabContainer/Audio/VBoxContainer/Button" to="." method="_test_audio"]
+[connection signal="value_changed" from="TabContainer/Audio/VBoxContainer/MasterVolume/HSplitContainer/HSlider" to="." method="_on_HSlider_value_changed"]

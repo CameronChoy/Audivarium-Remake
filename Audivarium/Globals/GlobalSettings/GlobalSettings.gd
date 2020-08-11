@@ -38,6 +38,12 @@ func save_settings(new):
 	if not new is Dictionary: return
 	current_settings = new
 	
+	var file = File.new()
+	
+	if file.open(settings_path, File.WRITE) != OK: return
+	
+	file.store_string(to_json(new))
+	
 
 
 func load_settings():
