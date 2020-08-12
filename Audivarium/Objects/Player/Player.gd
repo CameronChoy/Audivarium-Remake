@@ -34,7 +34,8 @@ var current_max_speed
 var last_direction = Vector2.RIGHT
 
 onready var Collider = $CollisionShape2D
-onready var MainSprite = $MainSprite
+onready var Body = $Body
+onready var DefaultSprite = $DefaultSprite
 onready var DashTween = $DashTween
 onready var TeleportIndicator = $TeleportIndicator
 onready var BulletTree = $BulletTree
@@ -42,14 +43,16 @@ onready var EquipedBulletText = $Hud/EquipedBulletText
 onready var Anim = $PlayerAnim
 onready var HealthBarLeft = $Hud/HealthBarLeft
 onready var HealthBarRight = $Hud/HealthBarRight
-onready var EffectsTree = $MainSprite/PlayerEffectsTree/Node2D
+onready var EffectsTree = $PlayerEffectsTree/Node2D
 var bullet
+var sprite_body
 signal player_died
 
 func _ready():
 	
 	current_max_speed = max_speed
-	MainSprite.self_modulate = PlayerGlobals.get_ColorPlayerMain()
+	DefaultSprite.self_modulate = PlayerGlobals.get_ColorPlayerMain()
+	set_body_sprite(PlayerGlobals.PlayerSpriteBody)
 	var _err
 	
 	_err = CrossHair.connect("dash_reset_completed",self,"dash_reset_completion_signal")
@@ -96,7 +99,7 @@ func _physics_process(delta):
 		moving = true
 	
 	if moving:
-		last_direction = Vector2(-cos(MainSprite.rotation),-sin(MainSprite.rotation))
+		last_direction = Vector2(-cos(Body.rotation),-sin(Body.rotation))
 	
 	if dash:
 		if moving:
@@ -114,7 +117,7 @@ func _physics_process(delta):
 			velocity = (velocity / sqrt(vel_squared)) * current_max_speed
 	
 	velocity = move_and_slide(velocity)
-	MainSprite.rotation = lerp_angle(MainSprite.rotation, position.angle_to_point(position + velocity * delta),0.2)
+	Body.rotation = lerp_angle(Body.rotation, position.angle_to_point(position + velocity * delta),0.2)
 	
 	if bullet.is_automatic() and hold_shoot and can_shoot:
 		shoot()
@@ -290,3 +293,13 @@ func bullet_change_signal():
 func bullet_reload_completion_signal():
 	can_shoot = true
 
+
+func set_body_sprite(new : PackedScene = PlayerGlobals.DefaultPlayerSpriteBody):
+	
+	if sprite_body:
+		Body.remove_child(sprite_body)
+		sprite_body.queue_free()
+	
+	sprite_body = new.instance()
+	Body.add_child(sprite_body)
+	

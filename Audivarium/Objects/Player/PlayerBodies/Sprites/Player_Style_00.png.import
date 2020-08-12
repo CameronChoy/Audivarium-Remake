@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Teleport_Indicator.png-0cf0dd4a3b43d4d7d73ac24f3cc084cc.stex"
+path="res://.import/Player_Style_00.png-cefd0064e057117b4987604bc0afee2a.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Objects/Player/PlayerSprites/Teleport_Indicator.png"
-dest_files=[ "res://.import/Teleport_Indicator.png-0cf0dd4a3b43d4d7d73ac24f3cc084cc.stex" ]
+source_file="res://Objects/Player/PlayerBodies/Sprites/Player_Style_00.png"
+dest_files=[ "res://.import/Player_Style_00.png-cefd0064e057117b4987604bc0afee2a.stex" ]
 
 [params]
 

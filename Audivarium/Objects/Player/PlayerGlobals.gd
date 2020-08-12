@@ -10,7 +10,13 @@ var ColorDashResetProgress = Color.white
 var ColorTeleportResetProgress = Color.white
 var ColorFireDelayProgress = Color.orange
 
+var PlayerColors
 var DefaultColor = Color.white
+
+var PlayerSpriteBody
+
+const ScenePathDefaultPlayerBody = "res://Objects/Player/PlayerBodies/PlayerBodies/PlayerBody_01.tscn"
+var DefaultPlayerSpriteBody = preload(ScenePathDefaultPlayerBody)
 
 const AudioPathPlayerHit = "res://Objects/Player/PlayerAudio/player_hit.wav"
 const AudioPathPlayerGameOver = "res://Objects/Player/PlayerAudio/player_gameover.wav"
@@ -37,6 +43,11 @@ func _ready():
 	load_player_values()
 
 func save_player_values():
+	var colors = []
+	
+	for c in PlayerColors:
+		colors.append(c.to_html(false))
+	
 	var values = {
 		COL_MAIN : ColorPlayerMain.to_html(false),
 		COL_BULLET : ColorBullet.to_html(false),
@@ -90,6 +101,9 @@ func change_bullet(new_bullet = DefaultBullet):
 
 func get_ColorPlayerMain():
 	return ColorPlayerMain
+
+func get_PlayerColors():
+	return PlayerColors
 
 func get_ColorBullet():
 	return ColorBullet
