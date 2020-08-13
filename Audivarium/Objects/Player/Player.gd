@@ -35,7 +35,7 @@ var last_direction = Vector2.RIGHT
 
 onready var Collider = $CollisionShape2D
 onready var Body = $Body
-onready var DefaultSprite = $DefaultSprite
+onready var DefaultSprite = $Body/DefaultSprite
 onready var DashTween = $DashTween
 onready var TeleportIndicator = $TeleportIndicator
 onready var BulletTree = $BulletTree
@@ -51,7 +51,7 @@ signal player_died
 func _ready():
 	
 	current_max_speed = max_speed
-	DefaultSprite.self_modulate = PlayerGlobals.get_ColorPlayerMain()
+	DefaultSprite.self_modulate = PlayerGlobals.get_PlayerColors()[0]
 	set_body_sprite(PlayerGlobals.PlayerSpriteBody)
 	var _err
 	
@@ -75,7 +75,7 @@ func _ready():
 	
 	HealthBarLeft.value = 0
 	HealthBarRight.value = 0
-	HealthBarLeft.get("custom_styles/fg").border_color = PlayerGlobals.ColorPlayerMain
+	HealthBarLeft.get("custom_styles/fg").border_color = PlayerGlobals.get_PlayerColors()[0]
 	
 	PlayerGlobals.current_player = self
 	
@@ -294,12 +294,43 @@ func bullet_reload_completion_signal():
 	can_shoot = true
 
 
-func set_body_sprite(new : PackedScene = PlayerGlobals.DefaultPlayerSpriteBody):
+func set_body_sprite(new):
+	if !new: new = PlayerGlobals.DefaultPlayerSpriteBody
+	
+	PlayerGlobals.PlayerSpriteBody = new
+	
+	if new is PackedScene: new = new.instance()
+	if not new is PlayerBody: return
 	
 	if sprite_body:
-		Body.remove_child(sprite_body)
-		sprite_body.queue_free()
+		var prev = sprite_body
+		prev.get_parent().remove_child(prev)
+		prev.queue_free()
 	
-	sprite_body = new.instance()
-	Body.add_child(sprite_body)
+	Body.add_child(new)
+	new.position = Vector2()
+	sprite_body = new
+	
+	if sprite_body.has_method("get_sprites"):
+		
+		var sprites = sprite_body.get_sprites()
+		var colors = PlayerGlobals.get_PlayerColors()
+		var colors_size = colors.size()
+		
+		for i in range(sprites.size()):
+			var j = i if i < colors_size else colors_size - 1
+			sprites[i].self_modulate = colors[j]
+		
+	
+	
+	
+
+
+func set_body_modulate(index, color):
+	if !sprite_body or sprite_body.get_sprites().size() <= index: return
+	var sprite = sprite_body.sprites[index]
+	
+	if !sprite: return
+	
+	sprite.self_modulate = color
 	

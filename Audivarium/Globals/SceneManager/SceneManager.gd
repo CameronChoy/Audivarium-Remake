@@ -116,8 +116,8 @@ func _thread_done(anim_name):
 	transitioning = true
 	SceneTransition.play(anim_name)
 	
-	OutPanel.self_modulate = (PlayerGlobals.get_ColorPlayerMain())
-	InPanel.self_modulate = (PlayerGlobals.get_ColorPlayerMain())
+	OutPanel.self_modulate = (PlayerGlobals.get_PlayerColors()[0])
+	InPanel.self_modulate = (PlayerGlobals.get_PlayerColors()[0])
 	
 
 

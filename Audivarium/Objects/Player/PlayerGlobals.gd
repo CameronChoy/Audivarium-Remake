@@ -2,7 +2,7 @@ extends Node
 
 var current_player
 
-var ColorPlayerMain = Color.lightblue
+#var ColorPlayerMain = Color.lightblue
 var ColorBullet = Color.orange
 var ColorCrossHair = Color.white
 var ColorTeleportIndicator = Color.white
@@ -10,13 +10,16 @@ var ColorDashResetProgress = Color.white
 var ColorTeleportResetProgress = Color.white
 var ColorFireDelayProgress = Color.orange
 
-var PlayerColors
 var DefaultColor = Color.white
+var DefaultPlayerColors = [DefaultColor,DefaultColor,DefaultColor]
+var PlayerColors = DefaultPlayerColors
 
-var PlayerSpriteBody
+
 
 const ScenePathDefaultPlayerBody = "res://Objects/Player/PlayerBodies/PlayerBodies/PlayerBody_01.tscn"
 var DefaultPlayerSpriteBody = preload(ScenePathDefaultPlayerBody)
+
+var PlayerSpriteBody
 
 const AudioPathPlayerHit = "res://Objects/Player/PlayerAudio/player_hit.wav"
 const AudioPathPlayerGameOver = "res://Objects/Player/PlayerAudio/player_gameover.wav"
@@ -30,6 +33,7 @@ onready var CurrentBullet = DefaultBullet.instance()
 var FireDelay = 0.15
 signal bullet_changed
 
+const BODY = "PlayerBody"
 const COL_MAIN = "ColorPlayerMain"
 const COL_BULLET = "ColorBullet"
 const COL_CROSSHAIR = "ColorCrosshair"
@@ -49,7 +53,8 @@ func save_player_values():
 		colors.append(c.to_html(false))
 	
 	var values = {
-		COL_MAIN : ColorPlayerMain.to_html(false),
+		BODY : PlayerSpriteBody.get_path(),
+		COL_MAIN : colors,
 		COL_BULLET : ColorBullet.to_html(false),
 		COL_CROSSHAIR : ColorCrossHair.to_html(false),
 		COL_TEL_IND : ColorTeleportIndicator.to_html(false),
@@ -79,7 +84,8 @@ func load_player_values():
 	
 	info = info.result
 	
-	ColorPlayerMain = Color(info.get(COL_MAIN)) if info.has(COL_MAIN) else DefaultColor
+	PlayerSpriteBody = info.get(BODY) if info.has(BODY) else DefaultPlayerSpriteBody
+	PlayerColors = (info.get(COL_MAIN)) if info.has(COL_MAIN) else DefaultPlayerColors
 	ColorBullet = Color(info.get(COL_BULLET)) if info.has(COL_BULLET) else DefaultColor
 	ColorCrossHair = Color(info.get(COL_CROSSHAIR)) if info.has(COL_CROSSHAIR) else DefaultColor
 	ColorTeleportIndicator = Color(info.get(COL_TEL_IND)) if info.has(COL_TEL_IND) else DefaultColor
@@ -87,7 +93,12 @@ func load_player_values():
 	ColorDashResetProgress = Color(info.get(COL_DASH)) if info.has(COL_DASH) else DefaultColor
 	ColorFireDelayProgress = Color(info.get(COL_FIRE_DELAY)) if info.has(COL_FIRE_DELAY) else DefaultColor
 	
+	for i in range(PlayerColors.size()):
+		PlayerColors[i] = Color(PlayerColors[i])
 	
+	if ResourceLoader.exists(PlayerSpriteBody):
+		PlayerSpriteBody = load(PlayerSpriteBody)
+	CrossHair.CrossHairSprite.self_modulate = ColorCrossHair
 
 
 func change_bullet(new_bullet = DefaultBullet):
@@ -98,9 +109,6 @@ func change_bullet(new_bullet = DefaultBullet):
 	emit_signal("bullet_changed")
 	
 
-
-func get_ColorPlayerMain():
-	return ColorPlayerMain
 
 func get_PlayerColors():
 	return PlayerColors

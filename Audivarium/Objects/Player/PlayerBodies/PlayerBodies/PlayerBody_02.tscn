@@ -10,6 +10,5 @@ texture = ExtResource( 1 )
 script = ExtResource( 2 )
 textures = [ ExtResource( 1 ), ExtResource( 3 ) ]
 
-[node name="_Sprite" type="Sprite" parent="."]
-self_modulate = Color( 1, 0, 0, 1 )
+[node name="_Sprite2" type="Sprite" parent="."]
 texture = ExtResource( 3 )

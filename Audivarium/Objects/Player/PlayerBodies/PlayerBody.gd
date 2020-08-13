@@ -1,35 +1,46 @@
 tool
 extends Sprite
+class_name PlayerBody
+
 const SPRITE_NAMES = "_Sprite"
-export(Array, Texture) var textures = Array() setget _textures_changed,get_textures
+export(Array, Texture) var textures = Array() setget _textures_changed
 var sprites = []
 
 func _ready():
-	_get_sprites()
+	for c in get_children():
+		c.set_owner(self)
+	_collect_sprites()
+	
 
 
 func set_colors(colors : Array):
 	if colors.empty(): return
-	
 	for i in range(colors.size()):
-		if i >= sprites.size(): return
-		
 		if !colors[i]: continue
 		
-		sprites[i].self_modulate = colors[i]
+		call_deferred("set_single_color",i,colors[i])#set_single_color(i, colors[i])
 		
 	
 
+func set_single_color(index, color):
+	if index >= sprites.size(): return
+	
+	sprites[index].self_modulate = color
+	
 
-func _get_sprites():
+
+func _collect_sprites():
+	sprites = []
+	sprites.append(self)
 	for c in get_children():
 		if c is Sprite and c.name.begins_with(SPRITE_NAMES):
 			sprites.append(c)
 		 
 
+
 func _textures_changed(new : Array):
+	if !Engine.editor_hint: return
 	textures = new
-	
 	for c in get_children():
 		if c.name.begins_with(SPRITE_NAMES):
 			c.queue_free()
@@ -53,9 +64,9 @@ func _textures_changed(new : Array):
 			s.name = SPRITE_NAMES
 			
 		
-	
+	_collect_sprites()
 
 
-func get_textures():
-	return textures
+func get_sprites():
+	return sprites
 

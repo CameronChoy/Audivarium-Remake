@@ -93,10 +93,66 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CrossHair" type="HSplitContainer" parent="MenuOptions/MarginContainer/CenterContainer/ScrollContainer/VBoxContainer"]
+[node name="PlayerColor2" type="HSplitContainer" parent="MenuOptions/MarginContainer/CenterContainer/ScrollContainer/VBoxContainer"]
 margin_top = 61.0
 margin_right = 760.0
 margin_bottom = 107.0
+mouse_filter = 2
+split_offset = 25
+dragger_visibility = 1
+
+[node name="Label" type="Label" parent="MenuOptions/MarginContainer/CenterContainer/ScrollContainer/VBoxContainer/PlayerColor2"]
+margin_top = 5.0
+margin_right = 305.0
+margin_bottom = 41.0
+rect_min_size = Vector2( 150, 0 )
+text = "Player Color 2"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlayerColor2Input" type="ColorPickerButton" parent="MenuOptions/MarginContainer/CenterContainer/ScrollContainer/VBoxContainer/PlayerColor2"]
+margin_left = 317.0
+margin_right = 760.0
+margin_bottom = 46.0
+size_flags_horizontal = 3
+edit_alpha = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlayerColor3" type="HSplitContainer" parent="MenuOptions/MarginContainer/CenterContainer/ScrollContainer/VBoxContainer"]
+margin_top = 122.0
+margin_right = 760.0
+margin_bottom = 168.0
+mouse_filter = 2
+split_offset = 25
+dragger_visibility = 1
+
+[node name="Label" type="Label" parent="MenuOptions/MarginContainer/CenterContainer/ScrollContainer/VBoxContainer/PlayerColor3"]
+margin_top = 5.0
+margin_right = 305.0
+margin_bottom = 41.0
+rect_min_size = Vector2( 150, 0 )
+text = "Player Color 3"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlayerColor3Input" type="ColorPickerButton" parent="MenuOptions/MarginContainer/CenterContainer/ScrollContainer/VBoxContainer/PlayerColor3"]
+margin_left = 317.0
+margin_right = 760.0
+margin_bottom = 46.0
+size_flags_horizontal = 3
+edit_alpha = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CrossHair" type="HSplitContainer" parent="MenuOptions/MarginContainer/CenterContainer/ScrollContainer/VBoxContainer"]
+margin_top = 183.0
+margin_right = 760.0
+margin_bottom = 229.0
 mouse_filter = 2
 split_offset = 25
 dragger_visibility = 1
@@ -122,9 +178,9 @@ __meta__ = {
 }
 
 [node name="Teleport" type="HSplitContainer" parent="MenuOptions/MarginContainer/CenterContainer/ScrollContainer/VBoxContainer"]
-margin_top = 122.0
+margin_top = 244.0
 margin_right = 760.0
-margin_bottom = 168.0
+margin_bottom = 290.0
 mouse_filter = 2
 split_offset = 25
 dragger_visibility = 1
@@ -150,9 +206,9 @@ __meta__ = {
 }
 
 [node name="TeleportCooldown" type="HSplitContainer" parent="MenuOptions/MarginContainer/CenterContainer/ScrollContainer/VBoxContainer"]
-margin_top = 183.0
+margin_top = 305.0
 margin_right = 760.0
-margin_bottom = 229.0
+margin_bottom = 351.0
 mouse_filter = 2
 split_offset = 25
 dragger_visibility = 1
@@ -178,9 +234,9 @@ __meta__ = {
 }
 
 [node name="Dash" type="HSplitContainer" parent="MenuOptions/MarginContainer/CenterContainer/ScrollContainer/VBoxContainer"]
-margin_top = 244.0
+margin_top = 366.0
 margin_right = 760.0
-margin_bottom = 290.0
+margin_bottom = 412.0
 mouse_filter = 2
 split_offset = 25
 dragger_visibility = 1
@@ -206,9 +262,9 @@ __meta__ = {
 }
 
 [node name="Reload" type="HSplitContainer" parent="MenuOptions/MarginContainer/CenterContainer/ScrollContainer/VBoxContainer"]
-margin_top = 305.0
+margin_top = 427.0
 margin_right = 760.0
-margin_bottom = 351.0
+margin_bottom = 473.0
 mouse_filter = 2
 split_offset = 25
 dragger_visibility = 1
@@ -234,9 +290,9 @@ __meta__ = {
 }
 
 [node name="Bullet" type="HSplitContainer" parent="MenuOptions/MarginContainer/CenterContainer/ScrollContainer/VBoxContainer"]
-margin_top = 366.0
+margin_top = 488.0
 margin_right = 760.0
-margin_bottom = 412.0
+margin_bottom = 534.0
 mouse_filter = 2
 split_offset = 25
 dragger_visibility = 1
@@ -262,9 +318,9 @@ __meta__ = {
 }
 
 [node name="Bg" type="HSplitContainer" parent="MenuOptions/MarginContainer/CenterContainer/ScrollContainer/VBoxContainer"]
-margin_top = 427.0
+margin_top = 549.0
 margin_right = 760.0
-margin_bottom = 473.0
+margin_bottom = 595.0
 mouse_filter = 2
 split_offset = 25
 dragger_visibility = 1
@@ -289,38 +345,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="GridContainer" type="GridContainer" parent="MenuOptions/MarginContainer/CenterContainer/ScrollContainer/VBoxContainer"]
-margin_top = 488.0
+[node name="PlayerBodies" type="GridContainer" parent="MenuOptions/MarginContainer/CenterContainer/ScrollContainer/VBoxContainer"]
+margin_top = 610.0
 margin_right = 760.0
-margin_bottom = 588.0
+margin_bottom = 610.0
 mouse_filter = 2
 columns = 3
-
-[node name="Button" type="Button" parent="MenuOptions/MarginContainer/CenterContainer/ScrollContainer/VBoxContainer/GridContainer"]
-margin_right = 250.0
-margin_bottom = 100.0
-rect_min_size = Vector2( 0, 100 )
-mouse_filter = 1
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Button2" type="Button" parent="MenuOptions/MarginContainer/CenterContainer/ScrollContainer/VBoxContainer/GridContainer"]
-margin_left = 254.0
-margin_right = 504.0
-margin_bottom = 100.0
-rect_min_size = Vector2( 0, 100 )
-mouse_filter = 1
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Button3" type="Button" parent="MenuOptions/MarginContainer/CenterContainer/ScrollContainer/VBoxContainer/GridContainer"]
-margin_left = 508.0
-margin_right = 758.0
-margin_bottom = 100.0
-rect_min_size = Vector2( 0, 100 )
-mouse_filter = 1
-size_flags_horizontal = 3
-size_flags_vertical = 3
 
 [node name="PlayerWalls" type="StaticBody2D" parent="." groups=[
 "Solid",
@@ -386,6 +416,8 @@ bullet_path = "res://Objects/Bullets/Sniper/Bullet_Sniper.tscn"
 one_time_pickup = false
 [connection signal="pressed" from="MenuOptions/ExitButton" to="." method="_on_ExitButton_pressed"]
 [connection signal="color_changed" from="MenuOptions/MarginContainer/CenterContainer/ScrollContainer/VBoxContainer/PlayerColor1/PlayerColor1Input" to="." method="_on_PlayerColor1Input_color_changed"]
+[connection signal="color_changed" from="MenuOptions/MarginContainer/CenterContainer/ScrollContainer/VBoxContainer/PlayerColor2/PlayerColor2Input" to="." method="_on_PlayerColor2Input_color_changed"]
+[connection signal="color_changed" from="MenuOptions/MarginContainer/CenterContainer/ScrollContainer/VBoxContainer/PlayerColor3/PlayerColor3Input" to="." method="_on_PlayerColor3Input_color_changed"]
 [connection signal="color_changed" from="MenuOptions/MarginContainer/CenterContainer/ScrollContainer/VBoxContainer/CrossHair/CrossHairInput" to="." method="_on_CrossHairInput_color_changed"]
 [connection signal="color_changed" from="MenuOptions/MarginContainer/CenterContainer/ScrollContainer/VBoxContainer/Teleport/TeleportInput" to="." method="_on_TeleportInput_color_changed"]
 [connection signal="color_changed" from="MenuOptions/MarginContainer/CenterContainer/ScrollContainer/VBoxContainer/TeleportCooldown/TeleportCooldownInput" to="." method="_on_TeleportCooldownInput_color_changed"]
