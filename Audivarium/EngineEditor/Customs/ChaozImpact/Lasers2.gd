@@ -11,14 +11,14 @@ func _ready():
 	temp_lasers = lasers.duplicate(true)
 
 func random():
-	var pos = rand_range(30,150)
+	var pos = rand_range(15,75)
 	for c in $Vertical.get_children():
 		c.position.x = pos
-		pos += rand_range(80,250)
-	pos = rand_range(30,150)
+		pos += rand_range(40,125)
+	pos = rand_range(15,75)
 	for c in $Horizontal.get_children():
 		c.position.y = pos
-		pos += rand_range(60,145)
+		pos += rand_range(30,72)
 
 func random_flash():
 	if temp_lasers.empty():

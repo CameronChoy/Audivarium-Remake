@@ -2,18 +2,16 @@ extends Node
 
 var current_player
 
-#var ColorPlayerMain = Color.lightblue
 var ColorBullet = Color.orange
 var ColorCrossHair = Color.white
-var ColorTeleportIndicator = Color.white
+var ColorTeleportIndicator = Color.lightblue
 var ColorDashResetProgress = Color.white
-var ColorTeleportResetProgress = Color.white
+var ColorTeleportResetProgress = Color.lightblue
 var ColorFireDelayProgress = Color.orange
 
 var DefaultColor = Color.white
 var DefaultPlayerColors = [DefaultColor,DefaultColor,DefaultColor]
 var PlayerColors = DefaultPlayerColors
-
 
 
 const ScenePathDefaultPlayerBody = "res://Objects/Player/PlayerBodies/PlayerBodies/PlayerBody_01.tscn"
@@ -99,6 +97,7 @@ func load_player_values():
 	if ResourceLoader.exists(PlayerSpriteBody):
 		PlayerSpriteBody = load(PlayerSpriteBody)
 	CrossHair.CrossHairSprite.self_modulate = ColorCrossHair
+	
 
 
 func change_bullet(new_bullet = DefaultBullet):

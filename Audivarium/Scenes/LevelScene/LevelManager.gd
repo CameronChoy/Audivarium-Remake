@@ -1,6 +1,7 @@
 extends Node2D
 
 const LevelSelect = "res://Scenes/LevelSelect/LevelSelect.tscn"
+const LevelEnd = "res://Scenes/LevelScene/LevelEnd.tscn"
 const MAX_ITERATIONS = 50
 var objects = []
 var current_objects = []
@@ -11,10 +12,12 @@ var TitleTween
 var TitleTimer
 var Scene
 onready var PauseMenu = $PauseScreen
+onready var SettingsMenu = $SettingsMenu
 onready var title_move_back = true
 onready var exiting = false
 
 func _ready():
+	GlobalLevelManager.level_completed = false
 	set_process(false)
 	
 	Scene = $Scene
@@ -46,14 +49,31 @@ func _ready():
 	
 	if PlayerGlobals.current_player:
 		PlayerGlobals.current_player.pause_mode = PAUSE_MODE_STOP
+		var _err = PlayerGlobals.current_player.connect("player_died",self,"_on_level_failed")
 	
 	var _err = PauseMenu.Resume.connect("pressed",self,"toggle_pause")
 	_err = PauseMenu.Quit.connect("pressed",self,"_exit_level")
+	_err = PauseMenu.Settings.connect("pressed",self,"_enter_settings")
+	_err = SettingsMenu.connect("exitting_settings",self,"_exit_settings")
+	SettingsMenu.set_process_input(false)
+	
 
 
 func _on_level_completed(_anim):
+	exiting = true
 	GlobalLevelManager.loaded_level_anim.stop(false)
-	SceneManager.load_scene(LevelSelect, SceneManager.TransitionType.OUTZOOMOUTWARDSPIN)
+	GlobalLevelManager.level_completed = true
+	SceneManager.set_next_transition_delay(1)
+	SceneManager.load_scene(LevelEnd, SceneManager.TransitionType.OUTZOOMOUTWARDSPIN)
+	
+
+
+func _on_level_failed():
+	exiting = true
+	GlobalLevelManager.loaded_level_anim.stop(false)
+	GlobalLevelManager.level_completed = false
+	SceneManager.set_next_transition_delay(1)
+	SceneManager.load_scene(LevelEnd, SceneManager.TransitionType.OUTZOOMOUTWARDSPIN)
 	
 
 
@@ -65,6 +85,7 @@ func _exit_level():
 		GlobalLevelManager.loaded_level_anim.stop(false)
 	SceneManager.load_scene(LevelSelect, SceneManager.TransitionType.INOUTSLIDEUP)
 	
+
 
 func setup_level(name : String, level_objects : Array):
 	objects = level_objects
@@ -137,7 +158,7 @@ func _on_TitleTween_tween_all_completed():
 
 
 func _on_Timer_timeout():
-	TitleTween.interpolate_property(Title, "rect_position:x",0, -Title.rect_size.x, 1,Tween.TRANS_CUBIC,Tween.EASE_IN)
+	TitleTween.interpolate_property(Title, "rect_position:x",Title.rect_global_position.x, -Title.rect_size.x - 50, 1,Tween.TRANS_CUBIC,Tween.EASE_IN)
 	TitleTween.start()
 
 
@@ -150,3 +171,19 @@ func _unhandled_input(event):
 func toggle_pause():
 	get_tree().paused = !get_tree().paused
 	PauseMenu.toggle_visibility(get_tree().paused)
+
+
+func _enter_settings():
+	SettingsMenu.show()
+	SettingsMenu.set_process_input(true)
+	set_process_unhandled_input(false)
+	PauseMenu.hide()
+
+
+func _exit_settings():
+	SettingsMenu.hide()
+	SettingsMenu.set_process_input(false)
+	PauseMenu.show()
+	call_deferred("set_process_unhandled_input",true)
+	
+

@@ -1,0 +1,63 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Globals/SceneManager/GlobalTheme/GlobalTheme.tres" type="Theme" id=1]
+[ext_resource path="res://Fonts/lunchtime-doubly-so/lunchds.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://Scenes/LevelScene/LevelEnd.gd" type="Script" id=3]
+
+[sub_resource type="DynamicFont" id=1]
+size = 60
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+use_mipmaps = true
+font_data = ExtResource( 2 )
+
+[node name="Control" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 1 )
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+Complete_Color = Color( 0.305882, 0.745098, 0.305882, 1 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_left = 0.3
+anchor_top = 0.2
+anchor_right = 0.7
+anchor_bottom = 0.8
+custom_constants/separation = 166
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LevelStatus" type="Label" parent="VBoxContainer"]
+margin_right = 768.0
+margin_bottom = 61.0
+custom_fonts/font = SubResource( 1 )
+text = "Level"
+align = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer"]
+margin_left = 183.0
+margin_top = 227.0
+margin_right = 583.0
+margin_bottom = 462.0
+rect_min_size = Vector2( 400, 0 )
+size_flags_horizontal = 4
+custom_constants/separation = 35
+
+[node name="ReplayButton" type="Button" parent="VBoxContainer/VBoxContainer"]
+margin_right = 400.0
+margin_bottom = 100.0
+rect_min_size = Vector2( 150, 100 )
+text = "Replay"
+
+[node name="ExitButton" type="Button" parent="VBoxContainer/VBoxContainer"]
+margin_top = 135.0
+margin_right = 400.0
+margin_bottom = 235.0
+rect_min_size = Vector2( 150, 100 )
+text = "Level Select"
+[connection signal="pressed" from="VBoxContainer/VBoxContainer/ReplayButton" to="." method="_on_ReplayButton_pressed"]
+[connection signal="pressed" from="VBoxContainer/VBoxContainer/ExitButton" to="." method="_on_ExitButton_pressed"]

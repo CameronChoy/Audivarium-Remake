@@ -9,6 +9,7 @@ var transitioning = false
 var moving_scene = false
 var scene_to_preload
 var anim = 0
+var transition_delay = 0
 onready var SceneTransition = $SceneTransition
 onready var SceneOut = $SceneOut
 onready var SceneIn = $SceneIn
@@ -77,6 +78,8 @@ func _thread_load(path):
 	var ril = ResourceLoader.load_interactive(path)
 	assert(ril)
 	#var total = ril.get_stage_count()
+	var start_time = OS.get_ticks_msec()
+	var delay = transition_delay * 1000
 	
 	res = null
 	while true:
@@ -85,14 +88,22 @@ func _thread_load(path):
 		
 		if err == ERR_FILE_EOF:
 			res = ril.get_resource()
+			
+			delay -= OS.get_ticks_msec() - start_time
+			if delay > 0:
+				OS.delay_msec(delay)
+				
+			
 			can_change = true
 			
 			break
 			
 		elif err != OK:
+			
 			print("There was an error loading")
 			break
 	
+	transition_delay = 0
 	return
 	
 
@@ -163,6 +174,10 @@ func change_scene_to_loaded(transitionType : int):
 	moving_scene = true
 	anim = anim_name
 	set_physics_process(true)
+
+
+func set_next_transition_delay(seconds : float = 0):
+	transition_delay = seconds
 
 
 func _on_SceneTransition_animation_finished(_anim_name):

@@ -252,9 +252,13 @@ func Damaged(_culprit):
 		Anim.play(ANIM_DAMAGED)
 	else:
 		hide()
+		Collider.disabled = true
 		GlobalAudio.play_audio(audio_die)
-		emit_signal("player_died")
+		
+		GlobalEffects.shake(0.35,30,15)
 		#spawn destruction effect
+		
+		emit_signal("player_died")
 		
 	
 

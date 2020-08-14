@@ -1424,6 +1424,18 @@ tracks/0/keys = {
 "method": "random_flash"
 } ]
 }
+tracks/1/type = "value"
+tracks/1/path = NodePath("BackgroundSimulator:color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 5, 23.0498, 25 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 0.0666667, 0.0666667, 0.0666667, 1 ), Color( 0.0196078, 0.0196078, 0.0196078, 1 ), Color( 0.0196078, 0.0196078, 0.0196078, 1 ), Color( 0.0784314, 0.0784314, 0.0784314, 1 ) ]
+}
 
 [sub_resource type="Animation" id=5]
 length = 2.0
@@ -1628,16 +1640,16 @@ tracks/19/keys = {
 "times": PoolRealArray( 0, 0.5, 1 )
 }
 tracks/20/type = "value"
-tracks/20/path = NodePath("Layer1/WaveIndicators:modulate")
+tracks/20/path = NodePath("BackgroundSimulator:color")
 tracks/20/interp = 1
 tracks/20/loop_wrap = true
 tracks/20/imported = false
-tracks/20/enabled = false
+tracks/20/enabled = true
 tracks/20/keys = {
-"times": PoolRealArray( 0, 1.1, 1.6 ),
+"times": PoolRealArray( 0, 0.00109375, 2 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 0 ) ]
+"values": [ Color( 0.0666667, 0.0666667, 0.0666667, 1 ), Color( 0.121569, 0.121569, 0.121569, 1 ), Color( 0.0666667, 0.0666667, 0.0666667, 1 ) ]
 }
 
 [sub_resource type="Animation" id=6]
@@ -1843,16 +1855,16 @@ tracks/19/keys = {
 "times": PoolRealArray( 0, 0.5, 1 )
 }
 tracks/20/type = "value"
-tracks/20/path = NodePath("Layer1/WaveIndicators:modulate")
+tracks/20/path = NodePath("BackgroundSimulator:color")
 tracks/20/interp = 1
 tracks/20/loop_wrap = true
 tracks/20/imported = false
-tracks/20/enabled = false
+tracks/20/enabled = true
 tracks/20/keys = {
-"times": PoolRealArray( 0, 1.1, 1.6 ),
+"times": PoolRealArray( 0, 0.00109375, 2 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 0 ) ]
+"values": [ Color( 0.0666667, 0.0666667, 0.0666667, 1 ), Color( 0.121569, 0.121569, 0.121569, 1 ), Color( 0.0666667, 0.0666667, 0.0666667, 1 ) ]
 }
 
 [sub_resource type="StreamTexture" id=7]
@@ -2315,7 +2327,6 @@ background_node = NodePath("leveldata/BackgroundSimulator")
 level_scene = NodePath("leveldata")
 spawn_point = NodePath("leveldata/PlayerSpawnPoint")
 enable_test_confirmation = false
-enable_quit_confirmation = true
 
 [node name="leveldata" type="Node2D" parent="."]
 pause_mode = 1
@@ -2332,7 +2343,7 @@ margin_top = -3690.08
 margin_right = 6207.45
 margin_bottom = 6309.92
 mouse_filter = 2
-color = Color( 0.0666667, 0.0666667, 0.0666667, 1 )
+color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 __meta__ = {
 "_edit_group_": true,
 "_edit_lock_": true,
@@ -2344,6 +2355,7 @@ anims/leveldata = SubResource( 2 )
 script = SubResource( 3 )
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="leveldata/AnimationPlayer"]
+stream = ExtResource( 3 )
 
 [node name="SecondaryPlayer" type="AnimationPlayer" parent="leveldata"]
 anims/Lasers = SubResource( 4 )
@@ -3578,6 +3590,111 @@ modulate = Color( 1, 0.74902, 0, 0 )
 monitoring = false
 monitorable = false
 
+[node name="Laser13" parent="leveldata/Layer1/Lasers2/Vertical" instance=ExtResource( 1 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+monitoring = false
+monitorable = false
+
+[node name="Laser14" parent="leveldata/Layer1/Lasers2/Vertical" instance=ExtResource( 1 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+monitoring = false
+monitorable = false
+
+[node name="Laser15" parent="leveldata/Layer1/Lasers2/Vertical" instance=ExtResource( 1 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+monitoring = false
+monitorable = false
+
+[node name="Laser16" parent="leveldata/Layer1/Lasers2/Vertical" instance=ExtResource( 1 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+monitoring = false
+monitorable = false
+
+[node name="Laser17" parent="leveldata/Layer1/Lasers2/Vertical" instance=ExtResource( 1 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+monitoring = false
+monitorable = false
+
+[node name="Laser18" parent="leveldata/Layer1/Lasers2/Vertical" instance=ExtResource( 1 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+monitoring = false
+monitorable = false
+
+[node name="Laser19" parent="leveldata/Layer1/Lasers2/Vertical" instance=ExtResource( 1 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+monitoring = false
+monitorable = false
+
+[node name="Laser20" parent="leveldata/Layer1/Lasers2/Vertical" instance=ExtResource( 1 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+monitoring = false
+monitorable = false
+
+[node name="Laser21" parent="leveldata/Layer1/Lasers2/Vertical" instance=ExtResource( 1 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+monitoring = false
+monitorable = false
+
+[node name="Laser22" parent="leveldata/Layer1/Lasers2/Vertical" instance=ExtResource( 1 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+monitoring = false
+monitorable = false
+
+[node name="Laser23" parent="leveldata/Layer1/Lasers2/Vertical" instance=ExtResource( 1 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+monitoring = false
+monitorable = false
+
+[node name="Laser24" parent="leveldata/Layer1/Lasers2/Vertical" instance=ExtResource( 1 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+monitoring = false
+monitorable = false
+
+[node name="Laser25" parent="leveldata/Layer1/Lasers2/Vertical" instance=ExtResource( 1 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+monitoring = false
+monitorable = false
+
+[node name="Laser26" parent="leveldata/Layer1/Lasers2/Vertical" instance=ExtResource( 1 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+monitoring = false
+monitorable = false
+
+[node name="Laser27" parent="leveldata/Layer1/Lasers2/Vertical" instance=ExtResource( 1 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+monitoring = false
+monitorable = false
+
+[node name="Laser28" parent="leveldata/Layer1/Lasers2/Vertical" instance=ExtResource( 1 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+monitoring = false
+monitorable = false
+
+[node name="Laser29" parent="leveldata/Layer1/Lasers2/Vertical" instance=ExtResource( 1 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+monitoring = false
+monitorable = false
+
+[node name="Laser30" parent="leveldata/Layer1/Lasers2/Vertical" instance=ExtResource( 1 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+monitoring = false
+monitorable = false
+
+[node name="Laser31" parent="leveldata/Layer1/Lasers2/Vertical" instance=ExtResource( 1 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+monitoring = false
+monitorable = false
+
+[node name="Laser32" parent="leveldata/Layer1/Lasers2/Vertical" instance=ExtResource( 1 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+monitoring = false
+monitorable = false
+
+[node name="Laser33" parent="leveldata/Layer1/Lasers2/Vertical" instance=ExtResource( 1 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+monitoring = false
+monitorable = false
+
 [node name="Horizontal" type="Node2D" parent="leveldata/Layer1/Lasers2"]
 
 [node name="Laser" parent="leveldata/Layer1/Lasers2/Horizontal" instance=ExtResource( 1 )]
@@ -3644,6 +3761,160 @@ monitoring = false
 monitorable = false
 
 [node name="Laser10" parent="leveldata/Layer1/Lasers2/Horizontal" instance=ExtResource( 1 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+position = Vector2( 1960, 112 )
+rotation = 1.5708
+monitoring = false
+monitorable = false
+
+[node name="Laser11" parent="leveldata/Layer1/Lasers2/Horizontal" instance=ExtResource( 1 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+position = Vector2( 1960, 112 )
+rotation = 1.5708
+monitoring = false
+monitorable = false
+
+[node name="Laser12" parent="leveldata/Layer1/Lasers2/Horizontal" instance=ExtResource( 1 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+position = Vector2( 1960, 112 )
+rotation = 1.5708
+monitoring = false
+monitorable = false
+
+[node name="Laser13" parent="leveldata/Layer1/Lasers2/Horizontal" instance=ExtResource( 1 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+position = Vector2( 1960, 112 )
+rotation = 1.5708
+monitoring = false
+monitorable = false
+
+[node name="Laser14" parent="leveldata/Layer1/Lasers2/Horizontal" instance=ExtResource( 1 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+position = Vector2( 1960, 112 )
+rotation = 1.5708
+monitoring = false
+monitorable = false
+
+[node name="Laser15" parent="leveldata/Layer1/Lasers2/Horizontal" instance=ExtResource( 1 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+position = Vector2( 1960, 112 )
+rotation = 1.5708
+monitoring = false
+monitorable = false
+
+[node name="Laser16" parent="leveldata/Layer1/Lasers2/Horizontal" instance=ExtResource( 1 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+position = Vector2( 1960, 112 )
+rotation = 1.5708
+monitoring = false
+monitorable = false
+
+[node name="Laser17" parent="leveldata/Layer1/Lasers2/Horizontal" instance=ExtResource( 1 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+position = Vector2( 1960, 112 )
+rotation = 1.5708
+monitoring = false
+monitorable = false
+
+[node name="Laser18" parent="leveldata/Layer1/Lasers2/Horizontal" instance=ExtResource( 1 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+position = Vector2( 1960, 112 )
+rotation = 1.5708
+monitoring = false
+monitorable = false
+
+[node name="Laser19" parent="leveldata/Layer1/Lasers2/Horizontal" instance=ExtResource( 1 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+position = Vector2( 1960, 112 )
+rotation = 1.5708
+monitoring = false
+monitorable = false
+
+[node name="Laser20" parent="leveldata/Layer1/Lasers2/Horizontal" instance=ExtResource( 1 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+position = Vector2( 1960, 112 )
+rotation = 1.5708
+monitoring = false
+monitorable = false
+
+[node name="Laser21" parent="leveldata/Layer1/Lasers2/Horizontal" instance=ExtResource( 1 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+position = Vector2( 1960, 112 )
+rotation = 1.5708
+monitoring = false
+monitorable = false
+
+[node name="Laser22" parent="leveldata/Layer1/Lasers2/Horizontal" instance=ExtResource( 1 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+position = Vector2( 1960, 112 )
+rotation = 1.5708
+monitoring = false
+monitorable = false
+
+[node name="Laser23" parent="leveldata/Layer1/Lasers2/Horizontal" instance=ExtResource( 1 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+position = Vector2( 1960, 112 )
+rotation = 1.5708
+monitoring = false
+monitorable = false
+
+[node name="Laser24" parent="leveldata/Layer1/Lasers2/Horizontal" instance=ExtResource( 1 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+position = Vector2( 1960, 112 )
+rotation = 1.5708
+monitoring = false
+monitorable = false
+
+[node name="Laser25" parent="leveldata/Layer1/Lasers2/Horizontal" instance=ExtResource( 1 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+position = Vector2( 1960, 112 )
+rotation = 1.5708
+monitoring = false
+monitorable = false
+
+[node name="Laser26" parent="leveldata/Layer1/Lasers2/Horizontal" instance=ExtResource( 1 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+position = Vector2( 1960, 112 )
+rotation = 1.5708
+monitoring = false
+monitorable = false
+
+[node name="Laser27" parent="leveldata/Layer1/Lasers2/Horizontal" instance=ExtResource( 1 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+position = Vector2( 1960, 112 )
+rotation = 1.5708
+monitoring = false
+monitorable = false
+
+[node name="Laser28" parent="leveldata/Layer1/Lasers2/Horizontal" instance=ExtResource( 1 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+position = Vector2( 1960, 112 )
+rotation = 1.5708
+monitoring = false
+monitorable = false
+
+[node name="Laser29" parent="leveldata/Layer1/Lasers2/Horizontal" instance=ExtResource( 1 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+position = Vector2( 1960, 112 )
+rotation = 1.5708
+monitoring = false
+monitorable = false
+
+[node name="Laser30" parent="leveldata/Layer1/Lasers2/Horizontal" instance=ExtResource( 1 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+position = Vector2( 1960, 112 )
+rotation = 1.5708
+monitoring = false
+monitorable = false
+
+[node name="Laser31" parent="leveldata/Layer1/Lasers2/Horizontal" instance=ExtResource( 1 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+position = Vector2( 1960, 112 )
+rotation = 1.5708
+monitoring = false
+monitorable = false
+
+[node name="Laser32" parent="leveldata/Layer1/Lasers2/Horizontal" instance=ExtResource( 1 )]
 modulate = Color( 1, 0.74902, 0, 0 )
 position = Vector2( 1960, 112 )
 rotation = 1.5708

@@ -55,6 +55,7 @@ var OptionCancelButton
 var original_settings
 var current_settings
 onready var settings_changed = false
+signal exitting_settings
 
 
 func _ready():
@@ -146,7 +147,7 @@ func _exit_settings():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
 	CrossHair.set_mouse_escape(false)
 	ConfirmTimer.stop()
-	
+	emit_signal("exitting_settings")
 	if exit_hides:
 		hide()
 	else:

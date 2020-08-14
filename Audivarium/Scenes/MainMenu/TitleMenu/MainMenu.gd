@@ -13,6 +13,7 @@ func _ready():
 	TitleAnim.play("loop")
 	TitleAnim.seek(randf() * TitleAnim.get_animation("loop").get_length())
 
+
 func _on_LevelSelectButton_pressed():
 	SceneManager.load_scene(LevelSelectScene,SceneManager.TransitionType.OUTSLIDEUP)
 	

@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Fonts/Cruft/cruft.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Scenes/LevelScene/LevelManager.gd" type="Script" id=2]
 [ext_resource path="res://Globals/SceneManager/PauseScreen.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/MainMenu/SettingsMenu/SettingsMenu.tscn" type="PackedScene" id=4]
 
 [sub_resource type="DynamicFont" id=1]
 size = 45
@@ -46,6 +47,12 @@ one_shot = true
 pause_mode = 1
 
 [node name="PauseScreen" parent="." instance=ExtResource( 3 )]
+
+[node name="SettingsMenu" parent="." instance=ExtResource( 4 )]
+visible = false
+margin_right = 1920.0
+margin_bottom = 1080.0
+exit_hides = true
 [connection signal="tween_all_completed" from="TitleTween" to="." method="_on_TitleTween_tween_all_completed"]
 [connection signal="timeout" from="TitleTween/Timer" to="." method="_on_Timer_timeout"]
 
