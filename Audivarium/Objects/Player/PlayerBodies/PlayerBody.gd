@@ -7,8 +7,6 @@ export(Array, Texture) var textures = Array() setget _textures_changed
 var sprites = []
 
 func _ready():
-	for c in get_children():
-		c.set_owner(self)
 	_collect_sprites()
 	
 

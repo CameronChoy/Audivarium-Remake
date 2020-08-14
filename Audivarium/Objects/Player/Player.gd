@@ -8,6 +8,9 @@ export var deceleration : float = 0.75
 export var max_speed : float = 600
 export var dash_speed : float = 1450
 export var dash_time : float = 0.15
+export var dash_trail_time = 0.3
+export var dash_trail_thickness = 5
+export var dash_trail_fade_time = 1.5
 export var dash_reset_time : float = 0.75
 export var teleport_range : float = 500
 export var teleport_reset_time : float = 1
@@ -44,6 +47,8 @@ onready var Anim = $PlayerAnim
 onready var HealthBarLeft = $Hud/HealthBarLeft
 onready var HealthBarRight = $Hud/HealthBarRight
 onready var EffectsTree = $PlayerEffectsTree/Node2D
+onready var TrailPointOne = $Body/TrailPoint
+onready var TrailPointTwo = $Body/TrailPoint2
 var bullet
 var sprite_body
 signal player_died
@@ -210,6 +215,9 @@ func _dash():
 	DashTween.interpolate_property(self,"current_max_speed",dash_speed,max_speed,dash_time,Tween.TRANS_SINE,Tween.EASE_OUT)
 	DashTween.start()
 	
+	GlobalEffects.create_trail(TrailPointOne, PlayerGlobals.PlayerColors[0], dash_trail_thickness, dash_trail_time, dash_trail_fade_time, 0.02, false)
+	GlobalEffects.create_trail(TrailPointTwo, PlayerGlobals.PlayerColors[0], dash_trail_thickness, dash_trail_time, dash_trail_fade_time, 0.02, false)
+	
 
 
 func _on_DashTween_tween_all_completed():
@@ -250,6 +258,7 @@ func Damaged(_culprit):
 		
 	
 
+
 func shoot():
 	
 	var new_bullet = bullet.duplicate(8)
@@ -268,9 +277,11 @@ func shoot():
 		
 	
 
+
 func clear_bullets():
 	for _bullet in BulletTree.get_children():
 		_bullet.free()
+
 
 func bullet_change_signal():
 	
@@ -322,7 +333,7 @@ func set_body_sprite(new):
 			sprites[i].self_modulate = colors[j]
 		
 	
-	
+	DefaultSprite.hide()
 	
 
 

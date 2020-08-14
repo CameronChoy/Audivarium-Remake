@@ -6,6 +6,7 @@ var new_scene
 var res
 var can_change = false
 var transitioning = false
+var moving_scene = false
 var scene_to_preload
 var anim = 0
 onready var SceneTransition = $SceneTransition
@@ -122,6 +123,7 @@ func _thread_done(anim_name):
 
 
 func load_scene(path, transitionType : int = TransitionType.INFALLZOOMINWARD, immediately_transition : bool = true):
+	if moving_scene: return
 	scene_to_preload = path
 	can_change = false
 	
@@ -135,7 +137,7 @@ func load_scene(path, transitionType : int = TransitionType.INFALLZOOMINWARD, im
 
 
 func change_to_preloaded(scene, transitionType : int = TransitionType.INFALLZOOMINWARD):
-	if not scene is PackedScene: return
+	if not scene is PackedScene or moving_scene: return
 	res = scene
 	can_change = true
 	change_scene_to_loaded(transitionType)
@@ -158,6 +160,7 @@ func change_scene_to_loaded(transitionType : int):
 			SceneOut.call_deferred("raise")
 			
 	
+	moving_scene = true
 	anim = anim_name
 	set_physics_process(true)
 
@@ -165,6 +168,7 @@ func change_scene_to_loaded(transitionType : int):
 func _on_SceneTransition_animation_finished(_anim_name):
 	hide()
 	transitioning = false
+	moving_scene = false
 	call_deferred("reset")
 #	rect_position = Vector2()
 #	SceneIn.rect_position = Vector2()

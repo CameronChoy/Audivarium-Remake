@@ -62,7 +62,7 @@ func _ready():
 	CrossHair.set_mouse_escape(true)
 	
 	original_settings = GlobalSettings.get_settings()
-	current_settings = original_settings
+	current_settings = original_settings.duplicate(true)
 	
 	SaveConfirmButton = SaveConfirm.get_ok()
 	SaveRevertCancelButton = SaveConfirm.add_button("Don't save",true)
@@ -108,6 +108,7 @@ func _ready():
 	
 	FullscreenInput.pressed = original_settings.get(GlobalConstants.KEY_SETTING_FULLSCREEN)
 	BorderInput.pressed = original_settings.get(GlobalConstants.KEY_SETTING_BORDERLESS)
+	print( original_settings.get(GlobalConstants.KEY_SETTING_FPS))
 	
 
 
@@ -132,6 +133,12 @@ func _revert_settings():
 	_revert_resolution()
 	OS.window_borderless = original_settings.get(GlobalConstants.KEY_SETTING_BORDERLESS)
 	OS.window_fullscreen = original_settings.get(GlobalConstants.KEY_SETTING_FULLSCREEN)
+	
+	var framerate = original_settings.get(GlobalConstants.KEY_SETTING_FPS)
+	
+	Engine.target_fps = framerate
+	var phys = clamp(framerate,30,300)
+	ProjectSettings.set_setting("physics/common/physics_fps",phys)
 	
 
 func _exit_settings():
@@ -294,7 +301,8 @@ func _convert_to_db(value):
 
 func _on_FpsOptions_item_selected(index):
 	if index == prev_fps_input: return
-	
+	prev_fps_input = index
+	settings_changed = true
 	var framerate = Framerates[index]
 	
 	current_settings[GlobalConstants.KEY_SETTING_FPS] = framerate

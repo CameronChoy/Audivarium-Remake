@@ -6,7 +6,7 @@ onready var Ray = $RayCast2D
 
 func _ready():
 	if !player: set_process(false)
-	default_color = PlayerGlobals.ColorPlayerMain
+	default_color = PlayerGlobals.get_PlayerColors()[0]
 	Ray.add_exception(player)
 
 func _process(_delta):

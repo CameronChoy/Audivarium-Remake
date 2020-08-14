@@ -47,6 +47,12 @@ update_rotation = false
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 1 )
 
+[node name="TrailPoint" type="Node2D" parent="Body"]
+position = Vector2( 0, 15 )
+
+[node name="TrailPoint2" type="Node2D" parent="Body"]
+position = Vector2( 0, -15 )
+
 [node name="PlayerEffectsTree" type="Node" parent="."]
 
 [node name="Node2D" type="Node2D" parent="PlayerEffectsTree"]

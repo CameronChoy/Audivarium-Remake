@@ -1,9 +1,10 @@
-[gd_resource type="Theme" load_steps=12 format=2]
+[gd_resource type="Theme" load_steps=13 format=2]
 
 [ext_resource path="res://Fonts/lunchtime-doubly-so/lunchds.tres" type="DynamicFont" id=1]
 [ext_resource path="res://Globals/SceneManager/GlobalTheme/GlobalPanelFlat.tres" type="StyleBox" id=2]
 [ext_resource path="res://Globals/SceneManager/GlobalTheme/checkbox_unmarked.png" type="Texture" id=3]
 [ext_resource path="res://Globals/SceneManager/GlobalTheme/checkbox_marked.png" type="Texture" id=4]
+[ext_resource path="res://Globals/SceneManager/GlobalTheme/SliderHighlight.tres" type="StyleBox" id=5]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.113725, 0.176471, 0.239216, 1 )
@@ -29,11 +30,8 @@ border_width_right = 5
 border_width_bottom = 5
 border_color = Color( 0, 0, 0, 1 )
 
-[sub_resource type="StyleBoxFlat" id=4]
-bg_color = Color( 0.227451, 0.356863, 0.501961, 1 )
-border_width_right = 200
-border_color = Color( 0.0392157, 0.85098, 0.54902, 1 )
-border_blend = true
+[sub_resource type="StyleBoxLine" id=4]
+thickness = 4
 
 [sub_resource type="StyleBoxFlat" id=5]
 bg_color = Color( 0.211765, 0.411765, 0.607843, 1 )
@@ -91,11 +89,11 @@ CheckBox/styles/hover = null
 CheckBox/styles/hover_pressed = null
 CheckBox/styles/normal = null
 CheckBox/styles/pressed = null
-CheckButton/colors/font_color = Color( 0, 0, 0, 1 )
+CheckButton/colors/font_color = Color( 1, 1, 1, 1 )
 CheckButton/colors/font_color_disabled = Color( 0, 0, 0, 1 )
-CheckButton/colors/font_color_hover = Color( 0, 0, 0, 1 )
-CheckButton/colors/font_color_hover_pressed = Color( 0, 0, 0, 1 )
-CheckButton/colors/font_color_pressed = Color( 0, 0, 0, 1 )
+CheckButton/colors/font_color_hover = Color( 0.341176, 0.745098, 0.423529, 1 )
+CheckButton/colors/font_color_hover_pressed = Color( 0.341176, 0.745098, 0.423529, 1 )
+CheckButton/colors/font_color_pressed = Color( 1, 1, 1, 1 )
 CheckButton/constants/check_vadjust = 0
 CheckButton/constants/hseparation = 4
 CheckButton/fonts/font = null
@@ -120,10 +118,10 @@ ColorPicker/icons/color_sample = null
 ColorPicker/icons/overbright_indicator = null
 ColorPicker/icons/preset_bg = null
 ColorPicker/icons/screen_picker = null
-ColorPickerButton/colors/font_color = Color( 0, 0, 0, 1 )
+ColorPickerButton/colors/font_color = Color( 1, 1, 1, 1 )
 ColorPickerButton/colors/font_color_disabled = Color( 0, 0, 0, 1 )
-ColorPickerButton/colors/font_color_hover = Color( 0, 0, 0, 1 )
-ColorPickerButton/colors/font_color_pressed = Color( 0, 0, 0, 1 )
+ColorPickerButton/colors/font_color_hover = Color( 0.341176, 0.745098, 0.423529, 1 )
+ColorPickerButton/colors/font_color_pressed = Color( 1, 1, 1, 1 )
 ColorPickerButton/constants/hseparation = 2
 ColorPickerButton/fonts/font = null
 ColorPickerButton/icons/bg = null
@@ -195,9 +193,9 @@ HSlider/icons/grabber = null
 HSlider/icons/grabber_disabled = null
 HSlider/icons/grabber_highlight = null
 HSlider/icons/tick = null
-HSlider/styles/grabber_area = null
-HSlider/styles/grabber_area_highlight = SubResource( 4 )
-HSlider/styles/slider = null
+HSlider/styles/grabber_area = ExtResource( 5 )
+HSlider/styles/grabber_area_highlight = ExtResource( 5 )
+HSlider/styles/slider = SubResource( 4 )
 HSplitContainer/constants/autohide = 1
 HSplitContainer/constants/separation = 12
 HSplitContainer/icons/grabber = null
@@ -294,7 +292,7 @@ PopupMenu/styles/labeled_separator_right = null
 PopupMenu/styles/panel = SubResource( 5 )
 PopupMenu/styles/panel_disabled = null
 PopupMenu/styles/separator = null
-PopupPanel/styles/panel = null
+PopupPanel/styles/panel = ExtResource( 2 )
 ProgressBar/colors/font_color = Color( 0, 0, 0, 1 )
 ProgressBar/colors/font_color_shadow = Color( 0, 0, 0, 1 )
 ProgressBar/fonts/font = null

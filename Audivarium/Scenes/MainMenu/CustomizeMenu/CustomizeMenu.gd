@@ -54,6 +54,8 @@ func _add_bodies(_err):
 	var file_name = directory.get_next()
 	
 	while file_name != "":
+		if file_name == "template.tscn" : continue
+		
 		var file_path = "%s/%s" % [PATH_PLAYER_BODIES, file_name]
 		file_name = directory.get_next()
 		
