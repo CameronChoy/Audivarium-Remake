@@ -9,7 +9,8 @@ queue_free : bool = true,
 seek : float = 0,
 audio_bus : String = "Effects",
 volume : float = 0, 
-pitch : float = 1):
+pitch : float = 1,
+loop : bool = false):
 	
 	if stream == null : return
 	
@@ -23,6 +24,8 @@ pitch : float = 1):
 	
 	if queue_free:
 		player.connect("finished",player,"queue_free")
+	elif loop:
+		player.connect("finished",player,"play",[seek])
 	
 	return player
 

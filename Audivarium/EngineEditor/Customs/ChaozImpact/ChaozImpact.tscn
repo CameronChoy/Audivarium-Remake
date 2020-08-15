@@ -390,7 +390,7 @@ func _on_DuplicateButton_pressed():
 
 [sub_resource type="Animation" id=2]
 resource_name = "leveldata"
-length = 71.0
+length = 70.263
 tracks/0/type = "value"
 tracks/0/path = NodePath("AnimationPlayer/AudioStreamPlayer:stream_paused")
 tracks/0/interp = 0

@@ -1,3 +1,4 @@
+tool
 extends PanelContainer
 signal button_pressed
 
@@ -27,9 +28,24 @@ func set_description(new):
 	if not new is String: return
 	$Control/DescriptionScroll/Description.text = new
 
+
+func set_creator(new):
+	if not new is String: return
+	$Control/CreatorScroll/Creator.text = "Creator:\n %s" % [new]
+
+
 func set_theme(new):
 	if not new is Theme: return
 	theme = new
+
+
+func get_theme():
+	return theme
+
+func _get(property):
+	if property == "theme":
+		hide()
+		show()
 
 
 func _on_Play_pressed():

@@ -12,7 +12,7 @@ outline_color = Color( 0, 0, 0, 1 )
 use_mipmaps = true
 font_data = ExtResource( 3 )
 
-[node name="Info1" type="PanelContainer"]
+[node name="Info" type="PanelContainer"]
 margin_left = 100.0
 margin_top = 80.0
 margin_right = 861.0
@@ -68,38 +68,44 @@ __meta__ = {
 
 [node name="SongScroll" type="ScrollContainer" parent="Control"]
 margin_left = 437.0
-margin_top = 297.0
+margin_top = 361.0
 margin_right = 725.0
-margin_bottom = 361.0
+margin_bottom = 425.0
 follow_focus = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Song" type="Label" parent="Control/SongScroll"]
-margin_right = 56.0
-margin_bottom = 26.0
+margin_right = 288.0
+margin_bottom = 64.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 custom_fonts/font = SubResource( 1 )
 text = "Song"
+valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="SongAuthorScroll" type="ScrollContainer" parent="Control"]
 margin_left = 437.0
-margin_top = 377.0
+margin_top = 457.0
 margin_right = 725.0
-margin_bottom = 441.0
+margin_bottom = 521.0
 follow_focus = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="SongAuthor" type="Label" parent="Control/SongAuthorScroll"]
-margin_right = 154.0
-margin_bottom = 26.0
+margin_right = 288.0
+margin_bottom = 64.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 custom_fonts/font = SubResource( 1 )
 text = "Song Author"
+valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -144,6 +150,26 @@ autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="CreatorScroll" type="ScrollContainer" parent="Control"]
+margin_left = 437.0
+margin_top = 257.0
+margin_right = 725.0
+margin_bottom = 329.0
+follow_focus = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Creator" type="Label" parent="Control/CreatorScroll"]
+margin_top = 23.0
+margin_right = 288.0
+margin_bottom = 49.0
+size_flags_horizontal = 3
+size_flags_vertical = 6
+custom_fonts/font = SubResource( 1 )
+text = "Creator"
+valign = 1
 
 [node name="Play" type="Button" parent="Control"]
 margin_left = 21.0

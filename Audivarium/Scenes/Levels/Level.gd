@@ -16,3 +16,4 @@ func set_level_data(new):
 
 func set_level_info(new):
 	level_info = new
+

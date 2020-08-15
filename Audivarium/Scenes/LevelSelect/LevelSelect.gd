@@ -101,6 +101,8 @@ func _create_button(level):
 	button.level_info = level[0]
 	button.level_data = level[1]
 	button.song_data = level[2]
+	if level[3]:
+		button.theme = level[3]
 	button.text = level[0].get(GlobalConstants.KEY_LEVEL_NAME)
 	return button
 
@@ -110,51 +112,50 @@ func get_level(dir):
 	var list = []
 	var level_info
 	var level_data
+	var level_theme
 	var song_data
+	
+	
+	var file = File.new()
+	
+	var file_path = "%s/%s" % [dir, GlobalConstants.FILE_NAME_LEVEL_INFO]
+	
+	if file.open(file_path, File.READ) == OK:
+		
+		var info = JSON.parse(file.get_as_text())
+		
+		if info.error == OK:
+			level_info = info.result
+		
+	
+	file.close()
+	
+	
+	if !level_info: return list
+	
+	var song_path = level_info.get(GlobalConstants.KEY_LEVEL_SONG_PATH) if level_info.has(GlobalConstants.KEY_LEVEL_SONG_PATH) else GlobalConstants.FILE_NAME_SONG_DATA
+	var level_path = level_info.get(GlobalConstants.KEY_LEVEL_PATH) if level_info.has(GlobalConstants.KEY_LEVEL_PATH) else GlobalConstants.FILE_NAME_LEVEL_DATA_ANIM
+	var theme_path = level_info.get(GlobalConstants.KEY_LEVEL_INFO_THEME) if level_info.has(GlobalConstants.KEY_LEVEL_INFO_THEME) else GlobalConstants.FILE_NAME_LEVEL_INFO_THEME
+	theme_path = "%s/%s" % [dir, theme_path]
 	
 	var level_directory = Directory.new()
 	
 	level_directory.open(dir)
-	level_directory.list_dir_begin()
 	
-	var file_name = level_directory.get_next()
-	var file = File.new()
-	while file_name != "":
-		
-		var file_path = "%s/%s" % [dir, file_name]
-		
-		match file_name:
-			GlobalConstants.FILE_NAME_LEVEL_INFO:
-				
-				if file.open(file_path, File.READ) == OK:
-					
-					var info = JSON.parse(file.get_as_text())
-					
-					if info.error == OK:
-						level_info = info.result
-					
-					file.close()
-					
-				
-			GlobalConstants.FILE_NAME_SONG_DATA:
-				
-				song_data = file_path
-				
-			GlobalConstants.FILE_NAME_LEVEL_DATA_ANIM:
-				
-				level_data = file_path
-				
-			GlobalConstants.FILE_NAME_LEVEL_DATA_FILE:
-				pass #To be implemented, maybe
-		
-		file_name = level_directory.get_next()
-		
 	
-	level_directory.list_dir_end()
+	if level_directory.file_exists(song_path):
+		song_data = "%s/%s" % [dir, song_path]
+	if level_directory.file_exists(level_path):
+		level_data = "%s/%s" % [dir, level_path]
+	if ResourceLoader.exists(theme_path):
+		var t = ResourceLoader.load(theme_path)
+		if t is Theme:
+			level_theme = t
+		
 	
 	if level_info and level_data and song_data:
 		
-		list = [level_info, level_data, song_data]
+		list = [level_info, level_data, song_data, level_theme]
 		
 	
 	
@@ -215,9 +216,11 @@ func fade_in():
 	if song is AudioStreamSample or song is AudioStreamOGGVorbis:
 		var new_preview = LoadedSong.new()
 		new_preview.index = SelectedLevel.index
-		new_preview.song = GlobalAudio.play_audio(song, true, offset if offset else 0, "Master", -50)
+		new_preview.song = GlobalAudio.play_audio(song, false, offset if offset else 0, "Master", -50, 1, true)
+		
 		
 		PreviewSong = new_preview
+		
 		loaded_songs.append(PreviewSong)
 		
 		fade_in_interpolate()
@@ -245,7 +248,10 @@ func set_Info(InfoCard, info):
 	InfoCard.set_length(info.level_info.get(GlobalConstants.KEY_LEVEL_LENGTH))
 	InfoCard.set_description(info.level_info.get(GlobalConstants.KEY_LEVEL_DESCRIPTION))
 	InfoCard.set_song(info.level_info.get(GlobalConstants.KEY_LEVEL_SONG_NAME))
-	InfoCard.set_song_author((info.level_info.get(GlobalConstants.KEY_LEVEL_SONG_CREATOR)))
+	InfoCard.set_song_author(info.level_info.get(GlobalConstants.KEY_LEVEL_SONG_CREATOR))
+	InfoCard.set_creator(info.level_info.get(GlobalConstants.KEY_CREATOR))
+	if info.theme:
+		InfoCard.set_theme(info.theme)
 	#Image and Theme not yet implemented
 
 
@@ -271,7 +277,8 @@ func _thread_completed(thread):
 
 func _exit_tree():
 	if PreviewSong and PreviewSong.song:
-		PreviewSong.song.stop()
+		PreviewSong.song.stream_paused = true
+		PreviewSong.song.free()
 		
 	
 

@@ -6,6 +6,7 @@ var PlayerSpawnPoint
 var Confirmation
 var EditorUI
 var Background
+var InfoCard
 enum ButtonChoices {QUIT, TEST, EXPORT, OVERWRITE, DUPLICATE}
 var current_button_choice
 var build_complete = false
@@ -16,14 +17,14 @@ var Anim
 var Scene
 var Player
 var player_spawn_pos = OS.window_size / 2
-export(String) var level_name = "level"
-export(String, MULTILINE) var description = ""
+export(String) var level_name = "level" setget set_LevelName
+export(String, MULTILINE) var description = "" setget set_Description
 export(Color) var background_color = Color("3b3b3b")
-export(String, FILE, GLOBAL, "*.ogg, *.wav") var song
-export(String) var song_name = ""
-export(String) var song_author = ""
+export(String, FILE, GLOBAL, "*.ogg, *.wav") var song_preview
+export(String) var song_name = "" setget set_SongName
+export(String) var song_author = "" setget set_SongAuthor
 #export(float) var song_offset = 0
-export(String) var creator_name = ""
+export(String) var creator_name = "" setget set_Creator
 export(float) var preview_offset = 0
 
 export(NodePath) var player_node
@@ -47,6 +48,7 @@ func _ready():
 	
 	Confirmation = $editorinfo/Control/ConfirmationDialog
 	EditorUI = $editorinfo
+	InfoCard = $InfoCard/Info
 	Background = get_node(background_node)
 	
 	Anim = get_node(animation_player)
@@ -110,16 +112,13 @@ func _export_level():
 	
 	directory.make_dir(level_name)
 	
-	var file = File.new()
-	
 	
 	var level_path = "%s/%s" % [dir_path, GlobalConstants.FILE_NAME_LEVEL_INFO]
 	var level_data_path = "%s/%s" % [dir_path, GlobalConstants.FILE_NAME_LEVEL_DATA_ANIM]
 	var song_data_path = "%s/%s" % [dir_path, GlobalConstants.FILE_NAME_SONG_DATA]
+	var theme_data_path = "%s/%s" %[dir_path, GlobalConstants.FILE_NAME_LEVEL_INFO_THEME]
 	
-	file.open(level_path, File.WRITE)
 	
-
 	Player.global_position = player_spawn_pos
 	Player.rotation = 0
 	Player.fire_while_focused = true
@@ -140,9 +139,21 @@ func _export_level():
 	print("Level data successfully saved")
 	
 	
-	if !save_audio(song, song_data_path):
+	if !save_audio(song_preview, song_data_path):
 		return
 	
+	
+	if InfoCard.theme and ResourceSaver.save(theme_data_path, InfoCard.theme) != OK:
+		print("Error saving theme data, cannot finish export")
+		return
+	
+	
+	var info_file = File.new()
+	
+	if info_file.open(level_path, File.WRITE) != OK:
+		print("Error creating Level Info, cannot finish export")
+		info_file.close()
+		return
 	
 	var level_info = {
 		GlobalConstants.KEY_LEVEL_NAME : level_name,
@@ -157,31 +168,94 @@ func _export_level():
 		GlobalConstants.KEY_LEVEL_BG : background_color,
 		GlobalConstants.KEY_PLAYER_POS : player_spawn_pos,
 		GlobalConstants.KEY_CREATOR : creator_name,
-		GlobalConstants.KEY_LEVEL_INFO_PALETTE : 0, #Not yet implemented
+		GlobalConstants.KEY_LEVEL_INFO_THEME : GlobalConstants.FILE_NAME_LEVEL_INFO_THEME,
 		GlobalConstants.KEY_LEVEL_SONG_OFFSET : 0 #Not needed
 	}
 	
-	file.store_string(to_json(level_info))
+	info_file.store_string(to_json(level_info))
 	
 	print("Level Info successfully saved")
 	
-	file.close()
+	info_file.close()
 	print("Export complete\n")
 	
 
 
 func save_audio(path, save_path):
-	var audio_data = load(path)
+	
+	var audio_data
+	
+	if path.begins_with("res://"):
+		audio_data = load(path)
+	else:
+		var wav_end = path.ends_with("wav")
+		var ogg_end = path.ends_with("ogg")
+		if wav_end or ogg_end:
+			audio_data = load_audio_outside_res(path, wav_end)
+			if !audio_data: 
+				print("Audio file incompatible, cannot finish export")
+				return false
+		else:
+			print("Audio path incompatible, cannot finish export")
+			return false
+		
+	
+	
 	if not audio_data is AudioStreamSample and not audio_data is AudioStreamOGGVorbis:
 		print("Error, audio is not compatible, cannot finish export")
 		return false
-	#print(ResourceSaver.get_recognized_extensions(audio_data))
+	
 	if ResourceSaver.save(save_path, audio_data) != OK:
 		print("Error saving audio data, cannot finish export")
 		return false
 	
 	print("Audio successfully saved")
 	return true
+
+
+#https://godotengine.org/qa/51848/%2317848-bypass-able-load-resources-from-any-folder-other-than
+func load_audio_outside_res(path, is_wav):
+	
+	var stream
+	
+	var file = File.new()
+	if !file.file_exists(path): 
+		print("Error, no audio file found for %s, cannot finish export" % path)
+		return stream
+	
+	if file.open(path, File.READ) != OK:
+		print("Error opening audio file for %s, cannot finish export" % path)
+		return stream
+	
+	
+	
+	if is_wav:
+		stream = AudioStreamSample.new()
+	else:
+		stream = AudioStreamOGGVorbis.new()
+		print(stream.data)
+	
+	
+	var buffer = file.get_buffer(file.get_len())
+	
+#	for i in 200:
+#		buffer.remove(buffer.size()-1)
+#		buffer.remove(0)
+	
+#	for i in range(buffer.size()):
+#		buffer[i] -= 128
+	
+	stream.data = buffer
+	
+	if is_wav:
+		stream.format = AudioStreamSample.FORMAT_16_BITS
+		stream.stereo = true
+	
+	file.close()
+	
+	return stream
+	
+
 
 #https://www.reddit.com/r/godot/comments/40cm3w/looping_through_all_children_and_subchildren_of_a/
 func set_all_owners(node):
@@ -328,7 +402,7 @@ func _on_AnimationPlayer_animation_finished(_anim_name):
 func assert_important_nodes():
 	if (Anim and Player and Scene 
 		and PlayerSpawnPoint and Confirmation and EditorUI 
-		and Background):
+		and Background and InfoCard):
 		
 		return true
 		
@@ -340,7 +414,8 @@ func assert_important_nodes():
 		"\nSpawn Point: ", PlayerSpawnPoint,
 		"\nBackground", Background,
 		"\nConfirmation Window: ", Confirmation,
-		"\nEditorUI: ", EditorUI
+		"\nEditorUI: ", EditorUI,
+		"\nInfo Card: ", InfoCard
 		)
 		return false
 	
@@ -350,13 +425,37 @@ func _input(event):
 		EditorUI.visible = !EditorUI.visible
 
 
-
 func _on_DuplicateButton_pressed():
 	current_button_choice = ButtonChoices.DUPLICATE
 	Confirmation.window_title = "Duplicate this scene?"
 	Confirmation.dialog_text = "It will be saved to " + CUSTOMS_PATH
 	Confirmation.show()
 
+
+func set_LevelName(new):
+	level_name = new
+	if !InfoCard: return
+	InfoCard.set_title(new)
+
+func set_Description(new):
+	description = new
+	if !InfoCard: return
+	InfoCard.set_description(new)
+
+func set_SongName(new):
+	song_name = new
+	if !InfoCard: return
+	InfoCard.set_song(new)
+
+func set_SongAuthor(new):
+	song_author = new
+	if !InfoCard: return
+	InfoCard.set_song_author(new)
+
+func set_Creator(new):
+	creator_name = new
+	if !InfoCard: return
+	InfoCard.set_creator(new)
 
 #	for name in Anim.get_animation_list():
 #
