@@ -169,7 +169,7 @@ func _on_ExitButton_pressed():
 
 func _exit_menu():
 	PlayerGlobals.save_player_values()
-	SceneManager.change_to_preloaded(TitleScene, SceneManager.TransitionType.INOUTSLIDELEFT)
+	SceneManager.change_to_preloaded(TitleScene, SceneManager.TransitionType.INOUTSLIDELEFT, CrossHair.CrossHairFrame.TWO)
 
 
 func _on_BGInput_color_changed(color):

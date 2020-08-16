@@ -265,7 +265,7 @@ func InfoCard_selected(Card):
 			FadeIn.start()
 			GlobalLevelManager.loaded_level = level
 			GlobalLevelManager.loaded_level_info = SelectedLevel.level_info
-			SceneManager.change_to_preloaded(LevelScene, SceneManager.TransitionType.INFALLZOOMINWARD)
+			SceneManager.change_to_preloaded(LevelScene, SceneManager.TransitionType.INFALLZOOMINWARD, CrossHair.CrossHairFrame.FOUR)
 		else:
 			selected = false
 	
@@ -288,7 +288,7 @@ func _on_Button_pressed():
 
 
 func _on_QuitButton_pressed():
-	SceneManager.change_to_preloaded(TitleScene, SceneManager.TransitionType.INOUTSLIDERIGHT)
+	SceneManager.change_to_preloaded(TitleScene, SceneManager.TransitionType.INOUTSLIDERIGHT, CrossHair.CrossHairFrame.TWO)
 
 func _input(event):
 	if event.is_action_pressed("ui_cancel"):

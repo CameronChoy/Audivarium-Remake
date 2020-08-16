@@ -34,6 +34,8 @@ enum TransitionType {
 	OUTZOOMOUTWARDSPIN,
 }
 
+var crosshair_frame = 3
+
 var Transitions = {
 	TransitionType.OUTSLIDELEFT : "OutSlideLeft",
 	TransitionType.OUTSLIDERIGHT : "OutSlideRight",
@@ -131,12 +133,20 @@ func _thread_done(anim_name):
 	OutPanel.self_modulate = (PlayerGlobals.get_PlayerColors()[0])
 	InPanel.self_modulate = (PlayerGlobals.get_PlayerColors()[0])
 	
+	CrossHair.change_crosshair(crosshair_frame)
+	
 
 
-func load_scene(path, transitionType : int = TransitionType.INFALLZOOMINWARD, immediately_transition : bool = true):
+func load_scene(
+path, 
+transitionType : int = TransitionType.INFALLZOOMINWARD, 
+crossHairFrame : int = CrossHair.CrossHairSprite.frame, 
+immediately_transition : bool = true):
+	
 	if moving_scene: return
 	scene_to_preload = path
 	can_change = false
+	crosshair_frame = crossHairFrame
 	
 	thread = Thread.new()
 	thread.start( self, "_thread_load", path)
@@ -147,11 +157,17 @@ func load_scene(path, transitionType : int = TransitionType.INFALLZOOMINWARD, im
 	
 
 
-func change_to_preloaded(scene, transitionType : int = TransitionType.INFALLZOOMINWARD):
+func change_to_preloaded(
+scene, 
+transitionType : int = TransitionType.INFALLZOOMINWARD, 
+crossHairFrame : int = CrossHair.CrossHairSprite.frame):
+	
 	if not scene is PackedScene or moving_scene: return
 	res = scene
 	can_change = true
+	crosshair_frame = crossHairFrame
 	change_scene_to_loaded(transitionType)
+	
 	
 
 

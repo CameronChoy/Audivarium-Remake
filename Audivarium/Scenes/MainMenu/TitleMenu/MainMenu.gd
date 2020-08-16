@@ -15,22 +15,22 @@ func _ready():
 
 
 func _on_LevelSelectButton_pressed():
-	SceneManager.load_scene(LevelSelectScene,SceneManager.TransitionType.OUTSLIDEUP)
+	SceneManager.load_scene(LevelSelectScene,SceneManager.TransitionType.OUTSLIDEUP, CrossHair.CrossHairFrame.THREE)
 	
 
 
 func _on_CustomizeButton_pressed():
-	SceneManager.load_scene(CustomizeScene,SceneManager.TransitionType.INFALLZOOMINWARD)
+	SceneManager.load_scene(CustomizeScene,SceneManager.TransitionType.INFALLZOOMINWARD, CrossHair.CrossHairFrame.FOUR)
 	
 
 
 func _on_SettingsButton_pressed():
-	SceneManager.load_scene(SettingsScene,SceneManager.TransitionType.INOUTSLIDERIGHT)
+	SceneManager.load_scene(SettingsScene,SceneManager.TransitionType.INOUTSLIDERIGHT, CrossHair.CrossHairFrame.THREE)
 	
 
 
 func _on_EditorButton_pressed():
-	SceneManager.load_scene(EditorScene, SceneManager.TransitionType.INFALLZOOMINWARD)
+	SceneManager.load_scene(EditorScene, SceneManager.TransitionType.INFALLZOOMINWARD,CrossHair.CrossHairFrame.TWO)
 	
 
 

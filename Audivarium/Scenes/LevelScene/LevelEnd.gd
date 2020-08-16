@@ -18,8 +18,8 @@ func _ready():
 
 
 func _on_ReplayButton_pressed():
-	SceneManager.load_scene(LevelScene, SceneManager.TransitionType.OUTZOOMOUTWARDSPIN)
+	SceneManager.load_scene(LevelScene, SceneManager.TransitionType.OUTZOOMOUTWARDSPIN, CrossHair.CrossHairFrame.FOUR)
 
 
 func _on_ExitButton_pressed():
-	SceneManager.load_scene(LevelSelect, SceneManager.TransitionType.INSLIDERIGHT)
+	SceneManager.load_scene(LevelSelect, SceneManager.TransitionType.INSLIDERIGHT, CrossHair.CrossHairFrame.TWO)

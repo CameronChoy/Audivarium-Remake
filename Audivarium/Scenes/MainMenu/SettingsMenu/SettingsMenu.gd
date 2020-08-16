@@ -109,7 +109,6 @@ func _ready():
 	
 	FullscreenInput.pressed = original_settings.get(GlobalConstants.KEY_SETTING_FULLSCREEN)
 	BorderInput.pressed = original_settings.get(GlobalConstants.KEY_SETTING_BORDERLESS)
-	print( original_settings.get(GlobalConstants.KEY_SETTING_FPS))
 	
 
 
@@ -151,7 +150,7 @@ func _exit_settings():
 	if exit_hides:
 		hide()
 	else:
-		SceneManager.load_scene(Title, SceneManager.TransitionType.INSLIDERIGHT)
+		SceneManager.load_scene(Title, SceneManager.TransitionType.INSLIDERIGHT, CrossHair.CrossHairFrame.TWO)
 		
 	
 

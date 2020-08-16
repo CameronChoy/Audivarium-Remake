@@ -64,7 +64,7 @@ func _on_level_completed(_anim):
 	GlobalLevelManager.loaded_level_anim.stop(false)
 	GlobalLevelManager.level_completed = true
 	SceneManager.set_next_transition_delay(1)
-	SceneManager.load_scene(LevelEnd, SceneManager.TransitionType.OUTZOOMOUTWARDSPIN)
+	SceneManager.load_scene(LevelEnd, SceneManager.TransitionType.OUTZOOMOUTWARDSPIN, CrossHair.CrossHairFrame.THREE)
 	
 
 
@@ -73,7 +73,7 @@ func _on_level_failed():
 	GlobalLevelManager.loaded_level_anim.stop(false)
 	GlobalLevelManager.level_completed = false
 	SceneManager.set_next_transition_delay(1)
-	SceneManager.load_scene(LevelEnd, SceneManager.TransitionType.OUTZOOMOUTWARDSPIN)
+	SceneManager.load_scene(LevelEnd, SceneManager.TransitionType.OUTZOOMOUTWARDSPIN, CrossHair.CrossHairFrame.THREE)
 	
 
 
@@ -83,7 +83,7 @@ func _exit_level():
 	set_process(false)
 	if GlobalLevelManager.loaded_level_anim is AnimationPlayer:
 		GlobalLevelManager.loaded_level_anim.stop(false)
-	SceneManager.load_scene(LevelSelect, SceneManager.TransitionType.INOUTSLIDEUP)
+	SceneManager.load_scene(LevelSelect, SceneManager.TransitionType.INOUTSLIDEUP, CrossHair.CrossHairFrame.THREE)
 	
 
 

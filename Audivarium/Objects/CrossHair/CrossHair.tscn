@@ -1,10 +1,37 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
-[ext_resource path="res://Objects/CrossHair/CrossHair_04.png" type="Texture" id=1]
 [ext_resource path="res://Objects/CrossHair/CrossHairSprite.gd" type="Script" id=2]
 [ext_resource path="res://Objects/CrossHair/MouseHandler.gd" type="Script" id=3]
 [ext_resource path="res://Objects/CrossHair/CrossHair_RadialProgress.png" type="Texture" id=4]
 [ext_resource path="res://Objects/CrossHair/CrossHair_00.png" type="Texture" id=5]
+[ext_resource path="res://Objects/CrossHair/CrosshairFrames.tres" type="SpriteFrames" id=6]
+
+[sub_resource type="Animation" id=9]
+resource_name = "ClockwiseSpin"
+tracks/0/type = "bezier"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.75, 0, 360, -0.75, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 1 )
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.5 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "_change_frame"
+} ]
+}
 
 [sub_resource type="Animation" id=1]
 tracks/0/type = "value"
@@ -120,16 +147,19 @@ __meta__ = {
 }
 inGame_Cursor = ExtResource( 5 )
 
-[node name="CrossHairSprite" type="Sprite" parent="."]
-pause_mode = 2
+[node name="CrossHairSprite" type="AnimatedSprite" parent="."]
+position = Vector2( -351.314, 160.376 )
 scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 1 )
+frames = ExtResource( 6 )
 script = ExtResource( 2 )
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="CrossHairSprite"]
 scale = Vector2( 2, 2 )
 remote_path = NodePath("../../ProgressBars")
 update_rotation = false
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CrossHairSprite"]
+anims/ClockwiseSpin = SubResource( 9 )
 
 [node name="RRadialAnimPlayer" type="AnimationPlayer" parent="."]
 anims/DashReset = SubResource( 1 )
@@ -143,6 +173,7 @@ anims/TeleportResetFinal = SubResource( 4 )
 anims/Reload = SubResource( 5 )
 
 [node name="ProgressBars" type="Node2D" parent="."]
+position = Vector2( -351.314, 160.376 )
 
 [node name="RadialProgressRight" type="TextureProgress" parent="ProgressBars"]
 self_modulate = Color( 0, 1, 0.203922, 1 )
