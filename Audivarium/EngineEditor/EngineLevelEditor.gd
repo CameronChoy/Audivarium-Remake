@@ -40,7 +40,7 @@ const LEVEL_ANIM_MAIN = "leveldata"
 const CUSTOMS_PATH = "res://EngineEditor/Customs/"
 
 func _ready():
-	
+	CrossHair.CrossHairSprite.frame = 3
 	build_complete = false
 	can_overwrite = false
 	

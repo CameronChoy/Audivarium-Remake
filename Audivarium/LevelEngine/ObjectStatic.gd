@@ -221,7 +221,7 @@ func Effect_flash_attack(color : Color, time : float, fade_out : bool = true):
 
 var set_monitoring = false
 func Effect_Fade_In_And_Flash(fade_in_time : float, flash_color : Color, flash_out_time : float, fade_out : bool = true):
-	tween.interpolate_property(self,"modulate:a",0, 0.7, fade_in_time, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+	tween.interpolate_property(self,"modulate:a",0, 0.6, fade_in_time, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	tween.interpolate_property(self,"modulate",modulate, flash_color, 0.05, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT, fade_in_time)
 	prev_time = flash_out_time
 	prev_color = modulate

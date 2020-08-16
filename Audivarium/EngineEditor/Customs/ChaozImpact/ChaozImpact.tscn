@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://Objects/Statics/Laser/Laser.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Objects/Statics/Square/Square.tscn" type="PackedScene" id=2]
@@ -9,6 +9,9 @@
 [ext_resource path="res://EngineEditor/Customs/ChaozImpact/Wave1.gd" type="Script" id=7]
 [ext_resource path="res://Objects/Pickups/BulletPickup/BulletPickup.tscn" type="PackedScene" id=8]
 [ext_resource path="res://EngineEditor/Customs/ChaozImpact/Lasers2.gd" type="Script" id=9]
+[ext_resource path="res://Scenes/LevelSelect/LevelInfoCard.tscn" type="PackedScene" id=10]
+[ext_resource path="res://EngineEditor/Customs/ChaozImpact/BlockFlash2.gd" type="Script" id=11]
+[ext_resource path="res://Globals/SceneManager/GlobalTheme/GlobalTheme.tres" type="Theme" id=12]
 
 [sub_resource type="GDScript" id=1]
 script/source = "tool
@@ -19,6 +22,7 @@ var PlayerSpawnPoint
 var Confirmation
 var EditorUI
 var Background
+var InfoCard
 enum ButtonChoices {QUIT, TEST, EXPORT, OVERWRITE, DUPLICATE}
 var current_button_choice
 var build_complete = false
@@ -29,14 +33,14 @@ var Anim
 var Scene
 var Player
 var player_spawn_pos = OS.window_size / 2
-export(String) var level_name = \"level\"
-export(String, MULTILINE) var description = \"\"
+export(String) var level_name = \"level\" setget set_LevelName
+export(String, MULTILINE) var description = \"\" setget set_Description
 export(Color) var background_color = Color(\"3b3b3b\")
-export(String, FILE, GLOBAL, \"*.ogg, *.wav\") var song
-export(String) var song_name = \"\"
-export(String) var song_author = \"\"
+export(String, FILE, GLOBAL, \"*.ogg, *.wav\") var song_preview
+export(String) var song_name = \"\" setget set_SongName
+export(String) var song_author = \"\" setget set_SongAuthor
 #export(float) var song_offset = 0
-export(String) var creator_name = \"\"
+export(String) var creator_name = \"\" setget set_Creator
 export(float) var preview_offset = 0
 
 export(NodePath) var player_node
@@ -52,7 +56,7 @@ const LEVEL_ANIM_MAIN = \"leveldata\"
 const CUSTOMS_PATH = \"res://EngineEditor/Customs/\"
 
 func _ready():
-	
+	CrossHair.CrossHairSprite.frame = 3
 	build_complete = false
 	can_overwrite = false
 	
@@ -60,6 +64,7 @@ func _ready():
 	
 	Confirmation = $editorinfo/Control/ConfirmationDialog
 	EditorUI = $editorinfo
+	InfoCard = $InfoCard/Info
 	Background = get_node(background_node)
 	
 	Anim = get_node(animation_player)
@@ -123,16 +128,13 @@ func _export_level():
 	
 	directory.make_dir(level_name)
 	
-	var file = File.new()
-	
 	
 	var level_path = \"%s/%s\" % [dir_path, GlobalConstants.FILE_NAME_LEVEL_INFO]
 	var level_data_path = \"%s/%s\" % [dir_path, GlobalConstants.FILE_NAME_LEVEL_DATA_ANIM]
 	var song_data_path = \"%s/%s\" % [dir_path, GlobalConstants.FILE_NAME_SONG_DATA]
+	var theme_data_path = \"%s/%s\" %[dir_path, GlobalConstants.FILE_NAME_LEVEL_INFO_THEME]
 	
-	file.open(level_path, File.WRITE)
 	
-
 	Player.global_position = player_spawn_pos
 	Player.rotation = 0
 	Player.fire_while_focused = true
@@ -153,9 +155,21 @@ func _export_level():
 	print(\"Level data successfully saved\")
 	
 	
-	if !save_audio(song, song_data_path):
+	if !save_audio(song_preview, song_data_path):
 		return
 	
+	
+	if InfoCard.theme and ResourceSaver.save(theme_data_path, InfoCard.theme) != OK:
+		print(\"Error saving theme data, cannot finish export\")
+		return
+	
+	
+	var info_file = File.new()
+	
+	if info_file.open(level_path, File.WRITE) != OK:
+		print(\"Error creating Level Info, cannot finish export\")
+		info_file.close()
+		return
 	
 	var level_info = {
 		GlobalConstants.KEY_LEVEL_NAME : level_name,
@@ -170,31 +184,94 @@ func _export_level():
 		GlobalConstants.KEY_LEVEL_BG : background_color,
 		GlobalConstants.KEY_PLAYER_POS : player_spawn_pos,
 		GlobalConstants.KEY_CREATOR : creator_name,
-		GlobalConstants.KEY_LEVEL_INFO_PALETTE : 0, #Not yet implemented
+		GlobalConstants.KEY_LEVEL_INFO_THEME : GlobalConstants.FILE_NAME_LEVEL_INFO_THEME,
 		GlobalConstants.KEY_LEVEL_SONG_OFFSET : 0 #Not needed
 	}
 	
-	file.store_string(to_json(level_info))
+	info_file.store_string(to_json(level_info))
 	
 	print(\"Level Info successfully saved\")
 	
-	file.close()
+	info_file.close()
 	print(\"Export complete\\n\")
 	
 
 
 func save_audio(path, save_path):
-	var audio_data = load(path)
+	
+	var audio_data
+	
+	if path.begins_with(\"res://\"):
+		audio_data = load(path)
+	else:
+		var wav_end = path.ends_with(\"wav\")
+		var ogg_end = path.ends_with(\"ogg\")
+		if wav_end or ogg_end:
+			audio_data = load_audio_outside_res(path, wav_end)
+			if !audio_data: 
+				print(\"Audio file incompatible, cannot finish export\")
+				return false
+		else:
+			print(\"Audio path incompatible, cannot finish export\")
+			return false
+		
+	
+	
 	if not audio_data is AudioStreamSample and not audio_data is AudioStreamOGGVorbis:
 		print(\"Error, audio is not compatible, cannot finish export\")
 		return false
-	#print(ResourceSaver.get_recognized_extensions(audio_data))
+	
 	if ResourceSaver.save(save_path, audio_data) != OK:
 		print(\"Error saving audio data, cannot finish export\")
 		return false
 	
 	print(\"Audio successfully saved\")
 	return true
+
+
+#https://godotengine.org/qa/51848/%2317848-bypass-able-load-resources-from-any-folder-other-than
+func load_audio_outside_res(path, is_wav):
+	
+	var stream
+	
+	var file = File.new()
+	if !file.file_exists(path): 
+		print(\"Error, no audio file found for %s, cannot finish export\" % path)
+		return stream
+	
+	if file.open(path, File.READ) != OK:
+		print(\"Error opening audio file for %s, cannot finish export\" % path)
+		return stream
+	
+	
+	
+	if is_wav:
+		stream = AudioStreamSample.new()
+	else:
+		stream = AudioStreamOGGVorbis.new()
+		print(stream.data)
+	
+	
+	var buffer = file.get_buffer(file.get_len())
+	
+#	for i in 200:
+#		buffer.remove(buffer.size()-1)
+#		buffer.remove(0)
+	
+#	for i in range(buffer.size()):
+#		buffer[i] -= 128
+	
+	stream.data = buffer
+	
+	if is_wav:
+		stream.format = AudioStreamSample.FORMAT_16_BITS
+		stream.stereo = true
+	
+	file.close()
+	
+	return stream
+	
+
 
 #https://www.reddit.com/r/godot/comments/40cm3w/looping_through_all_children_and_subchildren_of_a/
 func set_all_owners(node):
@@ -341,7 +418,7 @@ func _on_AnimationPlayer_animation_finished(_anim_name):
 func assert_important_nodes():
 	if (Anim and Player and Scene 
 		and PlayerSpawnPoint and Confirmation and EditorUI 
-		and Background):
+		and Background and InfoCard):
 		
 		return true
 		
@@ -353,7 +430,8 @@ func assert_important_nodes():
 		\"\\nSpawn Point: \", PlayerSpawnPoint,
 		\"\\nBackground\", Background,
 		\"\\nConfirmation Window: \", Confirmation,
-		\"\\nEditorUI: \", EditorUI
+		\"\\nEditorUI: \", EditorUI,
+		\"\\nInfo Card: \", InfoCard
 		)
 		return false
 	
@@ -363,13 +441,37 @@ func _input(event):
 		EditorUI.visible = !EditorUI.visible
 
 
-
 func _on_DuplicateButton_pressed():
 	current_button_choice = ButtonChoices.DUPLICATE
 	Confirmation.window_title = \"Duplicate this scene?\"
 	Confirmation.dialog_text = \"It will be saved to \" + CUSTOMS_PATH
 	Confirmation.show()
 
+
+func set_LevelName(new):
+	level_name = new
+	if !InfoCard: return
+	InfoCard.set_title(new)
+
+func set_Description(new):
+	description = new
+	if !InfoCard: return
+	InfoCard.set_description(new)
+
+func set_SongName(new):
+	song_name = new
+	if !InfoCard: return
+	InfoCard.set_song(new)
+
+func set_SongAuthor(new):
+	song_author = new
+	if !InfoCard: return
+	InfoCard.set_song_author(new)
+
+func set_Creator(new):
+	creator_name = new
+	if !InfoCard: return
+	InfoCard.set_creator(new)
 
 #	for name in Anim.get_animation_list():
 #
@@ -391,6 +493,7 @@ func _on_DuplicateButton_pressed():
 [sub_resource type="Animation" id=2]
 resource_name = "leveldata"
 length = 70.263
+step = 0.7
 tracks/0/type = "value"
 tracks/0/path = NodePath("AnimationPlayer/AudioStreamPlayer:stream_paused")
 tracks/0/interp = 0
@@ -1201,6 +1304,53 @@ tracks/53/keys = {
 "values": [ {
 "args": [  ],
 "method": "set_active"
+} ]
+}
+tracks/54/type = "method"
+tracks/54/path = NodePath("Layer1/BlockFlash2")
+tracks/54/interp = 1
+tracks/54/loop_wrap = true
+tracks/54/imported = false
+tracks/54/enabled = true
+tracks/54/keys = {
+"times": PoolRealArray( 55.3, 56, 56.7, 57.4, 58.1, 58.8, 59.5, 60.2, 60.9, 61.6, 62.3, 63 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"values": [ {
+"args": [  ],
+"method": "flash_attack"
+}, {
+"args": [  ],
+"method": "flash_attack"
+}, {
+"args": [  ],
+"method": "flash_attack"
+}, {
+"args": [  ],
+"method": "flash_attack"
+}, {
+"args": [  ],
+"method": "flash_attack"
+}, {
+"args": [  ],
+"method": "flash_attack"
+}, {
+"args": [  ],
+"method": "flash_attack"
+}, {
+"args": [  ],
+"method": "flash_attack"
+}, {
+"args": [  ],
+"method": "flash_attack"
+}, {
+"args": [  ],
+"method": "flash_attack"
+}, {
+"args": [  ],
+"method": "flash_attack"
+}, {
+"args": [  ],
+"method": "flash_attack"
 } ]
 }
 
@@ -2989,6 +3139,7 @@ __meta__ = {
 }
 
 [node name="LeftWave" type="Node2D" parent="leveldata/Layer1"]
+position = Vector2( 3840, 0 )
 script = SubResource( 8 )
 __meta__ = {
 "_edit_group_": true
@@ -3051,7 +3202,7 @@ bullet_solid = true
 destructable = true
 
 [node name="LongBois" type="Node2D" parent="leveldata/Layer1"]
-position = Vector2( 0, -1.66048 )
+position = Vector2( 0, -2160 )
 __meta__ = {
 "_edit_group_": true
 }
@@ -3254,7 +3405,7 @@ __meta__ = {
 
 [node name="Square" parent="leveldata/Layer1/BlockFlash" instance=ExtResource( 2 )]
 modulate = Color( 1, 0.74902, 0, 0 )
-position = Vector2( 230, 191.559 )
+position = Vector2( 230, -880 )
 scale = Vector2( 2.5, 2.5 )
 monitoring = false
 monitorable = false
@@ -3263,7 +3414,7 @@ screen_shake_on_damaged = true
 
 [node name="Square2" parent="leveldata/Layer1/BlockFlash" instance=ExtResource( 2 )]
 modulate = Color( 1, 0.74902, 0, 0 )
-position = Vector2( 935.586, 200 )
+position = Vector2( -960, 200 )
 scale = Vector2( 2.5, 2.5 )
 monitoring = false
 monitorable = false
@@ -3272,7 +3423,7 @@ screen_shake_on_damaged = true
 
 [node name="Square3" parent="leveldata/Layer1/BlockFlash" instance=ExtResource( 2 )]
 modulate = Color( 1, 0.74902, 0, 0 )
-position = Vector2( 1690, 202.987 )
+position = Vector2( 1690, 1280 )
 scale = Vector2( 2.5, 2.5 )
 monitoring = false
 monitorable = false
@@ -3281,7 +3432,7 @@ screen_shake_on_damaged = true
 
 [node name="Square7" parent="leveldata/Layer1/BlockFlash" instance=ExtResource( 2 )]
 modulate = Color( 1, 0.74902, 0, 0 )
-position = Vector2( 230, 540 )
+position = Vector2( 230, 1620 )
 scale = Vector2( 2.5, 2.5 )
 monitoring = false
 monitorable = false
@@ -3290,7 +3441,7 @@ screen_shake_on_damaged = true
 
 [node name="Square8" parent="leveldata/Layer1/BlockFlash" instance=ExtResource( 2 )]
 modulate = Color( 1, 0.74902, 0, 0 )
-position = Vector2( 710, 540 )
+position = Vector2( 710, -540 )
 scale = Vector2( 2.5, 2.5 )
 monitoring = false
 monitorable = false
@@ -3299,7 +3450,7 @@ screen_shake_on_damaged = true
 
 [node name="Square10" parent="leveldata/Layer1/BlockFlash" instance=ExtResource( 2 )]
 modulate = Color( 1, 0.74902, 0, 0 )
-position = Vector2( 1185, 540 )
+position = Vector2( 1185, 1620 )
 scale = Vector2( 2.5, 2.5 )
 monitoring = false
 monitorable = false
@@ -3308,7 +3459,7 @@ screen_shake_on_damaged = true
 
 [node name="Square9" parent="leveldata/Layer1/BlockFlash" instance=ExtResource( 2 )]
 modulate = Color( 1, 0.74902, 0, 0 )
-position = Vector2( 1690, 540 )
+position = Vector2( -730, 540 )
 scale = Vector2( 2.5, 2.5 )
 monitoring = false
 monitorable = false
@@ -3317,7 +3468,7 @@ screen_shake_on_damaged = true
 
 [node name="Square4" parent="leveldata/Layer1/BlockFlash" instance=ExtResource( 2 )]
 modulate = Color( 1, 0.74902, 0, 0 )
-position = Vector2( 1690, 920 )
+position = Vector2( 3610, 920 )
 scale = Vector2( 2.5, 2.5 )
 monitoring = false
 monitorable = false
@@ -3326,7 +3477,7 @@ screen_shake_on_damaged = true
 
 [node name="Square5" parent="leveldata/Layer1/BlockFlash" instance=ExtResource( 2 )]
 modulate = Color( 1, 0.74902, 0, 0 )
-position = Vector2( 960, 920 )
+position = Vector2( 960, -160 )
 scale = Vector2( 2.5, 2.5 )
 monitoring = false
 monitorable = false
@@ -3335,7 +3486,7 @@ screen_shake_on_damaged = true
 
 [node name="Square6" parent="leveldata/Layer1/BlockFlash" instance=ExtResource( 2 )]
 modulate = Color( 1, 0.74902, 0, 0 )
-position = Vector2( 230, 920 )
+position = Vector2( 2150, 920 )
 scale = Vector2( 2.5, 2.5 )
 monitoring = false
 monitorable = false
@@ -3527,6 +3678,10 @@ scale = Vector2( 3, 7 )
 
 [node name="Lasers2" type="Node2D" parent="leveldata/Layer1"]
 script = ExtResource( 9 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
 
 [node name="Vertical" type="Node2D" parent="leveldata/Layer1/Lasers2"]
 
@@ -3921,6 +4076,122 @@ rotation = 1.5708
 monitoring = false
 monitorable = false
 
+[node name="Laser33" parent="leveldata/Layer1/Lasers2/Horizontal" instance=ExtResource( 1 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+position = Vector2( 1960, 112 )
+rotation = 1.5708
+monitoring = false
+monitorable = false
+
+[node name="Laser34" parent="leveldata/Layer1/Lasers2/Horizontal" instance=ExtResource( 1 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+position = Vector2( 1960, 112 )
+rotation = 1.5708
+monitoring = false
+monitorable = false
+
+[node name="BlockFlash2" type="Node2D" parent="leveldata/Layer1"]
+script = ExtResource( 11 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Square" parent="leveldata/Layer1/BlockFlash2" instance=ExtResource( 2 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+position = Vector2( 352, 480 )
+scale = Vector2( 3, 3 )
+damaging = false
+screen_shake_on_damaged = true
+screen_shake_on_destroy = true
+
+[node name="Square2" parent="leveldata/Layer1/BlockFlash2" instance=ExtResource( 2 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+position = Vector2( 1672, 590 )
+scale = Vector2( 3, 3 )
+damaging = false
+screen_shake_on_damaged = true
+screen_shake_on_destroy = true
+
+[node name="Square3" parent="leveldata/Layer1/BlockFlash2" instance=ExtResource( 2 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+position = Vector2( 160, 167 )
+scale = Vector2( 3, 3 )
+damaging = false
+screen_shake_on_damaged = true
+screen_shake_on_destroy = true
+
+[node name="Square4" parent="leveldata/Layer1/BlockFlash2" instance=ExtResource( 2 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+position = Vector2( 1608, 200 )
+scale = Vector2( 3, 3 )
+damaging = false
+screen_shake_on_damaged = true
+screen_shake_on_destroy = true
+
+[node name="Square5" parent="leveldata/Layer1/BlockFlash2" instance=ExtResource( 2 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+position = Vector2( 1728, 950 )
+scale = Vector2( 3, 3 )
+damaging = false
+screen_shake_on_damaged = true
+screen_shake_on_destroy = true
+
+[node name="Square6" parent="leveldata/Layer1/BlockFlash2" instance=ExtResource( 2 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+position = Vector2( 1011, 926 )
+scale = Vector2( 3, 3 )
+damaging = false
+screen_shake_on_damaged = true
+screen_shake_on_destroy = true
+
+[node name="Square7" parent="leveldata/Layer1/BlockFlash2" instance=ExtResource( 2 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+position = Vector2( 1184, 167 )
+scale = Vector2( 3, 3 )
+damaging = false
+screen_shake_on_damaged = true
+screen_shake_on_destroy = true
+
+[node name="Square8" parent="leveldata/Layer1/BlockFlash2" instance=ExtResource( 2 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+position = Vector2( 632, 167 )
+scale = Vector2( 3, 3 )
+damaging = false
+screen_shake_on_damaged = true
+screen_shake_on_destroy = true
+
+[node name="Square9" parent="leveldata/Layer1/BlockFlash2" instance=ExtResource( 2 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+position = Vector2( 280, 920 )
+scale = Vector2( 3, 3 )
+damaging = false
+screen_shake_on_damaged = true
+screen_shake_on_destroy = true
+
+[node name="Square10" parent="leveldata/Layer1/BlockFlash2" instance=ExtResource( 2 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+position = Vector2( 1265, 520 )
+scale = Vector2( 3, 3 )
+damaging = false
+screen_shake_on_damaged = true
+screen_shake_on_destroy = true
+
+[node name="Square11" parent="leveldata/Layer1/BlockFlash2" instance=ExtResource( 2 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+position = Vector2( 672, 688 )
+scale = Vector2( 3, 3 )
+damaging = false
+screen_shake_on_damaged = true
+screen_shake_on_destroy = true
+
+[node name="Square12" parent="leveldata/Layer1/BlockFlash2" instance=ExtResource( 2 )]
+modulate = Color( 1, 0.74902, 0, 0 )
+position = Vector2( 1440, 850 )
+scale = Vector2( 3, 3 )
+damaging = false
+screen_shake_on_damaged = true
+screen_shake_on_destroy = true
+
 [node name="editorinfo" type="Node2D" parent="."]
 pause_mode = 2
 __meta__ = {
@@ -4023,6 +4294,18 @@ dialog_autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="InfoCard" type="Control" parent="."]
+margin_left = -1000.0
+margin_top = 1500.0
+margin_right = -960.0
+margin_bottom = 1540.0
+theme = ExtResource( 12 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Info" parent="InfoCard" instance=ExtResource( 10 )]
 [connection signal="pressed" from="editorinfo/Control/TestButton" to="." method="_on_TestButton_pressed"]
 [connection signal="button_down" from="editorinfo/Control/ExportButton" to="." method="_on_ExportButton_button_down"]
 [connection signal="pressed" from="editorinfo/Control/DuplicateButton" to="." method="_on_DuplicateButton_pressed"]
