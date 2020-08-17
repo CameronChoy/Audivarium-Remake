@@ -2466,7 +2466,6 @@ script = SubResource( 1 )
 level_name = "Chaoz Impact"
 description = "Work in progress"
 background_color = Color( 0.0666667, 0.0666667, 0.0666667, 1 )
-song = "C:/Users/Cam/Documents/Audivarium/EngineEditor/Customs/ChaozImpact/ParagonX9 - Chaoz Impact.ogg"
 song_name = "Chaoz Impact"
 song_author = "ParagonX9"
 creator_name = "Kiplog"

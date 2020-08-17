@@ -11,7 +11,7 @@ var Trail = preload("res://Globals/GlobalEffects/Trail.gd")
 var ShockWaveMaterial = preload("res://Globals/GlobalEffects/ShockwaveMaterial.tres")
 
 func _ready():
-	MainCamera.position = OS.get_screen_size()/2
+	MainCamera.position = Vector2(960, 540)
 	if Engine.editor_hint:
 		ShockwaveCanvas.material = null
 		MainEnvironment.environment = null

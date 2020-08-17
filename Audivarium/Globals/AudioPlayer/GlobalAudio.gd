@@ -1,4 +1,4 @@
-extends AudioStreamPlayer
+extends Node
 
 onready var MuffleTween = $MuffleTween
 var MuffleFilter = preload("res://Globals/AudioPlayer/AudioMuffleEffect.tres")
@@ -49,3 +49,4 @@ func Spawn_AudioMuffleEffect(time : float = 1):
 
 func _on_MuffleTween_tween_all_completed():
 	AudioServer.remove_bus_effect(0,0)
+

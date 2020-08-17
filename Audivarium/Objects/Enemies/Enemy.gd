@@ -14,6 +14,7 @@ func _init():
 func _ready():
 	._ready()
 	set_physics_process(AI_active)
+	set_process(AI_active)
 	var _err = connect("body_entered",self,"_check_player")
 
 
@@ -27,6 +28,7 @@ func is_active():
 func set_active(new : bool):
 	AI_active = new
 	set_physics_process(new)
+	set_process(new)
 	
 
 func _lerp_angle(from, to, weight):

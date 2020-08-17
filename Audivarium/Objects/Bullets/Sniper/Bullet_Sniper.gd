@@ -1,7 +1,7 @@
 extends Bullet
 
 var direction = Vector2()
-const scene_path_impact = "res://Objects/Bullets/Pistol/Bullet_Pistol_Impact.tscn"
+const scene_path_impact = "res://Objects/Bullets/Sniper/Bullet_Sniper_Impact.tscn"
 const audio_path_fire = "res://Objects/Bullets/Sniper/sniper_fire.wav"
 const audio_path_hit = "res://Objects/Bullets/impact_01.wav"
 const audio_path_reload = "res://Objects/Bullets/Sniper/sniper_reload.wav"
