@@ -22,4 +22,4 @@ func _on_ReplayButton_pressed():
 
 
 func _on_ExitButton_pressed():
-	SceneManager.load_scene(LevelSelect, SceneManager.TransitionType.INSLIDERIGHT, CrossHair.CrossHairFrame.TWO)
+	SceneManager.load_scene(LevelSelect, SceneManager.TransitionType.INSLIDERIGHT, CrossHair.CrossHairFrame.THREE)

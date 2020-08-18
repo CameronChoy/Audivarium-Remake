@@ -84,3 +84,12 @@ margin_bottom = 368.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Exit"
+[connection signal="mouse_entered" from="PauseMenu/VBoxContainer/GridContainer/Resume" to="." method="_focused_audio"]
+[connection signal="mouse_exited" from="PauseMenu/VBoxContainer/GridContainer/Resume" to="." method="_lose_focus_audio"]
+[connection signal="pressed" from="PauseMenu/VBoxContainer/GridContainer/Resume" to="." method="_selected_audio"]
+[connection signal="mouse_entered" from="PauseMenu/VBoxContainer/GridContainer/Settings" to="." method="_focused_audio"]
+[connection signal="mouse_exited" from="PauseMenu/VBoxContainer/GridContainer/Settings" to="." method="_lose_focus_audio"]
+[connection signal="pressed" from="PauseMenu/VBoxContainer/GridContainer/Settings" to="." method="_selected_audio"]
+[connection signal="mouse_entered" from="PauseMenu/VBoxContainer/GridContainer/Quit" to="." method="_focused_audio"]
+[connection signal="mouse_exited" from="PauseMenu/VBoxContainer/GridContainer/Quit" to="." method="_lose_focus_audio"]
+[connection signal="pressed" from="PauseMenu/VBoxContainer/GridContainer/Quit" to="." method="_selected_audio"]

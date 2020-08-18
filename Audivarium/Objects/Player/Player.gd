@@ -80,7 +80,8 @@ func _ready():
 	
 	HealthBarLeft.value = 0
 	HealthBarRight.value = 0
-	HealthBarLeft.get("custom_styles/fg").border_color = PlayerGlobals.get_PlayerColors()[0]
+	HealthBarLeft.get("custom_styles/fg").border_color = PlayerGlobals.get_PlayerColors()[1]
+	HealthBarLeft.get("custom_styles/fg").bg_color = PlayerGlobals.get_PlayerColors()[0]
 	
 	PlayerGlobals.current_player = self
 	
@@ -237,8 +238,6 @@ func teleport_reset_completion_signal():
 func Damaged(_culprit):
 	if invincible: return
 	
-	
-	
 	current_health += 1
 	var h = float(current_health) / max_health
 	
@@ -251,16 +250,25 @@ func Damaged(_culprit):
 		GlobalAudio.play_audio(audio_damaged)
 		Anim.play(ANIM_DAMAGED)
 	else:
-		hide()
-		Collider.disabled = true
-		GlobalAudio.play_audio(audio_die)
-		
-		GlobalEffects.shake(0.35,30,15)
-		#spawn destruction effect
-		
-		emit_signal("player_died")
+		Die()
 		
 	
+
+
+func Die():
+	hide()
+	Collider.disabled = true
+	set_process_input(false)
+	set_process(false)
+	set_physics_process(false)
+	set_process_unhandled_input(false)
+	
+	GlobalAudio.play_audio(audio_die)
+	
+	GlobalEffects.shake(0.35,30,15)
+	#spawn destruction effect
+	
+	emit_signal("player_died")
 
 
 func shoot():

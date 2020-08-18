@@ -19,7 +19,7 @@ var destroy_audio
 var tween
 var prev_time
 var prev_color
-
+signal destroyed
 
 func _ready():
 	set_process(Engine.editor_hint)
@@ -173,6 +173,7 @@ func Damaged(_culprit = null):
 	if screen_shake_on_destroy and screen_shake_values.size() >= 3:
 		GlobalEffects.shake(screen_shake_values[0],screen_shake_values[1],screen_shake_values[2])
 	
+	emit_signal("destroyed")
 	hide()
 	set_deferred("monitorable", false)
 	set_deferred("monitoring", false)
@@ -231,6 +232,7 @@ func Effect_Fade_In_And_Flash(fade_in_time : float, flash_color : Color, flash_o
 	flash_fade_out = fade_out
 	tween.start()
 	
+
 
 func _on_Tween_tween_completed(_object, key):
 	

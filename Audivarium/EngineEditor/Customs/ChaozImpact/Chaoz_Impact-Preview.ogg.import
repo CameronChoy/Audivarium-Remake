@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/Chaoz_Impact-Preview.ogg-099c70ca75ae5bf7b425999a50e75f66.oggstr"
+
+[deps]
+
+source_file="res://EngineEditor/Customs/ChaozImpact/Chaoz_Impact-Preview.ogg"
+dest_files=[ "res://.import/Chaoz_Impact-Preview.ogg-099c70ca75ae5bf7b425999a50e75f66.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

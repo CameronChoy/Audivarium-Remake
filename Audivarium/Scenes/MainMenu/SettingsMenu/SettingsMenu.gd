@@ -106,6 +106,8 @@ func _ready():
 		
 	prev_fps_input = FpsInput.get_item_index(FpsInput.get_selected_id())
 	
+	MasterVolumeInput.value = _convert_to_value(original_settings.get(GlobalConstants.KEY_SETTING_MASTER_DB))
+	EffectsVolumeInput.value = _convert_to_value(original_settings.get(GlobalConstants.KEY_SETTING_EFFECTS_DB))
 	
 	FullscreenInput.pressed = original_settings.get(GlobalConstants.KEY_SETTING_FULLSCREEN)
 	BorderInput.pressed = original_settings.get(GlobalConstants.KEY_SETTING_BORDERLESS)
@@ -118,6 +120,7 @@ func _input(event):
 		if settings_changed:
 			SaveConfirm.visible = !SaveConfirm.visible
 		else:
+			_selected_audio()
 			_exit_settings()
 		
 	elif event.is_action_pressed("ui_accept"):
@@ -127,6 +130,17 @@ func _input(event):
 			_on_OptionConfirm_confirmed()
 		
 	
+
+
+func _focused():
+	if SceneManager.moving_scene: return
+	GlobalAudio.play_audio(GlobalAudio.audio_focus)
+
+func _lose_focus():
+	GlobalAudio.play_audio(GlobalAudio.audio_unfocus)
+
+func _selected_audio(_err = null):
+	GlobalAudio.play_audio(GlobalAudio.audio_select)
 
 
 func _revert_settings():
@@ -140,6 +154,7 @@ func _revert_settings():
 	var phys = clamp(framerate,30,300)
 	ProjectSettings.set_setting("physics/common/physics_fps",phys)
 	
+
 
 func _exit_settings():
 	
@@ -173,7 +188,7 @@ func _on_SaveConfirmation_revert_deny():
 
 
 func _on_ExitButton_pressed():
-	
+	_selected_audio()
 	if settings_changed:
 		SaveConfirm.window_title = "Save Settings?"
 		SaveConfirm.dialog_text = ""
@@ -266,6 +281,7 @@ func _on_OptionCornfirm_deny():
 
 
 func _on_HSlider_value_changed(value):
+	settings_changed = true
 	MasterVolumeLabel.text = "%.2f" % [value]
 	
 	var new_db = _convert_to_db(value)
@@ -277,14 +293,17 @@ func _on_HSlider_value_changed(value):
 
 
 func _test_master_audio():
+	if SceneManager.moving_scene: return
 	GlobalAudio.play_audio(audio_test,true,0,"Master")
 
 
 func _test_effects_audio():
+	if SceneManager.moving_scene: return
 	GlobalAudio.play_audio(audio_test)
 
 
 func _on_EffectsSlider_value_changed(value):
+	settings_changed = true
 	EffectsVolumeLabel.text = "%.2f" % [value]
 	
 	var new_db = _convert_to_db(value)
@@ -298,6 +317,8 @@ func _on_EffectsSlider_value_changed(value):
 func _convert_to_db(value):
 	return (-30 * (1.0 - value)) if value > 0 else -100
 
+func _convert_to_value(db):
+	return (db / 30) + 1
 
 func _on_FpsOptions_item_selected(index):
 	if index == prev_fps_input: return
@@ -311,3 +332,4 @@ func _on_FpsOptions_item_selected(index):
 	var phys = clamp(framerate,30,300)
 	ProjectSettings.set_setting("physics/common/physics_fps",phys)
 	
+

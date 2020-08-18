@@ -35,7 +35,7 @@ onready var LineTween = $Tween
 var state
 var direction = Vector2()
 
-var bullet_sniper = preload("res://Objects/Enemies/EnemyShoot/EnemyBullets/EnemyBullet.tscn")
+var bullet_sniper = preload("res://Objects/Enemies/EnemyShoot/EnemyBullets/ShooterBullet.tscn")
 
 func _init():
 	destroy_effect = d
@@ -45,6 +45,7 @@ func _ready():
 	direction = -Vector2(cos(Body.rotation), sin(Body.rotation))
 	state = FollowState
 	enter_follow()
+	var _err = connect("destroyed",self,"_on_destroyed")
 	
 
 
@@ -89,16 +90,10 @@ func laser_aim(rotate : bool = true):
 	if rotate:
 		rotate_to_player()
 	
-	var max_pos = direction * max_line_render_dist
-	
-	Ray.cast_to = max_pos
+	Ray.cast_to = direction * max_line_render_dist
+
 	Ray.force_raycast_update()
-	
-	var pos
-	if Ray.is_colliding():
-		pos = Ray.get_collision_point()
-	else:
-		pos = max_pos
+	var pos = Ray.get_collision_point() if Ray.is_colliding() else Ray.cast_to + global_position
 	
 	Line.points = [global_position, pos]
 	
@@ -124,7 +119,6 @@ func _set_bullet(type):
 
 
 func shoot():
-	
 	if bullet_type == BulletType.LASER:
 		_laser_shoot()
 		return
@@ -154,3 +148,7 @@ func _laser_shoot():
 		if body.has_method("Damaged") and body.is_in_group(GlobalConstants.GROUP_DAMAGABLE):
 			body.Damaged(null)
 	
+
+
+func _on_destroyed():
+	Line.points = []

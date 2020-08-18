@@ -1,5 +1,9 @@
 extends Node
 
+var audio_focus = preload("res://Globals/AudioPlayer/UI Audio/ui_05.wav")
+var audio_unfocus = preload("res://Globals/AudioPlayer/UI Audio/ui_06.wav")
+var audio_select = preload("res://Globals/AudioPlayer/UI Audio/ui_04.wav")
+
 onready var MuffleTween = $MuffleTween
 var MuffleFilter = preload("res://Globals/AudioPlayer/AudioMuffleEffect.tres")
 

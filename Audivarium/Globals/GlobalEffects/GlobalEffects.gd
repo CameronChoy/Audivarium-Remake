@@ -78,7 +78,9 @@ func create_trail(parent, color : Color = Color.white, width : float = 10, life_
 		FrontLayer.add_child(t)
 	else:
 		add_child(t)
+	
 	return t
+	
 
 
 func shake(time : float, amount_per_second : float, amplitude : float):

@@ -73,9 +73,9 @@ __meta__ = {
 
 [node name="EditorButton" type="Button" parent="MainControl/MarginContainer/VBoxContainer"]
 visible = false
-margin_top = 218.0
+margin_top = 175.0
 margin_right = 404.0
-margin_bottom = 336.0
+margin_bottom = 250.0
 size_flags_vertical = 3
 text = "Level Editor"
 
@@ -134,9 +134,19 @@ __meta__ = {
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Title"]
 anims/loop = SubResource( 2 )
+[connection signal="mouse_entered" from="MainControl/MarginContainer/VBoxContainer/LevelSelectButton" to="." method="_focused"]
+[connection signal="mouse_exited" from="MainControl/MarginContainer/VBoxContainer/LevelSelectButton" to="." method="_lose_focus"]
 [connection signal="pressed" from="MainControl/MarginContainer/VBoxContainer/LevelSelectButton" to="." method="_on_LevelSelectButton_pressed"]
+[connection signal="mouse_entered" from="MainControl/MarginContainer/VBoxContainer/EditorButton" to="." method="_focused"]
+[connection signal="mouse_exited" from="MainControl/MarginContainer/VBoxContainer/EditorButton" to="." method="_lose_focus"]
 [connection signal="pressed" from="MainControl/MarginContainer/VBoxContainer/EditorButton" to="." method="_on_EditorButton_pressed"]
+[connection signal="mouse_entered" from="MainControl/MarginContainer/VBoxContainer/CustomizeButton" to="." method="_focused"]
+[connection signal="mouse_exited" from="MainControl/MarginContainer/VBoxContainer/CustomizeButton" to="." method="_lose_focus"]
 [connection signal="pressed" from="MainControl/MarginContainer/VBoxContainer/CustomizeButton" to="." method="_on_CustomizeButton_pressed"]
+[connection signal="mouse_entered" from="MainControl/MarginContainer/VBoxContainer/SettingsButton" to="." method="_focused"]
+[connection signal="mouse_exited" from="MainControl/MarginContainer/VBoxContainer/SettingsButton" to="." method="_lose_focus"]
 [connection signal="pressed" from="MainControl/MarginContainer/VBoxContainer/SettingsButton" to="." method="_on_SettingsButton_pressed"]
+[connection signal="mouse_entered" from="MainControl/MarginContainer/VBoxContainer/QuitButton" to="." method="_focused"]
+[connection signal="mouse_exited" from="MainControl/MarginContainer/VBoxContainer/QuitButton" to="." method="_lose_focus"]
 [connection signal="pressed" from="MainControl/MarginContainer/VBoxContainer/QuitButton" to="." method="_on_QuitButton_pressed"]
 [connection signal="confirmed" from="MainControl/QuitConfirmation" to="." method="_on_QuitConfirmation_confirmed"]

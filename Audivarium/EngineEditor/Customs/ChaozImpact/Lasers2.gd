@@ -25,6 +25,6 @@ func random_flash():
 		random()
 		temp_lasers = lasers.duplicate(true)
 	var laser = temp_lasers[rand_range(0,temp_lasers.size())]
-	laser.Effect_Fade_In_And_Flash(1.25, Color.red, 0.3)
+	laser.Effect_Fade_In_And_Flash(1, Color.red, 0.3)
 	temp_lasers.erase(laser)
 # Effect_Fade_In_And_Flash(fade_in_time : float, flash_color : Color, flash_out_time : float, fade_out : bool = true):

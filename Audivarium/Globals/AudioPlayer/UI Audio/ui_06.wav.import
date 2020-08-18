@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/ui_06.wav-452519c51201ba73b2bdbaad1b0579cb.sample"
+
+[deps]
+
+source_file="res://Globals/AudioPlayer/UI Audio/ui_06.wav"
+dest_files=[ "res://.import/ui_06.wav-452519c51201ba73b2bdbaad1b0579cb.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

@@ -5,6 +5,8 @@ const PREVIEW_SONG_MAX_DB = -6.0
 const PREVIEW_SONG_MIN_DB = -50
 const PREVIEW_FADE_TIME = 0.75
 
+var GlobalTheme = preload("res://Globals/SceneManager/GlobalTheme/GlobalTheme.tres")
+
 var LevelButton = preload("res://Scenes/Levels/LevelButton.tscn")
 var LevelScene = preload("res://Scenes/LevelScene/LevelScene.tscn")
 var TitleScene = preload("res://Scenes/MainMenu/TitleMenu/TitleMain.tscn")
@@ -59,6 +61,8 @@ func get_official_levels(_err):
 			
 			OfficialsList.add_child(button)
 			var _er = (button.connect("pressed", self, "_level_selected", [button]))
+			_er = button.connect("mouse_entered",self,"_focused")
+			_er = button.connect("mouse_exited",self,"_lose_focus")
 			
 		
 		dir_name = directory.get_next()
@@ -88,7 +92,9 @@ func get_custom_levels(_err):
 			index += 1
 			
 			CustomsList.add_child(button)
-			button.connect("pressed", self, "_level_selected", [button])
+			var _er = button.connect("pressed", self, "_level_selected", [button])
+			_er = button.connect("mouse_entered",self,"_focused")
+			_er = button.connect("mouse_exited",self,"_lose_focus")
 			
 		
 		dir_name = directory.get_next()
@@ -164,7 +170,7 @@ func get_level(dir):
 
 
 func _level_selected(level):
-	
+	_selected_audio()
 	if SelectedLevel == null:
 		SelectedLevel = level
 		set_Info(InfoCard1, level)
@@ -250,13 +256,15 @@ func set_Info(InfoCard, info):
 	InfoCard.set_song(info.level_info.get(GlobalConstants.KEY_LEVEL_SONG_NAME))
 	InfoCard.set_song_author(info.level_info.get(GlobalConstants.KEY_LEVEL_SONG_CREATOR))
 	InfoCard.set_creator(info.level_info.get(GlobalConstants.KEY_CREATOR))
-	if info.theme:
-		InfoCard.set_theme(info.theme)
+	
+	var t = info.theme if info.theme else GlobalTheme
+	InfoCard.set_theme(t)
 	#Image and Theme not yet implemented
 
 
 onready var selected = false
 func InfoCard_selected(Card):
+	_selected_audio()
 	if Card.current_level and !selected:
 		selected = true
 		var level = ResourceLoader.load(SelectedLevel.level_data)
@@ -284,12 +292,30 @@ func _exit_tree():
 
 
 func _on_Button_pressed():
+	_selected_audio()
 	var _err = OS.shell_open(str("file://", "%s/%s" % [OS.get_user_data_dir(), GlobalConstants.LEVELS_FOLDER_NAME]))
 
 
 func _on_QuitButton_pressed():
+	_selected_audio()
 	SceneManager.change_to_preloaded(TitleScene, SceneManager.TransitionType.INOUTSLIDERIGHT, CrossHair.CrossHairFrame.TWO)
+
 
 func _input(event):
 	if event.is_action_pressed("ui_cancel"):
 		_on_QuitButton_pressed()
+
+
+func _focused():
+	if SceneManager.moving_scene: return
+	GlobalAudio.play_audio(GlobalAudio.audio_focus)
+
+func _lose_focus():
+	GlobalAudio.play_audio(GlobalAudio.audio_unfocus)
+
+func _selected_audio():
+	GlobalAudio.play_audio(GlobalAudio.audio_select)
+
+
+func _on_TabContainer_tab_selected(_tab):
+	_selected_audio()

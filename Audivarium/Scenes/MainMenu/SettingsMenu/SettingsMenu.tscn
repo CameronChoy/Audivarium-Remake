@@ -440,10 +440,13 @@ margin_left = 595.0
 margin_right = 675.0
 margin_bottom = 36.0
 text = "1.00"
+[connection signal="mouse_entered" from="ExitButton" to="." method="_focused"]
+[connection signal="mouse_exited" from="ExitButton" to="." method="_lose_focus"]
 [connection signal="pressed" from="ExitButton" to="." method="_on_ExitButton_pressed"]
 [connection signal="confirmed" from="SaveConfirmation" to="." method="_on_SaveConfirmation_confirmed"]
 [connection signal="confirmed" from="OptionConfirm" to="." method="_on_OptionConfirm_confirmed"]
 [connection signal="timeout" from="OptionConfirm/Timer" to="." method="_on_Timer_timeout"]
+[connection signal="tab_selected" from="TabContainer" to="." method="_selected_audio"]
 [connection signal="pressed" from="TabContainer/Video/VBoxContainer/Fullscreen/FullscreenCheck" to="." method="_on_FullscreenCheck_pressed"]
 [connection signal="pressed" from="TabContainer/Video/VBoxContainer/Borderless/BorderCheck" to="." method="_on_BorderCheck_pressed"]
 [connection signal="item_selected" from="TabContainer/Video/VBoxContainer/Resolution/ResolutionOptions" to="." method="_on_ResolutionOptions_item_selected"]

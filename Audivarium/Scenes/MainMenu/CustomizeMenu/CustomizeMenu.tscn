@@ -414,6 +414,8 @@ one_time_pickup = false
 position = Vector2( 530, 315 )
 bullet_path = "res://Objects/Bullets/Sniper/Bullet_Sniper.tscn"
 one_time_pickup = false
+[connection signal="mouse_entered" from="MenuOptions/ExitButton" to="." method="_focused"]
+[connection signal="mouse_exited" from="MenuOptions/ExitButton" to="." method="_lose_focus"]
 [connection signal="pressed" from="MenuOptions/ExitButton" to="." method="_on_ExitButton_pressed"]
 [connection signal="color_changed" from="MenuOptions/MarginContainer/CenterContainer/ScrollContainer/VBoxContainer/PlayerColor1/PlayerColor1Input" to="." method="_on_PlayerColor1Input_color_changed"]
 [connection signal="color_changed" from="MenuOptions/MarginContainer/CenterContainer/ScrollContainer/VBoxContainer/PlayerColor2/PlayerColor2Input" to="." method="_on_PlayerColor2Input_color_changed"]

@@ -8,6 +8,7 @@ export(float) var acceleration = 350
 func _init():
 	bullet_solid = true
 	destructable = true
+	damaging = true
 	
 
 

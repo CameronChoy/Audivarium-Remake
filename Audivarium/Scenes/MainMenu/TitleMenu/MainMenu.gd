@@ -15,26 +15,31 @@ func _ready():
 
 
 func _on_LevelSelectButton_pressed():
+	_selected_audio()
 	SceneManager.load_scene(LevelSelectScene,SceneManager.TransitionType.OUTSLIDEUP, CrossHair.CrossHairFrame.THREE)
 	
 
 
 func _on_CustomizeButton_pressed():
+	_selected_audio()
 	SceneManager.load_scene(CustomizeScene,SceneManager.TransitionType.INFALLZOOMINWARD, CrossHair.CrossHairFrame.FOUR)
 	
 
 
 func _on_SettingsButton_pressed():
+	_selected_audio()
 	SceneManager.load_scene(SettingsScene,SceneManager.TransitionType.INOUTSLIDERIGHT, CrossHair.CrossHairFrame.THREE)
 	
 
 
 func _on_EditorButton_pressed():
+	_selected_audio()
 	SceneManager.load_scene(EditorScene, SceneManager.TransitionType.INFALLZOOMINWARD,CrossHair.CrossHairFrame.TWO)
 	
 
 
 func _on_QuitButton_pressed():
+	_selected_audio()
 	QuitConfirm.show()
 	quitting = true
 
@@ -53,3 +58,13 @@ func _input(event):
 		quitting = QuitConfirm.visible
 		
 	
+
+func _focused():
+	if SceneManager.moving_scene: return
+	GlobalAudio.play_audio(GlobalAudio.audio_focus)
+
+func _lose_focus():
+	GlobalAudio.play_audio(GlobalAudio.audio_unfocus)
+
+func _selected_audio():
+	GlobalAudio.play_audio(GlobalAudio.audio_select)

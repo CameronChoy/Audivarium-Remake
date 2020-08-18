@@ -168,9 +168,21 @@ func _on_ExitButton_pressed():
 
 
 func _exit_menu():
+	_selected_audio()
 	PlayerGlobals.save_player_values()
 	SceneManager.change_to_preloaded(TitleScene, SceneManager.TransitionType.INOUTSLIDELEFT, CrossHair.CrossHairFrame.TWO)
 
 
 func _on_BGInput_color_changed(color):
 	Square.color = color
+
+
+func _focused():
+	if SceneManager.moving_scene: return
+	GlobalAudio.play_audio(GlobalAudio.audio_focus)
+
+func _lose_focus():
+	GlobalAudio.play_audio(GlobalAudio.audio_unfocus)
+
+func _selected_audio():
+	GlobalAudio.play_audio(GlobalAudio.audio_select)
