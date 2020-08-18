@@ -40,7 +40,6 @@ const LEVEL_ANIM_MAIN = "leveldata"
 const CUSTOMS_PATH = "res://EngineEditor/Customs/"
 
 func _ready():
-	CrossHair.CrossHairSprite.frame = 3
 	build_complete = false
 	can_overwrite = false
 	
@@ -63,6 +62,7 @@ func _ready():
 	EditorUI.show()
 	
 	if !Engine.editor_hint:
+		CrossHair.CrossHairSprite.frame = 3
 		Scene.pause_mode = PAUSE_MODE_STOP
 		EditorUI.pause_mode = PAUSE_MODE_PROCESS
 		Player.pause_mode = PAUSE_MODE_PROCESS

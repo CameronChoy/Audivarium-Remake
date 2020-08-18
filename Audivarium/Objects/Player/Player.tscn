@@ -35,7 +35,6 @@ script = ExtResource( 2 )
 __meta__ = {
 "_edit_group_": true
 }
-invincible = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
@@ -78,6 +77,7 @@ script = ExtResource( 7 )
 [node name="BulletTree" type="Node" parent="."]
 
 [node name="Hud" type="CanvasLayer" parent="."]
+layer = 128
 
 [node name="EquipedBulletText" type="RichTextLabel" parent="Hud"]
 margin_left = 10.0

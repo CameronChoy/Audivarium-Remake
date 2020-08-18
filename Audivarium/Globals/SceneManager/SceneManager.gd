@@ -211,8 +211,9 @@ func _on_SceneTransition_animation_finished(_anim_name):
 		ViewportIn.remove_child(child)
 	for child in ViewportOut.get_children():
 		ViewportOut.remove_child(child)
+		child.queue_free()
 	
-#	get_tree().current_scene.free()
+	
 #	get_tree().current_scene = null
 	get_tree().root.add_child(new_scene)
 	
@@ -220,6 +221,7 @@ func _on_SceneTransition_animation_finished(_anim_name):
 	
 	emit_signal("scene_transition_completed")
 	
+
 
 func _physics_process(_delta):
 	if can_change:

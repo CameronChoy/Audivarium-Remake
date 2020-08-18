@@ -143,8 +143,9 @@ __meta__ = {
 
 [node name="InfoCards" type="Control" parent="."]
 margin_left = 100.0
+margin_top = -1080.0
 margin_right = 140.0
-margin_bottom = 40.0
+margin_bottom = -1040.0
 mouse_filter = 2
 __meta__ = {
 "_edit_use_anchors_": false

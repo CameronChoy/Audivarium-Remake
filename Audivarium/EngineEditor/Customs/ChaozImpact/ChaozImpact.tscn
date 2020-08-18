@@ -19,7 +19,7 @@
 [ext_resource path="res://Globals/SceneManager/GlobalTheme/GlobalPanelFlat.tres" type="StyleBox" id=17]
 [ext_resource path="res://Globals/SceneManager/GlobalTheme/SliderHighlight.tres" type="StyleBox" id=18]
 
-[sub_resource type="GDScript" id=8]
+[sub_resource type="GDScript" id=1]
 script/source = "tool
 extends Node2D
 
@@ -496,7 +496,7 @@ func set_Creator(new):
 #						pass
 "
 
-[sub_resource type="Animation" id=9]
+[sub_resource type="Animation" id=2]
 resource_name = "leveldata"
 length = 70.263
 tracks/0/type = "value"
@@ -1387,14 +1387,14 @@ tracks/56/keys = {
 } ]
 }
 
-[sub_resource type="GDScript" id=10]
+[sub_resource type="GDScript" id=3]
 script/source = "extends AnimationPlayer
 
 func _ready():
 	GlobalLevelManager.loaded_level_anim = self
 "
 
-[sub_resource type="Animation" id=11]
+[sub_resource type="Animation" id=4]
 resource_name = "Lasers"
 length = 40.0
 step = 0.5
@@ -1620,7 +1620,7 @@ tracks/1/keys = {
 "values": [ Color( 0.0666667, 0.0666667, 0.0666667, 1 ), Color( 0.0196078, 0.0196078, 0.0196078, 1 ), Color( 0.0196078, 0.0196078, 0.0196078, 1 ), Color( 0.0784314, 0.0784314, 0.0784314, 1 ) ]
 }
 
-[sub_resource type="Animation" id=12]
+[sub_resource type="Animation" id=5]
 length = 2.0
 tracks/0/type = "bezier"
 tracks/0/path = NodePath("Layer1/WaveBottom/Square:position:y")
@@ -1835,7 +1835,7 @@ tracks/20/keys = {
 "values": [ Color( 0.0666667, 0.0666667, 0.0666667, 1 ), Color( 0.121569, 0.121569, 0.121569, 1 ), Color( 0.0666667, 0.0666667, 0.0666667, 1 ) ]
 }
 
-[sub_resource type="Animation" id=13]
+[sub_resource type="Animation" id=6]
 length = 2.0
 tracks/0/type = "bezier"
 tracks/0/path = NodePath("Layer1/WaveBottom/Square10:position:y")
@@ -2050,11 +2050,11 @@ tracks/20/keys = {
 "values": [ Color( 0.0666667, 0.0666667, 0.0666667, 1 ), Color( 0.121569, 0.121569, 0.121569, 1 ), Color( 0.0666667, 0.0666667, 0.0666667, 1 ) ]
 }
 
-[sub_resource type="StreamTexture" id=14]
+[sub_resource type="StreamTexture" id=7]
 flags = 4
 load_path = "res://.import/icon.png-487276ed1e3a0c39cad0279d744ee560.stex"
 
-[sub_resource type="GDScript" id=15]
+[sub_resource type="GDScript" id=8]
 script/source = "extends Node2D
 
 func _ready():
@@ -2062,18 +2062,18 @@ func _ready():
 		child.position.y = rand_range(96, 984)
 "
 
-[sub_resource type="DynamicFontData" id=16]
+[sub_resource type="DynamicFontData" id=9]
 font_path = "res://Fonts/Cruft/cruft.ttf"
 
-[sub_resource type="DynamicFont" id=17]
+[sub_resource type="DynamicFont" id=10]
 size = 25
 outline_color = Color( 0, 0, 0, 1 )
 use_mipmaps = true
 use_filter = true
-font_data = SubResource( 16 )
+font_data = SubResource( 9 )
 
-[sub_resource type="Theme" id=18]
-default_font = SubResource( 17 )
+[sub_resource type="Theme" id=11]
+default_font = SubResource( 10 )
 Button/colors/font_color = Color( 1, 1, 1, 1 )
 Button/colors/font_color_disabled = Color( 0, 0, 0, 1 )
 Button/colors/font_color_hover = Color( 0, 0.952941, 1, 1 )
@@ -2494,7 +2494,7 @@ WindowDialog/icons/close = null
 WindowDialog/icons/close_highlight = null
 WindowDialog/styles/panel = null
 
-[sub_resource type="StyleBoxFlat" id=1]
+[sub_resource type="StyleBoxFlat" id=12]
 bg_color = Color( 0.113725, 0.176471, 0.239216, 1 )
 border_width_left = 5
 border_width_top = 5
@@ -2502,42 +2502,42 @@ border_width_right = 5
 border_width_bottom = 5
 border_color = Color( 0, 0, 0, 1 )
 
-[sub_resource type="StyleBoxFlat" id=2]
-bg_color = Color( 1, 0.878431, 0, 1 )
+[sub_resource type="StyleBoxFlat" id=13]
+bg_color = Color( 0.898039, 0.529412, 0.0980392, 1 )
 border_width_left = 5
 border_width_top = 5
 border_width_right = 5
 border_width_bottom = 5
 border_color = Color( 0, 0, 0, 1 )
 
-[sub_resource type="StyleBoxFlat" id=21]
-bg_color = Color( 0.792157, 0.713726, 0.133333, 1 )
+[sub_resource type="StyleBoxFlat" id=14]
+bg_color = Color( 0.733333, 0.419608, 0.0509804, 1 )
 border_width_left = 5
 border_width_top = 5
 border_width_right = 5
 border_width_bottom = 5
 border_color = Color( 0, 0, 0, 1 )
 
-[sub_resource type="StyleBoxFlat" id=3]
-bg_color = Color( 1, 0.878431, 0, 1 )
+[sub_resource type="StyleBoxFlat" id=15]
+bg_color = Color( 1, 0.67451, 0.294118, 1 )
 border_width_left = 5
 border_width_top = 5
 border_width_right = 5
 border_width_bottom = 5
 border_color = Color( 0, 0, 0, 1 )
 
-[sub_resource type="StyleBoxLine" id=4]
+[sub_resource type="StyleBoxLine" id=16]
 thickness = 4
 
-[sub_resource type="StyleBoxFlat" id=19]
-bg_color = Color( 0.305882, 0.235294, 0.207843, 1 )
-border_width_left = 5
-border_width_top = 5
-border_width_right = 5
-border_width_bottom = 5
+[sub_resource type="StyleBoxFlat" id=17]
+bg_color = Color( 0.184314, 0.176471, 0.160784, 1 )
+border_width_left = 12
+border_width_top = 12
+border_width_right = 12
+border_width_bottom = 12
 border_color = Color( 0, 0, 0, 1 )
 
-[sub_resource type="StyleBoxFlat" id=5]
+[sub_resource type="StyleBoxFlat" id=18]
 bg_color = Color( 0.211765, 0.411765, 0.607843, 1 )
 border_width_left = 5
 border_width_top = 5
@@ -2545,7 +2545,7 @@ border_width_right = 5
 border_width_bottom = 5
 border_color = Color( 0, 0, 0, 1 )
 
-[sub_resource type="StyleBoxFlat" id=6]
+[sub_resource type="StyleBoxFlat" id=19]
 bg_color = Color( 0.286275, 0.431373, 0.572549, 1 )
 border_width_left = 3
 border_width_top = 3
@@ -2554,7 +2554,7 @@ border_width_bottom = 3
 border_color = Color( 0, 0, 0, 1 )
 corner_radius_top_left = 10
 
-[sub_resource type="StyleBoxFlat" id=7]
+[sub_resource type="StyleBoxFlat" id=20]
 bg_color = Color( 0.145098, 0.231373, 0.317647, 1 )
 border_width_left = 10
 border_width_top = 42
@@ -2562,7 +2562,7 @@ border_width_right = 10
 border_width_bottom = 10
 border_color = Color( 0, 0, 0, 1 )
 
-[sub_resource type="Theme" id=20]
+[sub_resource type="Theme" id=21]
 default_font = ExtResource( 16 )
 Button/colors/font_color = Color( 0.662745, 0.109804, 0.109804, 1 )
 Button/colors/font_color_disabled = Color( 0.309804, 0.258824, 0.258824, 1 )
@@ -2570,11 +2570,11 @@ Button/colors/font_color_hover = Color( 1, 0, 0, 1 )
 Button/colors/font_color_pressed = Color( 1, 1, 1, 1 )
 Button/constants/hseparation = 2
 Button/fonts/font = null
-Button/styles/disabled = SubResource( 1 )
+Button/styles/disabled = SubResource( 12 )
 Button/styles/focus = null
-Button/styles/hover = SubResource( 2 )
-Button/styles/normal = SubResource( 21 )
-Button/styles/pressed = SubResource( 3 )
+Button/styles/hover = SubResource( 13 )
+Button/styles/normal = SubResource( 14 )
+Button/styles/pressed = SubResource( 15 )
 CheckBox/colors/font_color = Color( 1, 1, 1, 1 )
 CheckBox/colors/font_color_disabled = Color( 0, 0, 0, 1 )
 CheckBox/colors/font_color_hover = Color( 0.341176, 0.745098, 0.423529, 1 )
@@ -2699,7 +2699,7 @@ HSlider/icons/grabber_highlight = null
 HSlider/icons/tick = null
 HSlider/styles/grabber_area = ExtResource( 18 )
 HSlider/styles/grabber_area_highlight = ExtResource( 18 )
-HSlider/styles/slider = SubResource( 4 )
+HSlider/styles/slider = SubResource( 16 )
 HSplitContainer/constants/autohide = 1
 HSplitContainer/constants/separation = 12
 HSplitContainer/icons/grabber = null
@@ -2776,7 +2776,7 @@ OptionButton/styles/hover = null
 OptionButton/styles/normal = null
 OptionButton/styles/pressed = null
 Panel/styles/panel = null
-PanelContainer/styles/panel = SubResource( 19 )
+PanelContainer/styles/panel = SubResource( 17 )
 PopupDialog/styles/panel = null
 PopupMenu/colors/font_color = Color( 1, 1, 1, 1 )
 PopupMenu/colors/font_color_accel = Color( 1, 1, 1, 1 )
@@ -2793,7 +2793,7 @@ PopupMenu/icons/unchecked = null
 PopupMenu/styles/hover = null
 PopupMenu/styles/labeled_separator_left = null
 PopupMenu/styles/labeled_separator_right = null
-PopupMenu/styles/panel = SubResource( 5 )
+PopupMenu/styles/panel = SubResource( 18 )
 PopupMenu/styles/panel_disabled = null
 PopupMenu/styles/separator = null
 PopupPanel/styles/panel = ExtResource( 17 )
@@ -2839,7 +2839,7 @@ TabContainer/icons/menu_highlight = null
 TabContainer/styles/panel = ExtResource( 17 )
 TabContainer/styles/tab_bg = ExtResource( 17 )
 TabContainer/styles/tab_disabled = null
-TabContainer/styles/tab_fg = SubResource( 6 )
+TabContainer/styles/tab_fg = SubResource( 19 )
 Tabs/colors/font_color_bg = Color( 0, 0, 0, 1 )
 Tabs/colors/font_color_disabled = Color( 0, 0, 0, 1 )
 Tabs/colors/font_color_fg = Color( 0, 0, 0, 1 )
@@ -2982,10 +2982,10 @@ WindowDialog/constants/title_height = -40
 WindowDialog/fonts/title_font = null
 WindowDialog/icons/close = null
 WindowDialog/icons/close_highlight = null
-WindowDialog/styles/panel = SubResource( 7 )
+WindowDialog/styles/panel = SubResource( 20 )
 
 [node name="EngineLevelEditor" type="Node2D"]
-script = SubResource( 8 )
+script = SubResource( 1 )
 level_name = "Chaoz Impact"
 description = "Work in progress"
 background_color = Color( 0.0666667, 0.0666667, 0.0666667, 1 )
@@ -2993,12 +2993,14 @@ song_preview = "C:/Users/Cam/Documents/Audivarium/EngineEditor/Customs/ChaozImpa
 song_name = "Chaoz Impact"
 song_author = "ParagonX9"
 creator_name = "Kiplog"
+preview_offset = 0.0
 player_node = NodePath("leveldata/Player")
 animation_player = NodePath("leveldata/AnimationPlayer")
 background_node = NodePath("leveldata/CanvasLayer/BackgroundSimulator")
 level_scene = NodePath("leveldata")
 spawn_point = NodePath("leveldata/PlayerSpawnPoint")
 enable_test_confirmation = false
+enable_quit_confirmation = true
 
 [node name="leveldata" type="Node2D" parent="."]
 pause_mode = 1
@@ -3027,16 +3029,16 @@ __meta__ = {
 }
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="leveldata"]
-anims/leveldata = SubResource( 9 )
-script = SubResource( 10 )
+anims/leveldata = SubResource( 2 )
+script = SubResource( 3 )
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="leveldata/AnimationPlayer"]
 stream = ExtResource( 3 )
 
 [node name="SecondaryPlayer" type="AnimationPlayer" parent="leveldata"]
-anims/Lasers = SubResource( 11 )
-anims/Wave = SubResource( 12 )
-anims/WaveBackward = SubResource( 13 )
+anims/Lasers = SubResource( 4 )
+anims/Wave = SubResource( 5 )
+anims/WaveBackward = SubResource( 6 )
 
 [node name="Layer0" type="Node2D" parent="leveldata"]
 __meta__ = {
@@ -3047,11 +3049,10 @@ __meta__ = {
 [node name="PlayerSpawnPoint" type="Sprite" parent="leveldata"]
 visible = false
 position = Vector2( 960, 540 )
-texture = SubResource( 14 )
+texture = SubResource( 7 )
 
 [node name="Player" parent="leveldata" instance=ExtResource( 4 )]
 position = Vector2( 960, 540 )
-invincible = false
 fire_while_focused = false
 
 [node name="Enemies" type="Node2D" parent="leveldata"]
@@ -3814,7 +3815,7 @@ __meta__ = {
 }
 
 [node name="LeftWave" type="Node2D" parent="leveldata/Layer1"]
-script = SubResource( 15 )
+script = SubResource( 8 )
 __meta__ = {
 "_edit_group_": true
 }
@@ -4878,7 +4879,7 @@ margin_left = 16.0
 margin_top = -300.0
 margin_right = 1071.0
 margin_bottom = -98.0
-custom_fonts/font = SubResource( 17 )
+custom_fonts/font = SubResource( 10 )
 text = "
 Only objects in the leveldata node will be saved
 levels saved at: C:\\Users\\User\\AppData\\Roaming\\Godot\\app_userdata\\Audivarium
@@ -4896,7 +4897,7 @@ margin_left = 1370.53
 margin_top = -300.0
 margin_right = 2425.53
 margin_bottom = -16.0
-custom_fonts/font = SubResource( 17 )
+custom_fonts/font = SubResource( 10 )
 text = "
 /root/GlobalEffects functions
 func shake((float)time, (float)frequency, (float)amplitude)
@@ -4911,7 +4912,7 @@ __meta__ = {
 [node name="Control" type="Control" parent="editorinfo"]
 margin_right = 40.0
 margin_bottom = 40.0
-theme = SubResource( 18 )
+theme = SubResource( 11 )
 __meta__ = {
 "_edit_lock_": true,
 "_edit_use_anchors_": false
@@ -4980,7 +4981,7 @@ __meta__ = {
 }
 
 [node name="Info" parent="InfoCard" instance=ExtResource( 10 )]
-theme = SubResource( 20 )
+theme = SubResource( 21 )
 [connection signal="pressed" from="editorinfo/Control/TestButton" to="." method="_on_TestButton_pressed"]
 [connection signal="button_down" from="editorinfo/Control/ExportButton" to="." method="_on_ExportButton_button_down"]
 [connection signal="pressed" from="editorinfo/Control/DuplicateButton" to="." method="_on_DuplicateButton_pressed"]

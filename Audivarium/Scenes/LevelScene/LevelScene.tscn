@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Fonts/Cruft/cruft.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Scenes/LevelScene/LevelManager.gd" type="Script" id=2]
@@ -12,6 +12,14 @@ outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 extra_spacing_char = 1
 font_data = ExtResource( 1 )
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 1, 1, 1, 1 )
+corner_radius_bottom_right = 15
+corner_detail = 10
+anti_aliasing = false
+
+[sub_resource type="StyleBoxEmpty" id=3]
 
 [node name="LevelScene" type="Node2D"]
 pause_mode = 2
@@ -48,11 +56,34 @@ pause_mode = 1
 
 [node name="PauseScreen" parent="." instance=ExtResource( 3 )]
 
+[node name="PauseMenu" parent="PauseScreen" index="0"]
+visible = false
+
 [node name="SettingsMenu" parent="." instance=ExtResource( 4 )]
 visible = false
 margin_right = 1920.0
 margin_bottom = 1080.0
 exit_hides = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 127
+
+[node name="LevelProgressBar" type="ProgressBar" parent="CanvasLayer"]
+pause_mode = 1
+anchor_right = 1.0
+margin_right = 0.00012207
+margin_bottom = 20.0
+rect_min_size = Vector2( 0, 20 )
+custom_styles/fg = SubResource( 2 )
+custom_styles/bg = SubResource( 3 )
+max_value = 10.0
+percent_visible = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Tween" type="Tween" parent="CanvasLayer/LevelProgressBar"]
+pause_mode = 1
 [connection signal="tween_all_completed" from="TitleTween" to="." method="_on_TitleTween_tween_all_completed"]
 [connection signal="timeout" from="TitleTween/Timer" to="." method="_on_Timer_timeout"]
 

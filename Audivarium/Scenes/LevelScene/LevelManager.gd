@@ -13,6 +13,8 @@ var TitleTimer
 var Scene
 onready var PauseMenu = $PauseScreen
 onready var SettingsMenu = $SettingsMenu
+onready var LevelProgress = $CanvasLayer/LevelProgressBar
+onready var LevelProgressTween = $CanvasLayer/LevelProgressBar/Tween
 onready var title_move_back = true
 onready var exiting = false
 
@@ -40,6 +42,10 @@ func _ready():
 			
 		Title.text = GlobalLevelManager.loaded_level_info.get(GlobalConstants.KEY_LEVEL_NAME)
 		
+		LevelProgress.get("custom_styles/fg").bg_color = PlayerGlobals.get_PlayerColors()[0]
+		LevelProgressTween.interpolate_property(LevelProgress,"value",0,10, GlobalLevelManager.loaded_level_info.get(GlobalConstants.KEY_LEVEL_LENGTH))
+		LevelProgressTween.start()
+		
 	
 	var pos = -(Title.get("custom_fonts/font").get_string_size(Title.text)).x - 50
 	Title.rect_global_position.x = pos
@@ -56,6 +62,7 @@ func _ready():
 	_err = PauseMenu.Settings.connect("pressed",self,"_enter_settings")
 	_err = SettingsMenu.connect("exitting_settings",self,"_exit_settings")
 	SettingsMenu.set_process_input(false)
+	
 	
 
 

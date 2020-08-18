@@ -54,10 +54,15 @@ func _input(event):
 #
 	if !mouse_can_escape and event is InputEventMouseButton and Input.get_mouse_mode() != Input.MOUSE_MODE_CONFINED:
 		Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
-		CrossHairSprite.set_process(true)
 		Input.set_custom_mouse_cursor(inGame_Cursor)
 		
 	
+
+func _notification(what):
+	if what == NOTIFICATION_WM_FOCUS_OUT:
+		CrossHairSprite.set_process(false)
+	elif what == NOTIFICATION_WM_FOCUS_IN:
+		CrossHairSprite.set_process(true)
 
 
 func change_crosshair(_frame : int = 3):

@@ -63,6 +63,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Audivarium"
+run/main_scene="res://Scenes/MainMenu/TitleMenu/TitleMain.tscn"
 boot_splash/bg_color=Color( 0.0627451, 0.0627451, 0.0627451, 1 )
 config/icon="res://icon.png"
 
@@ -141,6 +142,7 @@ delete={
 
 [rendering]
 
+threads/thread_model=2
 environment/default_clear_color=Color( 0.137255, 0.12549, 0.12549, 1 )
 quality/filters/msaa=2
 environment/default_environment="res://Globals/GlobalEffects/world_env.tres"

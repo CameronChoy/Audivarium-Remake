@@ -204,8 +204,7 @@ func _check_player(body):
 
 
 func Effect_fade_in(time : float, end_alpha : float = 1):
-	
-	tween.interpolate_property(self,"modulate:a",0, end_alpha, time, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+	tween.interpolate_property(self,"modulate:a",0, clamp(end_alpha,0,1), time, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	tween.start()
 
 
@@ -219,6 +218,7 @@ func Effect_flash_attack(color : Color, time : float, fade_out : bool = true):
 	monitorable = true
 	flash_fade_out = fade_out
 	tween.start()
+
 
 var set_monitoring = false
 func Effect_Fade_In_And_Flash(fade_in_time : float, flash_color : Color, flash_out_time : float, fade_out : bool = true):

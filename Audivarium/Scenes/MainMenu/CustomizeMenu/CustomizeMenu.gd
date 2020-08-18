@@ -88,6 +88,8 @@ func _create_button(file_path):
 	body.position.x = 125
 	
 	button.connect("pressed",self,"_body_selected",[pack])
+	button.connect("mouse_entered",self,"_focused")
+	button.connect("mouse_exited",self,"_lose_focus")
 	
 
 
@@ -96,6 +98,7 @@ func _thread_complete():
 
 
 func _body_selected(body):
+	_selected_audio()
 	Player.set_body_sprite(body)
 	
 

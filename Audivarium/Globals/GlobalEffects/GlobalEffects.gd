@@ -7,7 +7,7 @@ onready var MainCamera = $MainCamera
 onready var MainEnvironment = $WorldEnvironment
 var Default_bg_Color = Color("232020")
 var Default_env = preload("res://Globals/GlobalEffects/world_env.tres")
-var Trail = preload("res://Globals/GlobalEffects/Trail.gd")
+var Trail = preload("res://Globals/GlobalEffects/Trail.tscn")
 var ShockWaveMaterial = preload("res://Globals/GlobalEffects/ShockwaveMaterial.tres")
 
 func _ready():
@@ -65,7 +65,7 @@ func create_trail(parent, color : Color = Color.white, width : float = 10, life_
 	p = get_node(parent) if parent is NodePath else parent
 	
 	if !p.get("global_position"): return
-	var t = Trail.new()
+	var t = Trail.instance()
 	t.default_color = color
 	t.width = width
 	t.fade_time = fade_time

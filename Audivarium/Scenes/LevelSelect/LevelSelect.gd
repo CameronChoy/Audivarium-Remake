@@ -36,7 +36,6 @@ func _ready():
 	customs_thread = Thread.new()
 	_err = customs_thread.start(self,"get_custom_levels", 0)
 	
-	
 
 
 func get_official_levels(_err):
@@ -67,7 +66,9 @@ func get_official_levels(_err):
 		
 		dir_name = directory.get_next()
 		
-	return officials_thread
+	
+	officials_thread.wait_to_finish()
+	 
 
 
 func get_custom_levels(_err):
@@ -99,7 +100,9 @@ func get_custom_levels(_err):
 		
 		dir_name = directory.get_next()
 		
-	return customs_thread
+	
+	customs_thread.wait_to_finish() 
+	
 
 
 func _create_button(level):
@@ -169,6 +172,12 @@ func get_level(dir):
 	
 
 
+func _thread_completed(thread):
+	var _err = thread.wait_to_finish()
+	thread.queue_free()
+	prints(officials_thread, customs_thread)
+
+
 func _level_selected(level):
 	_selected_audio()
 	if SelectedLevel == null:
@@ -235,6 +244,7 @@ func fade_in():
 
 
 func fade_in_interpolate():
+	if !PreviewSong.song: return
 	#PreviewSong.song.playing = true
 	FadeIn.interpolate_property(PreviewSong.song, "volume_db", PREVIEW_SONG_MIN_DB, PREVIEW_SONG_MAX_DB, PREVIEW_FADE_TIME)
 	FadeIn.start()
@@ -243,6 +253,7 @@ func fade_in_interpolate():
 func fade_out():
 	if FadeIn.is_active():
 		yield(FadeIn,"tween_all_completed")
+	if !PreviewSong.song: return
 	FadeOut.interpolate_property(PreviewSong.song, "volume_db", PREVIEW_SONG_MAX_DB, PREVIEW_SONG_MIN_DB, PREVIEW_FADE_TIME)
 	FadeOut.start()
 	
@@ -277,10 +288,6 @@ func InfoCard_selected(Card):
 		else:
 			selected = false
 	
-
-
-func _thread_completed(thread):
-	var _err = thread.wait_to_finish()
 
 
 func _exit_tree():
