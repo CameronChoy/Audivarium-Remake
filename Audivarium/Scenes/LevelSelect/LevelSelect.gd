@@ -58,7 +58,7 @@ func get_official_levels(_err):
 			button.index = index
 			index += 1
 			
-			OfficialsList.add_child(button)
+			OfficialsList.call_deferred("add_child",button)
 			var _er = (button.connect("pressed", self, "_level_selected", [button]))
 			_er = button.connect("mouse_entered",self,"_focused")
 			_er = button.connect("mouse_exited",self,"_lose_focus")
@@ -92,7 +92,7 @@ func get_custom_levels(_err):
 			button.index = index
 			index += 1
 			
-			CustomsList.add_child(button)
+			CustomsList.call_deferred("add_child",button)
 			var _er = button.connect("pressed", self, "_level_selected", [button])
 			_er = button.connect("mouse_entered",self,"_focused")
 			_er = button.connect("mouse_exited",self,"_lose_focus")

@@ -116,3 +116,4 @@ func set_settings_to_default(file):
 
 func get_settings():
 	return current_settings
+

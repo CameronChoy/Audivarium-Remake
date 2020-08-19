@@ -19,6 +19,7 @@ onready var PlayerBodies = $MenuOptions/MarginContainer/CenterContainer/ScrollCo
 const PATH_PLAYER_BODIES = "res://Objects/Player/PlayerBodies/PlayerBodies"
 
 var thread
+var mutex
 var loaded_bodies = []
 signal body_color_changed
 
@@ -36,6 +37,7 @@ func _ready():
 	Player.fire_while_focused = false
 	
 	thread = Thread.new()
+	mutex = Mutex.new()
 	#var _err = connect("thread_complete",self,"_thread_complete")
 	var _err = thread.start(self,"_add_bodies", 0)
 	
@@ -54,7 +56,9 @@ func _add_bodies(_err):
 	var file_name = directory.get_next()
 	
 	while file_name != "":
-		if file_name == "template.tscn" : continue
+		if file_name == "template.tscn" : 
+			file_name = directory.get_next()
+			continue
 		
 		var file_path = "%s/%s" % [PATH_PLAYER_BODIES, file_name]
 		file_name = directory.get_next()
@@ -65,7 +69,8 @@ func _add_bodies(_err):
 		
 	
 	directory.list_dir_end()
-	return thread
+	
+	thread.wait_to_finish()
 	
 
 
@@ -78,14 +83,17 @@ func _create_button(file_path):
 	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	button.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	button.rect_min_size.y = 100
-	PlayerBodies.add_child(button)
+	PlayerBodies.call_deferred("add_child", button)
 	
 	body.set_colors(PlayerGlobals.get_PlayerColors())
+	body.position.y = 50
+	body.position.x = 125
+	
+	mutex.lock()
 	loaded_bodies.append(body)
+	mutex.unlock()
 	
 	button.add_child(body)
-	body.position.y = button.rect_size.y / 2
-	body.position.x = 125
 	
 	button.connect("pressed",self,"_body_selected",[pack])
 	button.connect("mouse_entered",self,"_focused")
@@ -107,8 +115,10 @@ func _color_changed(index, color):
 	PlayerGlobals.PlayerColors[index] = color
 	Player.set_body_modulate(index, color)
 	
+	mutex.lock()
 	for body in loaded_bodies:
 		body.set_single_color(index, color)
+	mutex.unlock()
 	
 
 

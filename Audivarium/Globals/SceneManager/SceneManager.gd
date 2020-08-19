@@ -228,3 +228,6 @@ func _physics_process(_delta):
 		call_deferred("_thread_done", anim)
 		set_physics_process(false)
 
+func _notification(what):
+	if what == MainLoop.NOTIFICATION_WM_QUIT_REQUEST:
+		get_tree().queue_delete(get_tree())

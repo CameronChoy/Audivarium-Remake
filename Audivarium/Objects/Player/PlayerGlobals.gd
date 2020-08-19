@@ -150,3 +150,4 @@ func get_DefaultFireDelay():
 
 func get_DefaultBullet():
 	return DefaultBullet
+

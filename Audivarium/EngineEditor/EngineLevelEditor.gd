@@ -27,6 +27,10 @@ export(String) var song_author = "" setget set_SongAuthor
 export(String) var creator_name = "" setget set_Creator
 export(float) var preview_offset = 0
 
+#https://www.reddit.com/r/godot/comments/eojihj/how_to_load_images_without_importer/
+#Unimplemented right now
+export(String, FILE, GLOBAL, "*.png, *.jpg") var image_preview
+
 export(NodePath) var player_node
 export(NodePath) var animation_player
 export(NodePath) var background_node
@@ -188,8 +192,11 @@ func save_audio(path, save_path):
 	if path.begins_with("res://"):
 		audio_data = load(path)
 	else:
-		var wav_end = path.ends_with("wav")
-		var ogg_end = path.ends_with("ogg")
+		
+		var extension = path.get_extension()
+		var wav_end = extension == "wav"
+		var ogg_end = extension == "ogg"
+		
 		if wav_end or ogg_end:
 			audio_data = load_audio_outside_res(path, wav_end)
 			if !audio_data: 

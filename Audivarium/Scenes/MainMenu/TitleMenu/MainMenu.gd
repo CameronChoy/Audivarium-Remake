@@ -45,19 +45,20 @@ func _on_QuitButton_pressed():
 
 
 func _on_QuitConfirmation_confirmed():
-	get_tree().quit()
+	get_tree().queue_delete(get_tree())
 
 
 func _input(event):
 	
 	if event.is_action_pressed("ui_accept") and quitting:
-		get_tree().quit()
+		_on_QuitConfirmation_confirmed()
 		
 	elif event.is_action_pressed("ui_cancel"):
 		QuitConfirm.visible = !QuitConfirm.visible
 		quitting = QuitConfirm.visible
 		
 	
+
 
 func _focused():
 	if SceneManager.moving_scene: return
@@ -68,3 +69,4 @@ func _lose_focus():
 
 func _selected_audio():
 	GlobalAudio.play_audio(GlobalAudio.audio_select)
+

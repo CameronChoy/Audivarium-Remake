@@ -132,3 +132,4 @@ func _on_RBarAnimPlayer_animation_finished(anim_name):
 
 func get_inGame_Cursor():
 	return inGame_Cursor
+
