@@ -257,7 +257,7 @@ func Damaged(_culprit):
 
 func Die():
 	hide()
-	Collider.disabled = true
+	Collider.set_deferred("disabled",true)
 	set_process_input(false)
 	set_process(false)
 	set_physics_process(false)

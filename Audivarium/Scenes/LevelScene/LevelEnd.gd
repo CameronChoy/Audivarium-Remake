@@ -18,8 +18,21 @@ func _ready():
 
 
 func _on_ReplayButton_pressed():
+	_selected_audio()
 	SceneManager.load_scene(LevelScene, SceneManager.TransitionType.OUTZOOMOUTWARDSPIN, CrossHair.CrossHairFrame.FOUR)
 
 
 func _on_ExitButton_pressed():
+	_selected_audio()
 	SceneManager.load_scene(LevelSelect, SceneManager.TransitionType.INSLIDERIGHT, CrossHair.CrossHairFrame.THREE)
+
+
+func _focused():
+	if SceneManager.moving_scene: return
+	GlobalAudio.play_audio(GlobalAudio.audio_focus)
+
+func _lose_focus():
+	GlobalAudio.play_audio(GlobalAudio.audio_unfocus)
+
+func _selected_audio():
+	GlobalAudio.play_audio(GlobalAudio.audio_select)

@@ -19,7 +19,7 @@
 [ext_resource path="res://Globals/SceneManager/GlobalTheme/GlobalPanelFlat.tres" type="StyleBox" id=17]
 [ext_resource path="res://Globals/SceneManager/GlobalTheme/SliderHighlight.tres" type="StyleBox" id=18]
 
-[sub_resource type="GDScript" id=1]
+[sub_resource type="GDScript" id=22]
 script/source = "tool
 extends Node2D
 
@@ -496,7 +496,7 @@ func set_Creator(new):
 #						pass
 "
 
-[sub_resource type="Animation" id=2]
+[sub_resource type="Animation" id=23]
 resource_name = "leveldata"
 length = 70.263
 tracks/0/type = "value"
@@ -1387,14 +1387,14 @@ tracks/56/keys = {
 } ]
 }
 
-[sub_resource type="GDScript" id=3]
+[sub_resource type="GDScript" id=24]
 script/source = "extends AnimationPlayer
 
 func _ready():
 	GlobalLevelManager.loaded_level_anim = self
 "
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=25]
 resource_name = "Lasers"
 length = 40.0
 step = 0.5
@@ -1620,7 +1620,7 @@ tracks/1/keys = {
 "values": [ Color( 0.0666667, 0.0666667, 0.0666667, 1 ), Color( 0.0196078, 0.0196078, 0.0196078, 1 ), Color( 0.0196078, 0.0196078, 0.0196078, 1 ), Color( 0.0784314, 0.0784314, 0.0784314, 1 ) ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=26]
 length = 2.0
 tracks/0/type = "bezier"
 tracks/0/path = NodePath("Layer1/WaveBottom/Square:position:y")
@@ -1835,7 +1835,7 @@ tracks/20/keys = {
 "values": [ Color( 0.0666667, 0.0666667, 0.0666667, 1 ), Color( 0.121569, 0.121569, 0.121569, 1 ), Color( 0.0666667, 0.0666667, 0.0666667, 1 ) ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=27]
 length = 2.0
 tracks/0/type = "bezier"
 tracks/0/path = NodePath("Layer1/WaveBottom/Square10:position:y")
@@ -2050,11 +2050,11 @@ tracks/20/keys = {
 "values": [ Color( 0.0666667, 0.0666667, 0.0666667, 1 ), Color( 0.121569, 0.121569, 0.121569, 1 ), Color( 0.0666667, 0.0666667, 0.0666667, 1 ) ]
 }
 
-[sub_resource type="StreamTexture" id=7]
+[sub_resource type="StreamTexture" id=28]
 flags = 4
 load_path = "res://.import/icon.png-487276ed1e3a0c39cad0279d744ee560.stex"
 
-[sub_resource type="GDScript" id=8]
+[sub_resource type="GDScript" id=29]
 script/source = "extends Node2D
 
 func _ready():
@@ -2062,18 +2062,18 @@ func _ready():
 		child.position.y = rand_range(96, 984)
 "
 
-[sub_resource type="DynamicFontData" id=9]
+[sub_resource type="DynamicFontData" id=30]
 font_path = "res://Fonts/Cruft/cruft.ttf"
 
-[sub_resource type="DynamicFont" id=10]
+[sub_resource type="DynamicFont" id=31]
 size = 25
 outline_color = Color( 0, 0, 0, 1 )
 use_mipmaps = true
 use_filter = true
-font_data = SubResource( 9 )
+font_data = SubResource( 30 )
 
-[sub_resource type="Theme" id=11]
-default_font = SubResource( 10 )
+[sub_resource type="Theme" id=32]
+default_font = SubResource( 31 )
 Button/colors/font_color = Color( 1, 1, 1, 1 )
 Button/colors/font_color_disabled = Color( 0, 0, 0, 1 )
 Button/colors/font_color_hover = Color( 0, 0.952941, 1, 1 )
@@ -2503,7 +2503,7 @@ border_width_bottom = 5
 border_color = Color( 0, 0, 0, 1 )
 
 [sub_resource type="StyleBoxFlat" id=13]
-bg_color = Color( 0.898039, 0.529412, 0.0980392, 1 )
+bg_color = Color( 0.363281, 0.353348, 0.349091, 1 )
 border_width_left = 5
 border_width_top = 5
 border_width_right = 5
@@ -2511,7 +2511,7 @@ border_width_bottom = 5
 border_color = Color( 0, 0, 0, 1 )
 
 [sub_resource type="StyleBoxFlat" id=14]
-bg_color = Color( 0.733333, 0.419608, 0.0509804, 1 )
+bg_color = Color( 0.298039, 0.286275, 0.282353, 1 )
 border_width_left = 5
 border_width_top = 5
 border_width_right = 5
@@ -2519,7 +2519,7 @@ border_width_bottom = 5
 border_color = Color( 0, 0, 0, 1 )
 
 [sub_resource type="StyleBoxFlat" id=15]
-bg_color = Color( 1, 0.67451, 0.294118, 1 )
+bg_color = Color( 0.47451, 0.470588, 0.470588, 1 )
 border_width_left = 5
 border_width_top = 5
 border_width_right = 5
@@ -2566,8 +2566,8 @@ border_color = Color( 0, 0, 0, 1 )
 default_font = ExtResource( 16 )
 Button/colors/font_color = Color( 0.662745, 0.109804, 0.109804, 1 )
 Button/colors/font_color_disabled = Color( 0.309804, 0.258824, 0.258824, 1 )
-Button/colors/font_color_hover = Color( 1, 0, 0, 1 )
-Button/colors/font_color_pressed = Color( 1, 1, 1, 1 )
+Button/colors/font_color_hover = Color( 0.956863, 0.345098, 0.345098, 1 )
+Button/colors/font_color_pressed = Color( 1, 0, 0, 1 )
 Button/constants/hseparation = 2
 Button/fonts/font = null
 Button/styles/disabled = SubResource( 12 )
@@ -2985,22 +2985,20 @@ WindowDialog/icons/close_highlight = null
 WindowDialog/styles/panel = SubResource( 20 )
 
 [node name="EngineLevelEditor" type="Node2D"]
-script = SubResource( 1 )
+script = SubResource( 22 )
 level_name = "Chaoz Impact"
-description = "Work in progress"
+description = "OBJECTIVE: SURVIVE"
 background_color = Color( 0.0666667, 0.0666667, 0.0666667, 1 )
 song_preview = "C:/Users/Cam/Documents/Audivarium/EngineEditor/Customs/ChaozImpact/Chaoz_Impact-Preview.ogg"
 song_name = "Chaoz Impact"
 song_author = "ParagonX9"
 creator_name = "Kiplog"
-preview_offset = 0.0
 player_node = NodePath("leveldata/Player")
 animation_player = NodePath("leveldata/AnimationPlayer")
 background_node = NodePath("leveldata/CanvasLayer/BackgroundSimulator")
 level_scene = NodePath("leveldata")
 spawn_point = NodePath("leveldata/PlayerSpawnPoint")
 enable_test_confirmation = false
-enable_quit_confirmation = true
 
 [node name="leveldata" type="Node2D" parent="."]
 pause_mode = 1
@@ -3029,16 +3027,16 @@ __meta__ = {
 }
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="leveldata"]
-anims/leveldata = SubResource( 2 )
-script = SubResource( 3 )
+anims/leveldata = SubResource( 23 )
+script = SubResource( 24 )
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="leveldata/AnimationPlayer"]
 stream = ExtResource( 3 )
 
 [node name="SecondaryPlayer" type="AnimationPlayer" parent="leveldata"]
-anims/Lasers = SubResource( 4 )
-anims/Wave = SubResource( 5 )
-anims/WaveBackward = SubResource( 6 )
+anims/Lasers = SubResource( 25 )
+anims/Wave = SubResource( 26 )
+anims/WaveBackward = SubResource( 27 )
 
 [node name="Layer0" type="Node2D" parent="leveldata"]
 __meta__ = {
@@ -3049,7 +3047,7 @@ __meta__ = {
 [node name="PlayerSpawnPoint" type="Sprite" parent="leveldata"]
 visible = false
 position = Vector2( 960, 540 )
-texture = SubResource( 7 )
+texture = SubResource( 28 )
 
 [node name="Player" parent="leveldata" instance=ExtResource( 4 )]
 position = Vector2( 960, 540 )
@@ -3815,7 +3813,7 @@ __meta__ = {
 }
 
 [node name="LeftWave" type="Node2D" parent="leveldata/Layer1"]
-script = SubResource( 8 )
+script = SubResource( 29 )
 __meta__ = {
 "_edit_group_": true
 }
@@ -4879,7 +4877,7 @@ margin_left = 16.0
 margin_top = -300.0
 margin_right = 1071.0
 margin_bottom = -98.0
-custom_fonts/font = SubResource( 10 )
+custom_fonts/font = SubResource( 31 )
 text = "
 Only objects in the leveldata node will be saved
 levels saved at: C:\\Users\\User\\AppData\\Roaming\\Godot\\app_userdata\\Audivarium
@@ -4897,7 +4895,7 @@ margin_left = 1370.53
 margin_top = -300.0
 margin_right = 2425.53
 margin_bottom = -16.0
-custom_fonts/font = SubResource( 10 )
+custom_fonts/font = SubResource( 31 )
 text = "
 /root/GlobalEffects functions
 func shake((float)time, (float)frequency, (float)amplitude)
@@ -4912,7 +4910,7 @@ __meta__ = {
 [node name="Control" type="Control" parent="editorinfo"]
 margin_right = 40.0
 margin_bottom = 40.0
-theme = SubResource( 11 )
+theme = SubResource( 32 )
 __meta__ = {
 "_edit_lock_": true,
 "_edit_use_anchors_": false

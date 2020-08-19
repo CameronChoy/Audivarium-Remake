@@ -19,6 +19,7 @@ loop : bool = false):
 	if stream == null : return
 	
 	var player = AudioStreamPlayer.new()
+	
 	player.stream = stream
 	player.bus = audio_bus
 	player.volume_db = volume
@@ -32,6 +33,7 @@ loop : bool = false):
 		player.connect("finished",player,"play",[seek])
 	
 	return player
+
 
 func Spawn_AudioMuffleEffect(time : float = 1):
 	

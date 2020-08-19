@@ -172,19 +172,15 @@ func get_level(dir):
 	
 
 
-func _thread_completed(thread):
-	var _err = thread.wait_to_finish()
-	thread.queue_free()
-	prints(officials_thread, customs_thread)
-
-
 func _level_selected(level):
+	if SceneManager.moving_scene: return
 	_selected_audio()
 	if SelectedLevel == null:
 		SelectedLevel = level
 		set_Info(InfoCard1, level)
-		InfoAnim.play("Begin")
 		fade_in()
+		InfoAnim.play("Begin")
+		
 		
 	elif SelectedLevel.get_instance_id() != level.get_instance_id():
 		
@@ -231,8 +227,7 @@ func fade_in():
 	if song is AudioStreamSample or song is AudioStreamOGGVorbis:
 		var new_preview = LoadedSong.new()
 		new_preview.index = SelectedLevel.index
-		new_preview.song = GlobalAudio.play_audio(song, false, offset if offset else 0, "Master", -50, 1, true)
-		
+		new_preview.song = GlobalAudio.play_audio(song, false, offset if offset else 0, "Master", PREVIEW_SONG_MIN_DB, 1, true)
 		
 		PreviewSong = new_preview
 		
@@ -245,15 +240,17 @@ func fade_in():
 
 func fade_in_interpolate():
 	if !PreviewSong.song: return
-	#PreviewSong.song.playing = true
+	
 	FadeIn.interpolate_property(PreviewSong.song, "volume_db", PREVIEW_SONG_MIN_DB, PREVIEW_SONG_MAX_DB, PREVIEW_FADE_TIME)
 	FadeIn.start()
+	
 
 
 func fade_out():
 	if FadeIn.is_active():
 		yield(FadeIn,"tween_all_completed")
-	if !PreviewSong.song: return
+	
+	if !PreviewSong or !PreviewSong.song: return
 	FadeOut.interpolate_property(PreviewSong.song, "volume_db", PREVIEW_SONG_MAX_DB, PREVIEW_SONG_MIN_DB, PREVIEW_FADE_TIME)
 	FadeOut.start()
 	
@@ -270,7 +267,7 @@ func set_Info(InfoCard, info):
 	
 	var t = info.theme if info.theme else GlobalTheme
 	InfoCard.set_theme(t)
-	#Image and Theme not yet implemented
+	#Image not yet implemented
 
 
 onready var selected = false
@@ -291,9 +288,10 @@ func InfoCard_selected(Card):
 
 
 func _exit_tree():
-	if PreviewSong and PreviewSong.song:
-		PreviewSong.song.stream_paused = true
-		PreviewSong.song.free()
+	for object in loaded_songs:
+		if object and object.song:
+			object.song.stop()
+			object.song.queue_free()
 		
 	
 
@@ -326,3 +324,4 @@ func _selected_audio():
 
 func _on_TabContainer_tab_selected(_tab):
 	_selected_audio()
+

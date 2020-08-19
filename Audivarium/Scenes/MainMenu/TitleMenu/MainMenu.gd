@@ -9,6 +9,7 @@ onready var QuitConfirm = $MainControl/QuitConfirmation
 onready var quitting = false
 
 func _ready():
+	randomize()
 	$Title.self_modulate = Color(randf(),randf(),randf(),1.0)
 	TitleAnim.play("loop")
 	TitleAnim.seek(randf() * TitleAnim.get_animation("loop").get_length())

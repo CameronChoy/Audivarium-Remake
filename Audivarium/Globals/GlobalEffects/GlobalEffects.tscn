@@ -8,6 +8,7 @@ pause_mode = 2
 script = ExtResource( 3 )
 
 [node name="MainCamera" type="Camera2D" parent="."]
+pause_mode = 1
 visible = false
 position = Vector2( 960, 540 )
 current = true
