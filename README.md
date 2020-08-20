@@ -13,7 +13,7 @@ PC only right now this thing is in freaking alpha tf you want from me
 The original was made with friccin Android Studio btw, never again
 
 ### code bore \ play interest
--Download [Godot](https://godotengine.org/download/windows)(Standard probably)
--Open and select Import, select zip of this repository, or the project.godot if not zipped
--Now you can mod the game or whatever.
+-Download [Godot](https://godotengine.org/download/windows)(Standard probably)  
+-Open and select Import, select zip of this repository, or the project.godot if not zipped  
+-Now you can mod the game or whatever.  
 
