@@ -10,7 +10,7 @@ export(Color) var Fail_Color = Color.red
 
 func _ready():
 	if GlobalLevelManager.level_completed:
-		LevelStatus.text = "Level Completed"
+		LevelStatus.text = "Level Complete"
 		LevelStatus.self_modulate = Complete_Color
 	else:
 		LevelStatus.text = "Level Failed"

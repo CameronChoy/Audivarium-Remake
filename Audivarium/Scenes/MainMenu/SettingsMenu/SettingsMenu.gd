@@ -117,6 +117,11 @@ func _ready():
 func _input(event):
 	
 	if event.is_action_pressed("ui_cancel"):
+		if OptionConfirm.visible:
+			_on_OptionCornfirm_deny()
+			return
+		
+		
 		if settings_changed:
 			SaveConfirm.visible = !SaveConfirm.visible
 		else:

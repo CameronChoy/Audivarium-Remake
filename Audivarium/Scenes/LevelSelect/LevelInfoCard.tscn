@@ -110,9 +110,25 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Image" type="Sprite" parent="Control"]
-position = Vector2( 501, 137 )
+[node name="Control2" type="Control" parent="Control"]
+anchor_left = 0.533
+anchor_top = 0.101
+anchor_right = 0.867
+anchor_bottom = 0.313
+margin_left = 41.849
+margin_top = 9.706
+margin_right = -42.6489
+margin_bottom = -14.822
+rect_min_size = Vector2( 165, 165 )
+rect_clip_content = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Image" type="Sprite" parent="Control/Control2"]
 texture = ExtResource( 1 )
+centered = false
+region_rect = Rect2( 0, 0, 512, 512 )
 
 [node name="Description2" type="Label" parent="Control"]
 margin_left = 21.0

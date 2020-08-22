@@ -19,17 +19,20 @@ var Player
 var player_spawn_pos = OS.window_size / 2
 export(String) var level_name = "level" setget set_LevelName
 export(String, MULTILINE) var description = "" setget set_Description
-export(Color) var background_color = Color("3b3b3b")
+export(Color) var background_color = Color("1d1b1b") setget set_bg
+export(String, FILE, GLOBAL, "*.png, *.jpg") var image_preview setget set_Thumbnail
 export(String, FILE, GLOBAL, "*.ogg, *.wav") var song_preview
+export(float) var preview_offset = 0
 export(String) var song_name = "" setget set_SongName
 export(String) var song_author = "" setget set_SongAuthor
 #export(float) var song_offset = 0
 export(String) var creator_name = "" setget set_Creator
-export(float) var preview_offset = 0
+
 
 #https://www.reddit.com/r/godot/comments/eojihj/how_to_load_images_without_importer/
 #Unimplemented right now
-export(String, FILE, GLOBAL, "*.png, *.jpg") var image_preview
+
+var loaded_image_preview
 
 export(NodePath) var player_node
 export(NodePath) var animation_player
@@ -52,6 +55,7 @@ func _ready():
 	Confirmation = $editorinfo/Control/ConfirmationDialog
 	EditorUI = $editorinfo
 	InfoCard = $InfoCard/Info
+	
 	Background = get_node(background_node)
 	
 	Anim = get_node(animation_player)
@@ -74,8 +78,13 @@ func _ready():
 		Player.global_position = PlayerSpawnPoint.global_position
 		#Scene.add_child_below_node(PlayerSpawnPoint, Player)
 		player_spawn_pos = Player.global_position
-		set_physics_process(false)
-	
+	else:
+		set_Creator(creator_name)
+		set_Description(description)
+		set_LevelName(level_name)
+		set_SongAuthor(song_author)
+		set_SongName(song_name)
+		set_Thumbnail(image_preview)
 	var _err = Anim.connect("animation_finished",self,"_on_AnimationPlayer_animation_finished")
 	
 	PlayerSpawnPoint.hide()
@@ -83,13 +92,6 @@ func _ready():
 	
 	build_complete = true
 	
-
-
-func _physics_process(_delta):
-	if prev_bg != background_color:
-		prev_bg = background_color
-		if !Background: Background = $BackgroundSimulator
-		else: Background.color = background_color
 
 
 func _export_level():
@@ -120,7 +122,8 @@ func _export_level():
 	var level_path = "%s/%s" % [dir_path, GlobalConstants.FILE_NAME_LEVEL_INFO]
 	var level_data_path = "%s/%s" % [dir_path, GlobalConstants.FILE_NAME_LEVEL_DATA_ANIM]
 	var song_data_path = "%s/%s" % [dir_path, GlobalConstants.FILE_NAME_SONG_DATA]
-	var theme_data_path = "%s/%s" %[dir_path, GlobalConstants.FILE_NAME_LEVEL_INFO_THEME]
+	var theme_data_path = "%s/%s" % [dir_path, GlobalConstants.FILE_NAME_LEVEL_INFO_THEME]
+	var thumbnail_data_path = "%s/%s" % [dir_path, GlobalConstants.FILE_NAME_LEVEL_THUMBNAIL]
 	
 	
 	Player.global_position = player_spawn_pos
@@ -151,6 +154,13 @@ func _export_level():
 		print("Error saving theme data, cannot finish export")
 		return
 	
+	
+	if !loaded_image_preview:
+		print("Error, no level thumbnail. Cannot finish export")
+		return
+	
+	if not _save_image(loaded_image_preview, thumbnail_data_path):
+		return
 	
 	var info_file = File.new()
 	
@@ -240,8 +250,7 @@ func load_audio_outside_res(path, is_wav):
 		stream = AudioStreamSample.new()
 	else:
 		stream = AudioStreamOGGVorbis.new()
-		print(stream.data)
-	
+		
 	
 	var buffer = file.get_buffer(file.get_len())
 	
@@ -439,6 +448,12 @@ func _on_DuplicateButton_pressed():
 	Confirmation.show()
 
 
+func set_bg(new):
+	background_color = new
+	if Background: Background.color = new
+
+
+
 func set_LevelName(new):
 	level_name = new
 	if !InfoCard: return
@@ -463,6 +478,53 @@ func set_Creator(new):
 	creator_name = new
 	if !InfoCard: return
 	InfoCard.set_creator(new)
+
+
+func set_Thumbnail(new):
+	image_preview = new
+	
+	loaded_image_preview = _load_image(new)
+	if !loaded_image_preview: 
+		return
+	
+	
+	if !InfoCard: return
+	
+	InfoCard.set_image(loaded_image_preview)
+	
+
+
+func _load_image(path):
+	
+	
+	var file = File.new()
+	if file.open(path, File.READ) != OK: return
+	
+	var image = Image.new()
+	var buffer = file.get_buffer(file.get_len())
+	file.close()
+	
+	match path.get_extension():
+		"png":
+			image.load_png_from_buffer(buffer)
+		"jpg":
+			image.load_jpg_from_buffer(buffer)
+		_:
+			return
+	
+	image.lock()
+	
+	return image
+	
+
+
+func _save_image(image, save_path):
+	print(ResourceSaver.get_recognized_extensions(image))
+	if ResourceSaver.save(save_path,image) != OK:
+		print("Error saving image: %s\n cannot finish export")
+		return false
+	return true
+
 
 #	for name in Anim.get_animation_list():
 #

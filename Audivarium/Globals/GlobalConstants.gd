@@ -16,6 +16,7 @@ const FILE_NAME_LEVEL_DATA_ANIM = "leveldata.tscn"
 const FILE_NAME_LEVEL_DATA_FILE = "leveldata.audivarium"
 const FILE_NAME_SONG_DATA = "song.res"
 const FILE_NAME_LEVEL_INFO_THEME = "theme.res"
+const FILE_NAME_LEVEL_THUMBNAIL = "thumbnail.res"
 
 const LEVEL_ANIM_NAME = "leveldata"
 
@@ -26,6 +27,7 @@ const KEY_LEVEL_SONG_NAME = "song_name"
 const KEY_LEVEL_SONG_CREATOR = "song_creator"
 const KEY_LEVEL_SONG_OFFSET = "song_offset"
 const KEY_LEVEL_INFO_THEME = "info_theme"
+const KEY_LEVEL_THUMBNAIL = "thumbnail"
 
 const KEY_LEVEL_TYPE = "type"
 const VAR_LEVEL_TYPE_ANIM = "anim"

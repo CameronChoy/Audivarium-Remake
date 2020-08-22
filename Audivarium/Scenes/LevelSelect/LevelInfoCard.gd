@@ -13,8 +13,14 @@ func set_length(new):
 	$Control/Length.text = "Length:\n %s s" % [new]
 
 func set_image(new):
-	if not new is Texture: return
-	$Control/Image.texture = new
+	var texture = new
+	if texture is Image:
+		var imagetex = ImageTexture.new()
+		imagetex.create_from_image(texture)
+		texture = imagetex
+	
+	if not texture is Texture: return
+	$Control/Control2/Image.texture = texture
 
 func set_song(new):
 	if not new is String: return
