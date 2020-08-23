@@ -183,6 +183,7 @@ func _export_level():
 		GlobalConstants.KEY_PLAYER_POS : player_spawn_pos,
 		GlobalConstants.KEY_CREATOR : creator_name,
 		GlobalConstants.KEY_LEVEL_INFO_THEME : GlobalConstants.FILE_NAME_LEVEL_INFO_THEME,
+		GlobalConstants.KEY_LEVEL_THUMBNAIL : thumbnail_data_path,
 		GlobalConstants.KEY_LEVEL_SONG_OFFSET : 0 #Not needed
 	}
 	
@@ -483,7 +484,7 @@ func set_Creator(new):
 func set_Thumbnail(new):
 	image_preview = new
 	
-	loaded_image_preview = _load_image(new)
+	loaded_image_preview = load_image(new)
 	if !loaded_image_preview: 
 		return
 	
@@ -494,7 +495,16 @@ func set_Thumbnail(new):
 	
 
 
-func _load_image(path):
+func _save_image(image, save_path):
+	print(ResourceSaver.get_recognized_extensions(image))
+	if ResourceSaver.save(save_path,image) != OK:
+		print("Error saving image: %s\n cannot finish export")
+		return false
+	return true
+
+
+
+func load_image(path):
 	
 	
 	var file = File.new()
@@ -516,14 +526,6 @@ func _load_image(path):
 	
 	return image
 	
-
-
-func _save_image(image, save_path):
-	print(ResourceSaver.get_recognized_extensions(image))
-	if ResourceSaver.save(save_path,image) != OK:
-		print("Error saving image: %s\n cannot finish export")
-		return false
-	return true
 
 
 #	for name in Anim.get_animation_list():

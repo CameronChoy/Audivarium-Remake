@@ -3,6 +3,7 @@ extends Button
 var level_data
 var level_info
 var song_data
+var thumbnail
 var index
 
 func get_level_data():

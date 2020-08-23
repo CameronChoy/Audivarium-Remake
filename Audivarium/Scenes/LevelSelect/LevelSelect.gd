@@ -112,6 +112,8 @@ func _create_button(level):
 	button.song_data = level[2]
 	if level[3]:
 		button.theme = level[3]
+	if level[4]:
+		button.thumbnail = level[4]
 	button.text = level[0].get(GlobalConstants.KEY_LEVEL_NAME)
 	return button
 
@@ -123,6 +125,7 @@ func get_level(dir):
 	var level_data
 	var level_theme
 	var song_data
+	var thumbnail_data
 	
 	
 	var file = File.new()
@@ -145,7 +148,9 @@ func get_level(dir):
 	var song_path = level_info.get(GlobalConstants.KEY_LEVEL_SONG_PATH) if level_info.has(GlobalConstants.KEY_LEVEL_SONG_PATH) else GlobalConstants.FILE_NAME_SONG_DATA
 	var level_path = level_info.get(GlobalConstants.KEY_LEVEL_PATH) if level_info.has(GlobalConstants.KEY_LEVEL_PATH) else GlobalConstants.FILE_NAME_LEVEL_DATA_ANIM
 	var theme_path = level_info.get(GlobalConstants.KEY_LEVEL_INFO_THEME) if level_info.has(GlobalConstants.KEY_LEVEL_INFO_THEME) else GlobalConstants.FILE_NAME_LEVEL_INFO_THEME
+	var thumbnail_path = level_info.get(GlobalConstants.KEY_LEVEL_THUMBNAIL) if level_info.has(GlobalConstants.KEY_LEVEL_THUMBNAIL) else GlobalConstants.FILE_NAME_LEVEL_THUMBNAIL
 	theme_path = "%s/%s" % [dir, theme_path]
+	thumbnail_path = "%s/%s" % [dir, thumbnail_path]
 	
 	var level_directory = Directory.new()
 	
@@ -154,19 +159,26 @@ func get_level(dir):
 	
 	if level_directory.file_exists(song_path):
 		song_data = "%s/%s" % [dir, song_path]
+	
 	if level_directory.file_exists(level_path):
 		level_data = "%s/%s" % [dir, level_path]
+	
 	if ResourceLoader.exists(theme_path):
 		var t = ResourceLoader.load(theme_path)
 		if t is Theme:
 			level_theme = t
 		
 	
+	#thumbnail_data =  _load_image(thumbnail_path)
+	if ResourceLoader.exists(thumbnail_path):
+		var i = ResourceLoader.load(thumbnail_path)
+		if i is Image:
+			thumbnail_data = i
+	
 	if level_info and level_data and song_data:
 		
-		list = [level_info, level_data, song_data, level_theme]
+		list = [level_info, level_data, song_data, level_theme, thumbnail_data]
 		
-	
 	
 	return list
 	
@@ -267,6 +279,9 @@ func set_Info(InfoCard, info):
 	
 	var t = info.theme if info.theme else GlobalTheme
 	InfoCard.set_theme(t)
+	
+	if info.thumbnail:
+		InfoCard.set_image(info.thumbnail)
 	#Image not yet implemented
 
 
@@ -325,3 +340,26 @@ func _selected_audio():
 func _on_TabContainer_tab_selected(_tab):
 	_selected_audio()
 
+
+func _load_image(path):
+	
+	
+	var file = File.new()
+	
+	if file.open(path, File.READ) != OK: return
+	
+	var image = Image.new()
+	var buffer = file.get_buffer(file.get_len())
+	file.close()
+	
+	match path.get_extension():
+		"png":
+			image.load_png_from_buffer(buffer)
+		"jpg":
+			image.load_jpg_from_buffer(buffer)
+		_:
+			return
+	
+	image.lock()
+	print(image)
+	return image
