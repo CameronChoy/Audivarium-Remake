@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Objects/Particles/OneShotParticles.gd" type="Script" id=1]
-[ext_resource path="res://Objects/Statics/Square/square.png" type="Texture" id=2]
+[ext_resource path="res://Objects/Enemies/Enemy_02.png" type="Texture" id=2]
 
 [sub_resource type="Curve" id=1]
 min_value = -100.0
@@ -34,10 +34,8 @@ scale = 0.04
 scale_curve = SubResource( 4 )
 
 [node name="Particles2D" type="Particles2D"]
-emitting = false
 lifetime = 1.5
-one_shot = true
-explosiveness = 0.75
+explosiveness = 0.9
 process_material = SubResource( 5 )
 texture = ExtResource( 2 )
 script = ExtResource( 1 )

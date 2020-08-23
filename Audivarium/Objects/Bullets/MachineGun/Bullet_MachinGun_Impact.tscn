@@ -5,6 +5,10 @@
 [ext_resource path="res://Objects/Bullets/MachineGun/Bullet_Slim.png" type="Texture" id=3]
 
 [node name="Particles2D" type="Particles2D"]
+emitting = false
+lifetime = 1.5
+one_shot = true
+explosiveness = 0.8
 process_material = ExtResource( 2 )
 texture = ExtResource( 3 )
 script = ExtResource( 1 )

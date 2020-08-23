@@ -5,6 +5,10 @@
 [ext_resource path="res://Objects/Bullets/Bullet_Impact_Normal.tres" type="Material" id=3]
 
 [node name="Particles2D" type="Particles2D"]
+emitting = false
+lifetime = 1.5
+one_shot = true
+explosiveness = 0.75
 process_material = ExtResource( 3 )
 texture = ExtResource( 1 )
 script = ExtResource( 2 )

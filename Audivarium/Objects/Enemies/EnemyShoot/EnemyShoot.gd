@@ -5,7 +5,7 @@ enum BulletType {
 	BULLET
 }
 
-var d
+var d = preload("res://Objects/Enemies/EnemyDestroyParticles_02.tscn")
 var selected_bullet
 
 export(float) var rotation_lerp = 0.03

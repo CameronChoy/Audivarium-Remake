@@ -116,11 +116,21 @@ anchor_top = 0.101
 anchor_right = 0.867
 anchor_bottom = 0.313
 margin_left = 41.849
-margin_top = 9.706
+margin_top = -0.293999
 margin_right = -42.6489
-margin_bottom = -14.822
+margin_bottom = -24.822
 rect_min_size = Vector2( 165, 165 )
 rect_clip_content = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="Control/Control2"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }

@@ -14,13 +14,24 @@ func set_length(new):
 
 func set_image(new):
 	var texture = new
+	
 	if texture is Image:
 		var imagetex = ImageTexture.new()
 		imagetex.create_from_image(texture)
 		texture = imagetex
 	
 	if not texture is Texture: return
-	$Control/Control2/Image.texture = texture
+	
+	var sprite = $Control/Control2/Image
+	
+	if texture is ImageTexture:
+		var size = texture.get_size()
+		var ratio = size.x / size.y
+		texture.set_size_override(Vector2(165 * ratio ,165))
+	
+	sprite.texture = texture
+	
+
 
 func set_song(new):
 	if not new is String: return
