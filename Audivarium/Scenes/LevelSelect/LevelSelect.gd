@@ -282,6 +282,8 @@ func set_Info(InfoCard, info):
 	
 	if info.thumbnail:
 		InfoCard.set_image(info.thumbnail)
+	else:
+		InfoCard.clear_image()
 	#Image not yet implemented
 
 

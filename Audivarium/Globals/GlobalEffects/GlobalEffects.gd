@@ -10,6 +10,7 @@ var Default_env = preload("res://Globals/GlobalEffects/world_env.tres")
 var Trail = preload("res://Globals/GlobalEffects/Trail.tscn")
 var ShockWaveMaterial = preload("res://Globals/GlobalEffects/ShockwaveMaterial.tres")
 
+
 func _ready():
 	MainCamera.position = Vector2(960, 540)
 	if Engine.editor_hint:
@@ -21,8 +22,9 @@ func _ready():
 		MainCamera.show()
 	
 
+
 func Spawn_Shockwave(global_pos : Vector2,time : float = 1):
-	var screen_size = OS.get_screen_size()
+	var screen_size = Vector2(1920,1080)#OS.get_screen_size()
 	
 	var center = Vector2(global_pos.x / screen_size.x, global_pos.y / screen_size.y)
 	center.y = 1 - center.y
@@ -39,6 +41,7 @@ func Spawn_Shockwave(global_pos : Vector2,time : float = 1):
 		Tween.EASE_IN_OUT))
 	
 	ShockwaveTween.start()
+
 
 func _on_ShockwaveTween_tween_all_completed():
 	ShockwaveCanvas.material.set_shader_param("active",false)

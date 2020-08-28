@@ -55,10 +55,13 @@ var OptionCancelButton
 var original_settings
 var current_settings
 onready var settings_changed = false
+var readying = true
 signal exitting_settings
 
 
 func _ready():
+	readying = true
+	
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	CrossHair.set_mouse_escape(true)
 	
@@ -83,15 +86,21 @@ func _ready():
 	var original_res = Vector2(original_settings.get(GlobalConstants.KEY_SETTING_RESOLUTION_X),
 	original_settings.get(GlobalConstants.KEY_SETTING_RESOLUTION_Y))
 	
+	var selected = false
 	for i in range(Resolutions.size()):
 		
 		var res = Resolutions[i]
 		ResolutionInput.add_item("%s X %s" % [res.x, res.y], i)
 		
 		if res == original_res:
+			selected = true
 			ResolutionInput.select(i)
 			
 		
+	if !selected:
+		ResolutionInput.add_item("%s X %s" % [original_res.x, original_res.y])
+		ResolutionInput.select(Resolutions.size())
+	
 	prev_res_input = ResolutionInput.get_item_index(ResolutionInput.get_selected_id())
 	
 	var original_fps = original_settings.get(GlobalConstants.KEY_SETTING_FPS)
@@ -111,6 +120,8 @@ func _ready():
 	
 	FullscreenInput.pressed = original_settings.get(GlobalConstants.KEY_SETTING_FULLSCREEN)
 	BorderInput.pressed = original_settings.get(GlobalConstants.KEY_SETTING_BORDERLESS)
+	
+	readying = false
 	
 
 
@@ -286,7 +297,8 @@ func _on_OptionCornfirm_deny():
 
 
 func _on_HSlider_value_changed(value):
-	settings_changed = true
+	if !readying: settings_changed = true
+	
 	MasterVolumeLabel.text = "%.2f" % [value]
 	
 	var new_db = _convert_to_db(value)
@@ -308,7 +320,9 @@ func _test_effects_audio():
 
 
 func _on_EffectsSlider_value_changed(value):
-	settings_changed = true
+	
+	if !readying: settings_changed = true
+	
 	EffectsVolumeLabel.text = "%.2f" % [value]
 	
 	var new_db = _convert_to_db(value)
@@ -322,8 +336,10 @@ func _on_EffectsSlider_value_changed(value):
 func _convert_to_db(value):
 	return (-30 * (1.0 - value)) if value > 0 else -100
 
+
 func _convert_to_value(db):
 	return (db / 30) + 1
+
 
 func _on_FpsOptions_item_selected(index):
 	if index == prev_fps_input: return

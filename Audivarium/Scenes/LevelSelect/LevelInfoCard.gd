@@ -1,6 +1,7 @@
 tool
 extends PanelContainer
 signal button_pressed
+var default_image = preload("res://icon.png")
 
 var current_level
 
@@ -22,14 +23,12 @@ func set_image(new):
 	
 	if not texture is Texture: return
 	
-	var sprite = $Control/Control2/Image
-	
 	if texture is ImageTexture:
 		var size = texture.get_size()
 		var ratio = size.x / size.y
 		texture.set_size_override(Vector2(165 * ratio ,165))
 	
-	sprite.texture = texture
+	$Control/Control2/Image.texture = texture
 	
 
 
@@ -67,3 +66,7 @@ func _get(property):
 
 func _on_Play_pressed():
 	emit_signal("button_pressed")
+
+
+func clear_image():
+	$Control/Control2/Image.texture = default_image if default_image else null
