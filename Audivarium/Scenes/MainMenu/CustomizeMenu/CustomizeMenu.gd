@@ -183,6 +183,7 @@ func _on_ExitButton_pressed():
 func _exit_menu():
 	_selected_audio()
 	PlayerGlobals.save_player_values()
+	PlayerGlobals.FireDelay = PlayerGlobals.DefaultFireDelay
 	SceneManager.change_to_preloaded(TitleScene, SceneManager.TransitionType.INOUTSLIDELEFT, CrossHair.CrossHairFrame.TWO)
 
 
