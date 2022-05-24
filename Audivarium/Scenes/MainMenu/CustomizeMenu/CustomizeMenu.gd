@@ -42,7 +42,7 @@ func _ready():
 	var _err = thread.start(self,"_add_bodies", 0)
 	
 	_err = connect("body_color_changed", self, "_color_changed")
-	
+	thread.wait_to_finish()
 
 
 func _add_bodies(_err):
@@ -70,7 +70,7 @@ func _add_bodies(_err):
 	
 	directory.list_dir_end()
 	
-	thread.wait_to_finish()
+	return
 	
 
 

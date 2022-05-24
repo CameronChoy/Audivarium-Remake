@@ -23,6 +23,7 @@ var SelectedLevel
 var PreviewSong
 var officials_thread
 var customs_thread
+var loading_levels
 onready var loaded_songs = []
 
 func _ready():
@@ -30,11 +31,15 @@ func _ready():
 	InfoCard1.connect("button_pressed",self,"InfoCard_selected",[InfoCard1])
 	InfoCard2.connect("button_pressed",self,"InfoCard_selected",[InfoCard2])
 	
+	loading_levels = true
 	officials_thread = Thread.new()
 	var _err = officials_thread.start(self,"get_official_levels", 0)
 	
 	customs_thread = Thread.new()
 	_err = customs_thread.start(self,"get_custom_levels", 0)
+	
+	officials_thread.wait_to_finish()
+	customs_thread.wait_to_finish()
 	
 
 
@@ -48,7 +53,7 @@ func get_official_levels(_err):
 	directory.list_dir_begin()
 	var dir_name = directory.get_next()
 	var index = 0
-	while dir_name != "":
+	while dir_name != "" and loading_levels:
 		
 		var level = get_level(levels_path + dir_name)
 		
@@ -67,7 +72,6 @@ func get_official_levels(_err):
 		dir_name = directory.get_next()
 		
 	
-	officials_thread.wait_to_finish()
 	 
 
 
@@ -82,7 +86,7 @@ func get_custom_levels(_err):
 	var dir_name = directory.get_next()
 	var index = 0
 	
-	while dir_name != "":
+	while dir_name != "" and loading_levels:
 		
 		var level = get_level("%s/%s" % [levels_path, dir_name])
 		
@@ -101,7 +105,6 @@ func get_custom_levels(_err):
 		dir_name = directory.get_next()
 		
 	
-	customs_thread.wait_to_finish() 
 	
 
 
@@ -341,6 +344,12 @@ func _selected_audio():
 
 func _on_TabContainer_tab_selected(_tab):
 	_selected_audio()
+
+
+func _quit_loading_levels():
+	loading_levels = false
+	officials_thread.wait_to_finish()
+	customs_thread.wait_to_finish()
 
 
 func _load_image(path):

@@ -52,6 +52,7 @@ func destroy():
 	if trail is Line2D:
 		trail.prev_points.append(global_position)
 		trail.points = trail.prev_points
+		trail.parent_follow = null
 	
 	queue_free()
 	
