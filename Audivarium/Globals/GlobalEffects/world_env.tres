@@ -14,6 +14,6 @@ glow_levels/4 = true
 glow_levels/6 = true
 glow_levels/7 = true
 glow_intensity = 0.08
-glow_bloom = 1.0
+glow_bloom = 0.75
 glow_blend_mode = 0
 glow_bicubic_upscale = true

@@ -531,4 +531,5 @@ anims/OutSlideRight = ExtResource( 12 )
 anims/OutSlideUp = ExtResource( 13 )
 anims/OutZoomInwardFade = ExtResource( 14 )
 anims/OutZoomOutwardSpin = ExtResource( 11 )
+
 [connection signal="animation_finished" from="SceneTransition" to="." method="_on_SceneTransition_animation_finished"]

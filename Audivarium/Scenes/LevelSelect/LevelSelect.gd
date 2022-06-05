@@ -40,7 +40,7 @@ func _ready():
 	
 	officials_thread.wait_to_finish()
 	customs_thread.wait_to_finish()
-	
+	_err = SceneManager.connect("scene_transition_started",self,"_delete_songs")
 
 
 func get_official_levels(_err):
@@ -307,7 +307,7 @@ func InfoCard_selected(Card):
 	
 
 
-func _exit_tree():
+func _delete_songs():
 	for object in loaded_songs:
 		if object and object.song:
 			object.song.stop()

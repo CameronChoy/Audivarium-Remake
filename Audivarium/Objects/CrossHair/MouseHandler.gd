@@ -31,7 +31,7 @@ enum CrossHairFrame {
 func _ready():
 	CrossHairSprite.frame = 1
 	CrossHairSprite.self_modulate = PlayerGlobals.ColorCrossHair
-	Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
+	Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED if OS.window_fullscreen else 0)
 	RadialProgressLeft.value = 0
 	RadialProgressRight.value = 0
 	BarProgressRight.value = 0
@@ -53,7 +53,7 @@ func _input(event):
 #
 #
 	if !mouse_can_escape and event is InputEventMouseButton and Input.get_mouse_mode() != Input.MOUSE_MODE_CONFINED:
-		Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
+		Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED if OS.window_fullscreen else 0)
 		Input.set_custom_mouse_cursor(inGame_Cursor)
 		
 	

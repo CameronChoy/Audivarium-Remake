@@ -1,5 +1,6 @@
 extends Control
 
+signal scene_transition_started
 signal scene_transition_completed
 var thread = null
 var new_scene
@@ -134,6 +135,8 @@ func _thread_done(anim_name):
 	InPanel.self_modulate = (PlayerGlobals.get_PlayerColors()[0])
 	
 	CrossHair.change_crosshair(crosshair_frame)
+	
+	emit_signal("scene_transition_started")
 	
 
 
