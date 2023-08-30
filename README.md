@@ -14,7 +14,7 @@ Currently there is only keyboard and mouse support, but there may be mobile supp
 Download the executable and run
 
 ### Creating levels / Modding the game
-- Download this repository and open in Godot 3.5 (This was developed on 3.5.1)
+- Download this repository and open in Godot 3.5 (This is developed on 3.5.1)
 - Copy EngineEditor/EngineLevelEditor.tscn into a new folder in EngineEditor/Customs
 - Rename it however you like, this scene can be used to create a new custom level
 - More instructions and tips are located in the scene
