@@ -1,19 +1,20 @@
 # Audivarium-Remake
 
-Super unknown game I made Junior year in App Dev for Android  
-Remaking it with some additional features in Godot Engine  
+This is a remake of a game I made that basically nobody has played since it was a small project.
 
-### wtf even is this Audivarium anyways lol
-JSaB but with guns = 200IQ  
-Customize your colors and cube self too  
-Also level editor because I hate myself
+Audivarium is a rhythm bullet hell game where you fight back against the level.
+- Dash and teleport about the field to avoid obstacles and dangers that attack in sync with the music
+- A variety of weapons to fight back against the level by shooting and destroying enemies and obstacles
+- Customizable player and crosshair, change your looks and colors
+- A level editor using Godot 3.5
 
-### for android?? mobile gamers rise up???
-PC only right now this thing is in freaking alpha tf you want from me  
-The original was made with friccin Android Studio btw, never again
+Currently there is only keyboard and mouse support, but there may be mobile support in the future
 
-### code bore \ play interest
--Download [Godot](https://godotengine.org/download/windows)(Standard probably)  
--Open and select Import, select zip of this repository, or the project.godot if not zipped  
--Now you can mod the game or whatever.  
+### Playing the game
+Download the executable and run
 
+### Creating levels / Modding the game
+- Download this repository and open in Godot 3.5 (This was developed on 3.5.1)
+- Copy EngineEditor/EngineLevelEditor.tscn into a new folder in EngineEditor/Customs
+- Rename it however you like, this scene can be used to create a new custom level
+- More instructions and tips are located in the scene
