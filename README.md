@@ -8,7 +8,7 @@ Audivarium is a rhythm bullet hell game where you fight back against the level.
 - Customizable player and crosshair, change your looks and colors
 - A level editor using Godot 3.5
 
-Currently there is only keyboard and mouse support, but there may be mobile support in the future
+Currently there is only keyboard and mouse support.
 
 ### Playing the game
 Download the executable and run
